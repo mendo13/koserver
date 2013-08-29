@@ -4651,7 +4651,7 @@ void CUser::RecastSavedMagic(bool bFillToMaxHealth)
 */
 void CUser::HandlePlayerRankings(Packet & pkt)
 {
-	uint16 MyRank = 1;
+	uint16 MyRank = 0;
 
 	Packet result(WIZ_RANK, (isPVPZone() ? (uint8)1 : (uint8)2));
 	uint16 sClanID = 0;
@@ -4672,6 +4672,21 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 				PVPRankings[nation].push_back(*itr->second);
 
 			std::sort(PVPRankings[nation].begin(),PVPRankings[nation].end(),[](_PVP_RANKINGS const &a, _PVP_RANKINGS const &b){ return a.m_iLoyaltyDaily > b.m_iLoyaltyDaily; });
+		}
+
+		if ((nation + 1) == GetNation())
+		{
+			for (int i = 0; i < (int32)PVPRankings[nation].size(); i++)
+			{
+				if (MyRank != 0)
+					break;
+
+				if (PVPRankings[nation][i].m_socketID != GetSocketID())
+					continue;
+
+				MyRank = i + 1;
+				break;
+			}
 		}
 
 		for (int i = 0; i < (int32)PVPRankings[nation].size(); i++)
