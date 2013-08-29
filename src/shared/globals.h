@@ -8,9 +8,9 @@
 
 #define MAX_USER			3000
 
-#define MAX_ID_SIZE			20
+#define MAX_ID_SIZE			21
 #if __VERSION >= 1453
-#define MAX_PW_SIZE			28
+#define MAX_PW_SIZE			32
 #else
 #define MAX_PW_SIZE			12
 #endif
