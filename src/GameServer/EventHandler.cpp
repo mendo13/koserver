@@ -9,7 +9,10 @@ void CUser::SendBifrostTime(bool bSendAll) {
 	result << g_pMain->m_sBifrostRemainingTime;
 
 	if (bSendAll)
+	{
 		g_pMain->Send_All(&result,nullptr, 0, ZONE_RONARK_LAND);
+		g_pMain->Send_All(&result,nullptr, 0, ZONE_BIFROST);
+	}
 	else
 		Send(&result);
 }

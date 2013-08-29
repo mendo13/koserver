@@ -343,8 +343,10 @@ void CNpc::OnDeathProcess(Unit *pKiller)
 				{
 				case NPC_BIFROST_MONUMENT:
 					pUser->BifrostProcess(pUser);
+					break;
 				case NPC_PVP_MONUMENT:
 					PVPMonumentProcess(pUser);
+					break;
 				default:
 					break;
 				}
