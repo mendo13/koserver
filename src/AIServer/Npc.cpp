@@ -2989,9 +2989,6 @@ void CNpc::FillNpcInfo(Packet & result)
 		// We will probably need to update the AI server (from GameServer) with this data.
 		<< m_sFireR << m_sColdR << m_sLightningR 
 		<< m_sMagicR << m_sDiseaseR << m_sPoisonR;
-
-	if (m_proto->m_byGroupSpecial > 0)
-		m_proto->m_byGroupSpecial = 0;
 }
 
 int CNpc::GetDir(float x1, float z1, float x2, float z2)
