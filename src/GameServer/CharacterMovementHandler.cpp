@@ -453,7 +453,7 @@ void CUser::ZoneChange(uint16 sNewZone, float x, float z)
 		if (sNewZone == ZONE_SNOW_BATTLE)
 			SetMaxHp();
 
-		if (isInParty())
+		if (isInParty() && !m_bZoneChangeSameZone)
 			PartyRemove(GetSocketID());
 
 		if (hasRival())

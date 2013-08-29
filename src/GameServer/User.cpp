@@ -1044,8 +1044,8 @@ void CUser::SetZoneAbilityChange(uint16 sNewZone)
 
 	Send(&result);
 
-	if (!isGM())
-		PlayerRanking(sNewZone,false);
+	//	if (!isGM())
+	PlayerRanking(sNewZone,false);
 
 	if (sNewZone == ZONE_RONARK_LAND)
 		SendBifrostTime();
@@ -1463,7 +1463,7 @@ void CUser::RecvUserExp(Packet & pkt)
 	{
 		CUser * pUser = (*itr);
 		if (pUser->isDead()
-			|| !pUser->isInRangeSlow(pNpc, RANGE_50M))
+			|| !pUser->isInRange(pNpc, RANGE_50M))
 			continue;
 
 		if (iNpcExp > 0)
@@ -2264,6 +2264,10 @@ void CUser::ItemGet(Packet & pkt)
 
 			foreach (itr, partyUsers)
 			{
+				if ((*itr)->isDead() || 
+					!(*itr)->isInRange(pBundle->x, pBundle->z, RANGE_50M))
+					continue;
+
 				// Calculate the number of coins to give the player
 				// Give each party member coins relative to their level.
 				int coins = (int)(pItem->sCount * (float)((*itr)->GetLevel() / (float)sumOfLevels));
@@ -2285,6 +2289,10 @@ void CUser::ItemGet(Packet & pkt)
 	// If the item selected is actually an item...
 	else
 	{
+		if (pReceiver->isDead() || 
+			!pReceiver->isInRange(pBundle->x, pBundle->z, RANGE_50M))
+			(pReceiver = GetLootUser(pBundle, pItem));
+
 		// Retrieve the position for this item.
 		int8 bDstPos = pReceiver->FindSlotForItem(pItem->nItemID, pItem->sCount);
 
