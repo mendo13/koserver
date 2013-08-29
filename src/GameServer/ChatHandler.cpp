@@ -58,7 +58,7 @@ void CUser::InitChatCommands()
 		{ "open3",				&CUser::HandleWar3OpenCommand,					"Opens war zone 3" },
 		{ "open4",				&CUser::HandleWar4OpenCommand,					"Opens war zone 4" },
 		{ "open5",				&CUser::HandleWar5OpenCommand,					"Opens war zone 5" },
-		{ "open6",				&CUser::HandleWar6OpenCommand,					"Opens war zone 5" },
+		{ "open6",				&CUser::HandleWar6OpenCommand,					"Opens war zone 6" },
 		{ "captain",			&CUser::HandleCaptainCommand,					"Sets the captains/commanders for the war" },
 		{ "snowopen",			&CUser::HandleSnowWarOpenCommand,				"Opens the snow war zone" },
 		{ "close",				&CUser::HandleWarCloseCommand,					"Closes the active war zone" },
