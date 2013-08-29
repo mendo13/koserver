@@ -4678,9 +4678,6 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 		{
 			for (int i = 0; i < (int32)PVPRankings[nation].size(); i++)
 			{
-				if (MyRank != 0)
-					break;
-
 				if (PVPRankings[nation][i].m_socketID != GetSocketID())
 					continue;
 
