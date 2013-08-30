@@ -15,7 +15,7 @@ if EVENT ==  201 then
 end
 
 if EVENT == 202 then
-   -- Trying on
+   --Trying on
 end
 
 local ITEMA = 0;
@@ -232,11 +232,15 @@ if EVENT == 702 then
 end
 
 if EVENT == 500 then
-   SelectMsg(UID, 3, -1, 4901, NPC, 4286, 501, 4287, 502, 4420, 511, 4421, 516, 4589, 521, 4588, 526, 4504, 531);
+   SelectMsg(UID, 3, -1, 4901, NPC, 4285, 558, 4286, 501, 4287, 502, 4420, 511, 4421, 516, 4589, 521, 4588, 526, 4504, 531);
 end
 
 local ITEMARMOR = 0;
 local ITEMHELMET = 0;
+
+if EVENT == 558 then
+   SelectMsg(UID, 11, savenum, 4432, NPC);
+end
 
 if EVENT == 501 then
    ITEMARMOR = HowmuchItem(UID, 800180000);

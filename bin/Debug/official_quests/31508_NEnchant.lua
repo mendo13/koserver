@@ -1,3 +1,4 @@
+
 local UserClass;
 local QuestNum;
 local Ret = 0;

@@ -1,42 +1,45 @@
--- 도다 캠프 게이트
--- 그냥 닫기 168
 
--- EVENT 는 100번 이상 부터 사용
-
--- UID : 서버에서 제공하는 유저번호
--- EVENT : 서버에서 제공하는 퀘스트 번호
--- STEP : 서버에서 제공하는 퀘스트 내부 단계
-
--- 위의 세가지 파라메타는 루아 실행시 항상 전역변수로 제공�
-
--- 지역변수 선언...
 local UserClass;
 local QuestNum;
 local Ret = 0;
-local NPC =10305;
-
-
--- 도다 캠프 게이트 클릭시 퀘스트 체크  
+local NPC = 31511;
 
 if EVENT == 100 then
-	QuestNum = SearchQuest(UID, 31511);
-		if QuestNum == 0 then --해당 NPC에게 할수 있는 퀘스트가 0개 일때 
-          -- SelectMsg(UID, 2. -1...........)
-			 SelectMsg(UID, 2, -1, 1186, 13009, 10, 3001, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-			 --SetQuestStep(UID, EVENT, 1); -- 뭘 하는 걸까?
-			 Ret = 1; -- 이건 왜 저장 시켜요? 그냥 RETURN은 안되나요?
-		elseif QuestNum > 1 and  QuestNum < 100 then--해당 NPC에게 할수 있는 퀘스트가 1개 일때 
-          NpcMsg(UID, 4706,31511)
-      else --해당 NPC에게 할수 있는 퀘스트가 1개 이상 일때 
-          EVENT = QuestNum
-		end
+	SelectMsg(UID, 3, -1, 1186, NPC, 2017, 150, 2018, 200, 2019, 160, 2020, 240);
 end
 
-if EVENT == 168 then -- 그냥 닫기 
-    Ret = 1;
+local ITEMA = 0;
+
+if EVENT == 150 then
+   ITEMA = HowmuchItem(UID, 900000000);
+   if ITEMA < 1000000 then
+      SelectMsg(UID, 2, -1, 851, NPC, 27);
+   else
+      GoldLose(UID, 1000000)
+      GiveItem(UID, 389132000, 1)
+   end
 end
 
-if EVENT == 400 then -- 이동 
-    GiveItem(UID,389132000,1);
+if EVENT == 160 then
+   SelectMsg(UID, 2, -1, 847, NPC, 10);
 end
 
+local ITEMB = 0;
+
+if EVENT == 200 then
+   ITEMB = HowmuchItem(UID, 508122000);
+   if ITEMB < 1 then
+      SelectMsg(UID, 2, -1, 820, NPC, 27);
+   else
+      RobItem(UID, 508122000, 1)
+      GiveItem(UID, 389135000, 1)
+   end
+end
+
+if EVENT == 240 then
+   SelectMsg(UID, 2, -1, 848, NPC, 7253, 241, 7254, 242);
+end
+
+if EVENT == 241 then
+   
+end
