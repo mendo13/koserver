@@ -148,6 +148,8 @@ public:
 	// Get list of merchants in region
 	void GetRegionMerchantUserIn(C3DMap* pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count);
 
+	void SendHelpDescription(CUser *pUser, std::string sHelpMessage);
+
 	INLINE bool isPermanentMessageSet() { return m_bPermanentChatMode; }
 	void SetPermanentMessage(const char * format, ...);
 
