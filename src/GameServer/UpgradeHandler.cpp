@@ -49,6 +49,10 @@ void CUser::ItemUpgradeProcess(Packet & pkt)
 	case ITEM_CHARACTER_SEAL:
 		CharacterSealProcess(pkt);
 		break;
+
+	case ITEM_SPECIAL_EXCHANGE:
+		SpecialExchange(pkt);
+		break;
 	}
 }
 
@@ -488,8 +492,45 @@ void CUser::BifrostPieceProcess(Packet & pkt)
 	result << (uint8)OBJECT_ARTIFACT << (uint8)resultMessage << nObjectID;
 
 	if (resultOpCode != Failed)
-	Send(&result);
+		Send(&result);
 }
+
+/**
+* @brief	Packet handler for the Special exchange system
+* 			which is used to exchange Krowaz meterials.
+*
+* @param	pkt	The packet.
+*/
+void CUser::SpecialExchange(Packet & pkt)
+{
+	enum ResultOpCodes
+	{
+		WrongMaterial = 0,
+		Success = 1,
+		Failed = 2
+	};
+
+	ResultOpCodes resultOpCode = WrongMaterial;
+
+	Packet result(WIZ_ITEM_UPGRADE);
+	result << (uint8)ITEM_SPECIAL_EXCHANGE << (uint8)resultOpCode;
+	Send(&result);
+
+	switch (resultOpCode)
+	{
+	case WrongMaterial:
+		break;
+	case Success:
+		ShowNpcEffect(31033);
+		break;
+	case Failed:
+		ShowNpcEffect(31034);
+		break;
+	default:
+		break;
+	}
+}
+
 
 /**
 * @brief	Packet handler for the upgrading of 'rebirthed' items.
