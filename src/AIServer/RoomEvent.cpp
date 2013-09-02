@@ -67,7 +67,7 @@ bool CRoomEvent::CheckEvent(int event_num)
 	bool bRetValue = false;
 
 	if( m_byLogicNumber == 0 || m_byLogicNumber > MAX_CHECK_EVENT )	{
-		TRACE("### Check Event Fail :: array overflow = %d ###\n", m_byLogicNumber);
+		printf("### Check Event Fail :: array overflow = %d ###\n", m_byLogicNumber);
 		return false;
 	}
 
@@ -79,7 +79,7 @@ bool CRoomEvent::CheckEvent(int event_num)
 			if( pNpc->m_byChangeType == 100 )	return true;
 		}
 		else	{
-			TRACE("### CheckEvent Error : monster nid = %d, logic=%d ###\n", nOption_1, m_byLogicNumber);
+			printf("### CheckEvent Error : monster nid = %d, logic=%d ###\n", nOption_1, m_byLogicNumber);
 		}
 		//TRACE("---Check Event : monster dead = %d \n", nMonsterNid);
 		break;
@@ -110,7 +110,7 @@ bool CRoomEvent::CheckEvent(int event_num)
 		}
 		break;
 	default:
-		TRACE("### Check Event Fail :: event number = %d ###\n", event_num);
+		printf("### Check Event Fail :: event number = %d ###\n", event_num);
 		break;
 	}
 
@@ -131,7 +131,7 @@ bool CRoomEvent::RunEvent( int event_num )
 			pNpc->SetLive();
 		}
 		else	{
-			TRACE("### RunEvent Error : 몬스터 출현 할 수 없당 = %d, logic=%d ###\n", nOption_1, m_byLogicNumber);
+			printf("### RunEvent Error : 몬스터 출현 할 수 없당 = %d, logic=%d ###\n", nOption_1, m_byLogicNumber);
 		}
 		if( m_byCheck == m_byLogicNumber )	{	// 방이 클리어
 			return true;
@@ -146,7 +146,7 @@ bool CRoomEvent::RunEvent( int event_num )
 
 		}
 		else	{
-			TRACE("### RunEvent Error : 문 담당 몬스터 출현 할 수 없당 = %d, logic=%d ###\n", nOption_1, m_byLogicNumber);
+			printf("### RunEvent Error : 문 담당 몬스터 출현 할 수 없당 = %d, logic=%d ###\n", nOption_1, m_byLogicNumber);
 		}
 
 		//wsprintf(notify, "** 알림 : [%d] 문이 열립니다 **", m_sRoomNumber);
@@ -180,7 +180,7 @@ bool CRoomEvent::RunEvent( int event_num )
 		nOption_1 = m_Exec[ m_byLogicNumber-1 ].sOption_1;
 		nOption_2 = m_Exec[ m_byLogicNumber-1 ].sOption_2;
 
-		TRACE("RunEvent - room=%d, option1=%d, option2=%d\n", m_sRoomNumber, nOption_1, nOption_2);
+		printf("RunEvent - room=%d, option1=%d, option2=%d\n", m_sRoomNumber, nOption_1, nOption_2);
 		if( nOption_1 != 0 )	{
 			EndEventSay( nOption_1, nOption_2 );
 		}
@@ -190,7 +190,7 @@ bool CRoomEvent::RunEvent( int event_num )
 		else		m_byLogicNumber++;
 		break;
 	default:
-		TRACE("### RunEvent Fail :: event number = %d ###\n", event_num);
+		printf("### RunEvent Fail :: event number = %d ###\n", event_num);
 		break;
 	}
 
@@ -201,7 +201,7 @@ CNpc* CRoomEvent::GetNpcPtr( int sid )
 {
 	if (m_mapRoomNpcArray.IsEmpty())	
 	{
-		TRACE("### RoomEvent-GetNpcPtr() : monster empty ###\n");
+		printf("### RoomEvent-GetNpcPtr() : monster empty, SID=%s ###\n", sid);
 		return nullptr;
 	}
 
@@ -226,7 +226,7 @@ bool  CRoomEvent::CheckMonsterCount( int sid, int count, int type )
 	int nMonster = m_mapRoomNpcArray.GetSize();
 	if (nMonster == 0)
 	{
-		TRACE("### RoomEvent-GetNpcPtr() : monster empty ###\n");
+		printf("### RoomEvent-GetNpcPtr() : monster empty, SID=%s ###\n", sid);
 		return nullptr;
 	}
 
