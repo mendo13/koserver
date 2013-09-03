@@ -251,6 +251,10 @@ void CGameServerDlg::GetTimeFromIni()
 
 	ini.GetString("AI_SERVER", "IP", "127.0.0.1", m_AIServerIP);
 
+	m_nBifrostTime[0] = ini.GetInt("BIFROST","START_TIME1", 0);
+	m_nBifrostTime[1] = ini.GetInt("BIFROST","START_TIME2", 0);
+	m_nBifrostTime[2] = ini.GetInt("BIFROST","START_TIME3", 0);
+
 	m_nBorderDefenseWarTime[0] = ini.GetInt("BDW","START_TIME1", 0);
 	m_nBorderDefenseWarTime[1] = ini.GetInt("BDW","START_TIME2", 0);
 	m_nBorderDefenseWarTime[2] = ini.GetInt("BDW","START_TIME3", 0);
@@ -535,6 +539,8 @@ uint32 CGameServerDlg::Timer_BifrostTime(void * lpParam)
 
 				if (g_pMain->m_bAttackBifrostMonument)
 					g_pMain->m_bAttackBifrostMonument = false;
+
+				g_pMain->SendBifrostTime(nullptr, true);
 			}
 			else if (g_pMain->m_sBifrostRemainingTime == g_pMain->m_xBifrostMonumentAttackTime)
 			{
@@ -558,6 +564,8 @@ uint32 CGameServerDlg::Timer_BifrostTime(void * lpParam)
 
 				if (g_pMain->m_bAttackBifrostMonument)
 					g_pMain->m_bAttackBifrostMonument = false;
+
+				g_pMain->SendBifrostTime(nullptr, true);
 			}
 			else if (g_pMain->m_sBifrostTime == g_pMain->m_xJoinOtherNationBifrostTime)
 			{
@@ -967,7 +975,7 @@ void CGameServerDlg::UpdateGameTime()
 	// Every minute
 	if (m_sMin != now.GetMinute())
 	{
-		
+
 	}
 
 	// Every hour

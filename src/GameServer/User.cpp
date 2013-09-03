@@ -1048,7 +1048,7 @@ void CUser::SetZoneAbilityChange(uint16 sNewZone)
 		PlayerRanking(sNewZone,false);
 
 	if (sNewZone == ZONE_RONARK_LAND || sNewZone ==  ZONE_BIFROST)
-		SendBifrostTime();
+		g_pMain->SendBifrostTime(this);
 }
 
 /**

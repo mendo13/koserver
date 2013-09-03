@@ -376,6 +376,8 @@ public:
 	uint8	m_sRankResetHour;
 
 	// Bifrost
+	uint8   m_nBifrostTime[BIFROST_EVENT_COUNT];
+
 	uint8 m_BifrostVictory;
 	uint16 m_sBifrostRemainingTime;
 	uint16 m_sBifrostTime;
@@ -385,6 +387,8 @@ public:
 	uint16 m_xBifrostTime;
 	uint16 m_xBifrostMonumentAttackTime;
 	bool m_bAttackBifrostMonument;
+
+	void SendBifrostTime(CUser *pUser = nullptr, bool bSendAll = false);
 
 	// zone server info
 	int					m_nServerNo, m_nServerGroupNo;
