@@ -797,7 +797,7 @@ public:
 	void ItemUpgradeNotice(_ITEM_TABLE * pItem, uint8 UpgradeResult);
 	void ItemUpgradeAccessories(Packet & pkt);
 	void BifrostPieceProcess(Packet & pkt); // originally named BeefRoastPieceProcess() -- that's not happening.
-	void SpecialExchange(Packet & pkt);
+	void SpecialItemExchange(Packet & pkt);
 	void ItemUpgradeRebirth(Packet & pkt);
 	void ItemSealProcess(Packet & pkt);
 	void SealItem(uint8 bSealType, uint8 bSrcPos);

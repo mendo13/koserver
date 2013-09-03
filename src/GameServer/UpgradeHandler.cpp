@@ -1,4 +1,5 @@
 ﻿#include "stdafx.h"
+#include <cmath>
 
 // Some item ID definitions
 #define MIN_ITEM_ID 100000000
@@ -51,7 +52,7 @@ void CUser::ItemUpgradeProcess(Packet & pkt)
 		break;
 
 	case ITEM_SPECIAL_EXCHANGE:
-		SpecialExchange(pkt);
+		SpecialItemExchange(pkt);
 		break;
 	}
 }
@@ -501,7 +502,7 @@ void CUser::BifrostPieceProcess(Packet & pkt)
 *
 * @param	pkt	The packet.
 */
-void CUser::SpecialExchange(Packet & pkt)
+void CUser::SpecialItemExchange(Packet & pkt)
 {
 	enum ResultOpCodes
 	{
@@ -512,6 +513,17 @@ void CUser::SpecialExchange(Packet & pkt)
 
 	ResultOpCodes resultOpCode = WrongMaterial;
 
+	uint16 ObjectID;
+	uint32 nUnknown1;
+	uint8 nUnknown2;
+	uint8 nMaterialCount;
+	uint8 nMaterialSlot;
+	uint8 nUnknown3;
+
+	pkt >> ObjectID
+	>> nUnknown1 >> nUnknown2 >> nMaterialCount
+	>> nMaterialSlot >> nUnknown3;
+	
 	Packet result(WIZ_ITEM_UPGRADE);
 	result << (uint8)ITEM_SPECIAL_EXCHANGE << (uint8)resultOpCode;
 	Send(&result);
