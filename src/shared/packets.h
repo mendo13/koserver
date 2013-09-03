@@ -483,6 +483,7 @@ enum FriendOpcodes
 
 enum TempleOpCodes
 {
+	BIFROST_EVENT = 2,
 	MONSTER_STONE = 6,
 	TEMPLE_EVENT = 7,
 	TEMPLE_JOIN = 8,

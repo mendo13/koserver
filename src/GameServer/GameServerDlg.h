@@ -390,6 +390,9 @@ public:
 
 	void SendBifrostTime(CUser *pUser = nullptr, bool bSendAll = false);
 
+	// Forgetten Temple
+	std::vector<int16>		m_nForgettenTempleUsers;
+
 	// zone server info
 	int					m_nServerNo, m_nServerGroupNo;
 	int					m_nServerGroup;	// server의 번호(0:서버군이 없다, 1:서버1군, 2:서버2군)
