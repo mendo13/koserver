@@ -1,7 +1,7 @@
 DERLENMİŞ PROJE HAKKINDA
 =====================
 
-* Projeyi Derleyemeyenler İçin Aşağıdaki FTP Sunucusundan 1886 Sunucuyu Açmak İçin Gerekli Tüm Dosyaları Bulabilirsiniz...
+* Sunucu Dosyaları, Veritabanı ve Gerekli Tüm Dosyalar Aşağıdaki Linkten Erişebilirsiniz...
 
 * İçerik ; 
   - Database - Sürekli Güncel, Tarih Bilgisi Yanında Yazmaktadır. ( .BAK Dosyası )
