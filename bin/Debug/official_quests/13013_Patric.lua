@@ -1,52 +1,29 @@
 
--- [경비병] 패트릭
--- 그냥 닫기 168
-
--- EVENT 는 100번 이상 부터 사용하라
-
--- UID : 서버에서 제공하는 유저번호
--- EVENT : 서버에서 제공하는 퀘스트 번호
--- STEP : 서버에서 제공하는 퀘스트 내부 단계
-
--- 위의 세가지 파라메타는 루아 실행시 항상 전역변수로 제공?
-
--- 지역변수 선언...
 local UserClass;
 local QuestNum;
 local Ret = 0;
-
--- [경비병] 패트릭 클릭시 퀘스트 체크  
+local NPC = 13013;
 
 if EVENT == 165 then
-	QuestNum = 2;--SearchQuest(UID, 13013);
-		if QuestNum == 0 then --해당 NPC에게 할수 있는 퀘스트가 0개 일때 
-          -- SelectMsg(UID, 2. -1...........)
-			 SelectMsg(UID, 2, -1, 166, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-			 --SetQuestStep(UID, EVENT, 1); -- 뭘 하는 걸까?
-			 Ret = 1; -- 이건 왜 저장 시켜요? 그냥 RETURN은 안되나요?
-		elseif QuestNum > 1 and QuestNum < 100 then--해당 NPC에게 할수 있는 퀘스트가 1개 일때 
-          NpcMsg(UID, 167,13013)
-      else--해당 NPC에게 할수 있는 퀘스트가 1개 이상 일때 
-          EVENT = QuestNum
-		end
+   QuestNum = 2;--SearchQuest(UID, 13013);
+   if QuestNum == 0 then
+      SelectMsg(UID, 2, -1, 166, NPC, 10, 168);
+      Ret = 1;
+   elseif QuestNum > 1 and QuestNum < 100 then
+      NpcMsg(UID, 167,13013)
+   else
+      EVENT = QuestNum
+   end
 end
 
-if EVENT == 168 then -- 그냥 닫기 
+if EVENT == 168 then
     Ret = 1;
 end
 
-local NATION = 0;--국가 체크 함수 만들어 주세요
---local SHOW_MAP; -- 지도 보여주눈 함수 만들어 주세요
+local NATION = 0;
 
-
-------------------------------------------------------
--- 웜 퇴치 시작 
-------------------------------------------------------
---시드, 미셀 호출 
 if EVENT == 170 then
---  NATION = CheckNation(UID);
---  if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 101, 170, 13013, 24, 171, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 101, 170, NPC, 24, 171);
 end
 
 if EVENT == 171 then
@@ -55,40 +32,35 @@ if EVENT == 171 then
 end
 
 if EVENT == 172 then
-   SelectMsg(UID, 1, 101, 172, 13013, 24, 171, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 101, 172, NPC, 24, 171);
 end
-
--- 101번의 속성 0번 4번일 경우 
-
 
 if EVENT == 175 then
-   SelectMsg(UID, 2, 101, 175, 13013,  25, 176, 13, 177, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-end
+   SelectMsg(UID, 2, 101, 175, NPC,  25, 176, 13, 177);
 
 if EVENT == 9205 then
-   SelectMsg(UID, 2, 886, 175, 13013,  25, 9206, 13, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 886, 175, NPC,  25, 9206, 13, 168);
 end
 
 local MonsterSub = 0;
 
 if EVENT == 9206 then
    MonsterSub = ExistMonsterQuestSub(UID);
-   if MonsterSub == 0 then -- 몬스터 서브 퀘스트가 없을때
-      SelectMsg(UID, 4, 886, 8667, 13013, 22, 9608, 23, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-
-	else-- 몬스터 서브 퀘스트가 있을때
- 		SelectMsg(UID, 2, 886, 8667, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if MonsterSub == 0 then
+      SelectMsg(UID, 4, 886, 8667, NPC, 22, 9608, 23, 168);
+   else
+      SelectMsg(UID, 2, 886, 8667, NPC, 10, 168);
    end
 end
 
 if EVENT == 9207 then
-  Check = CheckExchange(UID, 1080)
-   if  Check ==1 then
-   RunExchange(UID, 1080);
-   SaveEvent(UID, 5276);
+   Check = CheckExchange(UID, 1080)
+   if Check == 1 then
+      RunExchange(UID, 1080);
+      SaveEvent(UID, 5276);
    else
-  Ret = 1;	
-  end	 
+      Ret = 1;	
+   end	 
 end
 
 if EVENT == 9608 then
@@ -96,11 +68,11 @@ if EVENT == 9608 then
 end
 
 if EVENT == 9215 then
-   MonsterCount  = CountMonsterQuestSub(UID,886,1);
-   if  MonsterCount < 10 then -- 사냥이 남았을때
-      SelectMsg(UID, 2, 886, 8667, 13013, 10, 9218, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   else-- 사냥이 완료 되었을때 
-      SelectMsg(UID, 4, 886, 8667, 13013, 10, 9207, 27, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   MonsterCount = CountMonsterQuestSub(UID, 886, 1);
+   if MonsterCount < 10 then
+      SelectMsg(UID, 2, 886, 8667, NPC, 10, 9218);
+   else
+      SelectMsg(UID, 4, 886, 8667, NPC, 10, 9207, 27, 168);
    end
 end
 
@@ -110,11 +82,10 @@ end
 
 if EVENT == 176 then
    MonsterSub = ExistMonsterQuestSub(UID);
-   if MonsterSub == 0 then -- 몬스터 서브 퀘스트가 없을때
-      SelectMsg(UID, 4, 101, 176, 13013, 22, 178, 23, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-
-	else-- 몬스터 서브 퀘스트가 있을때
- 		SelectMsg(UID, 2, 101, 173, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if MonsterSub == 0 then
+      SelectMsg(UID, 4, 101, 176, NPC, 22, 178, 23, 168);
+   else
+      SelectMsg(UID, 2, 101, 173, NPC, 10, 168);
    end
 end
 
@@ -122,27 +93,24 @@ if EVENT == 178 then
    SaveEvent(UID, 49);
 end
 
--- 재료를 다 모았을때 시드와 미셀의 또 등장 
 if EVENT == 180 then
    SaveEvent(UID, 51);
    NATION = CheckNation(UID);
-   if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 101, 181, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   elseif NATION == 2 then -- 엘모일때 
-      SelectMsg(UID, 1, 101, 182, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if NATION == 1 then
+      SelectMsg(UID, 1, 101, 181, NPC, 14, 168);
+   else
+      SelectMsg(UID, 1, 101, 182, NPC, 14, 168);
    end
 end
-
--- 101의 1번 3번인 경우 
 
 local MonsterCount = 0;
 
 if EVENT == 185 then
-   MonsterCount  = CountMonsterQuestSub(UID,101,1);
-   if  MonsterCount < 5 then -- 사냥이 남았을때
-      SelectMsg(UID, 2, 101, 186, 13013, 10, 188, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   else-- 사냥이 완료 되었을때 
-      SelectMsg(UID, 4, 101, 187, 13013, 10, 177, 27, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   MonsterCount  = CountMonsterQuestSub(UID, 101, 1);
+   if MonsterCount < 5 then
+      SelectMsg(UID, 2, 101, 186, 13013, 10, 188);
+   else
+      SelectMsg(UID, 4, 101, 187, 13013, 10, 177, 27, 168);
    end
 end
 
@@ -155,26 +123,17 @@ end
 local Check;
 
 if EVENT == 177 then
-  Check = CheckExchange(UID, 5)
-   if  Check ==1 then
-   RunExchange(UID, 5);
-   SaveEvent(UID, 50);
+   Check = CheckExchange(UID, 5)
+   if Check ==1 then
+      RunExchange(UID, 5);
+      SaveEvent(UID, 50);
    else
-  Ret = 1;	
-  end	 
+      Ret = 1;	
+   end	 
 end
 
-------------------------------------------------------
--- 웜 퇴치 끝 
-------------------------------------------------------
-
-------------------------------------------------------
--- 밴디쿳 사냥 시작 
-------------------------------------------------------
-
---시드, 미셀 호출 
 if EVENT == 220 then
-   SelectMsg(UID, 1, 103, 220, 13013, 24, 221, 14, 222, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 103, 220, NPC, 24, 221, 14, 222);
 end
 
 if EVENT == 221 then
@@ -187,52 +146,46 @@ if EVENT == 222 then
 end
 
 if EVENT == 223 then
-   SelectMsg(UID, 1, 103, 223, 13013, 24, 221, 14, 222, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 103, 223, NPC, 24, 221, 14, 222);
 end
 
--- 103번의 속성 0번 4번일 경우 
-
-
 if EVENT == 225 then
-   SelectMsg(UID, 2, 103, 225, 13013,  33, 226, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 103, 225, NPC,  33, 226);
 end
 
 local MonsterSub = 0;
 
 if EVENT == 226 then
    MonsterSub = ExistMonsterQuestSub(UID);
-   if MonsterSub == 0 then -- 몬스터 서브 퀘스트가 없을때
-			 SelectMsg(UID, 4, 103, 228, 13013, 22, 229, 23, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   else-- 몬스터 서브 퀘스트가 있을때
- 			SelectMsg(UID, 2, 103, 173, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-	end
+   if MonsterSub == 0 then
+      SelectMsg(UID, 4, 103, 228, NPC, 22, 229, 23, 168);
+   else
+      SelectMsg(UID, 2, 103, 173, NPC, 10, 168);
+   end
 end
 
 if EVENT == 229 then
    SaveEvent(UID, 64);
 end
 
--- 재료를 다 모았을때 시드와 미셀의 또 등장 
 if EVENT == 231 then
    SaveEvent(UID, 66);
    NATION = CheckNation(UID);
-   if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 103, 232, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   elseif NATION == 2 then -- 엘모일때 
-      SelectMsg(UID, 1, 103, 233, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if NATION == 1 then
+      SelectMsg(UID, 1, 103, 232, NPC, 14, 168);
+   else
+      SelectMsg(UID, 1, 103, 233, NPC, 14, 168);
    end
 end
-
--- 103번이 1번, 3번일 경우 
 
 local MonsterCount = 0;
 
 if EVENT == 235 then
-   MonsterCount  = CountMonsterQuestSub(UID,103, 1);
-   if  MonsterCount < 5 then -- 사냥이 남았을때
-      SelectMsg(UID, 2, 103, 237, 13013, 18, 239, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   else-- 사냥이 완료 되었을때 
-      SelectMsg(UID, 4, 103, 236, 13013, 10, 238, 27, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   MonsterCount  = CountMonsterQuestSub(UID, 103, 1);
+   if  MonsterCount < 5 then
+      SelectMsg(UID, 2, 103, 237, NPC, 18, 239);
+   else
+      SelectMsg(UID, 4, 103, 236, NPC, 10, 238, 27, 168);
    end
 end
 
@@ -244,26 +197,16 @@ local Check;
 
 if EVENT == 238 then
   Check = CheckExchange(UID, 7)
-   if  Check ==1 then
-   RunExchange(UID, 7);
-   SaveEvent(UID, 65);
-   else
-  Ret = 1;	
+  if Check ==1 then
+     RunExchange(UID, 7);
+     SaveEvent(UID, 65);
+  else
+     Ret = 1;	
   end	 
 end
 
-------------------------------------------------------
--- 밴디쿳 사냥 끝
-------------------------------------------------------
-
-------------------------------------------------------
--- 케쿤 퇴치 시작 
-------------------------------------------------------
---시드, 미셀 호출 
 if EVENT == 370 then
---  NATION = CheckNation(UID);
---  if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 320, 3150, 13013, 24, 371, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 320, 3150, NPC, 24, 371);
 end
 
 if EVENT == 371 then
@@ -272,53 +215,47 @@ if EVENT == 371 then
 end
 
 if EVENT == 372 then
-   SelectMsg(UID, 1, 320, 3151, 13013, 24, 371, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 320, 3151, NPC, 24, 371);
 end
 
--- 320번의 속성 0번 4번일 경우 
-
-
 if EVENT == 300 then
-   SelectMsg(UID, 2, 320, 3152, 13013,  3012, 301, 13, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 320, 3152, NPC,  3012, 301, 13, 168);
 end
 
 local MonsterSub = 0;
 
 if EVENT == 301 then
    MonsterSub = ExistMonsterQuestSub(UID);
-   if MonsterSub == 0 then -- 몬스터 서브 퀘스트가 없을때
-      SelectMsg(UID, 4, 320, 3153, 13013, 22, 302, 23, 308, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-	else-- 몬스터 서브 퀘스트가 있을때
- 		SelectMsg(UID, 2, 320, 173, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if MonsterSub == 0 then
+      SelectMsg(UID, 4, 320, 3153, NPC, 22, 302, 23, 308);
+   else
+      SelectMsg(UID, 2, 320, 173, NPC, 10, 168);
    end
 end
 
 if EVENT == 302 then
    SaveEvent(UID, 3323);
-	SelectMsg(UID, 2, 320, 3154, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 320, 3154, NPC, 10, 168);
 end
 
--- 재료를 다 모았을때 시드와 미셀의 또 등장 
 if EVENT == 303 then
    SaveEvent(UID, 3325);
    NATION = CheckNation(UID);
-   if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 320, 3157, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   elseif NATION == 2 then -- 엘모일때 
-      SelectMsg(UID, 1, 320, 3158, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if NATION == 1 then
+      SelectMsg(UID, 1, 320, 3157, NPC, 14, 168);
+   else
+      SelectMsg(UID, 1, 320, 3158, NPC, 14, 168);
    end
 end
-
--- 320의 1번 3번인 경우 
 
 local MonsterCount = 0;
 
 if EVENT == 305 then
    MonsterCount  = CountMonsterQuestSub(UID,320, 1);
-   if  MonsterCount < 5 then -- 사냥이 남았을때
-      SelectMsg(UID, 2, 320, 3156, 13013, 10, 306, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   else-- 사냥이 완료 되었을때 
-      SelectMsg(UID, 4, 320, 3159, 13013, 10, 307, 27, 306, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if MonsterCount < 5 then
+      SelectMsg(UID, 2, 320, 3156, NPC, 10, 306);
+   else
+      SelectMsg(UID, 4, 320, 3159, NPC, 10, 307, 27, 306);
    end
 end
 
@@ -330,29 +267,20 @@ local Check;
 
 if EVENT == 307 then
   Check = CheckExchange(UID, 320)
-   if  Check ==1 then
-   RunExchange(UID, 320);
-   SaveEvent(UID, 3324);
-   else
-  Ret = 1;	
+  if Check ==1 then
+     RunExchange(UID, 320);
+     SaveEvent(UID, 3324);
+  else
+     Ret = 1;	
   end	 
 end
 
 if EVENT == 308 then
-	SelectMsg(UID, 2, 320, 3155, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 320, 3155, NPC, 10, 168);
 end
-------------------------------------------------------
--- 케군 퇴치 끝 
-------------------------------------------------------
 
-------------------------------------------------------
--- 불칸 퇴치 시작 
-------------------------------------------------------
---시드, 미셀 호출 
 if EVENT == 470 then
---  NATION = CheckNation(UID);
---  if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 321, 170, 13013, 24, 471, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 321, 170, 13013, 24, 471);
 end
 
 if EVENT == 471 then
@@ -361,54 +289,47 @@ if EVENT == 471 then
 end
 
 if EVENT == 472 then
-   SelectMsg(UID, 1, 321, 172, 13013, 24, 471, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 321, 172, NPC, 24, 471);
 end
 
--- 321번의 속성 0번 4번일 경우 
-
-
 if EVENT == 400 then
-   SelectMsg(UID, 2, 321, 3160, 13013,  3012, 401, 13, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 321, 3160, NPC,  3012, 401, 13, 168);
 end
 
 local MonsterSub = 0;
 
 if EVENT == 401 then
    MonsterSub = ExistMonsterQuestSub(UID);
-   if MonsterSub == 0 then -- 몬스터 서브 퀘스트가 없을때
-      SelectMsg(UID, 4, 321, 3161, 13013, 22, 402, 23, 408, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-
-	else-- 몬스터 서브 퀘스트가 있을때
- 		SelectMsg(UID, 2, 321, 173, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if MonsterSub == 0 then
+      SelectMsg(UID, 4, 321, 3161, NPC, 22, 402, 23, 408);
+   else
+      SelectMsg(UID, 2, 321, 173, NPC, 10, 168);
    end
 end
 
 if EVENT == 402 then
    SaveEvent(UID, 3333);
-	SelectMsg(UID, 2, 320, 3162, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 320, 3162, NPC, 10, 168);
 end
 
--- 재료를 다 모았을때 시드와 미셀의 또 등장 
 if EVENT == 403 then
    SaveEvent(UID, 3335);
    NATION = CheckNation(UID);
-   if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 321, 3165, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   elseif NATION == 2 then -- 엘모일때 
-      SelectMsg(UID, 1, 321, 3166, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if NATION == 1 then
+      SelectMsg(UID, 1, 321, 3165, NPC, 14, 168);
+   elseif NATION == 2 then
+      SelectMsg(UID, 1, 321, 3166, NPC, 14, 168);
    end
 end
-
--- 321의 1번 3번인 경우 
 
 local MonsterCount = 0;
 
 if EVENT == 405 then
-   MonsterCount  = CountMonsterQuestSub(UID,321, 1);
-   if  MonsterCount < 10 then -- 사냥이 남았을때
-      SelectMsg(UID, 2, 321, 3164, 13013, 10, 406, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   else-- 사냥이 완료 되었을때 
-      SelectMsg(UID, 4, 321, 3167, 13013, 10, 407, 27, 406, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   MonsterCount  = CountMonsterQuestSub(UID, 321, 1);
+   if MonsterCount < 10 then
+      SelectMsg(UID, 2, 321, 3164, NPC, 10, 406);
+   else
+      SelectMsg(UID, 4, 321, 3167, NPC, 10, 407, 27, 406);
    end
 end
 
@@ -419,31 +340,21 @@ end
 local Check;
 
 if EVENT == 407 then
-  Check = CheckExchange(UID, 400)
-   if  Check ==1 then
-   RunExchange(UID, 321);
-   --SaveEvent(UID, 3334);
+   Check = CheckExchange(UID, 400)
+   if Check ==1 then
+      RunExchange(UID, 321);
+    --SaveEvent(UID, 3334);
    else
-  Ret = 1;	
-  end	 
+      Ret = 1;	
+   end	 
 end
 
 if EVENT == 408 then
-	SelectMsg(UID, 2, 320, 3163, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 320, 3163, NPC, 10, 168);
 end
 
-------------------------------------------------------
--- 불칸 퇴치 끝 
-------------------------------------------------------
-
-------------------------------------------------------
--- 와일드 불칸 퇴치 시작 
-------------------------------------------------------
---시드, 미셀 호출 
 if EVENT == 570 then
---  NATION = CheckNation(UID);
---  if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 322, 170, 13013, 24, 571, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 322, 170, NPC, 24, 571);
 end
 
 if EVENT == 571 then
@@ -452,78 +363,70 @@ if EVENT == 571 then
 end
 
 if EVENT == 572 then
-   SelectMsg(UID, 1, 322, 172, 13013, 24, 571, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 322, 172, NPC, 24, 571);
 end
 
--- 322번의 속성 0번 4번일 경우 
-
-
 if EVENT == 500 then
-   SelectMsg(UID, 2, 322, 3168, 13013,  3012, 501, 13, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 322, 3168, NPC,  3012, 501, 13, 168);
 end
 
 if EVENT == 9265 then
-   SelectMsg(UID, 2, 890, 3168, 13013,  3012, 9266, 13, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 890, 3168, NPC,  3012, 9266, 13, 168);
 end
 
 local MonsterSub = 0;
 
 if EVENT == 9266 then
    MonsterSub = ExistMonsterQuestSub(UID);
-   if MonsterSub == 0 then -- 몬스터 서브 퀘스트가 없을때
-      SelectMsg(UID, 4, 890, 3169, 13013, 22, 9267, 23, 508, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-
-	else-- 몬스터 서브 퀘스트가 있을때
- 		SelectMsg(UID, 2, 890, 173, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if MonsterSub == 0 then
+      SelectMsg(UID, 4, 890, 3169, NPC, 22, 9267, 23, 508);
+   else
+      SelectMsg(UID, 2, 890, 173, NPC, 10, 168);
    end
 end
 
 if EVENT == 9267 then
-	SelectMsg(UID, 2, 890, 3170, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 890, 3170, NPC, 10, 168);
    SaveEvent(UID, 5303);
 end
 
 
 if EVENT == 9273 then
-	SelectMsg(UID, 2, 890, 3171, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 890, 3171, NPC, 10, 168);
 end
 
 if EVENT == 501 then
    MonsterSub = ExistMonsterQuestSub(UID);
-   if MonsterSub == 0 then -- 몬스터 서브 퀘스트가 없을때
-      SelectMsg(UID, 4, 322, 3169, 13013, 22, 502, 23, 508, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-
-	else-- 몬스터 서브 퀘스트가 있을때
- 		SelectMsg(UID, 2, 322, 173, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if MonsterSub == 0 then
+      SelectMsg(UID, 4, 322, 3169, NPC, 22, 502, 23, 508);
+   else
+      SelectMsg(UID, 2, 322, 173, NPC, 10, 168);
    end
 end
 
 if EVENT == 502 then
-	SelectMsg(UID, 2, 320, 3170, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 320, 3170, NPC, 10, 168);
    SaveEvent(UID, 3343);
 end
 
--- 재료를 다 모았을때 시드와 미셀의 또 등장 
 if EVENT == 503 then
    SaveEvent(UID, 3345);
    NATION = CheckNation(UID);
-   if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 322, 3173, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   elseif NATION == 2 then -- 엘모일때 
-      SelectMsg(UID, 1, 322, 3174, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if NATION == 1 then
+      SelectMsg(UID, 1, 322, 3173, NPC, 14, 168);
+   else
+      SelectMsg(UID, 1, 322, 3174, NPC, 14, 168);
    end
 end
-
--- 322의 1번 3번인 경우 
 
 local MonsterCount = 0;
 
 if EVENT == 505 then
    MonsterCount  = CountMonsterQuestSub(UID,322, 1);
-   if  MonsterCount < 10 then -- 사냥이 남았을때
-      SelectMsg(UID, 2, 322, 3172, 13013, 10, 506, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   else-- 사냥이 완료 되었을때 
-      SelectMsg(UID, 4, 322, 3175, 13013, 10, 507, 27, 506, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if MonsterCount < 10 then
+      SelectMsg(UID, 2, 322, 3172, NPC, 10, 506);
+   else
+      SelectMsg(UID, 4, 322, 3175, NPC, 10, 507, 27, 506);
    end
 end
 
@@ -535,135 +438,114 @@ local Check;
 
 if EVENT == 507 then
    Check = CheckExchange(UID, 322)
-   if  Check ==1 then
-   RunExchange(UID, 322);
-   SaveEvent(UID, 3344);
+   if Check ==1 then
+      RunExchange(UID, 322);
+      SaveEvent(UID, 3344);
    else
-  Ret = 1;	
-  end	 
+      Ret = 1;	
+   end	 
 end
 
 if EVENT == 508 then
-	SelectMsg(UID, 2, 320, 3171, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 320, 3171, NPC, 10, 168);
 end
 
-------------------------------------------------------
--- 와일드 불칸 퇴치 끝 
-------------------------------------------------------
-
-------------------------------------------------------
--- 케군워리어 퇴치 시작 
-------------------------------------------------------
---시드, 미셀 호출 
 if EVENT == 670 then
---  NATION = CheckNation(UID);
---  if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 323, 3176, 13013, 3013, 3000, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 323, 3176, NPC, 3013, 3000);
 end
 
 if EVENT == 3000 then
-   SelectMsg(UID, 1, 323, 3178, 13013, 3014, 3003, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 323, 3178, NPC, 3014, 3003);
 end
 
 local MonsterSub = 0;
 
 if EVENT == 3003 then
    MonsterSub = ExistMonsterQuestSub(UID);
-   if MonsterSub == 0 then -- 몬스터 서브 퀘스트가 없을때
-   SelectMsg(UID, 1, 323, 3180, 13013, 22, 671, 23,3005, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-
-	else-- 몬스터 서브 퀘스트가 있을때
- 		SelectMsg(UID, 1, 323, 3191, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if MonsterSub == 0 then
+      SelectMsg(UID, 1, 323, 3180, NPC, 22, 671, 23,3005);
+   else
+      SelectMsg(UID, 1, 323, 3191, NPC, 10, 168);
    end
 end
 
-if EVENT == 671 then-- 시드 수락
+if EVENT == 671 then
    SaveEvent(UID, 3353);
-   SelectMsg(UID, 1, 323, 3182, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 323, 3182, NPC, 10, 168);
 end
 
 
 
 if EVENT == 672 then
-   SelectMsg(UID, 1, 323, 3177, 13013, 24, 3002, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 323, 3177, NPC, 24, 3002);
 end
 
 if EVENT == 3002 then
-   SelectMsg(UID, 1, 323, 3179, 13013, 3014, 3004, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 323, 3179, NPC, 3014, 3004);
 end
 
 local MonsterSub = 0;
 
 if EVENT == 3004 then
    MonsterSub = ExistMonsterQuestSub(UID);
-   if MonsterSub == 0 then -- 몬스터 서브 퀘스트가 없을때
-   SelectMsg(UID, 1, 323, 3181, 13013, 22, 3007, 23,3006, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-
-	else-- 몬스터 서브 퀘스트가 있을때
- 		SelectMsg(UID, 1, 323, 3192, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if MonsterSub == 0 then
+      SelectMsg(UID, 1, 323, 3181, NPC, 22, 3007, 23, 3006);
+   else
+      SelectMsg(UID, 1, 323, 3192, NPC, 10, 168);
    end
 end
 
-if EVENT == 3007 then -- 미셀 수락
+if EVENT == 3007 then
    SaveEvent(UID, 3353);
-   SelectMsg(UID, 1, 323, 3183, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 323, 3183, NPC, 10, 168);
 end
 
---시드 거절
 if EVENT == 3005 then
-   SelectMsg(UID, 1, 323, 3184, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 323, 3184, NPC, 10, 168);
 end
 
 if EVENT == 3006 then
-   SelectMsg(UID, 1, 323, 3185, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 323, 3185, NPC, 10, 168);
 end
 
-
--- 323번의 속성 0번 4번일 경우 
-
-
 if EVENT == 600 then
-   SelectMsg(UID, 2, 323, 3193, 13013,  3017, 601, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 323, 3193, NPC, 3017, 601);
 end
 
 local MonsterSub = 0;
 
 if EVENT == 601 then
    MonsterSub = ExistMonsterQuestSub(UID);
-   if MonsterSub == 0 then -- 몬스터 서브 퀘스트가 없을때
-      SelectMsg(UID, 4, 323, 3195, 13013, 3018, 602, 3019, 608, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-
-	else-- 몬스터 서브 퀘스트가 있을때
- 		SelectMsg(UID, 2, 323, 3197, 13013, 3001, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if MonsterSub == 0 then
+      SelectMsg(UID, 4, 323, 3195, NPC, 3018, 602, 3019, 608);
+   else
+      SelectMsg(UID, 2, 323, 3197, NPC, 3001, 168);
    end
 end
 
 if EVENT == 602 then
-	SelectMsg(UID, 2, 320, 3193, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 320, 3193, NPC, 10, 168);
    SaveEvent(UID, 3353);
 end
 
--- 재료를 다 모았을때 시드와 미셀의 또 등장 
 if EVENT == 603 then
    SaveEvent(UID, 3355);
    NATION = CheckNation(UID);
-   if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 323, 3187, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   elseif NATION == 2 then -- 엘모일때 
-      SelectMsg(UID, 1, 323, 3188, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if NATION == 1 then
+      SelectMsg(UID, 1, 323, 3187, NPC, 14, 168);
+   else
+      SelectMsg(UID, 1, 323, 3188, NPC, 14, 168);
    end
 end
-
--- 323의 1번 3번인 경우 
 
 local MonsterCount = 0;
 
 if EVENT == 605 then
-   MonsterCount  = CountMonsterQuestSub(UID,323, 1);
-   if  MonsterCount < 10 then -- 사냥이 남았을때
-      SelectMsg(UID, 2, 323, 3197, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   else-- 사냥이 완료 되었을때 
-      SelectMsg(UID, 4, 323, 3189, 13013, 10, 607, 27, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   MonsterCount  = CountMonsterQuestSub(UID, 323, 1);
+   if MonsterCount < 10 then
+      SelectMsg(UID, 2, 323, 3197, NPC, 10, 168);
+   else
+      SelectMsg(UID, 4, 323, 3189, NPC, 10, 607, 27, 168);
    end
 end
 
@@ -675,31 +557,21 @@ local Check;
 
 if EVENT == 607 then
    Check = CheckExchange(UID, 323)
-   if  Check ==1 then
-   RunExchange(UID, 323);
-   SaveEvent(UID, 3354);
-   SelectMsg(UID, 2, 323, 3190, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if Check ==1 then
+      RunExchange(UID, 323);
+      SaveEvent(UID, 3354);
+      SelectMsg(UID, 2, 323, 3190, NPC, 10, 168);
    else
-  Ret = 1;	
-  end	 
+      Ret = 1;	
+   end	 
 end
 
 if EVENT == 608 then
-	SelectMsg(UID, 2, 320, 3197, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 320, 3197, NPC, 10, 168);
 end
 
-------------------------------------------------------
--- 케군워리어 퇴치 끝 
-------------------------------------------------------
-
-------------------------------------------------------
--- 가볼트 퇴치 시작 
-------------------------------------------------------
---시드, 미셀 호출 
 if EVENT == 770 then
---  NATION = CheckNation(UID);
---  if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 324, 3798, 13013, 10, 771, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 324, 3798, NPC, 10, 771);
 end
 
 if EVENT == 771 then
@@ -708,54 +580,47 @@ if EVENT == 771 then
 end
 
 if EVENT == 772 then
-   SelectMsg(UID, 1, 324, 3799, 13013, 10, 771, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 324, 3799, NPC, 10, 771);
 end
 
--- 324번의 속성 0번 4번일 경우 
-
-
 if EVENT == 700 then
-   SelectMsg(UID, 2, 324, 3800, 13013,  3012, 701, 13, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 324, 3800, NPC,  3012, 701, 13, 168);
 end
 
 local MonsterSub = 0;
 
 if EVENT == 701 then
    MonsterSub = ExistMonsterQuestSub(UID);
-   if MonsterSub == 0 then -- 몬스터 서브 퀘스트가 없을때
-      SelectMsg(UID, 4, 324, 3801, 13013, 22, 702, 23, 708, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-
-	else-- 몬스터 서브 퀘스트가 있을때
- 		SelectMsg(UID, 2, 324, 173, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if MonsterSub == 0 then
+      SelectMsg(UID, 4, 324, 3801, NPC, 22, 702, 23, 708);
+   else
+      SelectMsg(UID, 2, 324, 173, NPC, 10, 168);
    end
 end
 
 if EVENT == 702 then
-	SelectMsg(UID, 2, 320, 3802, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 320, 3802, NPC, 10, 168);
    SaveEvent(UID, 3363);
 end
 
--- 재료를 다 모았을때 시드와 미셀의 또 등장 
 if EVENT == 703 then
    SaveEvent(UID, 3365);
    NATION = CheckNation(UID);
-   if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 324, 3805, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   elseif NATION == 2 then -- 엘모일때 
-      SelectMsg(UID, 1, 324, 3806, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if NATION == 1 then
+      SelectMsg(UID, 1, 324, 3805, NPC, 14, 168);
+   else
+      SelectMsg(UID, 1, 324, 3806, NPC, 14, 168);
    end
 end
-
--- 324의 1번 3번인 경우 
 
 local MonsterCount = 0;
 
 if EVENT == 705 then
-   MonsterCount  = CountMonsterQuestSub(UID,324, 1);
-   if  MonsterCount < 10 then -- 사냥이 남았을때
-      SelectMsg(UID, 2, 324, 3804, 13013, 10, 706, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   else-- 사냥이 완료 되었을때 
-      SelectMsg(UID, 4, 324, 3807, 13013, 10, 707, 27, 706, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   MonsterCount  = CountMonsterQuestSub(UID, 324, 1);
+   if MonsterCount < 10 then
+      SelectMsg(UID, 2, 324, 3804, NPC, 10, 706);
+   else
+      SelectMsg(UID, 4, 324, 3807, NPC, 10, 707, 27, 706);
    end
 end
 
@@ -767,30 +632,20 @@ local Check;
 
 if EVENT == 707 then
    Check = CheckExchange(UID, 324)
-   if  Check ==1 then
-   RunExchange(UID, 324);
-   SaveEvent(UID, 3364);
+   if Check ==1 then
+      RunExchange(UID, 324);
+      SaveEvent(UID, 3364);
    else
-  Ret = 1;	
-  end	 
+      Ret = 1;	
+   end	 
 end
 
 if EVENT == 708 then
-	SelectMsg(UID, 2, 320, 3803, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 320, 3803, NPC, 10, 168);
 end
 
-------------------------------------------------------
--- 가볼트 퇴치 끝 
-------------------------------------------------------
-
-------------------------------------------------------
--- 벌쳐 퇴치 시작 
-------------------------------------------------------
---시드, 미셀 호출 
 if EVENT == 870 then
---  NATION = CheckNation(UID);
---  if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 325, 170, 13013, 24, 871, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 325, 170, NPC, 24, 871);
 end
 
 if EVENT == 871 then
@@ -799,88 +654,72 @@ if EVENT == 871 then
 end
 
 if EVENT == 872 then
-   SelectMsg(UID, 1, 325, 172, 13013, 24, 871, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 325, 172, NPC, 24, 871);
 end
 
--- 325번의 속성 0번 4번일 경우 
-
-
 if EVENT == 800 then
-   SelectMsg(UID, 2, 325, 3808, 13013,  3012, 801, 13, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 325, 3808, NPC,  3012, 801, 13, 168);
 end
 
 local MonsterSub = 0;
 
 if EVENT == 801 then
    MonsterSub = ExistMonsterQuestSub(UID);
-   if MonsterSub == 0 then -- 몬스터 서브 퀘스트가 없을때
-      SelectMsg(UID, 4, 325, 3809, 13013, 22, 802, 23, 808, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-
-	else-- 몬스터 서브 퀘스트가 있을때
- 		SelectMsg(UID, 2, 325, 173, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if MonsterSub == 0 then
+      SelectMsg(UID, 4, 325, 3809, NPC, 22, 802, 23, 808);
+   else
+      SelectMsg(UID, 2, 325, 173, NPC, 10, 168);
    end
 end
 
 if EVENT == 802 then
-	SelectMsg(UID, 2, 320, 3810, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 320, 3810, NPC, 10, 168);
    SaveEvent(UID, 3373);
 end
 
--- 재료를 다 모았을때 시드와 미셀의 또 등장 
 if EVENT == 803 then
    SaveEvent(UID, 3375);
    NATION = CheckNation(UID);
-   if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 325, 3813, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   elseif NATION == 2 then -- 엘모일때 
-      SelectMsg(UID, 1, 325, 3814, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if NATION == 1 then
+      SelectMsg(UID, 1, 325, 3813, NPC, 14, 168);
+   else
+      SelectMsg(UID, 1, 325, 3814, NPC, 14, 168);
    end
 end
-
--- 325의 1번 3번인 경우 
 
 local MonsterCount = 0;
 
 if EVENT == 805 then
-   MonsterCount  = CountMonsterQuestSub(UID,325, 1);
-   if  MonsterCount < 10 then -- 사냥이 남았을때
-      SelectMsg(UID, 2, 325, 3812, 13013, 10, 806, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   else-- 사냥이 완료 되었을때 
-      SelectMsg(UID, 4, 325, 3815, 13013, 10, 807, 27, 806, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   MonsterCount  = CountMonsterQuestSub(UID, 325, 1);
+   if MonsterCount < 10 then
+      SelectMsg(UID, 2, 325, 3812, NPC, 10, 806);
+   else
+      SelectMsg(UID, 4, 325, 3815, NPC, 10, 807, 27, 806);
    end
 end
 
 if EVENT == 806 then
+   Ret = 1;
 end
 
 local Check;
 
 if EVENT == 807 then
    Check = CheckExchange(UID, 325)
-   if  Check ==1 then
-   RunExchange(UID, 325);
-   SaveEvent(UID, 3374);
+   if Check ==1 then
+      RunExchange(UID, 325);
+      SaveEvent(UID, 3374);
    else
-  Ret = 1;	
-  end	 
+      Ret = 1;	
+   end	 
 end
 
 if EVENT == 808 then
-	SelectMsg(UID, 2, 320, 3811, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 320, 3811, NPC, 10, 168);
 end
 
-------------------------------------------------------
--- 벌쳐 퇴치 끝 
-------------------------------------------------------
-
-------------------------------------------------------
--- 샤일란 퇴치 시작 
-------------------------------------------------------
---시드, 미셀 호출 
 if EVENT == 970 then
---  NATION = CheckNation(UID);
---  if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 326, 170, 13013, 24, 971, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 326, 170, NPC, 24, 971);
 end
 
 if EVENT == 971 then
@@ -889,54 +728,47 @@ if EVENT == 971 then
 end
 
 if EVENT == 972 then
-   SelectMsg(UID, 1, 326, 172, 13013, 24, 971, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 326, 172, NPC, 24, 971);
 end
 
--- 326번의 속성 0번 4번일 경우 
-
-
 if EVENT == 900 then
-   SelectMsg(UID, 2, 326, 3816, 13013,  3012, 901, 13, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 326, 3816, NPC,  3012, 901, 13, 168);
 end
 
 local MonsterSub = 0;
 
 if EVENT == 901 then
    MonsterSub = ExistMonsterQuestSub(UID);
-   if MonsterSub == 0 then -- 몬스터 서브 퀘스트가 없을때
-      SelectMsg(UID, 4, 326, 3817, 13013, 22, 902, 23, 908, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-
-	else-- 몬스터 서브 퀘스트가 있을때
- 		SelectMsg(UID, 2, 326, 173, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if MonsterSub == 0 then
+      SelectMsg(UID, 4, 326, 3817, NPC, 22, 902, 23, 908);
+   else
+      SelectMsg(UID, 2, 326, 173, NPC, 10, 168);
    end
 end
 
 if EVENT == 902 then
-	SelectMsg(UID, 2, 320, 3818, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+	SelectMsg(UID, 2, 320, 3818, NPC, 10, 168);
    SaveEvent(UID, 3383);
 end
 
--- 재료를 다 모았을때 시드와 미셀의 또 등장 
 if EVENT == 903 then
     SaveEvent(UID, 3385);
   NATION = CheckNation(UID);
-   if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 326, 3821, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   elseif NATION == 2 then -- 엘모일때 
-      SelectMsg(UID, 1, 326, 3822, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if NATION == 1 then
+      SelectMsg(UID, 1, 326, 3821, NPC, 14, 168);
+   else
+      SelectMsg(UID, 1, 326, 3822, NPC, 14, 168);
    end
 end
-
--- 326의 1번 3번인 경우 
 
 local MonsterCount = 0;
 
 if EVENT == 905 then
    MonsterCount  = CountMonsterQuestSub(UID,326, 1);
-   if  MonsterCount < 10 then -- 사냥이 남았을때
-      SelectMsg(UID, 2, 326, 3820, 13013, 10, 906, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   else-- 사냥이 완료 되었을때 
-      SelectMsg(UID, 4, 326, 3823, 13013, 10, 907, 27, 906, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if  MonsterCount < 10 then
+      SelectMsg(UID, 2, 326, 3820, NPC, 10, 906);
+   else
+      SelectMsg(UID, 4, 326, 3823, NPC, 10, 907, 27, 906);
    end
 end
 
@@ -948,42 +780,32 @@ local Check;
 
 if EVENT == 907 then
    Check = CheckExchange(UID, 326)
-   if  Check ==1 then
-   RunExchange(UID, 326);
-   SaveEvent(UID, 3384);
+   if Check ==1 then
+      RunExchange(UID, 326);
+      SaveEvent(UID, 3384);
    else
-  Ret = 1;	
-  end	 
+      Ret = 1;	
+   end	 
 end
 
 if EVENT == 908 then
-	SelectMsg(UID, 2, 320, 3819, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 320, 3819, NPC, 10, 168);
 end
 
-------------------------------------------------------
--- 샤일란 퇴치 끝 
-------------------------------------------------------
-
-------------------------------------------------------
--- 웨어울프 퇴치 시작 
-------------------------------------------------------
---시드, 미셀 호출 
 if EVENT == 1070 then
---  NATION = CheckNation(UID);
---  if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 327, 3827, 13013, 3005, 1080, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 327, 3827, NPC, 3005, 1080);
 end
 
 if EVENT == 1080 then
-      SelectMsg(UID, 1, 327, 3829, 13013, 3013, 1081, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 327, 3829, NPC, 3013, 1081);
 end
 
 if EVENT == 1081 then
-      SelectMsg(UID, 1, 327, 3831, 13013, 3014, 1082, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 327, 3831, NPC, 3014, 1082);
 end
 
 if EVENT == 1082 then
-      SelectMsg(UID, 1, 327, 3833, 13013, 3003, 1071, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 327, 3833, NPC, 3003, 1071);
 end
 
 if EVENT == 1071 then
@@ -992,68 +814,59 @@ if EVENT == 1071 then
 end
 
 if EVENT == 1072 then
-   SelectMsg(UID, 1, 327, 3828, 13013, 3005, 1083, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 327, 3828, NPC, 3005, 1083);
 end
 
 if EVENT == 1083 then
-   SelectMsg(UID, 1, 327, 3830, 13013, 3013, 1084, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 327, 3830, NPC, 3013, 1084);
 end
 
 if EVENT == 1084 then
-   SelectMsg(UID, 1, 327, 3832, 13013, 3014, 1085, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 327, 3832, NPC, 3014, 1085);
 end
 
 if EVENT == 1085 then
-   SelectMsg(UID, 1, 327, 3834, 13013, 3003, 1071, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 1, 327, 3834, NPC, 3003, 1071);
 end
 
--- 327번의 속성 0번 4번일 경우 
-
-
 if EVENT == 1000 then
-   SelectMsg(UID, 2, 327, 3835, 13013,  3012, 1001, 13, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 327, 3835, NPC,  3012, 1001, 13, 168);
 end
 
 local MonsterSub = 0;
 
 if EVENT == 1001 then
    MonsterSub = ExistMonsterQuestSub(UID);
-   if MonsterSub == 0 then -- 몬스터 서브 퀘스트가 없을때
-      SelectMsg(UID, 4, 327, 3836, 13013, 22, 1002, 23, 1008, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-
-	else-- 몬스터 서브 퀘스트가 있을때
- 		SelectMsg(UID, 2, 327, 173, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if MonsterSub == 0 then
+      SelectMsg(UID, 4, 327, 3836, NPC, 22, 1002, 23, 1008);
+   else
+      SelectMsg(UID, 2, 327, 173, NPC, 10, 168);
    end
 end
 
 if EVENT == 1002 then
-	SelectMsg(UID, 2, 320, 3838, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 320, 3838, NPC, 10, 168);
    SaveEvent(UID, 3393);
 end
 
--- 재료를 다 모았을때 시드와 미셀의 또 등장 
 if EVENT == 1003 then
    SaveEvent(UID, 3395);
    NATION = CheckNation(UID);
-   if NATION == 1 then -- 카루스 일때
-      SelectMsg(UID, 1, 327, 3841, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   elseif NATION == 2 then -- 엘모일때 
-      SelectMsg(UID, 1, 327, 3842, 13013, 14, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if NATION == 1 then
+      SelectMsg(UID, 1, 327, 3841, NPC, 14, 168);
+   else
+      SelectMsg(UID, 1, 327, 3842, NPC, 14, 168);
    end
 end
-
--- 327의 1번 3번인 경우 
-
-
 
 local MonsterCount = 0;
 
 if EVENT == 1005 then
    MonsterCount  = CountMonsterQuestSub(UID,327, 1);
-   if  MonsterCount < 10 then -- 사냥이 남았을때
-      SelectMsg(UID, 2, 327, 3840, 13013, 10, 1006, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   else-- 사냥이 완료 되었을때 
-      SelectMsg(UID, 4, 327, 3843, 13013, 10, 1007, 27, 1006, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if MonsterCount < 10 then
+      SelectMsg(UID, 2, 327, 3840, NPC, 10, 1006);
+   else
+      SelectMsg(UID, 4, 327, 3843, NPC, 10, 1007, 27, 1006);
    end
 end
 
@@ -1065,21 +878,17 @@ local Check;
 
 if EVENT == 1007 then
    Check = CheckExchange(UID, 400)
-   if  Check ==1 then
-   RunExchange(UID, 327);
-   SaveEvent(UID, 3394);
-	SelectMsg(UID, 2, 320, 3844, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if Check == 1 then
+      RunExchange(UID, 327);
+      SaveEvent(UID, 3394);
+      SelectMsg(UID, 2, 320, 3844, NPC, 10, 168);
    else
-  Ret = 1;	
-  end	 
+      Ret = 1;	
+   end	 
 end
 
 if EVENT == 1008 then
-	SelectMsg(UID, 2, 320, 3839, 13013, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, 320, 3839, NPC, 10, 168);
 end
-
-------------------------------------------------------
--- 웨어울프 퇴치 끝 
-------------------------------------------------------
 
 return Ret;

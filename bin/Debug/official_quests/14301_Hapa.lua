@@ -1,22 +1,4 @@
 
--- [대장장이] 해파   
-
--- EVENT 는 100번 이상 부터 사용하라
-
--- UID : 서버에서 제공하는 유저번호
--- EVENT : 서버에서 제공하는 퀘스트 번호
--- STEP : 서버에서 제공하는 퀘스트 내부 단계
-
-
--- Class  함수 만들어 주세요 (직업 체크하는 함수임)
--- 1:전사, 2:로그, 3:마법사, 4: 사제
--- 1차전직	5	7	9	11
--- 2차전직	6	8	10	12
-
-
--- 위의 세가지 파라메타는 루아 실행시 항상 전역변수로 제공�
-
--- 지역변수 선언...
 local UserClass;
 local QuestNum;
 local Ret = 0;
@@ -24,17 +6,14 @@ local Class;
 local NPC =14301;
 local savenum =104;
 
-
--- [대장장이] 해파클릭시 퀘스트 체크  
-
 if EVENT == 240 then
    QuestNum = SearchQuest(UID, NPC);
-		if QuestNum == 0 then --해당 NPC에게 할수 있는 퀘스트가 0개 일때 
-			 SelectMsg(UID, 2, -1, 241, NPC, 10, 241, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+		if QuestNum == 0 then
+			 SelectMsg(UID, 2, -1, 241, NPC, 10, 241);
 			 Ret = 1; 
-		elseif QuestNum > 1 and  QuestNum < 100 then--해당 NPC에게 할수 있는 퀘스트가 1개 일때 
+		elseif QuestNum > 1 and  QuestNum < 100 then
           NpcMsg(UID, 242, NPC)
-      else --해당 NPC에게 할수 있는 퀘스트가 1개 이상 일때 
+      else
           EVENT = QuestNum
 		end
 end
@@ -43,20 +22,15 @@ if EVENT == 241 then
     Ret = 1;
 end
 
---local SHOW_MAP; -- 지도 보여주눈 함수 만들어 주세요
-
------------------------------------------------------------
--- 초보갑옷 시작 
------------------------------------------------------------
 local NATION = 0;
 
 if EVENT == 245 then
     SaveEvent(UID, 71);
    NATION = CheckNation(UID);
-   if NATION == 1 then --카루스 일때 
-   SelectMsg(UID, 1, savenum, 245, NPC, 28, 242, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   else -- 엘모일때
-   SelectMsg(UID, 1, savenum, 251, NPC, 28, 242, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   if NATION == 1 then
+   SelectMsg(UID, 1, savenum, 245, NPC, 28, 242);
+   else
+   SelectMsg(UID, 1, savenum, 251, NPC, 28, 242);
    end
 end
 
@@ -64,7 +38,6 @@ if EVENT == 242 then
     ShowMap(UID, 8);
 end
 
--- [대장장이] 해파   104번의 속성 0번 4번일 경우
 
 if EVENT == 255 then
    SelectMsg(UID, 2, savenum, 255, NPC, 3002, 256, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);

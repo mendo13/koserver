@@ -5,18 +5,15 @@ local Ret = 0;
 local NPC = 16085;
 
 if EVENT == 165 then
-	SelectMsg(UID, 3, -1, 4131, NPC, 2013, 201, 2014, 200, 2022, 300, 2015, 600, 4130, 500, 2023, 400);
+	SelectMsg(UID, 3, -1, 4131, NPC, 2013, 201, 2014, 200, 4479, 300, 2015, 600, 4130, 500, 4404, 400);
 end
 
 local savenum = 426;
 
 if EVENT ==  201 then
-   SelectMsg(UID, 3, -1, 1111, NPC, 4285, 202, 4583, 203, 4584, 204, 4585, 205, 4586, 206, 7162, 207, 7163, 208, 4005, 168);
+   SelectMsg(UID, 3, -1, 1111, NPC, 4583, 203, 4584, 204, 4585, 205, 4586, 206, 7162, 207, 7163, 208, 4005, 168);
 end
 
-if EVENT == 202 then
-   --Trying on
-end
 
 local ITEMA = 0;
 
@@ -62,7 +59,7 @@ if EVENT == 205 then
    if ITEMC == 0 then
       SelectMsg(UID, 2, -1, 1118, NPC, 27, 168);
    else
-      SelectMsg(UID, 2, -1, 1117, 4006, 211, 4005, 168);
+      SelectMsg(UID, 2, -1, 1117, NPC, 4006, 211, 4005, 168);
    end
 end
 
