@@ -9,9 +9,9 @@ end
 if EVENT == 501 then
    NATION = CheckNation(UID);
    if NATION == 2 then
-      ZoneChange(UID, 2, 1767, 447)
+      ZoneChange(UID, 21, 741, 428)
    else
-      ZoneChange(UID, 1, 328, 1604)
+      ZoneChange(UID, 21, 742, 424)
    end
 end
 

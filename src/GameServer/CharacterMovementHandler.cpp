@@ -574,11 +574,15 @@ void CUser::ZoneChangeParty(uint16 sNewZone, float x, float z)
 	if (pParty == nullptr)
 		return ZoneChange(sNewZone, x, z);
 
+	short partyUsers[MAX_PARTY_USERS];
+
+	for (int i = 0; i < MAX_PARTY_USERS; i++)
+		partyUsers[i] = pParty->uid[i];
+
 	for (int i = 0; i < MAX_PARTY_USERS; i++)
 	{
-		CUser * pUser = g_pMain->GetUserPtr(pParty->uid[i]);
-		if (pUser != nullptr 
-			&& pUser->GetZoneID() == GetZoneID())
+		CUser * pUser = g_pMain->GetUserPtr(partyUsers[i]);
+		if (pUser != nullptr)
 			pUser->ZoneChange(sNewZone, x, z);
 	}
 }

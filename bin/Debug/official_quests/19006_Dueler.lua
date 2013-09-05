@@ -16,16 +16,29 @@ if EVENT == 102 then
    SelectMsg(UID, 3, -1, 8064, NPC , 4170 , 104 , 3005, 168)
 end
 
+local CLANA = 0;
+
 if EVENT == 103 then
-   ZoneChange(UID, 48, 58, 186)  
+   CLANA = isInClan(UID);
+   if CLANA then
+      ZoneChange(UID, 48, 58, 186)
+   else
+      SelectMsg(UID, 2, -1, 6044, NPC, 27);
+   end	  	    
 end
 
 local PARTY = 0;
+local CLAN = 0;
 
 if EVENT == 104 then
    PARTY = isInParty(UID);
    if PARTY then
-      ZoneChangeParty(UID, 48, 197, 181)
+      CLAN = isInClan(UID);
+      if CLAN then
+         ZoneChangeParty(UID, 48, 197, 181)
+      else
+	     SelectMsg(UID, 2, -1, 6405, NPC, 27);
+      end
    else
       SelectMsg(UID, 2, -1, 6044, NPC, 4069, 168);
    end
