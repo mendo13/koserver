@@ -1,7 +1,7 @@
 DERLENMİŞ PROJE HAKKINDA
 =====================
 
-* Sunucu Dosyaları, Veritabanı, MAP Dosyaları, AIEVT Dosyaları ve Client ile İlgili Tüm Bilgilere Aşağıdaki Linklerden Erişebilirsiniz... ve Gerekli Tüm Dosyalar Aşağıdaki Linkten Erişebilirsiniz...
+* Sunucu Dosyaları, Veritabanı, MAP Dosyaları, AIEVT Dosyaları ve Client ile İlgili Tüm Bilgilere Aşağıdaki Linklerden Erişebilirsiniz... ve Gerekli Tüm Dosyalar Aşağıdaki Linkten Erişebilirsiniz, RAR ve UnRAR İçeriği Tıpa Tıp Aynıdır Sadece Veritabanını v.b. Tek Bir Dosyayı Güncellemek İsteyende UnRAR ı Kullanabilir Tarihler Zaten Yazıyor...
 
 - FTP Sunucusu İçeriği ;
  
