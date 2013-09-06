@@ -513,17 +513,22 @@ void CUser::SpecialItemExchange(Packet & pkt)
 
 	ResultOpCodes resultOpCode = WrongMaterial;
 
-	uint16 ObjectID;
-	uint32 nUnknown1;
-	uint8 nUnknown2;
+	uint16 sNpcID;
+	uint32 Unknown1;
+	uint8 Unknown2;
 	uint8 nMaterialCount;
-	uint8 nMaterialSlot;
-	uint8 nUnknown3;
+	uint8 nItemSlot[11];
+	uint8 Unknown3;
+	uint32 nItemID[11]; 
+	uint8 nCount[11];
 
-	pkt >> ObjectID
-	>> nUnknown1 >> nUnknown2 >> nMaterialCount
-	>> nMaterialSlot >> nUnknown3;
-	
+	pkt >> sNpcID >> Unknown1 >> Unknown2 >> nMaterialCount;
+
+	for (int i = 0; i < nMaterialCount; i++)
+		pkt >> nItemSlot[i];
+
+	pkt >> Unknown3;
+
 	Packet result(WIZ_ITEM_UPGRADE);
 	result << (uint8)ITEM_SPECIAL_EXCHANGE << (uint8)resultOpCode;
 	Send(&result);
