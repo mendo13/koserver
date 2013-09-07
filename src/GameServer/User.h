@@ -1272,11 +1272,11 @@ public:
 	}
 
 	DECLARE_LUA_FUNCTION(RequestPersonalRankReward) {
-		LUA_NO_RETURN(LUA_GET_INSTANCE()->GetRankReward(true));	
+		LUA_RETURN(LUA_GET_INSTANCE()->GetRankReward(true));	
 	}
 
 	DECLARE_LUA_FUNCTION(RequestReward) {
-		LUA_NO_RETURN(LUA_GET_INSTANCE()->GetRankReward(false));	
+		LUA_RETURN(LUA_GET_INSTANCE()->GetRankReward(false));	
 	}
 
 	DECLARE_LUA_FUNCTION(RunCountExchange) {
