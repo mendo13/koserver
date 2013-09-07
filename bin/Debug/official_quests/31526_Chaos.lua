@@ -9,6 +9,10 @@ if EVENT == 100 then
 	SelectMsg(UID, 3, -1, 9264, NPC, 7143, 3001, 7139, 3002, 7116, 3003, 7117, 3004, 7149, 3005);
 end
 
+if EVENT == 241 then
+	Ret = 1;
+end
+
 if EVENT == 3001 then
    NpcMsg(UID,31526) -- Guide
 end
@@ -16,9 +20,9 @@ end
 if EVENT == 3002 then
    IsTakeToday = GetUserDailyOp(UID, 1);
    if IsTakeToday == 1 then
-	print("map al");
+	GiveItem(UID, 910246000, 1);
    else
-	print("map alamaz");
+	SelectMsg(UID, 2, savenum, 9280, NPC, 10, 241);
    end	
    
    return -- Daily Redis.. Map of Chaos
