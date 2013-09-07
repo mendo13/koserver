@@ -950,9 +950,10 @@ void CUser::SetMaxHp(int iFlag)
 	int temp_sta = getStatTotal(STAT_STA);
 	//	if( temp_sta > 255 ) temp_sta = 255;
 
-	if( m_bZone == ZONE_SNOW_BATTLE && iFlag == 0 )	{
+	if (m_bZone == ZONE_SNOW_BATTLE && iFlag == 0)
 		m_iMaxHp = 100;
-	}
+	else if (m_bZone == ZONE_CHAOS_DUNGEON && iFlag == 0)
+		m_iMaxHp = 1000;
 	else	
 	{
 		m_iMaxHp = (short)(((p_TableCoefficient->HP * GetLevel() * GetLevel() * temp_sta ) 
