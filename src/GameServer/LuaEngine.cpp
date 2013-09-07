@@ -92,6 +92,7 @@ DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions,
 						  MAKE_LUA_FUNCTION(RequestReward)
 						  MAKE_LUA_FUNCTION(RunCountExchange)
 						  MAKE_LUA_FUNCTION(GetMaxExchange)
+						  MAKE_LUA_FUNCTION(GetUserDailyOp)
 						  );
 #endif
 

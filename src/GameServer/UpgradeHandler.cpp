@@ -519,8 +519,8 @@ void CUser::SpecialItemExchange(Packet & pkt)
 	uint8 nMaterialCount;
 	uint8 nItemSlot[11];
 	uint8 Unknown3;
-	uint32 nItemID[11]; 
-	uint8 nCount[11];
+	//uint32 nItemID[11]; 
+	//uint8 nCount[11];
 
 	pkt >> sNpcID >> Unknown1 >> Unknown2 >> nMaterialCount;
 

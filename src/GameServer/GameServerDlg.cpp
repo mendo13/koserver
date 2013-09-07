@@ -151,7 +151,8 @@ bool CGameServerDlg::Startup()
 		|| !LoadMonsterSummonListZoneTable()
 		|| !LoadMonsterRespawnListTable()
 		|| !LoadPremiumItemTable()
-		|| !LoadPremiumItemExpTable())
+		|| !LoadPremiumItemExpTable()
+		|| !LoadUserDailyOpTable())
 		return false;
 
 	// Clear any remaining users in the currently logged in list

@@ -3,6 +3,7 @@ local QuestNum;
 local Ret = 0;
 local NPC = 31526;
 
+local IsTakeToday = 0;
 
 if EVENT == 100 then
 	SelectMsg(UID, 3, -1, 9264, NPC, 7143, 3001, 7139, 3002, 7116, 3003, 7117, 3004, 7149, 3005);
@@ -13,6 +14,13 @@ if EVENT == 3001 then
 end
 
 if EVENT == 3002 then
+   IsTakeToday = GetUserDailyOp(UID, 1);
+   if IsTakeToday == 1 then
+	print("map al");
+   else
+	print("map alamaz");
+   end	
+   
    return -- Daily Redis.. Map of Chaos
 end
 

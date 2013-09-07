@@ -122,6 +122,8 @@ public:
 	void InsertPrizeEvent(uint8 byType, uint8 byNation, uint32 nCoins, std::string & strCharID);
 	void ResetLoyaltyMonthly();
 	void ClearRemainUsers();
+	void InsertUserDailyOp(_USER_DAILY_OP * pUserDailyOp);
+	void UpdateUserDailyOp(std::string strUserId, uint8 type, int32 sUnixTime);
 
 	~CDBAgent();
 

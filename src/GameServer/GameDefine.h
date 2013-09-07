@@ -612,7 +612,7 @@ struct _PREMIUM_ITEM_EXP
 struct _PVP_RANKINGS 
 {
 	uint16 m_socketID;
- 	uint16 m_bZone;
+	uint16 m_bZone;
 	uint8 m_bNation;
 	uint32 m_iLoyaltyDaily;
 	uint16 m_iLoyaltyPremiumBonus;
@@ -626,6 +626,15 @@ struct _EVENT_STATUS
 	uint16 KarusUserCount;
 	uint16 AllUserCount;
 	uint8  isActive;
+};
+
+struct _USER_DAILY_OP
+{
+	std::string strUserId;
+	int32 ChaosMapTime;
+	int32 UserRankRewardTime;
+	int32 PersonalRankRewardTime;
+	int32 KingWingTime;
 };
 
 enum BuffType

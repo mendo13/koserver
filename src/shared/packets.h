@@ -420,7 +420,7 @@ enum
 	KNIGHTS_DONATE_POINTS	= 0x3D,
 	KNIGHTS_HANDOVER_VICECHIEF_LIST	= 0x3E,
 	KNIGHTS_HANDOVER_REQ	= 0x3F,
-	
+
 	KNIGHTS_DONATION_LIST	= 0x40,
 	KNIGHTS_TOP10			= 0x41,
 	KNIGHTS_HANDOVER		= 0x4F,
@@ -442,6 +442,14 @@ enum OperatorCommands
 	OPERATOR_SUMMON			=	7,
 	OPERATOR_DISABLE_ATTACK	=	8,
 	OPERATOR_ENABLE_ATTACK	=	9
+};
+
+enum DailyOperationsOpCode
+{
+	DAILY_CHAOS_MAP					= 1,
+	DAILY_USER_RANK_REWARD			= 2,
+	DAILY_USER_PERSONAL_RANK_REWARD	= 3,
+	DAILY_KING_WING					= 4
 };
 
 ////////////////////////////////////////////////////////////////

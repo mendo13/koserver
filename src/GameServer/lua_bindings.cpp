@@ -132,6 +132,7 @@ DEFINE_LUA_CLASS
 	MAKE_LUA_METHOD(RunCountExchange)
 	MAKE_LUA_METHOD(GetMaxExchange)
 	MAKE_LUA_METHOD(GetPartyMemberAmount)
+	MAKE_LUA_METHOD(GetUserDailyOp)
 	);
 #undef LUA_CLASS
 
@@ -315,6 +316,7 @@ _LUA_WRAPPER_USER_FUNCTION(RequestReward, RequestReward);
 _LUA_WRAPPER_USER_FUNCTION(RunCountExchange, RunCountExchange);
 _LUA_WRAPPER_USER_FUNCTION(GetMaxExchange, GetMaxExchange);
 _LUA_WRAPPER_USER_FUNCTION(PartyCountMembers, GetPartyMemberAmount);
+_LUA_WRAPPER_USER_FUNCTION(GetUserDailyOp, GetUserDailyOp);
 
 LUA_FUNCTION(SelectMsg)
 {

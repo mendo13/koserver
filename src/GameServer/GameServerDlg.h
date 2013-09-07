@@ -64,6 +64,7 @@ public:
 	bool LoadMonsterRespawnListTable();
 	bool LoadPremiumItemTable();
 	bool LoadPremiumItemExpTable();
+	bool LoadUserDailyOpTable();
 
 	bool MapFileLoad();
 	bool LoadNoticeData();
@@ -340,6 +341,7 @@ public:
 	PremiumItemArray			m_PremiumItemArray;
 	PremiumItemExpArray			m_PremiumItemExpArray;
 	PVPRankingsArray			m_PVPRankingsArray[2];
+	UserDailyOpMap				m_UserDailyOpMap;
 
 	Atomic<uint16>				m_sPartyIndex;
 	short	m_sZoneCount;							// AI Server 재접속시 사용

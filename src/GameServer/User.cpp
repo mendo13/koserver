@@ -672,7 +672,6 @@ uint8 CUser::GetRankReward(bool isMonthly)
 		RewardAlreadyTaken	= 2
 	};
 
-	uint8 sResult = NoRank;
 	int8 nRank = -1;
 	int32 nGoldAmount = 0;
 
@@ -692,6 +691,8 @@ uint8 CUser::GetRankReward(bool isMonthly)
 		nRank = itr != g_pMain->m_UserKnightsRankMap.end() ? int8(itr->second->nRank) : -1;
 	}
 
+	nRank = 1;
+
 	if (nRank > 0 && nRank <= 100)
 	{
 		if (nRank == 1)
@@ -709,16 +710,16 @@ uint8 CUser::GetRankReward(bool isMonthly)
 
 		if (nGoldAmount > 0) 
 		{
-			sResult = RewardSuccessfull;
+			if (GetUserDailyOp(isMonthly ? DAILY_USER_PERSONAL_RANK_REWARD : DAILY_USER_RANK_REWARD) == 0)
+				return RewardAlreadyTaken;
+
 			GoldGain(nGoldAmount);
+			return RewardSuccessfull;
+
 		}
 	}
-	else
-	{
-		sResult = NoRank;
-	}
 
-	return sResult;
+	return NoRank;
 }
 
 /**
@@ -4990,4 +4991,88 @@ void CUser::SendMannerChange(int32 iMannerPoints)
 	Packet pkt(WIZ_LOYALTY_CHANGE, uint8(LOYALTY_MANNER_POINTS));
 	pkt << m_iMannerPoint;
 	Send(&pkt);
+}
+
+uint8 CUser::GetUserDailyOp(uint8 type)
+{
+	if (type == 0)
+		return 0;
+
+	int32 nUnixTime = -1;
+
+	UserDailyOpMap::iterator itr = g_pMain->m_UserDailyOpMap.find(GetName());
+
+	if (itr != g_pMain->m_UserDailyOpMap.end())
+	{
+		if (type == DAILY_CHAOS_MAP)
+			nUnixTime = int(itr->second->ChaosMapTime);
+		else if (type == DAILY_USER_RANK_REWARD)
+			nUnixTime = int(itr->second->UserRankRewardTime);
+		else if (type == DAILY_USER_PERSONAL_RANK_REWARD)
+			nUnixTime = int(itr->second->PersonalRankRewardTime);
+		else if (type == DAILY_KING_WING)
+			nUnixTime = int(itr->second->KingWingTime);
+
+		if (nUnixTime == -1)
+			SetUserDailyOp(type);
+		else
+		{
+			if (((int32(UNIXTIME) - nUnixTime) / 60) > DAILY_OPERATIONS_MINUTE)
+				SetUserDailyOp(type);
+			else
+				return 0;
+		}
+	}
+	else
+		SetUserDailyOp(type, true);
+
+	return 1;
+}
+
+void CUser::SetUserDailyOp(uint8 type, bool isInsert)
+{
+	if (type == 0)
+		return;
+
+	int32 nUnixTime = int32(UNIXTIME);
+
+	if (isInsert)
+	{
+		_USER_DAILY_OP * pData = new _USER_DAILY_OP;
+
+		pData->strUserId = GetName();
+		pData->ChaosMapTime = -1;
+		pData->UserRankRewardTime = -1;
+		pData->PersonalRankRewardTime = -1;
+		pData->KingWingTime = -1;
+
+		if (type ==  DAILY_CHAOS_MAP)
+			pData->ChaosMapTime = nUnixTime;
+		else if (type == DAILY_USER_RANK_REWARD)
+			pData->UserRankRewardTime = nUnixTime;
+		else if (type == DAILY_USER_PERSONAL_RANK_REWARD)
+			pData->PersonalRankRewardTime = nUnixTime;
+		else if (type == DAILY_KING_WING)
+			pData->KingWingTime = nUnixTime;
+
+		g_pMain->m_UserDailyOpMap.insert(make_pair(pData->strUserId, pData));
+		g_DBAgent.InsertUserDailyOp(pData);
+	}
+	else
+	{
+		UserDailyOpMap::iterator itr = g_pMain->m_UserDailyOpMap.find(GetName());
+		if (itr != g_pMain->m_UserDailyOpMap.end())
+		{
+			if (type == DAILY_CHAOS_MAP)
+				itr->second->ChaosMapTime = nUnixTime;
+			else if (type == DAILY_USER_RANK_REWARD)
+				itr->second->UserRankRewardTime = nUnixTime;
+			else if (type == DAILY_USER_PERSONAL_RANK_REWARD)
+				itr->second->PersonalRankRewardTime = nUnixTime;
+			else if (type == DAILY_KING_WING)
+				itr->second->KingWingTime = nUnixTime;
+
+			g_DBAgent.UpdateUserDailyOp(GetName(), type, nUnixTime);
+		}
+	}
 }

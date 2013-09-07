@@ -81,3 +81,4 @@ LUA_FUNCTION(RequestPersonalRankReward);
 LUA_FUNCTION(RequestReward);
 LUA_FUNCTION(RunCountExchange);
 LUA_FUNCTION(GetMaxExchange);
+LUA_FUNCTION(GetUserDailyOp);

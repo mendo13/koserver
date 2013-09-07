@@ -49,6 +49,7 @@
 #include "../shared/database/MonsterRespawnListSet.h"
 #include "../shared/database/PremiumItemSet.h"
 #include "../shared/database/PremiumItemExpSet.h"
+#include "../shared/database/UserDailyOpSet.h"
 
 bool CGameServerDlg::LoadItemTable()
 {
@@ -325,6 +326,13 @@ bool CGameServerDlg::LoadPremiumItemTable()
 bool CGameServerDlg::LoadPremiumItemExpTable()
 {
 	LOAD_TABLE(CPremiumItemExpSet, g_DBAgent.m_GameDB, &m_PremiumItemExpArray, true);
+}
+
+bool CGameServerDlg::LoadUserDailyOpTable()
+{
+	CUserDailyOpSet UserDailyOpSet(g_DBAgent.m_GameDB, &m_UserDailyOpMap);
+	UserDailyOpSet.Read(true);
+	return true;
 }
 
 bool CGameServerDlg::MapFileLoad()

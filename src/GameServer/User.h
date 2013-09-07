@@ -17,12 +17,13 @@ typedef	std::map<uint16, time_t>			RHitRepeatList;
 typedef	std::map<uint32, time_t>			UserSavedMagicMap;
 
 // Time (in seconds) between each save request (5 min).
-#define PLAYER_SAVE_INTERVAL	(5 * 60)
+#define PLAYER_SAVE_INTERVAL			(5 * 60)
 // Time (in seconds) between each skill request (-1 sec).
 #define PLAYER_SKILL_REQUEST_INTERVAL	0.7f
 // Time (in seconds) between each r hit request (-1 sec).
 #define PLAYER_R_HIT_REQUEST_INTERVAL	1.0f
-
+// Time (in minute) for daily operations
+#define DAILY_OPERATIONS_MINUTE			1440
 enum GameState
 {
 	GAME_STATE_CONNECTED,
@@ -655,6 +656,9 @@ public:
 
 	bool ProcessChatCommand(std::string & message);
 
+	uint8 GetUserDailyOp(uint8 type = 0);
+	void SetUserDailyOp(uint8 type = 0, bool isInsert = false);
+
 	COMMAND_HANDLER(HandleTestCommand);
 	COMMAND_HANDLER(HandleGiveItemCommand);
 	COMMAND_HANDLER(HandleZoneChangeCommand);
@@ -1283,5 +1287,9 @@ public:
 
 	DECLARE_LUA_FUNCTION(GetMaxExchange) {
 		LUA_RETURN(LUA_GET_INSTANCE()->GetMaxExchange((LUA_ARG(int, 2))));
+	}
+
+	DECLARE_LUA_FUNCTION(GetUserDailyOp) {
+		LUA_RETURN(LUA_GET_INSTANCE()->GetUserDailyOp((LUA_ARG(uint8, 2))));
 	}
 };

@@ -414,6 +414,7 @@
     <ClInclude Include="..\shared\database\ServerResourceSet.h" />
     <ClInclude Include="..\shared\database\SetItemTableSet.h" />
     <ClInclude Include="..\shared\database\StartPositionSet.h" />
+    <ClInclude Include="..\shared\database\UserDailyOpSet.h" />
     <ClInclude Include="..\shared\database\UserKnightsRankSet.h" />
     <ClInclude Include="..\shared\database\UserPersonalRankSet.h" />
     <ClInclude Include="..\shared\database\ZoneInfoSet.h" />

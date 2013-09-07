@@ -1770,3 +1770,26 @@ void CDBAgent::ClearRemainUsers()
 	if (!dbCommand->Execute(_T("{CALL CLEAR_REMAIN_USERS(?)}")))
 		ReportSQLError(m_AccountDB->GetError());
 }
+
+void CDBAgent::InsertUserDailyOp(_USER_DAILY_OP * pUserDailyOp)
+{
+	unique_ptr<OdbcCommand> dbCommand(m_GameDB->CreateCommand());
+	if (dbCommand.get() == nullptr)
+		return;
+
+	dbCommand->AddParameter(SQL_PARAM_INPUT, pUserDailyOp->strUserId.c_str(), pUserDailyOp->strUserId.length());
+	if (!dbCommand->Execute(string_format(_T("{CALL INSERT_USER_DAILY_OP(?, %d, %d, %d, %d)}"), 
+		pUserDailyOp->ChaosMapTime, pUserDailyOp->UserRankRewardTime, pUserDailyOp->PersonalRankRewardTime, pUserDailyOp->KingWingTime)))
+		ReportSQLError(m_GameDB->GetError());	
+}
+
+void CDBAgent::UpdateUserDailyOp(std::string strUserId, uint8 type, int32 sUnixTime)
+{
+	unique_ptr<OdbcCommand> dbCommand(m_GameDB->CreateCommand());
+	if (dbCommand.get() == nullptr)
+		return;
+
+	dbCommand->AddParameter(SQL_PARAM_INPUT, strUserId.c_str(), strUserId.length());
+	if (!dbCommand->Execute(string_format(_T("{CALL UPDATE_USER_DAILY_OP(?, %d, %d)}"), type, sUnixTime)))
+		ReportSQLError(m_GameDB->GetError());	
+}
