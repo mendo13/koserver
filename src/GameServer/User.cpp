@@ -5019,6 +5019,14 @@ uint8 CUser::GetUserDailyOp(uint8 type)
 			nUnixTime = int(itr->second->PersonalRankRewardTime);
 		else if (type == DAILY_KING_WING)
 			nUnixTime = int(itr->second->KingWingTime);
+		else if (type == DAILY_WARDER_KILLER_WING1)
+			nUnixTime = int(itr->second->WarderKillerTime1);
+		else if (type == DAILY_WARDER_KILLER_WING2)
+			nUnixTime = int(itr->second->WarderKillerTime2);
+		else if (type == DAILY_KEEPER_KILLER_WING)
+			nUnixTime = int(itr->second->KeeperKillerTime);
+		else if (type == DAILY_USER_LOYALTY_WING_REWARD)
+			nUnixTime = int(itr->second->UserLoyaltyWingRewardTime);
 
 		if (nUnixTime == -1)
 			SetUserDailyOp(type);
@@ -5052,6 +5060,10 @@ void CUser::SetUserDailyOp(uint8 type, bool isInsert)
 		pData->UserRankRewardTime = -1;
 		pData->PersonalRankRewardTime = -1;
 		pData->KingWingTime = -1;
+		pData->WarderKillerTime1 = -1;
+		pData->WarderKillerTime2 = -1;
+		pData->KeeperKillerTime = -1;
+		pData->UserLoyaltyWingRewardTime = -1;
 
 		if (type ==  DAILY_CHAOS_MAP)
 			pData->ChaosMapTime = nUnixTime;
@@ -5061,6 +5073,14 @@ void CUser::SetUserDailyOp(uint8 type, bool isInsert)
 			pData->PersonalRankRewardTime = nUnixTime;
 		else if (type == DAILY_KING_WING)
 			pData->KingWingTime = nUnixTime;
+		else if (type == DAILY_WARDER_KILLER_WING1)
+			pData->WarderKillerTime1 = nUnixTime;
+		else if (type == DAILY_WARDER_KILLER_WING2)
+			pData->WarderKillerTime2 = nUnixTime;
+		else if (type == DAILY_KEEPER_KILLER_WING)
+			pData->KeeperKillerTime = nUnixTime;
+		else if (type == DAILY_USER_LOYALTY_WING_REWARD)
+			pData->UserLoyaltyWingRewardTime = nUnixTime;
 
 		g_pMain->m_UserDailyOpMap.insert(make_pair(pData->strUserId, pData));
 		g_DBAgent.InsertUserDailyOp(pData);
@@ -5078,6 +5098,14 @@ void CUser::SetUserDailyOp(uint8 type, bool isInsert)
 				itr->second->PersonalRankRewardTime = nUnixTime;
 			else if (type == DAILY_KING_WING)
 				itr->second->KingWingTime = nUnixTime;
+			else if (type == DAILY_WARDER_KILLER_WING1)
+				itr->second->WarderKillerTime1 = nUnixTime;
+			else if (type == DAILY_WARDER_KILLER_WING2)
+				itr->second->WarderKillerTime2 = nUnixTime;
+			else if (type == DAILY_KEEPER_KILLER_WING)
+				itr->second->KeeperKillerTime = nUnixTime;
+			else if (type == DAILY_USER_LOYALTY_WING_REWARD)
+				itr->second->UserLoyaltyWingRewardTime = nUnixTime;
 
 			g_DBAgent.UpdateUserDailyOp(GetName(), type, nUnixTime);
 		}

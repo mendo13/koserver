@@ -635,6 +635,10 @@ struct _USER_DAILY_OP
 	int32 UserRankRewardTime;
 	int32 PersonalRankRewardTime;
 	int32 KingWingTime;
+	int32 WarderKillerTime1;
+	int32 WarderKillerTime2;
+	int32 KeeperKillerTime;
+	int32 UserLoyaltyWingRewardTime;
 };
 
 enum BuffType

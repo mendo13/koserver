@@ -446,10 +446,14 @@ enum OperatorCommands
 
 enum DailyOperationsOpCode
 {
-	DAILY_CHAOS_MAP					= 1,
-	DAILY_USER_RANK_REWARD			= 2,
-	DAILY_USER_PERSONAL_RANK_REWARD	= 3,
-	DAILY_KING_WING					= 4
+	DAILY_CHAOS_MAP						= 1,
+	DAILY_USER_RANK_REWARD				= 2,
+	DAILY_USER_PERSONAL_RANK_REWARD		= 3,
+	DAILY_KING_WING						= 4,
+	DAILY_WARDER_KILLER_WING1			= 5,
+	DAILY_WARDER_KILLER_WING2			= 6,
+	DAILY_KEEPER_KILLER_WING			= 7,
+	DAILY_USER_LOYALTY_WING_REWARD		= 8
 };
 
 ////////////////////////////////////////////////////////////////
