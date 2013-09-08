@@ -88,16 +88,16 @@ end
 
 if EVENT == 206 then
    KingWingTime = GetUserDailyOp(UID, 4);
-   --King = isKing(UID);
+   King = isKing(UID);
+   if King then
    if KingWingTime == 1 then
-   --if King then
    GiveItem(UID, 900181671, 1)
    SelectMsg(UID, 2, -1, 9279, NPC, 20, 241);
-   --else
-   --SelectMsg(UID, 2, -1, 9279, NPC, 10, 241);
-   --end
    else
    SelectMsg(UID, 2, -1, 9280, NPC, 10, 241);
+   end
+   else
+   SelectMsg(UID, 2, -1, 9279, NPC, 10, 241);
    end
 end
 
