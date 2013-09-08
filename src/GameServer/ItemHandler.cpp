@@ -299,7 +299,7 @@ bool CUser::RobItem(uint32 nItemID, uint16 sCount /*= 1*/)
 {
 	// Allow unused exchanges.
 	if (sCount == 0)
-		return true;
+		return false;
 
 	_ITEM_TABLE * pTable = g_pMain->GetItemPtr(nItemID);
 	if (pTable == nullptr)
@@ -319,7 +319,7 @@ bool CUser::RobItem(uint8 bPos, _ITEM_TABLE * pTable, uint16 sCount /*= 1*/)
 {
 	// Allow unused exchanges.
 	if (sCount == 0)
-		return true;
+		return false;
 
 	if (pTable == nullptr)
 		return false;
@@ -364,7 +364,7 @@ bool CUser::RobAllItemParty(uint32 nItemID, uint16 sCount /*= 1*/)
 {
 	// Allow unused exchanges.
 	if (sCount == 0)
-		return true;
+		return false;
 
 	_PARTY_GROUP * pParty = g_pMain->GetPartyPtr(GetPartyID());
 	if (pParty == nullptr)
