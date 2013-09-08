@@ -1600,10 +1600,15 @@ void CGameServerDlg::BattleZoneOpenTimer()
 				}
 			}
 
-			if( m_bVictory == 0 )	BattleZoneOpen( BATTLEZONE_CLOSE );
-			else if( m_bVictory )	{
-				if( m_bVictory == KARUS )		 loser_nation = ELMORAD;
-				else if( m_bVictory == ELMORAD ) loser_nation = KARUS;
+			if( m_bVictory == 0 )
+				BattleZoneOpen( BATTLEZONE_CLOSE );
+			else if (m_bVictory)	
+			{
+				if (m_bVictory == KARUS)
+					loser_nation = ELMORAD;
+				else if (m_bVictory == ELMORAD)
+					loser_nation = KARUS;
+
 				Announcement( DECLARE_WINNER, m_bVictory );
 				Announcement( DECLARE_LOSER, loser_nation );
 			}

@@ -1053,6 +1053,7 @@ public:
 	DECLARE_LUA_GETTER(isClanLeader)
 	DECLARE_LUA_GETTER(isInParty)
 	DECLARE_LUA_GETTER(isPartyLeader)
+	DECLARE_LUA_GETTER(isKing)
 	DECLARE_LUA_GETTER(GetBeefRoastVictory)
 	DECLARE_LUA_GETTER(GetPartyMemberAmount)
 

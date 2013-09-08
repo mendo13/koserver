@@ -79,6 +79,7 @@ DEFINE_LUA_CLASS
 	MAKE_LUA_METHOD(isClanLeader)
 	MAKE_LUA_METHOD(isInParty)
 	MAKE_LUA_METHOD(isPartyLeader)
+	MAKE_LUA_METHOD(isKing)
 
 	// Shortcuts for lazy people
 	MAKE_LUA_METHOD(hasCoins)
@@ -276,6 +277,7 @@ _LUA_WRAPPER_USER_FUNCTION(isInClan, isInClan);
 _LUA_WRAPPER_USER_FUNCTION(isClanLeader, isClanLeader);
 _LUA_WRAPPER_USER_FUNCTION(isInParty, isInParty);
 _LUA_WRAPPER_USER_FUNCTION(isPartyLeader, isPartyLeader);
+_LUA_WRAPPER_USER_FUNCTION(isKing, isKing);
 _LUA_WRAPPER_USER_FUNCTION(hasCoins, hasCoins);
 _LUA_WRAPPER_USER_FUNCTION(hasInnCoins, hasInnCoins);
 _LUA_WRAPPER_USER_FUNCTION(hasLoyalty, hasLoyalty);

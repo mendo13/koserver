@@ -54,6 +54,7 @@ DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions,
 						  MAKE_LUA_FUNCTION(isClanLeader)
 						  MAKE_LUA_FUNCTION(isInParty)
 						  MAKE_LUA_FUNCTION(isPartyLeader)
+						  MAKE_LUA_FUNCTION(isKing)
 						  // Shortcuts for lazy people
 						  MAKE_LUA_FUNCTION(hasCoins)
 						  MAKE_LUA_FUNCTION(hasInnCoins)

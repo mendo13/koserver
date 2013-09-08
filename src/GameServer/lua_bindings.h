@@ -40,6 +40,7 @@ LUA_FUNCTION(isInClan);
 LUA_FUNCTION(isClanLeader);
 LUA_FUNCTION(isInParty);
 LUA_FUNCTION(isPartyLeader);
+LUA_FUNCTION(isKing);
 // Shortcuts for lazy people
 LUA_FUNCTION(hasCoins);
 LUA_FUNCTION(hasInnCoins);
