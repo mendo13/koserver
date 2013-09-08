@@ -1302,7 +1302,18 @@ void CNpc::Dead(Unit * pKiller /*= nullptr*/, bool bSendDeathPacket /*= false*/)
 	{
 		SendDeathAnimation(pKiller);
 		SendExpToUserList();
-		GiveNpcHaveItem();
+		switch (GetType())
+		{
+		case NPC_CHAOS_STONE:
+			break;
+		case NPC_PVP_MONUMENT:
+			break;
+		case NPC_BIFROST_MONUMENT:
+			break;
+		default:
+			GiveNpcHaveItem();
+			break;
+		}
 	}
 }
 
