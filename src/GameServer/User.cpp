@@ -3420,6 +3420,12 @@ void CUser::ClassChangeReq()
 	Send(&result);
 }
 
+// Dialog
+void CUser::SendStatSkillDistribute()
+{
+	Packet result(WIZ_CLASS_CHANGE,uint8(CLASS_CHANGE_REQ));
+	Send(&result); 
+}
 void CUser::AllSkillPointChange()
 {
 	Packet result(WIZ_CLASS_CHANGE, uint8(ALL_SKILLPT_CHANGE));

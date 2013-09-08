@@ -756,6 +756,7 @@ public:
 
 	void ClassChange(Packet & pkt, bool bFromClient = true);
 	void ClassChangeReq();
+	void SendStatSkillDistribute();
 	void AllPointChange();
 	void AllSkillPointChange();
 
@@ -1237,6 +1238,10 @@ public:
 
 	DECLARE_LUA_FUNCTION(SendNameChange) {
 		LUA_NO_RETURN(LUA_GET_INSTANCE()->SendNameChange());
+	}
+
+	DECLARE_LUA_FUNCTION(SendStatSkillDistribute) {
+		LUA_NO_RETURN(LUA_GET_INSTANCE()->SendStatSkillDistribute());
 	}
 
 	DECLARE_LUA_FUNCTION(ResetStatPoints) {

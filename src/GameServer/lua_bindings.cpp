@@ -293,6 +293,7 @@ _LUA_WRAPPER_USER_FUNCTION(NpcSay, NpcSay);
 _LUA_WRAPPER_USER_FUNCTION(CheckWeight, CheckWeight);
 _LUA_WRAPPER_USER_FUNCTION(isRoomForItem, isRoomForItem);
 _LUA_WRAPPER_USER_FUNCTION(SendNameChange, SendNameChange);
+_LUA_WRAPPER_USER_FUNCTION(SendStatSkillDistribute, SendStatSkillDistribute);
 _LUA_WRAPPER_USER_FUNCTION(ResetSkillPoints, ResetSkillPoints);
 _LUA_WRAPPER_USER_FUNCTION(ResetStatPoints, ResetStatPoints);
 _LUA_WRAPPER_USER_FUNCTION(PromoteUserNovice, PromoteUserNovice);
