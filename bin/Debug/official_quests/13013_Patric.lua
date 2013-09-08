@@ -16,7 +16,7 @@ if EVENT == 165 then
 end
 
 if EVENT == 168 then
-    Ret = 1;
+   Ret = 1;
 end
 
 local NATION = 0;
@@ -36,7 +36,8 @@ end
 
 if EVENT == 175 then
    SelectMsg(UID, 2, 101, 175, NPC,  25, 176, 13, 177);
-end
+end   
+
 if EVENT == 9205 then
    SelectMsg(UID, 2, 886, 175, NPC,  25, 9206, 13, 168);
 end
@@ -316,7 +317,7 @@ if EVENT == 403 then
    NATION = CheckNation(UID);
    if NATION == 1 then
       SelectMsg(UID, 1, 321, 3165, NPC, 14, 168);
-   elseif NATION == 2 then
+   else
       SelectMsg(UID, 1, 321, 3166, NPC, 14, 168);
    end
 end
@@ -751,8 +752,8 @@ if EVENT == 902 then
 end
 
 if EVENT == 903 then
-    SaveEvent(UID, 3385);
-  NATION = CheckNation(UID);
+   SaveEvent(UID, 3385);
+   NATION = CheckNation(UID);
    if NATION == 1 then
       SelectMsg(UID, 1, 326, 3821, NPC, 14, 168);
    else

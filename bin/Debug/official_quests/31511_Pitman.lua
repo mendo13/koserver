@@ -1,4 +1,3 @@
-
 local UserClass;
 local QuestNum;
 local Ret = 0;
@@ -39,8 +38,6 @@ end
 if EVENT == 240 then
    SelectMsg(UID, 2, -1, 848, NPC, 7253, 241, 7254, 242);
 end
-
-local SHARD = 0;
 
 if EVENT == 241 then
    Ret = 1;

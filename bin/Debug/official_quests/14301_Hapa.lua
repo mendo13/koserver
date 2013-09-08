@@ -3,19 +3,19 @@ local UserClass;
 local QuestNum;
 local Ret = 0;
 local Class;
-local NPC =14301;
+local NPC = 14301;
 local savenum =104;
 
 if EVENT == 240 then
    QuestNum = SearchQuest(UID, NPC);
-		if QuestNum == 0 then
-			 SelectMsg(UID, 2, -1, 241, NPC, 10, 241);
-			 Ret = 1; 
-		elseif QuestNum > 1 and  QuestNum < 100 then
-          NpcMsg(UID, 242, NPC)
-      else
-          EVENT = QuestNum
-		end
+   if QuestNum == 0 then
+	  SelectMsg(UID, 2, -1, 241, NPC, 10, 241);
+	  Ret = 1; 
+   elseif QuestNum > 1 and  QuestNum < 100 then
+      NpcMsg(UID, 242, NPC)
+   else
+      EVENT = QuestNum
+   end
 end
 
 if EVENT == 241 then
@@ -25,12 +25,12 @@ end
 local NATION = 0;
 
 if EVENT == 245 then
-    SaveEvent(UID, 71);
+   SaveEvent(UID, 71);
    NATION = CheckNation(UID);
    if NATION == 1 then
-   SelectMsg(UID, 1, savenum, 245, NPC, 28, 242);
+      SelectMsg(UID, 1, savenum, 245, NPC, 28, 242);
    else
-   SelectMsg(UID, 1, savenum, 251, NPC, 28, 242);
+      SelectMsg(UID, 1, savenum, 251, NPC, 28, 242);
    end
 end
 
@@ -40,11 +40,11 @@ end
 
 
 if EVENT == 255 then
-   SelectMsg(UID, 2, savenum, 255, NPC, 3002, 256, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 2, savenum, 255, NPC, 3002, 256);
 end
     
 if EVENT == 256 then
-   SelectMsg(UID, 4, savenum, 256, NPC, 22, 257, 23, 241, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+   SelectMsg(UID, 4, savenum, 256, NPC, 22, 257, 23, 241);
 end
 
 if EVENT == 257 then

@@ -5,15 +5,15 @@ local NPC = 11051;
 
 if EVENT == 215 then
    ITEM_COUNT1 = HowmuchItem(UID, 910044000); 
-   if  ITEM_COUNT1 < 1 then
-   SelectMsg(UID, 2, 137, 677, NPC, 10, 193);
+   if ITEM_COUNT1 < 1 then
+      SelectMsg(UID, 2, 137, 677, NPC, 10, 193);
    else
-   SelectMsg(UID, 2, 137, 678, NPC, 22, 218, 23, 193);
+      SelectMsg(UID, 2, 137, 678, NPC, 22, 218, 23, 193);
    end
 end
 
 if EVENT == 193 then
-Ret = 1;
+   Ret = 1;
 end
 
 if EVENT == 218 then

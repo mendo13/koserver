@@ -16,7 +16,7 @@ if EVENT == 3000 then
 end
 
 if EVENT == 3001 then
-    Ret = 1;
+   Ret = 1;
 end
 
 
@@ -68,7 +68,7 @@ local RUN_EXCHANGE ;
 
 if EVENT == 3010 then
    ITEM_COUNT = HowmuchItem(UID, 910038000);
-   if  ITEM_COUNT <= 9 then
+   if ITEM_COUNT <= 9 then
       SelectMsg(UID, 2, 11, 1194, NPC, 18, 3011);
    else
       SelectMsg(UID, 2, 11, 1195, NPC, 4006, 3012, 23, 3001);
@@ -114,9 +114,9 @@ local Level = 0;
 if EVENT == 6014 then
    Level = CheckLevel(UID);
    if Level >= 5 and Level <= 9 then
-   	SelectMsg(UID, 2, savenum, 6002, NPC, 6005, 6002);
+      SelectMsg(UID, 2, savenum, 6002, NPC, 6005, 6002);
    else 
-	SelectMsg(UID, 2, savenum, 1311, NPC, 10, 3001);
+      SelectMsg(UID, 2, savenum, 1311, NPC, 10, 3001);
    end
 end
 
@@ -148,15 +148,12 @@ if EVENT == 6005 then   -- A region passed  UID is contained zonenumber... broad
 end
 
 if EVENT == 6006 then   -- B region passed
-  SelectMsg(UID, 6, 8102, 6007, NPC, 10, 3001);
+   SelectMsg(UID, 6, 8102, 6007, NPC, 10, 3001);
 end
 
 if EVENT == 6007 then   -- C region passed
    SelectMsg(UID, 6, 8103, 6008, NPC, 10, 3001);
 end
---��ü UI���� */
-
-
 
 --if EVENT == 6008 then   -- Quest Completed  WARNINIG!!! UID is contained zonenumber... broadcasting packets
 --   GiveItem(UID, 910117000, 1);		
@@ -184,11 +181,11 @@ if EVENT == 6009 then
    if quest_ITEM_COUNT == 1 then
       NATION = CheckNation(UID);
       SaveEvent(UID, 6005);
-   if NATION == 1 then
-      SelectMsg(UID, 1, savenum1, 6009, NPC, 28, 6010);
-   else
-      SelectMsg(UID, 1, savenum1, 6010, NPC, 28, 6010);
-   end
+      if NATION == 1 then
+         SelectMsg(UID, 1, savenum1, 6009, NPC, 28, 6010);
+      else
+         SelectMsg(UID, 1, savenum1, 6010, NPC, 28, 6010);
+      end
    end
 end
 
@@ -345,13 +342,13 @@ local Level = 0 ;
 if EVENT == 6086 then
    Level = CheckLevel(UID)
    if Level == 41 then
-   SaveEvent(UID, 6035);
-   NATION = CheckNation(UID);
-   if NATION == 1 then
-      SelectMsg(UID, 1, 602, 6036, NPC, 61, 3001);
-   else
-      SelectMsg(UID, 1, 602, 6037, NPC, 62, 3001);
-   end
+      SaveEvent(UID, 6035);
+      NATION = CheckNation(UID);
+      if NATION == 1 then
+         SelectMsg(UID, 1, 602, 6036, NPC, 61, 3001);
+      else
+         SelectMsg(UID, 1, 602, 6037, NPC, 62, 3001);
+      end
    end
 end
 
@@ -445,11 +442,11 @@ if EVENT == 636 then
    MonsterCount01  = CountMonsterQuestSub(UID, 1);
    if MonsterCount01  > 0 then
       Class = CheckClass (UID);
-   if Class == 2 or Class == 7 or Class == 8 then
-      SelectMsg(UID, 5, savenum, 4642, NPC, 4161, 637, 4162, 193);
-   else
-      SelectMsg(UID, 4, savenum, 4642, NPC, 4161, 637, 4162, 193);
-   end
+      if Class == 2 or Class == 7 or Class == 8 then
+         SelectMsg(UID, 5, savenum, 4642, NPC, 4161, 637, 4162, 193);
+      else
+         SelectMsg(UID, 4, savenum, 4642, NPC, 4161, 637, 4162, 193);
+      end
    else
       SelectMsg(UID, 2, savenum, 4641, NPC, 10, 193);
    end
@@ -461,40 +458,40 @@ if EVENT == 637 then
    Class = CheckClass (UID);
    if Class == 1 or Class == 5 or Class == 6 then
       Check = CheckExchange(UID, 501)
-   if Check ==1 then        
-      RunExchange(UID, 501);
-      SaveEvent(UID, 4379);
-      ShowEffect(UID, 300391)
-   else
-      Ret = 1; 
-   end  
+      if Check ==1 then        
+         RunExchange(UID, 501);
+         SaveEvent(UID, 4379);
+         ShowEffect(UID, 300391)
+      else
+         Ret = 1; 
+      end  
    elseif Class == 2 or Class == 7 or Class == 8 then
-   Check = CheckExchange(UID, 502)
-   if Check ==1 then        
-      RunSelectExchange(UID, 502);
-      SaveEvent(UID, 4384);
-      ShowEffect(UID, 300391)
-   else
-      Ret = 1; 
-   end  
+      Check = CheckExchange(UID, 502)
+      if Check ==1 then        
+         RunSelectExchange(UID, 502);
+         SaveEvent(UID, 4384);
+         ShowEffect(UID, 300391)
+      else
+         Ret = 1; 
+      end  
    elseif Class == 3 or Class == 9 or Class == 10 then
-   Check = CheckExchange(UID, 503)
-   if Check ==1 then        
-      RunExchange(UID, 503);
-      SaveEvent(UID, 4389);
-      ShowEffect(UID, 300391)
-   else
-      Ret = 1; 
-   end  
+      Check = CheckExchange(UID, 503)
+      if Check ==1 then        
+         RunExchange(UID, 503);
+         SaveEvent(UID, 4389);
+         ShowEffect(UID, 300391)
+      else
+         Ret = 1; 
+      end  
    elseif Class == 4 or Class == 11 or Class == 12 then
-   Check = CheckExchange(UID, 504)
-   if Check ==1 then        
-      RunExchange(UID, 504);
-      SaveEvent(UID, 4394);
-      ShowEffect(UID, 300391)
-   else
-      Ret = 1; 
-   end  
+      Check = CheckExchange(UID, 504)
+      if Check ==1 then        
+         RunExchange(UID, 504);
+         SaveEvent(UID, 4394);
+         ShowEffect(UID, 300391)
+      else
+         Ret = 1; 
+      end  
    end	 
 end
 
