@@ -61,7 +61,7 @@ end
 if EVENT == 203 then
    RobItem(UID, 900184000, 1)
    RobItem(UID, 810160000, 1)
-   --GiveItem(UID, Wing, 1)
+   GiveItem(UID, 900180669, 1)
    SelectMsg(UID, 2, -1, 9273, NPC, 20, 241);   
 end
 
@@ -78,7 +78,7 @@ end
 if EVENT == 205 then
    RobItem(UID, 900184000, 1)
    GoldLose(UID, Level * 6000)
-   --GiveItem(UID, Wing, 1)
+   GiveItem(UID, 900180669, 1)
    SelectMsg(UID, 2, -1, 9273, NPC, 20, 241); 
 end
 
@@ -91,7 +91,8 @@ if EVENT == 206 then
    --King = isKing(UID);
    if KingWingTime == 1 then
    --if King then
-   --GiveItem(UID, KingWing, 1)
+   GiveItem(UID, 900181671, 1)
+   SelectMsg(UID, 2, -1, 9279, NPC, 20, 241);
    --else
    --SelectMsg(UID, 2, -1, 9279, NPC, 10, 241);
    --end
@@ -102,14 +103,14 @@ end
 
 if EVENT == 207 then
    --KeeperKiller = isKeeperKiller(UID);
-   KeeperTime = GetUserDailyOp(UID, 5);
+   KeeperTime = GetUserDailyOp(UID, 7);
    if KeeperTime == 1 then
-   if KeeperKiller then
-   GiveItem(UID, 900182000, 1)
+   --if KeeperKiller then
+   GiveItem(UID, 900182674, 1)
    SelectMsg(UID, 2, -1, 9282, NPC, 20, 241);
-   else
-   SelectMsg(UID, 2, -1, 9278, NPC, 10, 241);
-   end
+   --else
+   --SelectMsg(UID, 2, -1, 9278, NPC, 10, 241);
+   --end
    else
    SelectMsg(UID, 2, -1, 9280, NPC, 10 ,241);
    end
@@ -117,14 +118,14 @@ end
 
 if EVENT == 208 then
    --Captain1Killer = isCaptain1Killer(UID);
-   Captain1Time = GetUserDailyOp(UID, 6);
+   Captain1Time = GetUserDailyOp(UID, 5);
    if Captain1Time == 1 then
-   if Captain1Killer then
+   --if Captain1Killer then
    GiveItem(UID, 900182674, 1)
    SelectMsg(UID, 2, -1, 9283, NPC, 20, 241);
-   else
-   SelectMsg(UID, 2, -1, 9278, NPC, 10, 241);
-   end
+   --else
+   --SelectMsg(UID, 2, -1, 9278, NPC, 10, 241);
+   --end
    else
    SelectMsg(UID, 2, -1, 9280, NPC, 10 ,241);
    end
@@ -132,14 +133,14 @@ end
 
 if EVENT == 209 then
    --Captain2Killer = isCaptain2Killer(UID);
-   Captain2Time = GetUserDailyOp(UID, 7);
+   Captain2Time = GetUserDailyOp(UID, 6);
    if Captain2Time == 1 then
-   if Captain2Killer then
-   GiveItem(UID, 900182675, 1)
+   --if Captain2Killer then
+   GiveItem(UID, 900182674, 1)
    SelectMsg(UID, 2, -1, 9284, NPC, 20, 241);
-   else
-   SelectMsg(UID, 2, -1, 9278, NPC, 10, 241);
-   end
+   --else
+   --SelectMsg(UID, 2, -1, 9278, NPC, 10, 241);
+   --end
    else
    SelectMsg(UID, 2, -1, 9280, NPC, 10 ,241);
    end
