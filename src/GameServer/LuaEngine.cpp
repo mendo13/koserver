@@ -75,8 +75,8 @@ DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions,
 						  MAKE_LUA_FUNCTION(isRoomForItem) // FindSlotForItem()
 						  MAKE_LUA_FUNCTION(SendNameChange)
 						  MAKE_LUA_FUNCTION(SendStatSkillDistribute)
-						  MAKE_LUA_FUNCTION(ResetSkillPoints) // AllSkillPointChange()
-						  MAKE_LUA_FUNCTION(ResetStatPoints) // AllStatPointChange()
+						  MAKE_LUA_FUNCTION(ResetSkillPoints)
+						  MAKE_LUA_FUNCTION(ResetStatPoints)
 						  MAKE_LUA_FUNCTION(PromoteUserNovice)
 						  MAKE_LUA_FUNCTION(PromoteUser)
 						  MAKE_LUA_FUNCTION(RobAllItemParty)
@@ -95,6 +95,7 @@ DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions,
 						  MAKE_LUA_FUNCTION(RunCountExchange)
 						  MAKE_LUA_FUNCTION(GetMaxExchange)
 						  MAKE_LUA_FUNCTION(GetUserDailyOp)
+						  MAKE_LUA_FUNCTION(CountMonsterQuestSub)
 						  );
 #endif
 

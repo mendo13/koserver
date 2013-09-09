@@ -1131,6 +1131,10 @@ public:
 		LUA_NO_RETURN(pUser->QuestV2ShowMap(LUA_ARG_OPTIONAL(uint32, pUser->m_nQuestHelperID, 2))); // quest helper ID
 	}
 
+	DECLARE_LUA_FUNCTION(CountMonsterQuestSub) {
+		LUA_RETURN(LUA_GET_INSTANCE()->QuestV2CheckMonsterCount((LUA_ARG(uint16, 2))));
+	}
+
 	DECLARE_LUA_FUNCTION(NpcSay) {
 		CUser * pUser = LUA_GET_INSTANCE();
 		uint32 arg = 2; // start from after the user instance.

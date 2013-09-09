@@ -106,15 +106,13 @@ DEFINE_LUA_CLASS
 	MAKE_LUA_METHOD(CheckWeight)
 	MAKE_LUA_METHOD(CheckSkillPoint)
 	MAKE_LUA_METHOD(isRoomForItem) // FindSlotForItem()
-	// MAKE_LUA_METHOD(CountMonsterQuestSub) // CheckMonsterCount(2)
+	MAKE_LUA_METHOD(CountMonsterQuestSub)
 	// MAKE_LUA_METHOD(CountMonsterQuestMain) // CheckMonsterCount(3)
 	MAKE_LUA_METHOD(CheckExchange)
 	MAKE_LUA_METHOD(RunExchange)
 	MAKE_LUA_METHOD(SendNameChange)
-	// MAKE_LUA_METHOD(SendRestatDialog) // these two are the same thing
-	// MAKE_LUA_METHOD(SendReskillDialog)
-	MAKE_LUA_METHOD(ResetSkillPoints) // AllSkillPointChange(1)
-	MAKE_LUA_METHOD(ResetStatPoints) // AllStatPointChange(1)
+	MAKE_LUA_METHOD(ResetSkillPoints)
+	MAKE_LUA_METHOD(ResetStatPoints)
 	MAKE_LUA_METHOD(PromoteUserNovice)
 	MAKE_LUA_METHOD(PromoteUser)
 	MAKE_LUA_METHOD(RobAllItemParty)
@@ -320,6 +318,7 @@ _LUA_WRAPPER_USER_FUNCTION(RunCountExchange, RunCountExchange);
 _LUA_WRAPPER_USER_FUNCTION(GetMaxExchange, GetMaxExchange);
 _LUA_WRAPPER_USER_FUNCTION(PartyCountMembers, GetPartyMemberAmount);
 _LUA_WRAPPER_USER_FUNCTION(GetUserDailyOp, GetUserDailyOp);
+_LUA_WRAPPER_USER_FUNCTION(CountMonsterQuestSub, CountMonsterQuestSub);
 
 LUA_FUNCTION(SelectMsg)
 {
