@@ -27,6 +27,7 @@ DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions,
 						  MAKE_LUA_FUNCTION(ShowEffect)
 						  MAKE_LUA_FUNCTION(ShowNpcEffect)
 						  MAKE_LUA_FUNCTION(ExistMonsterQuestSub)
+						  MAKE_LUA_FUNCTION(CountMonsterQuestSub)
 						  MAKE_LUA_FUNCTION(PromoteKnight)
 						  MAKE_LUA_FUNCTION(CheckClanGrade)
 						  MAKE_LUA_FUNCTION(CheckClanPoint)
@@ -95,7 +96,6 @@ DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions,
 						  MAKE_LUA_FUNCTION(RunCountExchange)
 						  MAKE_LUA_FUNCTION(GetMaxExchange)
 						  MAKE_LUA_FUNCTION(GetUserDailyOp)
-						  MAKE_LUA_FUNCTION(CountMonsterQuestSub)
 						  );
 #endif
 
