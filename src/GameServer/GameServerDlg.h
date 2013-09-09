@@ -117,10 +117,10 @@ public:
 	void NpcInOutForMe(CUser* pSendUser);
 
 	// Get info for NPCs in region
-	void GetRegionNpcIn(C3DMap* pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count);
+	void GetRegionNpcIn(C3DMap* pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count, int16 nUserGroup = -1);
 
 	// Get list of NPC IDs in region
-	void GetRegionNpcList(C3DMap* pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count);
+	void GetRegionNpcList(C3DMap* pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count, int16 nUserGroup = -1);
 
 	// Get list of NPCs for regions around user (WIZ_NPC_REGION)
 	void RegionNpcInfoForMe(CUser* pSendUser);	
@@ -132,10 +132,10 @@ public:
 	void UserInOutForMe(CUser* pSendUser);
 
 	// Get info for users in region
-	void GetRegionUserIn(C3DMap* pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count);
+	void GetRegionUserIn(C3DMap* pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count, int16 nUserGroup = -1);
 
 	// Get list of user IDs in region
-	void GetRegionUserList(C3DMap* pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count);
+	void GetRegionUserList(C3DMap* pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count, int16 nUserGroup = -1);
 
 	// Get list of users for regions around user (WIZ_REGIONCHANGE)
 	void RegionUserInOutForMe(CUser* pSendUser);
@@ -147,7 +147,7 @@ public:
 	INLINE bool isWarOpen() { return m_byBattleOpen != NO_BATTLE;} 
 
 	// Get list of merchants in region
-	void GetRegionMerchantUserIn(C3DMap* pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count);
+	void GetRegionMerchantUserIn(C3DMap* pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count, int16 nUserGroup = -1);
 
 	void SendHelpDescription(CUser *pUser, std::string sHelpMessage);
 

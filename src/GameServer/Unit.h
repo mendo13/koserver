@@ -53,6 +53,7 @@ public:
 
 	virtual uint16 GetID() = 0;
 	INLINE uint8 GetZoneID() { return m_bZone; }
+	INLINE int16 GetUserGroup() { return m_nUserGroup; }
 
 	INLINE float GetX() { return m_curx; }
 	INLINE float GetY() { return m_cury; }
@@ -176,6 +177,7 @@ public:
 	virtual bool CanAttack(Unit * pTarget);
 	virtual bool isAttackable(Unit * pTarget);
 	virtual bool CanCastRHit(uint16 m_SocketID);
+	virtual bool isSameUserGroup(Unit * pTarget);
 
 	void OnDeath(Unit *pKiller);
 	void SendDeathAnimation(Unit *pKiller = nullptr);
@@ -186,6 +188,7 @@ public:
 	CRegion * m_pRegion;
 
 	uint8	m_bZone;
+	int16	m_nUserGroup;
 	float	m_curx, m_curz, m_cury;
 
 	uint16	m_sRegionX, m_sRegionZ; // this is probably redundant

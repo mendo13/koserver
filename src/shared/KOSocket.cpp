@@ -192,7 +192,7 @@ bool KOSocket::Send(Packet * pkt)
 	return r;
 }
 
-bool KOSocket::SendCompressed(Packet * pkt)
+bool KOSocket::SendCompressed(Packet * pkt) 
 {
 	if (pkt->size() < 500)
 		return Send(pkt);

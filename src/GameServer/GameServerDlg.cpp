@@ -1158,7 +1158,7 @@ void CGameServerDlg::UserInOutForMe(CUser *pSendUser)
 
 	int16 rx = pSendUser->GetRegionX(), rz = pSendUser->GetRegionZ();
 	foreach_region(x, z)
-		GetRegionUserIn(pMap, rx + x, rz + z, result, user_count);
+		GetRegionUserIn(pMap, rx + x, rz + z, result, user_count, pSendUser->isSpecialEventZone() ? pSendUser->GetUserGroup() : -1);
 
 	result.put(0, uint16(user_count));
 	pSendUser->SendCompressed(&result);
@@ -1178,13 +1178,13 @@ void CGameServerDlg::RegionUserInOutForMe(CUser *pSendUser)
 
 	int16 rx = pSendUser->GetRegionX(), rz = pSendUser->GetRegionZ();
 	foreach_region(x, z)
-		GetRegionUserList(pMap, rx + x, rz + z, result, user_count);
+		GetRegionUserList(pMap, rx + x, rz + z, result, user_count, pSendUser->isSpecialEventZone() ? pSendUser->GetUserGroup() : -1);
 
 	result.put(1, user_count);
 	pSendUser->SendCompressed(&result);
 }
 
-void CGameServerDlg::GetRegionUserIn(C3DMap *pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count)
+void CGameServerDlg::GetRegionUserIn(C3DMap *pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count, int16 nUserGroup)
 {
 	if (pMap == nullptr)
 		return;
@@ -1202,13 +1202,16 @@ void CGameServerDlg::GetRegionUserIn(C3DMap *pMap, uint16 region_x, uint16 regio
 			|| !pUser->isInGame())
 			continue;
 
+		if (nUserGroup != -1 && pUser->GetUserGroup() != nUserGroup)
+			continue;
+
 		pkt << uint8(0) << pUser->GetSocketID();
 		pUser->GetUserInfo(pkt);
 		t_count++;
 	}
 }
 
-void CGameServerDlg::GetRegionUserList(C3DMap* pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count)
+void CGameServerDlg::GetRegionUserList(C3DMap* pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count, int16 nUserGroup)
 {
 	if (pMap == nullptr)
 		return;
@@ -1224,6 +1227,9 @@ void CGameServerDlg::GetRegionUserList(C3DMap* pMap, uint16 region_x, uint16 reg
 		CUser *pUser = GetUserPtr(*itr);
 		if (pUser == nullptr 
 			|| !pUser->isInGame())
+			continue;
+
+		if (nUserGroup != -1 && pUser->GetUserGroup() != nUserGroup)
 			continue;
 
 		pkt << pUser->GetSocketID();
@@ -1245,13 +1251,13 @@ void CGameServerDlg::MerchantUserInOutForMe(CUser *pSendUser)
 
 	int16 rx = pSendUser->GetRegionX(), rz = pSendUser->GetRegionZ();
 	foreach_region(x, z)
-		GetRegionMerchantUserIn(pMap, rx + x, rz + z, result, user_count);
+		GetRegionMerchantUserIn(pMap, rx + x, rz + z, result, user_count, pSendUser->isSpecialEventZone() ? pSendUser->GetUserGroup() : -1);
 
 	result.put(1, user_count);
 	pSendUser->SendCompressed(&result);
 }
 
-void CGameServerDlg::GetRegionMerchantUserIn(C3DMap *pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count)
+void CGameServerDlg::GetRegionMerchantUserIn(C3DMap *pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count, int16 nUserGroup)
 {
 	if (pMap == nullptr)
 		return;
@@ -1268,6 +1274,9 @@ void CGameServerDlg::GetRegionMerchantUserIn(C3DMap *pMap, uint16 region_x, uint
 		if (pUser == nullptr 
 			|| !pUser->isInGame()
 			|| !pUser->isMerchanting())
+			continue;
+
+		if (nUserGroup != -1 && pUser->GetUserGroup() != nUserGroup)
 			continue;
 
 		pkt << pUser->GetSocketID()
@@ -1294,13 +1303,13 @@ void CGameServerDlg::NpcInOutForMe(CUser* pSendUser)
 
 	int16 rx = pSendUser->GetRegionX(), rz = pSendUser->GetRegionZ();
 	foreach_region(x, z)
-		GetRegionNpcIn(pMap, rx + x, rz + z, result, npc_count);
+		GetRegionNpcIn(pMap, rx + x, rz + z, result, npc_count, pSendUser->isSpecialEventZone() ? pSendUser->GetUserGroup() : -1);
 
 	result.put(0, npc_count);
 	pSendUser->SendCompressed(&result);
 }
 
-void CGameServerDlg::GetRegionNpcIn(C3DMap *pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count)
+void CGameServerDlg::GetRegionNpcIn(C3DMap *pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count, int16 nUserGroup)
 {
 	if (!m_bPointCheckFlag
 		|| pMap == nullptr)
@@ -1317,6 +1326,9 @@ void CGameServerDlg::GetRegionNpcIn(C3DMap *pMap, uint16 region_x, uint16 region
 		CNpc *pNpc = GetNpcPtr(*itr);
 		if (pNpc == nullptr
 			|| pNpc->isDead())
+			continue;
+
+		if (nUserGroup != -1 && pNpc->GetUserGroup() != nUserGroup)
 			continue;
 
 		pkt << pNpc->GetID();
@@ -1338,7 +1350,7 @@ void CGameServerDlg::RegionNpcInfoForMe(CUser *pSendUser)
 
 	int16 rx = pSendUser->GetRegionX(), rz = pSendUser->GetRegionZ();
 	foreach_region(x, z)
-		GetRegionNpcList(pMap, rx + x, rz + z, result, npc_count);
+		GetRegionNpcList(pMap, rx + x, rz + z, result, npc_count, pSendUser->GetUserGroup());
 
 	result.put(0, npc_count);
 	pSendUser->SendCompressed(&result);
@@ -1374,7 +1386,7 @@ void CGameServerDlg::GetUnitListFromSurroundingRegions(Unit * pOwner, std::vecto
 	}
 }
 
-void CGameServerDlg::GetRegionNpcList(C3DMap *pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count)
+void CGameServerDlg::GetRegionNpcList(C3DMap *pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count, int16 nUserGroup)
 {
 	if (!m_bPointCheckFlag
 		|| pMap == nullptr)
@@ -1390,6 +1402,9 @@ void CGameServerDlg::GetRegionNpcList(C3DMap *pMap, uint16 region_x, uint16 regi
 	{
 		CNpc *pNpc = GetNpcPtr(*itr);
 		if (pNpc == nullptr || pNpc->isDead())
+			continue;
+
+		if (nUserGroup != -1 && pNpc->GetUserGroup() != nUserGroup)
 			continue;
 
 		pkt << pNpc->GetID();

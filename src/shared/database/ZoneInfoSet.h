@@ -1,7 +1,5 @@
 #pragma once
 
-#define MAX_ZONE_ID 255 /* maximum size of a byte */
-
 typedef std::map<uint16, _ZONE_INFO *> ZoneInfoMap;
 
 class CZoneInfoSet : public OdbcRecordset

@@ -17,7 +17,7 @@
 
 #define MAX_ITEM_COUNT		9999
 
-#define MAX_ZONE_ID			250
+#define MAX_ZONE_ID			255
 
 #define VIEW_DISTANCE		48
 

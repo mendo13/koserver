@@ -160,6 +160,7 @@ void CUser::Initialize()
 	m_bLastSkillType = 0;
 	m_iLoyaltyDaily = 0;
 	m_iLoyaltyPremiumBonus = 0;
+	m_nUserGroup = -1;
 }
 
 /**
@@ -2087,14 +2088,18 @@ void CUser::SendTargetHP( uint8 echo, int tid, int damage )
 {
 	int hp = 0, maxhp = 0;
 
+	Unit *pTarget = nullptr;
+
 	if (tid >= NPC_BAND)
 	{
 		if (g_pMain->m_bPointCheckFlag == false) return;
 		CNpc *pNpc = g_pMain->GetNpcPtr(tid);
 		if (pNpc == nullptr)
 			return;
+
 		hp = pNpc->m_iHP;	
 		maxhp = pNpc->m_iMaxHP;
+		pTarget = pNpc;
 	}
 	else 
 	{
@@ -2104,11 +2109,17 @@ void CUser::SendTargetHP( uint8 echo, int tid, int damage )
 
 		hp = pUser->m_sHp;	
 		maxhp = pUser->m_iMaxHp;
+		pTarget = pUser;
 	}
 
 	Packet result(WIZ_TARGET_HP);
 	result << uint16(tid) << echo << maxhp << hp << uint16(damage);
-	Send(&result);
+
+	if (!isSpecialEventZone())
+		Send(&result);
+	else
+		if (isSameUserGroup(pTarget))
+			Send(&result);
 }
 
 /**

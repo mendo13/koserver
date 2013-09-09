@@ -5,7 +5,7 @@ using std::string;
 using std::vector;
 
 void CGameServerDlg::SendBifrostTime(CUser *pUser, bool bSendAll) {
-	
+
 	Packet result(WIZ_BIFROST,uint8(BIFROST_EVENT));
 	result << g_pMain->m_sBifrostRemainingTime;
 

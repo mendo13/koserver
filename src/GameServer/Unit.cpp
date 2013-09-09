@@ -1225,3 +1225,17 @@ bool CUser::isInSafetyArea()
 
 	return false;
 }
+
+bool Unit::isSameUserGroup(Unit *pTarget)
+{
+	if (pTarget == nullptr)
+		return false;
+
+	int16 sUserGroup = GetUserGroup();
+	int16 tUserGroup = pTarget->GetUserGroup();
+
+	if (sUserGroup == tUserGroup)
+		return true;
+
+	return false;
+}
