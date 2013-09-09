@@ -277,9 +277,9 @@ void CGameServerDlg::GetTimeFromIni()
 	m_sBifrostRemainingTime = m_xBifrostRemainingTime + 60;
 	m_sBifrostTime = 0;
 
-	m_nPVPMonumentNation[0] = 0; // Ardream
-	m_nPVPMonumentNation[1] = 0; // Ronark Land Base
-	m_nPVPMonumentNation[2] = 0; // Ronark Land
+	m_nPVPMonumentNation[ZONE_ARDREAM] = 0; 
+	m_nPVPMonumentNation[ZONE_RONARK_LAND_BASE] = 0;
+	m_nPVPMonumentNation[ZONE_RONARK_LAND] = 0;
 
 	g_timerThreads.push_back(new Thread(Timer_BifrostTime));
 	g_timerThreads.push_back(new Thread(Timer_UpdateGameTime));

@@ -367,7 +367,7 @@ public:
 	std::string m_strKarusCaptain, m_strElmoradCaptain;
 
 	uint8   m_nBorderDefenseWarTime[BORDER_DEFENSE_WAR_EVENT_COUNT], m_nChaosTime[CHAOS_EVENT_COUNT];
-	uint8	m_nPVPMonumentNation[3];
+	uint8	m_nPVPMonumentNation[MAX_ZONE_ID];
 
 	uint8	m_bMaxRegenePoint;
 

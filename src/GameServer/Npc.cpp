@@ -423,30 +423,10 @@ void CNpc::PVPMonumentProcess(CUser *pUser)
 	if (pUser == nullptr)
 		return;
 
-	int8 ZoneOpCode = -1;
-
-	switch (GetZoneID())
-	{
-	case ZONE_ARDREAM:
-		ZoneOpCode = 0;
-		break;
-	case ZONE_RONARK_LAND_BASE:
-		ZoneOpCode = 1;
-		break;
-	case ZONE_RONARK_LAND:
-		ZoneOpCode = 2;
-		break;
-	default:
-		break;
-	}
-
-	if (ZoneOpCode > -1)
-	{
 		Packet result(WIZ_CHAT, uint8(MONUMENT_NOTICE));
 		result << uint8(FORCE_CHAT) << pUser->GetNation() << pUser->GetName().c_str();
 		g_pMain->Send_Zone(&result, GetZoneID(), nullptr, Nation::ALL);
 
-		g_pMain->m_nPVPMonumentNation[ZoneOpCode] = pUser->GetNation();
+		g_pMain->m_nPVPMonumentNation[GetZoneID()] = pUser->GetNation();
 		g_pMain->ChangeNpcProperties(m_sSid, m_bMonster, pUser->GetNation() == KARUS ? KARUS : ELMORAD, pUser->GetNation() == KARUS ? PVP_MONUMENT_KARUS_SPID : PVP_MONUMENT_ELMORAD_SPID);
-	}
 }

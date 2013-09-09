@@ -578,28 +578,8 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 		if (isPVPZone())
 		{
 			if (bIsKillReward)
-			{
-				int8 ZoneOpCode = -1;
-
-				switch (GetZoneID())
-				{
-				case ZONE_ARDREAM:
-					ZoneOpCode = 0;
-					break;
-				case ZONE_RONARK_LAND_BASE:
-					ZoneOpCode = 1;
-					break;
-				case ZONE_RONARK_LAND:
-					ZoneOpCode = 2;
-					break;
-				default:
-					break;
-				}
-
-				if (ZoneOpCode > -1 )
-					if (g_pMain->m_nPVPMonumentNation[ZoneOpCode] == GetNation())
-						nChangeAmount += PVP_MONUMENT_NP_BONUS;
-			}
+				if (g_pMain->m_nPVPMonumentNation[GetZoneID()] == GetNation())
+					nChangeAmount += PVP_MONUMENT_NP_BONUS;
 
 			m_iLoyaltyDaily += nChangeAmount;
 			UpdatePlayerRank();
