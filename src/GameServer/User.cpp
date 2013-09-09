@@ -568,8 +568,16 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 		{
 			// Add on any additional NP gained from items/skills.
 			nChangeAmount += m_bItemNPBonus + m_bSkillNPBonus;
+		}
 
-			if (isPVPZone())
+		if (m_iLoyalty + nChangeAmount > LOYALTY_MAX)
+			m_iLoyalty = LOYALTY_MAX;
+		else
+			m_iLoyalty += nChangeAmount;
+
+		if (isPVPZone())
+		{
+			if (bIsKillReward)
 			{
 				int8 ZoneOpCode = -1;
 
@@ -592,17 +600,8 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 					if (g_pMain->m_nPVPMonumentNation[ZoneOpCode] == GetNation())
 						nChangeAmount += PVP_MONUMENT_NP_BONUS;
 			}
-		}
 
-		if (m_iLoyalty + nChangeAmount > LOYALTY_MAX)
-			m_iLoyalty = LOYALTY_MAX;
-		else
-			m_iLoyalty += nChangeAmount;
-
-		if (isPVPZone())
-		{
 			m_iLoyaltyDaily += nChangeAmount;
-
 			UpdatePlayerRank();
 		}
 		//// We should only apply additional monthly NP when NP was gained as a reward for killing a player.
