@@ -523,7 +523,7 @@ void CUser::PlayerRanking(uint16 ZoneID, bool RemoveInZone)
 	if(m_bZoneChangeSameZone)
 		return;
 
-	if (ZoneID == ZONE_ARDREAM || ZoneID == ZONE_RONARK_LAND_BASE || ZoneID == ZONE_RONARK_LAND)
+	if (ZoneID == ZONE_ARDREAM || ZoneID == ZONE_RONARK_LAND_BASE || ZoneID == ZONE_RONARK_LAND || ZONE_BORDER_DEFENSE_WAR || ZONE_CHAOS_DUNGEON)
 	{
 		if (RemoveInZone)
 			RemovePlayerRanking();

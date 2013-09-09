@@ -4659,9 +4659,12 @@ void CUser::RecastSavedMagic(bool bFillToMaxHealth)
 */
 void CUser::HandlePlayerRankings(Packet & pkt)
 {
-	uint16 MyRank = 0;
+	uint8 RankType = 0;
+	pkt >> RankType;
 
-	Packet result(WIZ_RANK, (isPVPZone() ? (uint8)1 : (uint8)2));
+	Packet result(WIZ_RANK, RankType);
+
+	uint16 MyRank = 0;
 	uint16 sClanID = 0;
 	uint16 sMarkVersion = 0;
 	std::string strClanName;
