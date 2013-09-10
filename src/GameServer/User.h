@@ -284,7 +284,6 @@ public:
 	uint8	m_bLastSkillType;
 	uint32 m_iLoyaltyDaily;
 	uint16 m_iLoyaltyPremiumBonus;
-	bool	m_bIsJoinedTemple;
 
 public:
 	INLINE bool isBanned() { return GetAuthority() == AUTHORITY_BANNED; }
@@ -292,9 +291,6 @@ public:
 	INLINE bool isAttackDisabled() { return GetAuthority() == AUTHORITY_ATTACK_DISABLED; }
 	INLINE bool isGM() { return GetAuthority() == AUTHORITY_GAME_MASTER; }
 	INLINE bool isLimitedGM() { return GetAuthority() == AUTHORITY_LIMITED_GAME_MASTER; }
-
-	INLINE bool isJoinedTemple() {return m_bIsJoinedTemple ;}
-	INLINE void SetJoinedStatus() { m_bIsJoinedTemple = !m_bIsJoinedTemple; }
 
 	virtual bool isDead() { return m_bResHpType == USER_DEAD || m_sHp <= 0; }
 	virtual bool isBlinking() { return m_bAbnormalType == ABNORMAL_BLINKING; }
@@ -865,9 +861,10 @@ public:
 	void RemovePlayerRanking();
 	void UpdatePlayerRank();
 
-	void AddEventUser();
-	void RemoveEventUser();
+	void AddEventUser(CUser * pUser = nullptr);
+	void RemoveEventUser(uint16 m_socketID);
 	void UpdateEventUser(uint16 m_socketID, int16 nUserGroup = -1);
+	bool isEventUser(uint16 m_socketID);
 
 	void SendTargetHP( uint8 echo, int tid, int damage = 0 );
 	bool IsValidSlotPos( _ITEM_TABLE* pTable, int destpos );

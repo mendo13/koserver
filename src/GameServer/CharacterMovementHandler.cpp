@@ -573,34 +573,6 @@ void CUser::UpdatePlayerRank()
 	pRank->m_iLoyaltyPremiumBonus = m_iLoyaltyPremiumBonus;
 }
 
-void CUser::AddEventUser()
-{
-	_EVENT_USER * pEventUser = new _EVENT_USER;
-
-	pEventUser->m_socketID = GetSocketID();
-	pEventUser->m_nUserGroup = m_nUserGroup;
-	pEventUser->m_bZone = GetZoneID();
-	pEventUser->m_bNation = GetNation();
-
-	if (!g_pMain->m_EventUserArray.PutData(pEventUser->m_socketID, pEventUser))
-		delete pEventUser;
-}
-
-void CUser::RemoveEventUser()
-{
-	g_pMain->m_EventUserArray.DeleteData(GetSocketID());
-}
-
-void CUser::UpdateEventUser(uint16 m_socketID, int16 nUserGroup)
-{
-	_EVENT_USER * pEventUser = g_pMain->m_EventUserArray.GetData(GetSocketID());
-
-	if (pEventUser == nullptr)
-		return;
-
-	pEventUser->m_nUserGroup = nUserGroup;
-}
-
 /**
 * @brief	Changes the zone of all party members within the user's zone.
 * 			If the user is not in a party, they should still be teleported.
