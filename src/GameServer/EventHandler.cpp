@@ -61,10 +61,10 @@ void CUser::TempleProcess(Packet &pkt )
 	case MONSTER_STONE:
 		MonsterStoneProcess(); 
 	case TEMPLE_JOIN:
-		TempleJoin();
+		TempleOperations(opcode);
 		break;
 	case TEMPLE_DISBAND:
-		TempleDisband();
+		TempleOperations(opcode);
 		break;
 	}
 }
@@ -72,88 +72,62 @@ void CUser::TempleProcess(Packet &pkt )
 void CUser::MonsterStoneProcess()
 {
 
-
 } 
 
-void CUser::TempleJoin()
+void CUser::TempleOperations(uint8 bType)
 {
+	uint16 nActiveEvent = g_pMain->pTempleEvent.ActiveEvent;
+
 	uint8 bResult = 1;
-	uint16 Active = g_pMain->pTempleEvent.ActiveEvent;
 	Packet result(WIZ_EVENT);
-	result << uint8(TEMPLE_JOIN) << bResult << uint16(Active);
 
-	if(GetZoneID() >= ZONE_JURAD_MOUNTAIN) {
-		bResult = 0;
-		result.put(0, bResult);
-		Send(&result);
-		return;
-	}
-
-	if(g_pMain->pTempleEvent.ActiveEvent == 24)
+	if(bType == TEMPLE_JOIN && !isJoinedTemple())
 	{
-		if (CheckExistItem(910246000,1))
-			bResult = 1;
-		else if (m_sItemArray[RIGHTHAND].nNum == MATTOCK || m_sItemArray[RIGHTHAND].nNum == GOLDEN_MATTOCK || isMining())
-			bResult = 4; 
-		else
-			bResult = 3;
-	}
+		result <<  uint8(TEMPLE_JOIN) << bResult << nActiveEvent;
+		if (nActiveEvent == EVENT_CHAOS)
+		{
+			if (CheckExistItem(910246000,1))
+				bResult = 1;
+			else if (m_sItemArray[RIGHTHAND].nNum == MATTOCK || m_sItemArray[RIGHTHAND].nNum == GOLDEN_MATTOCK || isMining())
+				bResult = 4; 
+			else
+				bResult = 3;
+		}
 
-	if(bResult != 1)
+		if (bResult != 1)
+		{
+			result.put(0, bResult);
+			Send(&result);
+			return;
+		}
+
+		if(bResult == 1) {
+			GetNation() == KARUS ? g_pMain->pTempleEvent.KarusUserCount++ :g_pMain->pTempleEvent.ElMoradUserCount++;
+			g_pMain->pTempleEvent.AllUserCount = (g_pMain->pTempleEvent.KarusUserCount + g_pMain->pTempleEvent.ElMoradUserCount);
+			Send(&result);
+			SetJoinedStatus();
+		}
+
+		TempleOperations(TEMPLE_COUNTER);
+	}
+	else if (bType == TEMPLE_DISBAND && isJoinedTemple())
 	{
-		result.put(0, bResult);
-		Send(&result);
-		return;
-	}
-
-	if(isTempleJoin()){
-		Send(&result);
-		setTempleJoin();
-	}
-	else
-		return;
-
-	if(GetNation() == KARUS)
-		g_pMain->pTempleEvent.KarusUserCount++;
-	else if (GetNation() == ELMORAD)
-		g_pMain->pTempleEvent.ElMoradUserCount++;
-
-	g_pMain->pTempleEvent.AllUserCount = g_pMain->pTempleEvent.KarusUserCount + g_pMain->pTempleEvent.ElMoradUserCount;
-
-	SendTempleCounterPacket();     
-}
-
-void CUser::TempleDisband()
-{
-	uint8 bResult = 1;
-	uint16 Active = g_pMain->pTempleEvent.ActiveEvent;
-	Packet result(WIZ_EVENT);
-	result << uint8(TEMPLE_DISBAND) << bResult << uint16(Active);
-
-	if(!isTempleJoin())
-	{
-		Send(&result);
-		if(GetNation() == KARUS)
-			g_pMain->pTempleEvent.KarusUserCount--;
-		else if (GetNation() == ELMORAD)
-			g_pMain->pTempleEvent.ElMoradUserCount--;
-
-		setTempleJoin();
+		result <<  uint8(TEMPLE_DISBAND) << bResult << nActiveEvent;
+		GetNation() == KARUS ? g_pMain->pTempleEvent.KarusUserCount-- : g_pMain->pTempleEvent.ElMoradUserCount--;
 		g_pMain->pTempleEvent.AllUserCount = g_pMain->pTempleEvent.KarusUserCount + g_pMain->pTempleEvent.ElMoradUserCount;
+		Send(&result);
+		SetJoinedStatus();
+		TempleOperations(TEMPLE_COUNTER);
 	}
+	else if (bType == TEMPLE_COUNTER)
+	{
+		result << uint8(TEMPLE_COUNTER) << nActiveEvent;
 
-	SendTempleCounterPacket();
-}
+		if(nActiveEvent == EVENT_CHAOS)
+			result << g_pMain->pTempleEvent.AllUserCount;
+		else
+			result << g_pMain->pTempleEvent.KarusUserCount << g_pMain->pTempleEvent.ElMoradUserCount;
 
-void CUser::SendTempleCounterPacket()
-{
-	Packet result(WIZ_EVENT);
-	result << uint8(TEMPLE_COUNTER) << uint16(g_pMain->pTempleEvent.ActiveEvent);
-
-	if(g_pMain->pTempleEvent.ActiveEvent == 24)
-		result << uint16(g_pMain->pTempleEvent.AllUserCount);
-	else
-		result << uint16(g_pMain->pTempleEvent.KarusUserCount) << uint16(g_pMain->pTempleEvent.ElMoradUserCount);
-
-	g_pMain->Send_All(&result);
+		g_pMain->Send_All(&result);
+	}
 }

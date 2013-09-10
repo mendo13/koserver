@@ -285,7 +285,6 @@ public:
 	// Removes the account name & character names from the hashmaps (on logout)
 	void RemoveSessionNames(CUser *pSession);
 
-	_EVENT_STATUS pTempleEvent;
 	_PARTY_GROUP * GetPartyPtr(uint16 sPartyID);
 	CKnights * GetClanPtr(uint16 sClanID);
 	_KNIGHTS_ALLIANCE * GetAlliancePtr(uint16 sAllianceID);
@@ -293,6 +292,8 @@ public:
 
 	_PARTY_GROUP * CreateParty(CUser *pLeader);
 	void DeleteParty(uint16 sIndex);
+
+	_EVENT_STATUS pTempleEvent;
 
 	~CGameServerDlg();
 
@@ -342,6 +343,7 @@ public:
 	PremiumItemExpArray			m_PremiumItemExpArray;
 	PVPRankingsArray			m_PVPRankingsArray[2];
 	UserDailyOpMap				m_UserDailyOpMap;
+	EventUserArray				m_EventUserArray;
 
 	Atomic<uint16>				m_sPartyIndex;
 	short	m_sZoneCount;							// AI Server 재접속시 사용

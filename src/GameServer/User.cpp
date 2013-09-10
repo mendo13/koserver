@@ -161,6 +161,7 @@ void CUser::Initialize()
 	m_iLoyaltyDaily = 0;
 	m_iLoyaltyPremiumBonus = 0;
 	m_nUserGroup = -1;
+	m_bIsJoinedTemple = false;
 }
 
 /**

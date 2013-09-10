@@ -456,6 +456,12 @@ enum DailyOperationsOpCode
 	DAILY_USER_LOYALTY_WING_REWARD		= 8
 };
 
+enum EventOpCode
+{
+	EVENT_BORDER_DEFENCE_WAR	= 4,
+	EVENT_CHAOS					= 24
+};
+
 ////////////////////////////////////////////////////////////////
 // WareHouse Packet sub define
 ////////////////////////////////////////////////////////////////

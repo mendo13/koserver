@@ -326,7 +326,13 @@ bool CUser::ProcessChatCommand(std::string & message)
 COMMAND_HANDLER(CUser::HandleTestCommand)
 {
 	if (vargs.size() < 2)
+	{
+		Packet result(WIZ_EVENT, uint8(TEMPLE_EVENT));
+		result << uint16(24) << uint16(100);
+		g_pMain->Send_All(&result , nullptr, 0, 0);
+		m_bIsJoinedTemple = false;
 		return true;
+	}
 
 	std::string strUserID = vargs.front();
 	vargs.pop_front();

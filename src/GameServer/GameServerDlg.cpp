@@ -252,17 +252,14 @@ void CGameServerDlg::GetTimeFromIni()
 
 	ini.GetString("AI_SERVER", "IP", "127.0.0.1", m_AIServerIP);
 
-	m_nBifrostTime[0] = ini.GetInt("BIFROST","START_TIME1", 0);
-	m_nBifrostTime[1] = ini.GetInt("BIFROST","START_TIME2", 0);
-	m_nBifrostTime[2] = ini.GetInt("BIFROST","START_TIME3", 0);
+	for (int i = 0; i < BIFROST_EVENT_COUNT; i++)
+		m_nBifrostTime[i] = ini.GetInt("BIFROST",string_format("START_TIME%d",i+1).c_str(), 0);
 
-	m_nBorderDefenseWarTime[0] = ini.GetInt("BDW","START_TIME1", 0);
-	m_nBorderDefenseWarTime[1] = ini.GetInt("BDW","START_TIME2", 0);
-	m_nBorderDefenseWarTime[2] = ini.GetInt("BDW","START_TIME3", 0);
+	for (int i = 0; i < BORDER_DEFENSE_WAR_EVENT_COUNT; i++)
+		m_nBorderDefenseWarTime[i] = ini.GetInt("BDW",string_format("START_TIME%d",i+1).c_str(), 0);
 
-	m_nChaosTime[0] = ini.GetInt("CHAOS","START_TIME1", 0);
-	m_nChaosTime[1] = ini.GetInt("CHAOS","START_TIME2", 0);
-	m_nChaosTime[2] = ini.GetInt("CHAOS","START_TIME3", 0);
+	for (int i = 0; i < CHAOS_EVENT_COUNT; i++)
+		m_nChaosTime[i] = ini.GetInt("CHAOS",string_format("START_TIME%d",i+1).c_str(), 0);
 
 	m_PVPRankingsArray[KARUS_ARRAY].DeleteAllData();
 	m_PVPRankingsArray[ELMORAD_ARRAY].DeleteAllData();
@@ -1767,7 +1764,7 @@ void CGameServerDlg::ResetBattleZone()
 
 void CGameServerDlg::EventTimer()
 {
-	uint32 nTime = g_localTime.tm_hour;
+	uint32 nHour = g_localTime.tm_hour;
 	uint32 nMinute = g_localTime.tm_min;
 	uint32 nSecond = g_localTime.tm_sec;
 	Packet result(WIZ_EVENT, uint8(TEMPLE_EVENT));
@@ -1780,41 +1777,46 @@ void CGameServerDlg::EventTimer()
 
 	for(int i = 0; i < BORDER_DEFENSE_WAR_EVENT_COUNT; i++)
 	{
-		if( nTime == m_nBorderDefenseWarTime[i] && nMinute < 10 )
+		if(nHour == m_nBorderDefenseWarTime[i] && nMinute < 10 )
 		{
-			uint16 remainMinute = 600-((nMinute*60)+nSecond);
-			if( pTempleEvent.isActive != pTempleEvent.ActiveEvent )
+			uint16 nRemainSeconds = 600-((nMinute*60)+nSecond);
+
+			if (pTempleEvent.isActive != pTempleEvent.ActiveEvent)
 			{
+				uint32 nStartTime = (((nHour*60) + nMinute)*60) + nSecond;
+				nRemainSeconds = (nMinute*60) - nSecond;
 				pTempleEvent.ActiveEvent = 4;
-				pTempleEvent.StartTime = (((nTime*60) + nMinute)*60) + nSecond;
+				pTempleEvent.StartTime = nStartTime;
 				pTempleEvent.KarusUserCount = 0;
 				pTempleEvent.ElMoradUserCount = 0;
 				pTempleEvent.AllUserCount = 0;
 				pTempleEvent.isActive = 4;
 			}           
-			result << uint16(pTempleEvent.ActiveEvent) << uint16(remainMinute);
-			Send_All(&result , nullptr, 0, 0);
+			result << pTempleEvent.ActiveEvent << nRemainSeconds;
+			Send_All(&result);
 			break;
 		}
 	}
 
 	for( int i=0; i < CHAOS_EVENT_COUNT; i++)
 	{
-		if( nTime == m_nChaosTime[i] && nMinute < 10 )
+		if(nHour == m_nChaosTime[i] && nMinute < 10)
 		{
-			uint16 remainMinute = 600-((nMinute*60)+nSecond);
-			if( pTempleEvent.isActive != pTempleEvent.ActiveEvent )
+			uint16 nRemainSeconds = 600-((nMinute*60) + nSecond);
+			if (pTempleEvent.isActive != pTempleEvent.ActiveEvent)
 			{
-				uint16 remainMinute = (nMinute*60) - nSecond;
+				uint32 nStartTime = (((nHour*60) + nMinute)*60) + nSecond;
+				nRemainSeconds = (nMinute*60) - nSecond;
 				pTempleEvent.ActiveEvent = 24;
-				pTempleEvent.StartTime = (((nTime*60) + nMinute)*60) + nSecond;
+				pTempleEvent.StartTime = nStartTime;
 				pTempleEvent.KarusUserCount = 0;
 				pTempleEvent.ElMoradUserCount = 0;
 				pTempleEvent.AllUserCount = 0;
 				pTempleEvent.isActive = 24;
 			}
-			result << uint16(pTempleEvent.ActiveEvent) << uint16(remainMinute);
-			Send_All(&result , nullptr, 0, 0);
+
+			result << pTempleEvent.ActiveEvent << nRemainSeconds;
+			Send_All(&result);
 			break;
 		}
 	}

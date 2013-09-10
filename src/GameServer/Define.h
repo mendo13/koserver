@@ -81,8 +81,8 @@ enum InOutType
 
 // Temple Event
 #define BIFROST_EVENT_COUNT				3
-#define CHAOS_EVENT_COUNT				3
-#define BORDER_DEFENSE_WAR_EVENT_COUNT	3
+#define CHAOS_EVENT_COUNT				4
+#define BORDER_DEFENSE_WAR_EVENT_COUNT	7
 #define JURAD_MOUNTAIN_EVENT_COUNT		3
 
 // Users under level 35 require 3,000 coins to shout.

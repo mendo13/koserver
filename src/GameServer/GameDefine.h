@@ -631,6 +631,14 @@ struct _EVENT_STATUS
 	uint8  isActive;
 };
 
+struct _EVENT_USER
+{
+	uint16 m_socketID;
+	int16 m_nUserGroup;
+	uint16 m_bZone;
+	uint8 m_bNation;
+};
+
 struct _USER_DAILY_OP
 {
 	std::string strUserId;
