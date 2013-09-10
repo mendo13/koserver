@@ -4,12 +4,12 @@ local Ret = 0;
 local NPC = 13013;
 
 if EVENT == 165 then
-   QuestNum = 2;--SearchQuest(UID, 13013);
+   QuestNum = SearchQuest(UID, NPC);
    if QuestNum == 0 then
       SelectMsg(UID, 2, -1, 166, NPC, 10, 168);
       Ret = 1;
    elseif QuestNum > 1 and QuestNum < 100 then
-      NpcMsg(UID, 167,13013)
+      NpcMsg(UID, 167, NPC);
    else
       EVENT = QuestNum
    end
@@ -54,13 +54,9 @@ if EVENT == 9206 then
 end
 
 if EVENT == 9207 then
-   Check = CheckExchange(UID, 1080)
-   if Check == 1 then
-      RunExchange(UID, 1080);
-      SaveEvent(UID, 5276);
-   else
-      Ret = 1;	
-   end	 
+   SaveEvent(UID, 5276);
+   GoldGain(UID, 50000)
+   ExpChange(UID, 3750)
 end
 
 if EVENT == 9608 then
@@ -77,7 +73,7 @@ if EVENT == 9215 then
 end
 
 if EVENT == 9218 then
-   ShowMap(UID, 5);
+   ShowMap(UID, 326);
 end
 
 if EVENT == 176 then
@@ -108,9 +104,9 @@ local MonsterCount = 0;
 if EVENT == 185 then
    MonsterCount  = CountMonsterQuestSub(UID, 101, 1);
    if MonsterCount < 5 then
-      SelectMsg(UID, 2, 101, 186, 13013, 10, 188);
+      SelectMsg(UID, 2, 101, 186, NPC, 10, 188);
    else
-      SelectMsg(UID, 4, 101, 187, 13013, 10, 177, 27, 168);
+      SelectMsg(UID, 4, 101, 187, NPC, 10, 177, 27, 168);
    end
 end
 
@@ -123,13 +119,10 @@ end
 local Check;
 
 if EVENT == 177 then
-   Check = CheckExchange(UID, 5)
-   if Check ==1 then
-      RunExchange(UID, 5);
-      SaveEvent(UID, 50);
-   else
-      Ret = 1;	
-   end	 
+   ExpChange(UID, 17)
+   GiveItem(UID, 389016000, 5)
+   GiveItem(UID, 389010000, 10)
+   SaveEvent(UID, 50);   
 end
 
 if EVENT == 220 then
@@ -196,13 +189,9 @@ end
 local Check;
 
 if EVENT == 238 then
-  Check = CheckExchange(UID, 7)
-  if Check ==1 then
-     RunExchange(UID, 7);
-     SaveEvent(UID, 65);
-  else
-     Ret = 1;	
-  end	 
+  SaveEvent(UID, 65);
+  ExpChange (UID, 150)
+  GoldGain(UID, 700)  
 end
 
 if EVENT == 370 then
@@ -251,7 +240,7 @@ end
 local MonsterCount = 0;
 
 if EVENT == 305 then
-   MonsterCount  = CountMonsterQuestSub(UID,320, 1);
+   MonsterCount  = CountMonsterQuestSub(UID, 320, 1);
    if MonsterCount < 5 then
       SelectMsg(UID, 2, 320, 3156, NPC, 10, 306);
    else
@@ -266,13 +255,8 @@ end
 local Check;
 
 if EVENT == 307 then
-  Check = CheckExchange(UID, 320)
-  if Check ==1 then
-     RunExchange(UID, 320);
-     SaveEvent(UID, 3324);
-  else
-     Ret = 1;	
-  end	 
+   SaveEvent(UID, 3324);
+   ExpChange(UID, 625)   
 end
 
 if EVENT == 308 then
@@ -280,7 +264,7 @@ if EVENT == 308 then
 end
 
 if EVENT == 470 then
-   SelectMsg(UID, 1, 321, 170, 13013, 24, 471);
+   SelectMsg(UID, 1, 321, 170, NPC, 24, 471);
 end
 
 if EVENT == 471 then
@@ -340,13 +324,8 @@ end
 local Check;
 
 if EVENT == 407 then
-   Check = CheckExchange(UID, 400)
-   if Check ==1 then
-      RunExchange(UID, 321);
-    --SaveEvent(UID, 3334);
-   else
-      Ret = 1;	
-   end	 
+   SaveEvent(UID, 3334);
+   ExpChange(UID, 1167) 
 end
 
 if EVENT == 408 then
@@ -437,13 +416,8 @@ end
 local Check;
 
 if EVENT == 507 then
-   Check = CheckExchange(UID, 322)
-   if Check ==1 then
-      RunExchange(UID, 322);
-      SaveEvent(UID, 3344);
-   else
-      Ret = 1;	
-   end	 
+   SaveEvent(UID, 3344);
+   ExpChange(UID, 1500)
 end
 
 if EVENT == 508 then
@@ -543,7 +517,7 @@ local MonsterCount = 0;
 if EVENT == 605 then
    MonsterCount  = CountMonsterQuestSub(UID, 323, 1);
    if MonsterCount < 10 then
-      SelectMsg(UID, 2, 323, 3197, NPC, 10, 168);
+      SelectMsg(UID, 2, 323, 3197, NPC, 10, 606);
    else
       SelectMsg(UID, 4, 323, 3189, NPC, 10, 607, 27, 168);
    end
@@ -556,14 +530,9 @@ end
 local Check;
 
 if EVENT == 607 then
-   Check = CheckExchange(UID, 323)
-   if Check ==1 then
-      RunExchange(UID, 323);
-      SaveEvent(UID, 3354);
-      SelectMsg(UID, 2, 323, 3190, NPC, 10, 168);
-   else
-      Ret = 1;	
-   end	 
+   SaveEvent(UID, 3354);
+   ExpChange(UID, 2084)
+   SelectMsg(UID, 2, 323, 3190, NPC, 10, 168); 
 end
 
 if EVENT == 608 then
@@ -631,13 +600,8 @@ end
 local Check;
 
 if EVENT == 707 then
-   Check = CheckExchange(UID, 324)
-   if Check ==1 then
-      RunExchange(UID, 324);
-      SaveEvent(UID, 3364);
-   else
-      Ret = 1;	
-   end	 
+   SaveEvent(UID, 3364);
+   ExpChange(UID, 2084)
 end
 
 if EVENT == 708 then
@@ -691,7 +655,7 @@ local MonsterCount = 0;
 
 if EVENT == 805 then
    MonsterCount  = CountMonsterQuestSub(UID, 325, 1);
-   if MonsterCount < 10 then
+   if MonsterCount < 15 then
       SelectMsg(UID, 2, 325, 3812, NPC, 10, 806);
    else
       SelectMsg(UID, 4, 325, 3815, NPC, 10, 807, 27, 806);
@@ -699,19 +663,14 @@ if EVENT == 805 then
 end
 
 if EVENT == 806 then
-   Ret = 1;
+   ShowMap(UID, 325);
 end
 
 local Check;
 
 if EVENT == 807 then
-   Check = CheckExchange(UID, 325)
-   if Check ==1 then
-      RunExchange(UID, 325);
-      SaveEvent(UID, 3374);
-   else
-      Ret = 1;	
-   end	 
+   SaveEvent(UID, 3374);
+   ExpChange(UID, 4584)
 end
 
 if EVENT == 808 then
@@ -890,5 +849,3 @@ end
 if EVENT == 1008 then
    SelectMsg(UID, 2, 320, 3839, NPC, 10, 168);
 end
-
-return Ret;
