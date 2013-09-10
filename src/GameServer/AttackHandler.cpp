@@ -45,6 +45,10 @@ void CUser::Attack(Packet & pkt)
 	{
 		if (isAttackable(pTarget) && CanCastRHit(GetSocketID()))
 		{
+			if (isInSpecialZone())
+				if (GetUserGroup() != -1 && !isSameUserGroup(pTarget))
+					return;
+
 			CUser *pUser = g_pMain->GetUserPtr(GetSocketID());
 			if (pUser != nullptr)
 				pUser->m_RHitRepeatList.insert(std::make_pair(GetSocketID(), UNIXTIME));

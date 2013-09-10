@@ -305,6 +305,8 @@ void CUser::GameStart(Packet & pkt)
 		// is still given the option to revive.
 		if (isDead())
 			SendDeathAnimation();
+
+		g_pMain->EventGetActiveEventTime(this);
 	}
 
 	m_tHPLastTimeNormal = UNIXTIME;

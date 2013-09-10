@@ -111,8 +111,12 @@ public:
 	void DeleteAllNpcList(int flag = 0);
 	CNpc*  FindNpcInZone(uint16 sPid, uint8 byZone);
 	void EventTimer();
-	void CreateEventGroups();
-	void TeleportEventUsers();
+	void EventStart(uint16 nActiveEvent);
+	void EventCreateGroups();
+	void EventTeleportUsers();
+	void EventFinish();
+	void EventGetActiveEventTime(CUser *pUser);
+	void EventSendActiveEventTime(CUser *pUser);
 
 	void AddDatabaseRequest(Packet & pkt, CUser *pUser = nullptr);
 
@@ -373,6 +377,9 @@ public:
 
 	uint8   m_nBorderDefenseWarTime[BORDER_DEFENSE_WAR_EVENT_COUNT], m_nChaosTime[CHAOS_EVENT_COUNT];
 	uint8	m_nPVPMonumentNation[MAX_ZONE_ID];
+
+	uint16	m_nEventRemainSeconds;
+	uint16	m_nEventFinishRemainSeconds;
 
 	uint8	m_bMaxRegenePoint;
 

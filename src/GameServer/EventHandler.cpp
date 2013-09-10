@@ -83,7 +83,6 @@ void CUser::TempleOperations(uint8 bType)
 
 	if(bType == TEMPLE_EVENT_JOIN && !isEventUser(GetSocketID()))
 	{
-		result << bType << bResult << nActiveEvent;
 		if (nActiveEvent == EVENT_CHAOS)
 		{
 			if (CheckExistItem(910246000,1))
@@ -94,20 +93,15 @@ void CUser::TempleOperations(uint8 bType)
 				bResult = 3;
 		}
 
-		if (bResult != 1)
-		{
-			result.put(0, bResult);
-			Send(&result);
-			return;
-		}
+		result << bType << bResult << nActiveEvent;
+		Send(&result);
 
 		if (bResult == 1) {
-
 			GetNation() == KARUS ? g_pMain->pTempleEvent.KarusUserCount++ :g_pMain->pTempleEvent.ElMoradUserCount++;
 			g_pMain->pTempleEvent.AllUserCount = (g_pMain->pTempleEvent.KarusUserCount + g_pMain->pTempleEvent.ElMoradUserCount);
-
-			Send(&result);
 			AddEventUser();
+		} else {
+			return;
 		}
 
 		TempleOperations(TEMPLE_EVENT_COUNTER);
