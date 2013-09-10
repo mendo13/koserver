@@ -36,6 +36,11 @@ void MagicInstance::Run()
 				if (pCaster->isInSafetyArea())
 					return;
 
+				if (pCaster->isInSpecialZone()
+					&& pCaster->GetUserGroup() != -1
+					&&  !pCaster->isSameUserGroup(pSkillTarget))
+					return;
+
 				if (pCaster->m_CoolDownList.find(nSkillID) != pCaster->m_CoolDownList.end())
 				{
 					SkillCooldownList::iterator itr = pCaster->m_CoolDownList.find(nSkillID);
@@ -2160,7 +2165,7 @@ bool MagicInstance::ExecuteType9()
 			pCaster->InsertSavedMagic(nSkillID,pType->sDuration);
 		}
 	}
-	
+
 	return true;
 }
 
