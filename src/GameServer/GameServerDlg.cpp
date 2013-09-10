@@ -1925,7 +1925,9 @@ void CGameServerDlg::EventTeleportUsers()
 			z = (float)pStartPosition->sElmoradZ + myrand(0, pStartPosition->bRangeZ);
 		}
 
-		pUser->RobItem(910246000,1);
+		if (nZoneID == ZONE_CHAOS_DUNGEON)
+			pUser->RobItem(910246000,1);
+
 		pUser->ZoneChange(nZoneID, x, z);
 	}
 
