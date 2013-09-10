@@ -293,7 +293,7 @@ local Check;
 
 if EVENT == 6070 then
    Check = CheckExchange(UID, 600)
-   if Check ==1 then
+   if Check == 1 then
       RunExchange(UID, 600);
       SaveEvent(UID, 6025);
    else
