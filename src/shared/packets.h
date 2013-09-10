@@ -459,7 +459,8 @@ enum DailyOperationsOpCode
 enum EventOpCode
 {
 	EVENT_BORDER_DEFENCE_WAR	= 4,
-	EVENT_CHAOS					= 24
+	EVENT_CHAOS					= 24,
+	EVENT_JURAD_MOUNTAIN		= 100
 };
 
 ////////////////////////////////////////////////////////////////
@@ -504,9 +505,9 @@ enum TempleOpCodes
 	BIFROST_EVENT = 2,
 	MONSTER_STONE = 6,
 	TEMPLE_EVENT = 7,
-	TEMPLE_JOIN = 8,
-	TEMPLE_DISBAND = 9,
-	TEMPLE_COUNTER = 16
+	TEMPLE_EVENT_JOIN = 8,
+	TEMPLE_EVENT_DISBAND = 9,
+	TEMPLE_EVENT_COUNTER = 16
 };
 
 enum FriendAddResult

@@ -71,6 +71,7 @@ public:
 
 	void AIServerConnect();
 
+	static uint32 THREADCALL Timer_EventTimer(void * lpParam);
 	static uint32 THREADCALL Timer_BifrostTime(void * lpParam);
 	static uint32 THREADCALL Timer_UpdateGameTime(void * lpParam);
 	static uint32 THREADCALL Timer_UpdateSessions(void * lpParam);
@@ -110,6 +111,8 @@ public:
 	void DeleteAllNpcList(int flag = 0);
 	CNpc*  FindNpcInZone(uint16 sPid, uint8 byZone);
 	void EventTimer();
+	void CreateEventGroups();
+	void TeleportEventUsers();
 
 	void AddDatabaseRequest(Packet & pkt, CUser *pUser = nullptr);
 

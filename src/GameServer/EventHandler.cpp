@@ -60,10 +60,10 @@ void CUser::TempleProcess(Packet &pkt )
 	{
 	case MONSTER_STONE:
 		MonsterStoneProcess(); 
-	case TEMPLE_JOIN:
+	case TEMPLE_EVENT_JOIN:
 		TempleOperations(opcode);
 		break;
-	case TEMPLE_DISBAND:
+	case TEMPLE_EVENT_DISBAND:
 		TempleOperations(opcode);
 		break;
 	}
@@ -76,14 +76,14 @@ void CUser::MonsterStoneProcess()
 
 void CUser::TempleOperations(uint8 bType)
 {
-	uint16 nActiveEvent = g_pMain->pTempleEvent.ActiveEvent;
+	uint16 nActiveEvent = (uint16)g_pMain->pTempleEvent.ActiveEvent;
 
 	uint8 bResult = 1;
 	Packet result(WIZ_EVENT);
 
-	if(bType == TEMPLE_JOIN && !isEventUser(GetSocketID()))
+	if(bType == TEMPLE_EVENT_JOIN && !isEventUser(GetSocketID()))
 	{
-		result <<  uint8(TEMPLE_JOIN) << bResult << nActiveEvent;
+		result << bType << bResult << nActiveEvent;
 		if (nActiveEvent == EVENT_CHAOS)
 		{
 			if (CheckExistItem(910246000,1))
@@ -110,21 +110,21 @@ void CUser::TempleOperations(uint8 bType)
 			AddEventUser();
 		}
 
-		TempleOperations(TEMPLE_COUNTER);
+		TempleOperations(TEMPLE_EVENT_COUNTER);
 	}
-	else if (bType == TEMPLE_DISBAND && isEventUser(GetSocketID()))
+	else if (bType == TEMPLE_EVENT_DISBAND && isEventUser(GetSocketID()))
 	{
-		result <<  uint8(TEMPLE_DISBAND) << bResult << nActiveEvent;
+		result <<  bType << bResult << nActiveEvent;
 		GetNation() == KARUS ? g_pMain->pTempleEvent.KarusUserCount-- : g_pMain->pTempleEvent.ElMoradUserCount--;
 		g_pMain->pTempleEvent.AllUserCount = g_pMain->pTempleEvent.KarusUserCount + g_pMain->pTempleEvent.ElMoradUserCount;
 
 		Send(&result);
 		RemoveEventUser(GetSocketID());
-		TempleOperations(TEMPLE_COUNTER);
+		TempleOperations(TEMPLE_EVENT_COUNTER);
 	}
-	else if (bType == TEMPLE_COUNTER)
+	else if (bType == TEMPLE_EVENT_COUNTER)
 	{
-		result << uint8(TEMPLE_COUNTER) << nActiveEvent;
+		result << bType << nActiveEvent;
 
 		if(nActiveEvent == EVENT_CHAOS)
 			result << g_pMain->pTempleEvent.AllUserCount;

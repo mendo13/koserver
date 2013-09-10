@@ -444,6 +444,9 @@ void CUser::ReqUserLogOut()
 
 	PlayerRanking(GetZoneID(), true);
 
+	if (isInSpecialZone())
+		RemoveEventUser(GetSocketID());
+
 	if (m_bLogout != 2)	// zone change logout
 		g_DBAgent.AccountLogout(GetAccountName());
 
