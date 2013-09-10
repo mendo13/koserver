@@ -312,8 +312,6 @@ public:
 	INLINE bool isRogue() { return JobGroupCheck(ClassRogue); }
 	INLINE bool isMage() { return JobGroupCheck(ClassMage); }
 	INLINE bool isPriest() { return JobGroupCheck(ClassPriest); }
-	INLINE bool isPVPZone() {  return GetZoneID() == ZONE_ARDREAM || GetZoneID() == ZONE_RONARK_LAND || GetZoneID() == ZONE_RONARK_LAND_BASE; }
-	INLINE bool isSpecialEventZone() {  return GetZoneID() == ZONE_BORDER_DEFENSE_WAR || GetZoneID() == ZONE_CHAOS_DUNGEON || GetZoneID() == ZONE_JURAD_MOUNTAIN; }
 
 	INLINE bool isBeginner() 
 	{
@@ -365,6 +363,9 @@ public:
 	INLINE bool isSiegeTransformation() { return m_transformationType == TransformationSiege; }
 
 	INLINE bool isWeaponsDisabled() { return m_bWeaponsDisabled; }
+
+	INLINE bool isPVPZone() {  return GetZoneID() == ZONE_ARDREAM || GetZoneID() == ZONE_RONARK_LAND || GetZoneID() == ZONE_RONARK_LAND_BASE; }
+	INLINE bool isInSpecialZone() {  return GetZoneID() == ZONE_BORDER_DEFENSE_WAR || GetZoneID() == ZONE_CHAOS_DUNGEON || GetZoneID() == ZONE_JURAD_MOUNTAIN; }
 
 	INLINE int8 GetMerchantState() { return m_bMerchantState; }
 

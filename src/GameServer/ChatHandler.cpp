@@ -325,6 +325,35 @@ bool CUser::ProcessChatCommand(std::string & message)
 
 COMMAND_HANDLER(CUser::HandleTestCommand)
 {
+	if (vargs.size() < 2)
+		return true;
+
+	std::string strUserID = vargs.front();
+	vargs.pop_front();
+
+	CUser *pUser = g_pMain->GetUserPtr(strUserID, TYPE_CHARACTER);
+
+	if (pUser == nullptr)
+	{
+		g_pMain->SendHelpDescription(this, "Error : User is not online");
+		return true;
+	}
+
+	int16 nUserGroup = atoi(vargs.front().c_str());
+	vargs.pop_front();
+
+	pUser->m_nUserGroup = nUserGroup;
+
+	uint8 InOut = 0;
+	if (!vargs.empty())
+		InOut = atoi(vargs.front().c_str());
+
+	if (InOut != 0)
+	{
+		pUser->UserInOut(INOUT_OUT);
+		pUser->UserInOut(INOUT_IN);
+	}
+
 	return true;
 }
 
@@ -344,7 +373,7 @@ COMMAND_HANDLER(CUser::HandleGiveItemCommand)
 	CUser *pUser = g_pMain->GetUserPtr(strUserID, TYPE_CHARACTER);
 	if (pUser == nullptr)
 	{
-		// send error message saying the character does not exist or is not online
+		g_pMain->SendHelpDescription(this, "Error : User is not online");
 		return true;
 	}
 
@@ -545,7 +574,7 @@ COMMAND_HANDLER(CUser::HandleLoyaltyChangeCommand)
 	CUser *pUser = g_pMain->GetUserPtr(strUserID, TYPE_CHARACTER);
 	if (pUser == nullptr)
 	{
-		// send error message saying the character does not exist or is not online
+		g_pMain->SendHelpDescription(this, "Error : User is not online");
 		return true;
 	}
 
@@ -573,7 +602,7 @@ COMMAND_HANDLER(CUser::HandleExpChangeCommand)
 	CUser *pUser = g_pMain->GetUserPtr(strUserID, TYPE_CHARACTER);
 	if (pUser == nullptr)
 	{
-		// send error message saying the character does not exist or is not online
+		g_pMain->SendHelpDescription(this, "Error : User is not online");
 		return true;
 	}
 
@@ -601,7 +630,7 @@ COMMAND_HANDLER(CUser::HandleGoldChangeCommand)
 	CUser *pUser = g_pMain->GetUserPtr(strUserID, TYPE_CHARACTER);
 	if (pUser == nullptr)
 	{
-		// send error message saying the character does not exist or is not online
+		g_pMain->SendHelpDescription(this, "Error : User is not online");
 		return true;
 	}
 

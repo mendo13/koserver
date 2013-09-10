@@ -168,7 +168,9 @@ void CUser::SelectCharacter(Packet & pkt)
 	// Disallow players from relogging in the opposite nation's home zone when an invasion's not running.
 	if ((GetZoneID() != GetNation() && GetZoneID() <= ZONE_ELMORAD && !g_pMain->m_byBattleOpen)
 		// also disallow players from logging back into war zones that aren't currently active...
-			|| (GetMap()->isWarZone() && (GetZoneID() - ZONE_BATTLE_BASE) != g_pMain->m_byBattleZone))
+			|| (GetMap()->isWarZone() && (GetZoneID() - ZONE_BATTLE_BASE) != g_pMain->m_byBattleZone)
+			// Chaos, bdw and juraid montuain
+			|| isInSpecialZone())
 	{
 		NativeZoneReturn();
 		Disconnect();
@@ -298,7 +300,6 @@ void CUser::GameStart(Packet & pkt)
 		SetUserAbility();
 		// rental
 		RecastSavedMagic(m_sHp == m_iMaxHp ? true : false); //ItemMallRecast
-
 
 		// If we've relogged while dead, we need to make sure the client 
 		// is still given the option to revive.

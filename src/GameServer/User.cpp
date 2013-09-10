@@ -2114,12 +2114,7 @@ void CUser::SendTargetHP( uint8 echo, int tid, int damage )
 
 	Packet result(WIZ_TARGET_HP);
 	result << uint16(tid) << echo << maxhp << hp << uint16(damage);
-
-	if (!isSpecialEventZone())
-		Send(&result);
-	else
-		if (isSameUserGroup(pTarget))
-			Send(&result);
+	Send(&result);
 }
 
 /**

@@ -44,6 +44,16 @@ void CMagicProcess::MagicPacket(Packet & pkt, Unit * pCaster /*= nullptr*/)
 		|| instance.sCasterID != pCaster->GetID()))
 		return;
 
+	if (pCaster->isPlayer())
+	{
+		CUser *pUser = TO_USER(pCaster);
+		Unit *pTarget = g_pMain->GetUnitPtr(instance.sTargetID);
+
+		if (pUser != nullptr && pTarget != nullptr)
+			if (pUser->GetUserGroup() != -1 &&  !pCaster->isSameUserGroup(pTarget))
+				return;
+	}
+
 	instance.bIsRecastingSavedMagic = false;
 	instance.Run();
 }
