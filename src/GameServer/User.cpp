@@ -4221,8 +4221,6 @@ void CUser::OnDeath(Unit *pKiller)
 				// All zones other than the snow war.
 				else
 				{
-
-
 					if (isInArena())
 					{
 						// Show death notices in the arena

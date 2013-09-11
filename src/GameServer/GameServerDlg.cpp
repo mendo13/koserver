@@ -735,7 +735,7 @@ void CGameServerDlg::Send_Zone_Matched_Class(Packet *pkt, uint8 bZoneID, CUser* 
 				||	((seekingPartyOptions & 2) && pUser->JobGroupCheck(ClassRogue))
 				||	((seekingPartyOptions & 4) && pUser->JobGroupCheck(ClassMage))
 				||	((seekingPartyOptions & 8) && pUser->JobGroupCheck(ClassPriest)))
-				pUser->Send(pkt);
+			pUser->Send(pkt);
 		}
 	}
 	g_pMain->m_socketMgr.ReleaseLock();
@@ -753,6 +753,10 @@ void CGameServerDlg::Send_Zone_Matched_Class(Packet *pkt, uint8 bZoneID, CUser* 
 */
 void CGameServerDlg::Send_Zone(Packet *pkt, uint8 bZoneID, CUser* pExceptUser /*= nullptr*/, uint8 nation /*= 0*/)
 {
+	int16 nUserGroup = -1;
+	if (pExceptUser != nullptr)
+		nUserGroup = pExceptUser->GetUserGroup();
+
 	SessionMap & sessMap = g_pMain->m_socketMgr.GetActiveSessionMap();
 	foreach (itr, sessMap)
 	{
@@ -768,6 +772,9 @@ void CGameServerDlg::Send_Zone(Packet *pkt, uint8 bZoneID, CUser* pExceptUser /*
 
 			continue;
 		}
+
+		if (nUserGroup != -1 && nUserGroup != pUser->GetUserGroup())
+			continue;
 
 		pUser->Send(pkt);
 	}
@@ -927,6 +934,10 @@ void CGameServerDlg::Send_FilterUnitRegion(Packet *pkt, C3DMap *pMap, int x, int
 	if (pMap == nullptr)
 		return;
 
+	int16 nUserGroup = -1;
+	if (pExceptUser != nullptr)
+		nUserGroup = pExceptUser->GetUserGroup();
+
 	FastGuard lock(pMap->m_lock);
 	CRegion *pRegion = pMap->GetRegion(x, z);
 	if (pRegion == nullptr)
@@ -939,6 +950,9 @@ void CGameServerDlg::Send_FilterUnitRegion(Packet *pkt, C3DMap *pMap, int x, int
 		if (pUser == nullptr 
 			|| pUser == pExceptUser 
 			|| !pUser->isInGame())
+			continue;
+
+		if (nUserGroup != -1 && nUserGroup != pUser->GetUserGroup())
 			continue;
 
 		if (sqrt(pow((pUser->m_curx - ref_x), 2) + pow((pUser->m_curz - ref_z), 2)) < 32)
@@ -1955,7 +1969,8 @@ void CGameServerDlg::EventFinish()
 	{
 	case EVENT_BORDER_DEFENCE_WAR:
 		ZoneID = ZONE_BORDER_DEFENSE_WAR;
-		SendItemZoneUsers(ZoneID, CERTIFICATE_OF_VICTORY);
+		SendItemZoneUsers(ZoneID, CERTIFICATE_OF_VICTORY); // winner reward...
+		SendItemZoneUsers(ZoneID, BORDER_SECURITY_SCROLL);  // winner reward...
 		SendItemZoneUsers(ZoneID, RED_TREASURE_CHEST);
 		break;
 	case EVENT_CHAOS:
@@ -1977,13 +1992,31 @@ void CGameServerDlg::EventFinish()
 	pTempleEvent.ActiveEvent = -1;
 	KickOutZoneUsers(ZoneID);
 
-	foreach_stlmap_nolock(itr, g_pMain->m_EventUserArray)
+	foreach_stlmap_nolock(itr, m_EventUserArray)
 	{
 		CUser * pUser = GetUserPtr(itr->second->m_socketID);
 
 		if (pUser == nullptr 
 			||	!pUser->isInGame())
 			continue;
+
+		_PVP_RANKINGS * pRankInfo = m_PVPRankingsArray->GetData(itr->second->m_socketID);
+
+		if (pRankInfo != nullptr)
+		{
+			int64 nChangeExp = -1;
+
+			if (ZoneID == ZONE_CHAOS_DUNGEON)
+				nChangeExp = int64((pUser->GetLevel()^3) * 0.15 * (5 * pRankInfo->m_KillCount - pRankInfo->m_DeathCount));
+			else if (ZoneID == ZONE_BORDER_DEFENSE_WAR)
+				if (pUser->GetLevel() < 58)
+					nChangeExp = int64((pUser->GetLevel()-20) * (3000 + 100/* Temp Score */* 1000));
+				else
+					nChangeExp = int64((pUser->GetLevel()+55) * (20000 + 100/* Temp Score */ * 500));
+
+			if (nChangeExp != -1)
+				pUser->ExpChange(nChangeExp);
+		}
 
 		pUser->UpdateEventUser(pUser->GetSocketID(), -1);
 	}

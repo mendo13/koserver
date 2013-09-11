@@ -1077,7 +1077,7 @@ void KOMap::SetZoneAttributes(int zoneNumber)
 		break;
 	case ZONE_CHAOS_DUNGEON:
 		m_zoneType = ZoneAbilityPVP;
-		m_zoneFlags = ZF_ATTACK_OTHER_NATION;
+		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_ATTACK_SAME_NATION;
 		break;
 	case ZONE_JURAD_MOUNTAIN:
 		m_zoneType = ZoneAbilityPVPNeutralNPCs;

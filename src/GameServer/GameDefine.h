@@ -618,7 +618,6 @@ struct _PVP_RANKINGS
 	uint16 m_iLoyaltyPremiumBonus;
 	uint8 m_KillCount; // Chaos
 	uint8 m_DeathCount; // Chaos
-	int64 m_GainedExp; // Chaos and BDW
 };
 
 struct _EVENT_STATUS
