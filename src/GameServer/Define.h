@@ -207,8 +207,13 @@ enum InOutType
 //ID of the "King Specter" item
 #define KING_SCEPTER			910074311
 
-//ID of Chaos Map
 #define CHAOS_MAP				910246000
+#define VOUCHER_OF_CHAOS		900106000
+#define VOUCHER_OF_ORACLE		900184000
+#define CERTIFICATE_OF_VICTORY	900017000
+#define RED_TREASURE_CHEST		379154000
+#define GREEN_TREASURE_CHEST	379155000
+#define BLUE_TREASURE_CHEST		379156000
 
 // ID of the Seed quest, to be automatically started on first load.
 #define STARTER_SEED_QUEST	500

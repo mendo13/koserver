@@ -84,7 +84,8 @@ public:
 	void BattleZoneCurrentUsers();
 	void GetCaptainUserPtr();
 	void Send_CommandChat(Packet *pkt, int nation, CUser* pExceptUser = nullptr);
-	void KickOutZoneUsers(short zone);
+	void KickOutZoneUsers(uint8 zone);
+	void SendItemZoneUsers(uint8 ZoneID, uint32 nItemID, uint16 sCount = 1);
 	uint64 GenerateItemSerial();
 	int KickOutAllUsers();
 	void CheckAliveUser();
@@ -111,7 +112,7 @@ public:
 	void DeleteAllNpcList(int flag = 0);
 	CNpc*  FindNpcInZone(uint16 sPid, uint8 byZone);
 	void EventTimer();
-	void EventStart(uint16 nActiveEvent);
+	void EventStart();
 	void EventCreateGroups();
 	void EventTeleportUsers();
 	void EventFinish();

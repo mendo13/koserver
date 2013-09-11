@@ -623,11 +623,12 @@ struct _PVP_RANKINGS
 
 struct _EVENT_STATUS
 {
+	bool isActive;
 	int16 ActiveEvent;
 	uint32 StartTime;
+	uint16 AllUserCount;
 	uint16 ElMoradUserCount;
 	uint16 KarusUserCount;
-	uint16 AllUserCount;
 };
 
 struct _EVENT_USER
