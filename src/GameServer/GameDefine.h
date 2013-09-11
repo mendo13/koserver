@@ -398,6 +398,26 @@ struct _HOME_INFO
 	uint32	BattleZoneZ;
 	uint8	BattleZoneLX;
 	uint8	BattleZoneLZ;
+	uint32  BattleZone2X;
+	uint32  BattleZone2Z;
+	uint8   BattleZone2LX;
+	uint8   BattleZone2LZ;
+	uint32  BattleZone3X;
+	uint32  BattleZone3Z;
+	uint8   BattleZone3LX;
+	uint8   BattleZone3LZ;
+	uint32  BattleZone4X;
+	uint32  BattleZone4Z;
+	uint8   BattleZone4LX;
+	uint8   BattleZone4LZ;
+	uint32  BattleZone5X;
+	uint32  BattleZone5Z;
+	uint8   BattleZone5LX;
+	uint8   BattleZone5LZ;
+	uint32  BattleZone6X;
+	uint32  BattleZone6Z;
+	uint8   BattleZone6LX;
+	uint8   BattleZone6LZ; 
 };
 
 struct _KNIGHTS_CAPE

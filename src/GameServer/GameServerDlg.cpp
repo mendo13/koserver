@@ -735,7 +735,7 @@ void CGameServerDlg::Send_Zone_Matched_Class(Packet *pkt, uint8 bZoneID, CUser* 
 				||	((seekingPartyOptions & 2) && pUser->JobGroupCheck(ClassRogue))
 				||	((seekingPartyOptions & 4) && pUser->JobGroupCheck(ClassMage))
 				||	((seekingPartyOptions & 8) && pUser->JobGroupCheck(ClassPriest)))
-			pUser->Send(pkt);
+				pUser->Send(pkt);
 		}
 	}
 	g_pMain->m_socketMgr.ReleaseLock();
@@ -1628,7 +1628,8 @@ void CGameServerDlg::BattleZoneOpenTimer()
 	int loser_nation = 0, snow_battle = 0;
 	CUser *pKarusUser = nullptr, *pElmoUser = nullptr;
 
-	if( m_byBattleOpen == NATION_BATTLE )		BattleZoneCurrentUsers();
+	if (m_byBattleOpen == NATION_BATTLE)	
+		BattleZoneCurrentUsers();
 
 	if (m_byBanishFlag)
 	{

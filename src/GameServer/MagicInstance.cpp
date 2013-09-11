@@ -1952,7 +1952,29 @@ bool MagicInstance::ExecuteType8()
 					pTUser->Warp(uint16((pHomeInfo->ElmoZoneX + myrand(0, pHomeInfo->ElmoZoneLX)) * 10), uint16((pHomeInfo->ElmoZoneZ + + myrand(0, pHomeInfo->ElmoZoneLZ)) * 10));
 			}
 			else if (pTUser->GetMap()->isWarZone())
-				pTUser->Warp(uint16((pHomeInfo->BattleZoneX + myrand(0, pHomeInfo->BattleZoneLX)) * 10), uint16((pHomeInfo->BattleZoneZ + myrand(0, pHomeInfo->BattleZoneLZ)) * 10));
+			{
+				switch (pTUser->GetZoneID())
+				{
+				case ZONE_BATTLE:
+					pTUser->Warp(uint16((pHomeInfo->BattleZoneX + myrand(0, pHomeInfo->BattleZoneLX)) * 10), uint16((pHomeInfo->BattleZoneZ + myrand(0, pHomeInfo->BattleZoneLZ)) * 10));
+					break;
+				case ZONE_BATTLE2:
+					pTUser->Warp(uint16((pHomeInfo->BattleZone2X + myrand(0, pHomeInfo->BattleZone2LX)) * 10), uint16((pHomeInfo->BattleZone2Z + myrand(0, pHomeInfo->BattleZone2LZ)) * 10));
+					break;
+				case ZONE_BATTLE3:
+					pTUser->Warp(uint16((pHomeInfo->BattleZone3X + myrand(0, pHomeInfo->BattleZone3LX)) * 10), uint16((pHomeInfo->BattleZone3Z + myrand(0, pHomeInfo->BattleZone3LZ)) * 10));
+					break;
+				case ZONE_BATTLE4:
+					pTUser->Warp(uint16((pHomeInfo->BattleZone4X + myrand(0, pHomeInfo->BattleZone4LX)) * 10), uint16((pHomeInfo->BattleZone4Z + myrand(0, pHomeInfo->BattleZone4LZ)) * 10));
+					break;
+				case ZONE_BATTLE5:
+					pTUser->Warp(uint16((pHomeInfo->BattleZone5X + myrand(0, pHomeInfo->BattleZone5LX)) * 10), uint16((pHomeInfo->BattleZone5Z + myrand(0, pHomeInfo->BattleZone5LZ)) * 10));
+					break;
+				case ZONE_BATTLE6:
+					pTUser->Warp(uint16((pHomeInfo->BattleZone6X + myrand(0, pHomeInfo->BattleZone6LX)) * 10), uint16((pHomeInfo->BattleZone6Z + myrand(0, pHomeInfo->BattleZone6LZ)) * 10));
+					break;
+				}
+			} 
 			else if (pTUser->GetMap()->canAttackOtherNation())
 				pTUser->Warp(uint16((pHomeInfo->FreeZoneX + myrand(0, pHomeInfo->FreeZoneLX)) * 10), uint16((pHomeInfo->FreeZoneZ + myrand(0, pHomeInfo->FreeZoneLZ)) * 10));
 			else
