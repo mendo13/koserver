@@ -2158,11 +2158,10 @@ bool MagicInstance::ExecuteType9()
 	{
 		if(pSkill == nullptr || pType == nullptr)
 			return false;
-		else if (pCaster->HasSavedMagic(pType->iNum) == false)
+		else if (pCaster->HasSavedMagic(pType->iNum) == false && pCaster->canInstantCast())
 		{
 			g_pMain->SpawnEventNpc(pType->sMonsterNum,true,pCaster->GetZoneID(),pCaster->GetX(),pCaster->GetY(),pCaster->GetZ(),1,2);
 			SendSkill();
-			pCaster->InsertSavedMagic(nSkillID,pType->sDuration);
 		}
 	}
 
