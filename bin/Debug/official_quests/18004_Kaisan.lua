@@ -4,7 +4,6 @@ local Ret = 0;
 local NPC=18004;
 
 if EVENT == 100 then
-   ShowNpcEffect(UID, 31033);
    QuestNum = SearchQuest(UID, NPC);
    if QuestNum == 0 then
       SelectMsg(UID, 2, -1, 146, NPC, 10, 101);
