@@ -325,7 +325,7 @@ bool CUser::ProcessChatCommand(std::string & message)
 
 COMMAND_HANDLER(CUser::HandleTestCommand)
 {
-	if (isInSpecialZone())
+	if (isInTempleEventZone())
 		g_pMain->SendHelpDescription(this, string_format("Your Coordinate is : %d, %d",int32(GetX()),int32(GetZ())).c_str());
 	return true;
 }
@@ -854,6 +854,8 @@ COMMAND_HANDLER(CGameServerDlg::HandleReloadTablesCommand)
 	g_pMain->LoadPremiumItemExpTable();
 	g_pMain->m_ItemExchangeArray.DeleteAllData();
 	g_pMain->LoadItemExchangeTable();
+	g_pMain->m_StartPositionArray.DeleteAllData();
+	g_pMain->LoadStartPositionTable();
 	return true;
 }
 

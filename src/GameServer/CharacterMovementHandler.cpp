@@ -460,7 +460,7 @@ void CUser::ZoneChange(uint16 sNewZone, float x, float z)
 
 		if (m_bZone == ZONE_SNOW_BATTLE)
 			SetMaxHp(1);
-		else if (m_bZone == ZONE_CHAOS_DUNGEON)
+		else if (isInTempleEventZone())
 		{
 			SetMaxHp(1);
 			HpChange(GetMaxHealth());

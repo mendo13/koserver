@@ -458,9 +458,9 @@ enum DailyOperationsOpCode
 
 enum EventOpCode
 {
-	EVENT_BORDER_DEFENCE_WAR	= 4,
-	EVENT_CHAOS					= 24,
-	EVENT_JURAD_MOUNTAIN		= 100
+	TEMPLE_EVENT_BORDER_DEFENCE_WAR	= 4,
+	TEMPLE_EVENT_CHAOS					= 24,
+	TEMPLE_EVENT_JURAD_MOUNTAIN		= 100
 };
 
 ////////////////////////////////////////////////////////////////

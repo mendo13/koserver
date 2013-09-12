@@ -650,7 +650,7 @@ struct _EVENT_STATUS
 	uint16 KarusUserCount;
 };
 
-struct _EVENT_USER
+struct _TEMPLE_EVENT_USER
 {
 	uint16 m_socketID;
 	int16 m_nUserGroup;

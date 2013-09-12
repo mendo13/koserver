@@ -361,7 +361,7 @@ public:
 	INLINE bool isWeaponsDisabled() { return m_bWeaponsDisabled; }
 
 	INLINE bool isPVPZone() {  return GetZoneID() == ZONE_ARDREAM || GetZoneID() == ZONE_RONARK_LAND || GetZoneID() == ZONE_RONARK_LAND_BASE; }
-	INLINE bool isInSpecialZone() {  return GetZoneID() == ZONE_BORDER_DEFENSE_WAR || GetZoneID() == ZONE_CHAOS_DUNGEON || GetZoneID() == ZONE_JURAD_MOUNTAIN; }
+	INLINE bool isInTempleEventZone() {  return GetZoneID() == ZONE_BORDER_DEFENSE_WAR || GetZoneID() == ZONE_CHAOS_DUNGEON || GetZoneID() == ZONE_JURAD_MOUNTAIN; }
 
 	INLINE int8 GetMerchantState() { return m_bMerchantState; }
 

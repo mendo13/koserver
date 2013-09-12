@@ -45,7 +45,7 @@ void CUser::Attack(Packet & pkt)
 	{
 		if (isAttackable(pTarget) && CanCastRHit(GetSocketID()))
 		{
-			if (isInSpecialZone())
+			if (isInTempleEventZone())
 				if (GetUserGroup() != -1 && !isSameUserGroup(pTarget))
 					return;
 

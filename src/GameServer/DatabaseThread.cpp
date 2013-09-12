@@ -444,7 +444,7 @@ void CUser::ReqUserLogOut()
 
 	PlayerRanking(GetZoneID(), true);
 
-	if (isInSpecialZone())
+	if (isInTempleEventZone())
 		RemoveEventUser(GetSocketID());
 
 	if (m_bLogout != 2)	// zone change logout

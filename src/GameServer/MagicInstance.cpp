@@ -36,15 +36,15 @@ void MagicInstance::Run()
 				if (pCaster->isInSafetyArea())
 					return;
 
-				if (pCaster->isInSpecialZone()
+				if (pCaster->isInTempleEventZone()
 					&& pCaster->GetUserGroup() != -1
 					&&  !pCaster->isSameUserGroup(pSkillTarget))
 					return;
 
-				if (pCaster->m_CoolDownList.find(nSkillID) != pCaster->m_CoolDownList.end())
+				if (bOpcode != MAGIC_TYPE4_EXTEND && pCaster->m_CoolDownList.find(nSkillID) != pCaster->m_CoolDownList.end())
 				{
 					SkillCooldownList::iterator itr = pCaster->m_CoolDownList.find(nSkillID);
-					if (((UNIXTIME - itr->second) < (float) (pSkill->sReCastTime / 10.0f)))
+					if ((UNIXTIME - itr->second) < (float) (pSkill->sReCastTime / 10.0f))
 						bSendSkillFailed = true;
 					else
 						pCaster->m_CoolDownList.erase(nSkillID);
@@ -1308,6 +1308,9 @@ bool MagicInstance::ExecuteType3()
 		// Durational spells! Durational spells only involve HP.
 		else if (pType->bDuration != 0) 
 		{
+			if (pType->bDirectType == 18)
+				damage = (int)-(pSkillCaster->GetLevel() * 12.5);
+
 			if (damage != 0)		// In case there was first damage......
 				pTarget->HpChangeMagic(damage, pSkillCaster);			// Initial damage!!!
 
@@ -1324,6 +1327,9 @@ bool MagicInstance::ExecuteType3()
 				// Allow for complete magic damage blocks.
 				if (duration_damage < 0 && pTarget->m_bBlockMagic)
 					continue;
+
+				if (pType->bDirectType == 18)
+					duration_damage = -((int)(pSkillCaster->GetLevel() * 12.5) * (pType->bDuration / 2));
 
 				// Setup DOT (damage over time)
 				for (int k = 0; k < MAX_TYPE3_REPEAT; k++) 
@@ -1577,7 +1583,7 @@ fail_return:
 			int16 sDataCopy[] = 
 			{
 				sData[0], bResult, sData[2], sDuration,
-				sData[4], pType->bSpeed, sData[6]
+				sData[4], pTarget->m_bSpeedAmount, sData[6]
 			};
 
 			BuildAndSendSkillPacket(pTmp, true, sCasterID, pTarget->GetID(), bOpcode, nSkillID, sDataCopy);
@@ -1786,7 +1792,9 @@ bool MagicInstance::ExecuteType6()
 			&& pSkillCaster->GetZoneID() > ELMORAD)
 			|| (!bIsRecastingSavedMagic && pCaster->isTransformed())
 			// All buffs must be removed before using transformation skills
-			|| (pType->bUserSkillUse != TransformationSkillUseNPC && pSkillCaster->isBuffed()))
+			|| (pType->bUserSkillUse != TransformationSkillUseNPC && pSkillCaster->isBuffed())
+			// Transformation nation.
+			|| (pType->bNation != 0 && pType->bNation != pCaster->GetNation()))
 	{
 		// If we're recasting it, then it's either already cast on us (i.e. we're changing zones)
 		// or we're relogging. We need to remove it now, as the client doesn't see us using it.

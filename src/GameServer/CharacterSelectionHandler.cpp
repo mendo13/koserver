@@ -170,7 +170,7 @@ void CUser::SelectCharacter(Packet & pkt)
 		// also disallow players from logging back into war zones that aren't currently active...
 			|| (GetMap()->isWarZone() && (GetZoneID() - ZONE_BATTLE_BASE) != g_pMain->m_byBattleZone)
 			// Chaos, bdw and juraid montuain
-			|| isInSpecialZone())
+			|| isInTempleEventZone())
 	{
 		NativeZoneReturn();
 		Disconnect();
@@ -307,7 +307,7 @@ void CUser::GameStart(Packet & pkt)
 		if (isDead())
 			SendDeathAnimation();
 
-		g_pMain->EventGetActiveEventTime(this);
+		g_pMain->TempleEventGetActiveEventTime(this);
 	}
 
 	m_tHPLastTimeNormal = UNIXTIME;

@@ -83,7 +83,7 @@ void CUser::TempleOperations(uint8 bType)
 	
 	if(bType == TEMPLE_EVENT_JOIN && !isEventUser(GetSocketID()))
 	{
-		if (nActiveEvent == EVENT_CHAOS)
+		if (nActiveEvent == TEMPLE_EVENT_CHAOS)
 		{
 			if (CheckExistItem(CHAOS_MAP,1))
 				bResult = 1;
@@ -121,7 +121,7 @@ void CUser::TempleOperations(uint8 bType)
 	{
 		result << bType << nActiveEvent;
 
-		if(nActiveEvent == EVENT_CHAOS)
+		if(nActiveEvent == TEMPLE_EVENT_CHAOS)
 			result << g_pMain->pTempleEvent.AllUserCount;
 		else
 			result << g_pMain->pTempleEvent.KarusUserCount << g_pMain->pTempleEvent.ElMoradUserCount;
@@ -132,25 +132,25 @@ void CUser::TempleOperations(uint8 bType)
 
 void CUser::AddEventUser(CUser *pUser)
 {
-	_EVENT_USER * pEventUser = new _EVENT_USER;
+	_TEMPLE_EVENT_USER * pEventUser = new _TEMPLE_EVENT_USER;
 
 	pEventUser->m_socketID =  pUser != nullptr ? pUser->GetSocketID() : GetSocketID();
 	pEventUser->m_nUserGroup = pUser != nullptr ? pUser->GetUserGroup() : GetUserGroup();
 	pEventUser->m_bZone = pUser != nullptr ? pUser->GetZoneID() : GetZoneID();
 	pEventUser->m_bNation = pUser != nullptr ? pUser->GetNation() : GetNation();
 
-	if (!g_pMain->m_EventUserArray.PutData(pEventUser->m_socketID, pEventUser))
+	if (!g_pMain->m_TempleEventUserArray.PutData(pEventUser->m_socketID, pEventUser))
 		delete pEventUser;
 }
 
 void CUser::RemoveEventUser(uint16 m_socketID)
 {
-	g_pMain->m_EventUserArray.DeleteData(m_socketID);
+	g_pMain->m_TempleEventUserArray.DeleteData(m_socketID);
 }
 
 void CUser::UpdateEventUser(uint16 m_socketID, int16 nUserGroup)
 {
-	_EVENT_USER * pEventUser = g_pMain->m_EventUserArray.GetData(m_socketID);
+	_TEMPLE_EVENT_USER * pEventUser = g_pMain->m_TempleEventUserArray.GetData(m_socketID);
 	CUser *pUser = g_pMain->GetUserPtr(m_socketID);
 
 	if (pEventUser == nullptr || pUser == nullptr)
@@ -162,7 +162,7 @@ void CUser::UpdateEventUser(uint16 m_socketID, int16 nUserGroup)
 
 bool CUser::isEventUser(uint16 m_socketID)
 {
-	_EVENT_USER * pEventUser = g_pMain->m_EventUserArray.GetData(m_socketID);
+	_TEMPLE_EVENT_USER * pEventUser = g_pMain->m_TempleEventUserArray.GetData(m_socketID);
 
 	if (pEventUser != nullptr)
 		return true;

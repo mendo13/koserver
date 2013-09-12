@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "MagicProcess.h"
 #include "MagicInstance.h"
 #include "Map.h"
@@ -482,7 +482,10 @@ bool CMagicProcess::GrantType4Buff(_MAGIC_TABLE * pSkill, _MAGIC_TYPE4 *pType, U
 		break;
 
 	case BUFF_TYPE_SPEED2:				// Cold Wave
-		pTarget->m_bSpeedAmount = (pTarget->m_bSpeedAmount / 100 * pType->bSpeed); 
+		if(myrand(0,100) > pSkill->bSuccessRate)
+			pTarget->m_bSpeedAmount = (pTarget->m_bSpeedAmount / 100 * pType->bSpeed); 
+		else
+			return false;
 		break;
 
 	case BUFF_TYPE_UNK_EXPERIENCE:		// unknown buff type, used for something relating to XP.
@@ -507,8 +510,11 @@ bool CMagicProcess::GrantType4Buff(_MAGIC_TABLE * pSkill, _MAGIC_TYPE4 *pType, U
 		break;
 
 	case BUFF_TYPE_STUN:
-		pTarget->m_bSpeedAmount = pType->bSpeed;
-		break; 
+		if(myrand(0,100) > pSkill->bSuccessRate)
+			pTarget->m_bSpeedAmount = (pTarget->m_bSpeedAmount / 100 * pType->bSpeed); 
+		else
+			return false;
+		break;
 
 	case BUFF_TYPE_LOYALTY_AMOUNT:		// Santa's Present (gives an extra +2NP per kill, unlike BUFF_TYPE_LOYALTY which uses an percent).
 		if (pTarget->isPlayer())
@@ -1053,7 +1059,7 @@ bool CMagicProcess::IsBuff(_MAGIC_TYPE4 * pType)
 
 	case BUFF_TYPE_SPEED2:				// Cold Wave
 		// skill explicitly slows
-		return false;
+		return true;
 
 	case BUFF_TYPE_UNK_EXPERIENCE:		//unknown buff type, used for something relating to XP.
 		return true;
@@ -1065,6 +1071,9 @@ bool CMagicProcess::IsBuff(_MAGIC_TYPE4 * pType)
 	case BUFF_TYPE_DAGGER_BOW_DEFENSE:	// Eskrima
 		return false;
 
+	case BUFF_TYPE_STUN:	// Stun
+		return true;
+
 	case BUFF_TYPE_LOYALTY_AMOUNT:		// Santa's Present (gives an extra +2NP per kill).
 		return true;
 
@@ -1073,6 +1082,8 @@ bool CMagicProcess::IsBuff(_MAGIC_TYPE4 * pType)
 	case BUFF_TYPE_SILENCE_TARGET:		// Silences the target to prevent them from using any skills (or potions)
 	case BUFF_TYPE_NO_POTIONS:			// "No Potion" prevents target from using potions.
 	case BUFF_TYPE_KAUL_TRANSFORMATION:	// Transforms the target into a Kaul (a pig thing), preventing you from /town'ing or attacking, but increases defense.
+		return true;
+
 	case BUFF_TYPE_UNDEAD:				// User becomes undead, increasing defense but preventing the use of potions and converting all health received into damage.
 	case BUFF_TYPE_UNSIGHT:				// Blocks the caster's sight (not the target's).
 		return false;
@@ -1091,9 +1102,6 @@ bool CMagicProcess::IsBuff(_MAGIC_TYPE4 * pType)
 		return true;
 
 		// TO-DO: Identify and name these.
-	case 47: // appears to disable magic attacks, used by lots of skills but only one vaguely mentions that in its description.
-		return false;
-
 	case 48: // DC/War/Exp Flash - grants additional NP/XP
 		return true;
 

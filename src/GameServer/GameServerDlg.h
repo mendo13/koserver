@@ -71,7 +71,7 @@ public:
 
 	void AIServerConnect();
 
-	static uint32 THREADCALL Timer_EventTimer(void * lpParam);
+	static uint32 THREADCALL Timer_TempleEventTimer(void * lpParam);
 	static uint32 THREADCALL Timer_BifrostTime(void * lpParam);
 	static uint32 THREADCALL Timer_UpdateGameTime(void * lpParam);
 	static uint32 THREADCALL Timer_UpdateSessions(void * lpParam);
@@ -111,13 +111,13 @@ public:
 	void SendAllUserInfo();
 	void DeleteAllNpcList(int flag = 0);
 	CNpc*  FindNpcInZone(uint16 sPid, uint8 byZone);
-	void EventTimer();
-	void EventStart();
-	void EventCreateGroups();
-	void EventTeleportUsers();
-	void EventFinish();
-	void EventGetActiveEventTime(CUser *pUser);
-	void EventSendActiveEventTime(CUser *pUser);
+	void TempleEventTimer();
+	void TempleEventStart();
+	void TempleEventCreateGroups();
+	void TempleEventTeleportUsers();
+	void TempleEventFinish();
+	void TempleEventGetActiveEventTime(CUser *pUser);
+	void TempleEventSendActiveEventTime(CUser *pUser);
 
 	void AddDatabaseRequest(Packet & pkt, CUser *pUser = nullptr);
 
@@ -351,7 +351,7 @@ public:
 	PremiumItemExpArray			m_PremiumItemExpArray;
 	PVPRankingsArray			m_PVPRankingsArray[2];
 	UserDailyOpMap				m_UserDailyOpMap;
-	EventUserArray				m_EventUserArray;
+	TempleEventUserArray		m_TempleEventUserArray;
 
 	Atomic<uint16>				m_sPartyIndex;
 	short	m_sZoneCount;							// AI Server 재접속시 사용
@@ -379,8 +379,8 @@ public:
 	uint8   m_nBorderDefenseWarTime[BORDER_DEFENSE_WAR_EVENT_COUNT], m_nChaosTime[CHAOS_EVENT_COUNT];
 	uint8	m_nPVPMonumentNation[MAX_ZONE_ID];
 
-	uint16	m_nEventRemainSeconds;
-	uint16	m_nEventFinishRemainSeconds;
+	uint16	m_nTempleEventRemainSeconds;
+	uint16	m_nTempleEventFinishRemainSeconds;
 
 	uint8	m_bMaxRegenePoint;
 

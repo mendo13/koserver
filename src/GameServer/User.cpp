@@ -1026,7 +1026,7 @@ void CUser::SetZoneAbilityChange(uint16 sNewZone)
 
 	Send(&result);
 
-	if (!isGM())
+	/*if (!isGM())*/
 		PlayerRanking(sNewZone,false);
 
 	if (sNewZone == ZONE_RONARK_LAND || sNewZone ==  ZONE_BIFROST)
@@ -1955,7 +1955,8 @@ void CUser::SetUserAbility(bool bSendPacket /*= true*/)
 
 	temp_str += GetStatBonusTotal(STAT_STR);
 
-	m_sMaxWeight = (((GetStatWithItemBonus(STAT_STR) + GetLevel()) * 50) + m_sMaxWeightBonus)  * (m_bMaxWeightAmount / 100);
+	m_sMaxWeight = (((GetStatWithItemBonus(STAT_STR) + GetLevel()) * 50) + m_sMaxWeightBonus)  * (m_bMaxWeightAmount <= 0 ? 1 :  m_bMaxWeightAmount / 100);
+	
 	if (isRogue()) 
 	{
 		ap_stat = temp_dex;
@@ -4665,25 +4666,38 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 			foreach_stlmap(itr, g_pMain->m_PVPRankingsArray[nation])
 				PVPRankings[nation].push_back(*itr->second);
 
-			std::sort(PVPRankings[nation].begin(),PVPRankings[nation].end(),[](_PVP_RANKINGS const &a, _PVP_RANKINGS const &b){ return a.m_iLoyaltyDaily > b.m_iLoyaltyDaily; });
+			if (GetZoneID() == ZONE_CHAOS_DUNGEON)
+				std::sort(PVPRankings[nation].begin(),PVPRankings[nation].end(),[](_PVP_RANKINGS const &a, _PVP_RANKINGS const &b){ return a.m_KillCount > b.m_KillCount; });
+			else
+				std::sort(PVPRankings[nation].begin(),PVPRankings[nation].end(),[](_PVP_RANKINGS const &a, _PVP_RANKINGS const &b){ return a.m_iLoyaltyDaily > b.m_iLoyaltyDaily; });
 		}
 
-		if ((nation + 1) == GetNation())
+		if (isPVPZone())
 		{
-			for (int i = 0; i < (int32)PVPRankings[nation].size(); i++)
+			if ((nation + 1) == GetNation())
 			{
-				if (PVPRankings[nation][i].m_socketID != GetSocketID())
-					continue;
+				for (int i = 0; i < (int32)PVPRankings[nation].size(); i++)
+				{
+					if (PVPRankings[nation][i].m_socketID != GetSocketID())
+						continue;
 
-				MyRank = i + 1;
-				break;
+					MyRank = i+1;
+					break;
+				}
 			}
 		}
 
 		for (int i = 0; i < (int32)PVPRankings[nation].size(); i++)
 		{
-			if (sCount > 10)
+			if (isPVPZone() && sCount > 10)
 				break;
+			else
+			{
+				if (GetZoneID() == ZONE_BORDER_DEFENSE_WAR && sCount > 8)
+					break;
+				else if (GetZoneID() == ZONE_CHAOS_DUNGEON && sCount > 20)
+					break;
+			}
 
 			_PVP_RANKINGS * pPlayerRankInfo = &PVPRankings[nation][i];
 
@@ -4698,25 +4712,33 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 			if (GetZoneID() != pPlayerRankInfo->m_bZone)
 				continue;
 
-			CKnights * pKnights = g_pMain->GetClanPtr(pUser->m_bKnights);
+			if (GetZoneID() == ZONE_CHAOS_DUNGEON)
+				result << uint8(i+1) << pUser->m_strUserID << true;
+			else
+				result << pUser->m_strUserID << true;
 
-			if (pKnights != nullptr) {
-				sClanID = pKnights->m_sIndex;
-				sMarkVersion = pKnights->m_sMarkVersion;
-				strClanName = pKnights->m_strName;
-			} else {
-				sClanID = 0;
-				sMarkVersion = 0;
-				strClanName = "";
-			}
+			if (GetZoneID() == ZONE_BORDER_DEFENSE_WAR || isPVPZone())
+			{
+				CKnights * pKnights = g_pMain->GetClanPtr(pUser->m_bKnights);
 
-			result << pUser->m_strUserID
-				<< true 
-				<< sClanID 
-				<< sMarkVersion 
-				<< strClanName 
-				<< pPlayerRankInfo->m_iLoyaltyDaily
-				<< pPlayerRankInfo->m_iLoyaltyPremiumBonus;
+				if (pKnights != nullptr) {
+					sClanID = pKnights->m_sIndex;
+					sMarkVersion = pKnights->m_sMarkVersion;
+					strClanName = pKnights->m_strName;
+				} else {
+					sClanID = 0;
+					sMarkVersion = 0;
+					strClanName = "";
+				}
+
+				result	<< sClanID << sMarkVersion << strClanName;
+				result << pPlayerRankInfo->m_iLoyaltyDaily;
+
+				if(isPVPZone())
+					result << pPlayerRankInfo->m_iLoyaltyPremiumBonus;
+
+			} else 	if (GetZoneID() == ZONE_CHAOS_DUNGEON)
+				result << pPlayerRankInfo->m_KillCount << pPlayerRankInfo->m_DeathCount;
 
 			sCount++;
 		}
@@ -4725,9 +4747,12 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 		wpos = result.wpos();
 	}
 
-	result  << MyRank
-		<< m_iLoyaltyDaily
-		<< m_iLoyaltyPremiumBonus;
+	if (isPVPZone())
+		result  << MyRank << m_iLoyaltyDaily << m_iLoyaltyPremiumBonus;
+	else if (GetZoneID() == ZONE_BORDER_DEFENSE_WAR)
+		result << int32(100000) << int32(50000);
+	else if (GetZoneID() == ZONE_CHAOS_DUNGEON)
+		result << int32(0) << int32(0);
 
 	Send(&result);
 }
