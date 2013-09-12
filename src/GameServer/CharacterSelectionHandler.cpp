@@ -296,6 +296,7 @@ void CUser::GameStart(Packet & pkt)
 			m_iLostExp = 0;
 		}
 
+		CheckSeedQuest();
 		BlinkStart();
 		SetUserAbility();
 		// rental
@@ -310,4 +311,17 @@ void CUser::GameStart(Packet & pkt)
 	}
 
 	m_tHPLastTimeNormal = UNIXTIME;
+}
+
+void CUser::CheckSeedQuest()
+{
+	if (CheckExistEvent(STARTER_SEED_QUEST, 1))
+		SaveEvent(STARTER_SEED_QUEST, 2);
+	else if (CheckExistEvent(STARTER_SEED_QUEST, 2))
+	{
+		Packet result(WIZ_QUEST, uint8(1));
+		result << uint16(3) << uint8(244) << uint8(1) << uint8(2) << uint8(167) << uint8(2) << uint8(100);
+		result << uint16(0);
+		Send(&result);
+	}
 }

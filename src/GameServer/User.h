@@ -642,6 +642,7 @@ public:
 	void MoveProcess(Packet & pkt);
 	void Rotate(Packet & pkt);
 	void Attack(Packet & pkt);
+	void CheckSeedQuest();
 
 	static void InitChatCommands();
 	static void CleanupChatCommands();

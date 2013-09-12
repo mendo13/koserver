@@ -351,13 +351,11 @@ void CNpc::OnDeathProcess(Unit *pKiller)
 					break;
 				}
 			}
-			else if (m_bMonster) // Seed Quest
+			else if (m_bMonster)
 			{
 				if (m_sSid == 700 || m_sSid == 750)
-				{
-					if (pUser->CheckExistEvent(STARTER_SEED_QUEST, 1))
-						pUser->SaveEvent(STARTER_SEED_QUEST, 2);
-				} else if (g_pMain->m_MonsterRespawnListArray.GetData(m_sSid) != nullptr) {
+					pUser->CheckSeedQuest();
+				else if (g_pMain->m_MonsterRespawnListArray.GetData(m_sSid) != nullptr) {
 					if (pUser->isPVPZone() || GetZoneID() == ZONE_JURAD_MOUNTAIN)
 						g_pMain->SpawnEventNpc(g_pMain->m_MonsterRespawnListArray.GetData(m_sSid)->sSid, true, GetZoneID(), GetX(), GetY(), GetZ(), g_pMain->m_MonsterRespawnListArray.GetData(m_sSid)->sCount);
 				} else if (m_tNpcType == NPC_CHAOS_STONE && pUser->isPVPZone()) {
@@ -423,10 +421,10 @@ void CNpc::PVPMonumentProcess(CUser *pUser)
 	if (pUser == nullptr)
 		return;
 
-		Packet result(WIZ_CHAT, uint8(MONUMENT_NOTICE));
-		result << uint8(FORCE_CHAT) << pUser->GetNation() << pUser->GetName().c_str();
-		g_pMain->Send_Zone(&result, GetZoneID(), nullptr, Nation::ALL);
+	Packet result(WIZ_CHAT, uint8(MONUMENT_NOTICE));
+	result << uint8(FORCE_CHAT) << pUser->GetNation() << pUser->GetName().c_str();
+	g_pMain->Send_Zone(&result, GetZoneID(), nullptr, Nation::ALL);
 
-		g_pMain->m_nPVPMonumentNation[GetZoneID()] = pUser->GetNation();
-		g_pMain->ChangeNpcProperties(m_sSid, m_bMonster, pUser->GetNation() == KARUS ? KARUS : ELMORAD, pUser->GetNation() == KARUS ? PVP_MONUMENT_KARUS_SPID : PVP_MONUMENT_ELMORAD_SPID);
+	g_pMain->m_nPVPMonumentNation[GetZoneID()] = pUser->GetNation();
+	g_pMain->ChangeNpcProperties(m_sSid, m_bMonster, pUser->GetNation() == KARUS ? KARUS : ELMORAD, pUser->GetNation() == KARUS ? PVP_MONUMENT_KARUS_SPID : PVP_MONUMENT_ELMORAD_SPID);
 }
