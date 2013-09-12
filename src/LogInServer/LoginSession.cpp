@@ -119,9 +119,8 @@ void LoginSession::HandleLogin(Packet & pkt)
 	result << uint8(resultCode);
 	if (resultCode == AUTH_SUCCESS)
 	{
-		//result << int8(-1) << int8(-1); // prem type, prem days/hours (what are we even with 19XX)
-		result << int16(g_pMain->m_DBProcess.AccountPremium(account));
-		result << account; // it uses this for the game server now.
+		result << g_pMain->m_DBProcess.AccountPremium(account);
+		result << account;
 	}
 	Send(&result);	
 }
