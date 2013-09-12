@@ -68,6 +68,7 @@ void CUser::InitChatCommands()
 		{ "exp_add",			&CUser::HandleExpAddCommand,					"Sets the server-wide XP event. If bonusPercent is set to 0, the event is ended. Arguments: bonusPercent" },
 		{ "money_add",			&CUser::HandleMoneyAddCommand,					"Sets the server-wide coin event. If bonusPercent is set to 0, the event is ended. Arguments: bonusPercent" },
 		{ "permitconnect",		&CUser::HandlePermitConnectCommand,				"Player unban" },
+		{ "tp_all",				&CUser::HandleTeleportAllCommand,				"Players send to home zone." },
 	};
 
 	init_command_table(CUser, commandTable, s_commandTable);
@@ -684,7 +685,20 @@ COMMAND_HANDLER(CUser::HandlePermitConnectCommand)
 
 	return true;
 }
+COMMAND_HANDLER(CUser::HandleTeleportAllCommand)
+{
+	// Char name
+	if (vargs.size() < 1)
+	{
+		g_pMain->SendHelpDescription(this, "Using Sample : +tp_all ZoneNumber");
+		// send description
+		return true;
+	}
 
+	int nZoneID = atoi(vargs.front().c_str());
+	g_pMain->KickOutZoneUsers(nZoneID);
+	return true;
+}
 
 COMMAND_HANDLER(CGameServerDlg::HandleShutdownCommand)
 {
