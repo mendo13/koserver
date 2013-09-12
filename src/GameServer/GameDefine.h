@@ -629,7 +629,7 @@ struct _PREMIUM_ITEM_EXP
 	uint16	sPercent;
 };
 
-struct _PVP_RANKINGS 
+struct _USER_RANKING 
 {
 	uint16 m_socketID;
 	uint16 m_bZone;

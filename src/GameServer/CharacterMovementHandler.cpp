@@ -518,7 +518,7 @@ void CUser::ZoneChange(uint16 sNewZone, float x, float z)
 	m_bZoneChangeFlag = false;
 }
 
-void CUser::PlayerRanking(uint16 ZoneID, bool RemoveInZone)
+void CUser::PlayerRankingProcess(uint16 ZoneID, bool RemoveInZone)
 {
 	if(m_bZoneChangeSameZone)
 		return;
@@ -526,23 +526,23 @@ void CUser::PlayerRanking(uint16 ZoneID, bool RemoveInZone)
 	if (ZoneID == ZONE_ARDREAM || ZoneID == ZONE_RONARK_LAND_BASE || ZoneID == ZONE_RONARK_LAND || ZONE_BORDER_DEFENSE_WAR || ZONE_CHAOS_DUNGEON)
 	{
 		if (RemoveInZone)
-			RemovePlayerRanking();
+			RemovePlayerRank();
 		else
 		{
-			RemovePlayerRanking();
-			AddPlayerRanking(ZoneID);
+			RemovePlayerRank();
+			AddPlayerRank(ZoneID);
 		}
 	}
 	else
-		RemovePlayerRanking();
+		RemovePlayerRank();
 }
 
-void CUser::AddPlayerRanking(uint16 ZoneID)
+void CUser::AddPlayerRank(uint16 ZoneID)
 {
 	m_iLoyaltyDaily = 0;
 	m_iLoyaltyPremiumBonus = 0;
 
-	_PVP_RANKINGS * pData = new _PVP_RANKINGS;
+	_USER_RANKING * pData = new _USER_RANKING;
 
 	pData->m_socketID = GetSocketID();
 	pData->m_bZone = ZoneID;
@@ -550,13 +550,13 @@ void CUser::AddPlayerRanking(uint16 ZoneID)
 	pData->m_iLoyaltyDaily = m_iLoyaltyDaily;
 	pData->m_iLoyaltyPremiumBonus = m_iLoyaltyPremiumBonus;
 
-	if (!g_pMain->m_PVPRankingsArray[GetNation() - 1].PutData(pData->m_socketID, pData))
+	if (!g_pMain->m_UserRankingArray[GetNation() - 1].PutData(pData->m_socketID, pData))
 		delete pData;
 }
 
-void CUser::RemovePlayerRanking()
+void CUser::RemovePlayerRank()
 {
-	g_pMain->m_PVPRankingsArray[GetNation() - 1].DeleteData(GetSocketID());
+	g_pMain->m_UserRankingArray[GetNation() - 1].DeleteData(GetSocketID());
 }
 
 void CUser::UpdatePlayerRank()
@@ -564,7 +564,7 @@ void CUser::UpdatePlayerRank()
 	if (isGM())
 		return;
 
-	_PVP_RANKINGS * pRank = g_pMain->m_PVPRankingsArray[GetNation() -1].GetData(GetSocketID());
+	_USER_RANKING * pRank = g_pMain->m_UserRankingArray[GetNation() -1].GetData(GetSocketID());
 
 	if (pRank == nullptr)
 		return;

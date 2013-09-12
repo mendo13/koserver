@@ -307,7 +307,10 @@ bool CMagicProcess::GrantType4Buff(_MAGIC_TABLE * pSkill, _MAGIC_TYPE4 *pType, U
 		break;
 
 	case BUFF_TYPE_SPEED:
-		pTarget->m_bSpeedAmount = pType->bSpeed;
+		if(myrand(0,100) > pSkill->bSuccessRate)
+			pTarget->m_bSpeedAmount = pType->bSpeed;
+		else
+			return false;
 		break;
 
 	case BUFF_TYPE_STATS:

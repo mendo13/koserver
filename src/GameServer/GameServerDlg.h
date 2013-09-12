@@ -349,7 +349,7 @@ public:
 	MonsterRespawnListArray		m_MonsterRespawnListArray;
 	PremiumItemArray			m_PremiumItemArray;
 	PremiumItemExpArray			m_PremiumItemExpArray;
-	PVPRankingsArray			m_PVPRankingsArray[2];
+	UserRankingArray			m_UserRankingArray[2];
 	UserDailyOpMap				m_UserDailyOpMap;
 	TempleEventUserArray		m_TempleEventUserArray;
 

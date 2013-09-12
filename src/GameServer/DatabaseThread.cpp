@@ -442,7 +442,7 @@ void CUser::ReqUserLogOut()
 	g_DBAgent.UpdateWarehouseData(GetAccountName(), UPDATE_LOGOUT, this);
 	g_DBAgent.UpdateSavedMagic(this);
 
-	PlayerRanking(GetZoneID(), true);
+	PlayerRankingProcess(GetZoneID(), true);
 
 	if (isInTempleEventZone())
 		RemoveEventUser(GetSocketID());

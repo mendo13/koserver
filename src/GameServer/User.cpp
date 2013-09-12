@@ -1026,8 +1026,8 @@ void CUser::SetZoneAbilityChange(uint16 sNewZone)
 
 	Send(&result);
 
-	/*if (!isGM())*/
-		PlayerRanking(sNewZone,false);
+	if (!isGM())
+		PlayerRankingProcess(sNewZone,false);
 
 	if (sNewZone == ZONE_RONARK_LAND || sNewZone ==  ZONE_BIFROST)
 		g_pMain->SendBifrostTime(this);
@@ -1956,7 +1956,7 @@ void CUser::SetUserAbility(bool bSendPacket /*= true*/)
 	temp_str += GetStatBonusTotal(STAT_STR);
 
 	m_sMaxWeight = (((GetStatWithItemBonus(STAT_STR) + GetLevel()) * 50) + m_sMaxWeightBonus)  * (m_bMaxWeightAmount <= 0 ? 1 :  m_bMaxWeightAmount / 100);
-	
+
 	if (isRogue()) 
 	{
 		ap_stat = temp_dex;
@@ -4653,7 +4653,7 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 	uint16 sMarkVersion = 0;
 	std::string strClanName;
 
-	std::vector<_PVP_RANKINGS> PVPRankings[2];
+	std::vector<_USER_RANKING> UserRankingSorted[2];
 
 	for (int nation = KARUS_ARRAY; nation <= ELMORAD_ARRAY; nation++)
 	{
@@ -4661,24 +4661,24 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 		size_t wpos = result.wpos();
 		result << sCount;
 
-		if (g_pMain->m_PVPRankingsArray[nation].GetSize() > 0)
+		if (g_pMain->m_UserRankingArray[nation].GetSize() > 0)
 		{
-			foreach_stlmap(itr, g_pMain->m_PVPRankingsArray[nation])
-				PVPRankings[nation].push_back(*itr->second);
+			foreach_stlmap(itr, g_pMain->m_UserRankingArray[nation])
+				UserRankingSorted[nation].push_back(*itr->second);
 
 			if (GetZoneID() == ZONE_CHAOS_DUNGEON)
-				std::sort(PVPRankings[nation].begin(),PVPRankings[nation].end(),[](_PVP_RANKINGS const &a, _PVP_RANKINGS const &b){ return a.m_KillCount > b.m_KillCount; });
+				std::sort(UserRankingSorted[nation].begin(),UserRankingSorted[nation].end(),[](_USER_RANKING const &a, _USER_RANKING const &b){ return a.m_KillCount > b.m_KillCount; });
 			else
-				std::sort(PVPRankings[nation].begin(),PVPRankings[nation].end(),[](_PVP_RANKINGS const &a, _PVP_RANKINGS const &b){ return a.m_iLoyaltyDaily > b.m_iLoyaltyDaily; });
+				std::sort(UserRankingSorted[nation].begin(),UserRankingSorted[nation].end(),[](_USER_RANKING const &a, _USER_RANKING const &b){ return a.m_iLoyaltyDaily > b.m_iLoyaltyDaily; });
 		}
 
 		if (isPVPZone())
 		{
 			if ((nation + 1) == GetNation())
 			{
-				for (int i = 0; i < (int32)PVPRankings[nation].size(); i++)
+				for (int i = 0; i < (int32)UserRankingSorted[nation].size(); i++)
 				{
-					if (PVPRankings[nation][i].m_socketID != GetSocketID())
+					if (UserRankingSorted[nation][i].m_socketID != GetSocketID())
 						continue;
 
 					MyRank = i+1;
@@ -4687,7 +4687,7 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 			}
 		}
 
-		for (int i = 0; i < (int32)PVPRankings[nation].size(); i++)
+		for (int i = 0; i < (int32)UserRankingSorted[nation].size(); i++)
 		{
 			if (isPVPZone() && sCount > 10)
 				break;
@@ -4699,7 +4699,7 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 					break;
 			}
 
-			_PVP_RANKINGS * pPlayerRankInfo = &PVPRankings[nation][i];
+			_USER_RANKING * pPlayerRankInfo = &UserRankingSorted[nation][i];
 
 			if (pPlayerRankInfo == nullptr)
 				continue; 

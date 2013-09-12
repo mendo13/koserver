@@ -59,7 +59,7 @@ typedef CSTLMap <_MONSTER_RESPAWN_LIST>	MonsterRespawnListArray;
 typedef CSTLMap <_PREMIUM_ITEM>			PremiumItemArray;
 typedef CSTLMap <_PREMIUM_ITEM_EXP>		PremiumItemExpArray;
 
-typedef CSTLMap <_PVP_RANKINGS>			PVPRankingsArray;
+typedef CSTLMap <_USER_RANKING>			UserRankingArray;
 typedef std::unordered_map<std::string, _USER_DAILY_OP *>		UserDailyOpMap; 
 
 typedef CSTLMap <_TEMPLE_EVENT_USER>			TempleEventUserArray;

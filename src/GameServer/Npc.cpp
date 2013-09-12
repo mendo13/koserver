@@ -354,7 +354,10 @@ void CNpc::OnDeathProcess(Unit *pKiller)
 			else if (m_bMonster)
 			{
 				if (m_sSid == 700 || m_sSid == 750)
-					pUser->CheckSeedQuest();
+				{
+					if (pUser->CheckExistEvent(STARTER_SEED_QUEST, 1))
+						pUser->SaveEvent(STARTER_SEED_QUEST, 2);
+				}
 				else if (g_pMain->m_MonsterRespawnListArray.GetData(m_sSid) != nullptr) {
 					if (pUser->isPVPZone() || GetZoneID() == ZONE_JURAD_MOUNTAIN)
 						g_pMain->SpawnEventNpc(g_pMain->m_MonsterRespawnListArray.GetData(m_sSid)->sSid, true, GetZoneID(), GetX(), GetY(), GetZ(), g_pMain->m_MonsterRespawnListArray.GetData(m_sSid)->sCount);

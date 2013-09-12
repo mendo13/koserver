@@ -857,9 +857,9 @@ public:
 	void ZoneChange(uint16 sNewZone, float x, float z);
 	void ZoneChangeParty(uint16 sNewZone, float x, float z);
 	void ZoneChangeClan(uint16 sNewZone, float x, float z);
-	void PlayerRanking(uint16 ZoneID, bool RemoveInZone = false);
-	void AddPlayerRanking(uint16 ZoneID);
-	void RemovePlayerRanking();
+	void PlayerRankingProcess(uint16 ZoneID, bool RemoveInZone = false);
+	void AddPlayerRank(uint16 ZoneID);
+	void RemovePlayerRank();
 	void UpdatePlayerRank();
 
 	void AddEventUser(CUser * pUser = nullptr);

@@ -261,8 +261,8 @@ void CGameServerDlg::GetTimeFromIni()
 	for (int i = 0; i < CHAOS_EVENT_COUNT; i++)
 		m_nChaosTime[i] = ini.GetInt("CHAOS",string_format("START_TIME%d",i+1).c_str(), 0);
 
-	m_PVPRankingsArray[KARUS_ARRAY].DeleteAllData();
-	m_PVPRankingsArray[ELMORAD_ARRAY].DeleteAllData();
+	m_UserRankingArray[KARUS_ARRAY].DeleteAllData();
+	m_UserRankingArray[ELMORAD_ARRAY].DeleteAllData();
 
 	m_xBifrostRemainingTime = (240 * MINUTE);  // Bifrost remaining time ( 4 hour ).
 	m_xBifrostMonumentAttackTime = (30 * MINUTE); // Players is attack a monument last 30 minute.
@@ -1147,8 +1147,8 @@ void CGameServerDlg::ResetPlayerRankings()
 
 		for (int nation = KARUS_ARRAY; nation <= ELMORAD_ARRAY; nation++)
 		{
-			foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[nation+1]) {
-				_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[nation+1].GetData(itr->first);
+			foreach_stlmap_nolock(itr, g_pMain->m_UserRankingArray[nation+1]) {
+				_USER_RANKING *pRank = g_pMain->m_UserRankingArray[nation+1].GetData(itr->first);
 
 				if (pRank == nullptr)
 					continue;
@@ -1992,7 +1992,7 @@ void CGameServerDlg::TempleEventFinish()
 			||	!pUser->isInGame())
 			continue;
 
-		_PVP_RANKINGS * pRankInfo = m_PVPRankingsArray->GetData(itr->second->m_socketID);
+		_USER_RANKING * pRankInfo = m_UserRankingArray->GetData(itr->second->m_socketID);
 
 		if (pRankInfo != nullptr)
 		{
