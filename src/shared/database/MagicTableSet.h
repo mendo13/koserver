@@ -17,8 +17,8 @@ public:
 		_dbCommand->FetchUInt32(2, pData->nBeforeAction);
 		_dbCommand->FetchByte(3, pData->bTargetAction);
 		_dbCommand->FetchByte(4, pData->bSelfEffect);
-		_dbCommand->FetchByte(5, pData->bFlyingEffect);
-		_dbCommand->FetchUInt32(6, pData->iTargetEffect);
+		_dbCommand->FetchUInt16(5, pData->bFlyingEffect);
+		_dbCommand->FetchUInt16(6, pData->iTargetEffect);
 		_dbCommand->FetchByte(7, pData->bMoral);
 		_dbCommand->FetchUInt16(8, pData->sSkillLevel);
 		_dbCommand->FetchUInt16(9, pData->sSkill);

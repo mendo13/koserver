@@ -325,6 +325,8 @@ bool CUser::ProcessChatCommand(std::string & message)
 
 COMMAND_HANDLER(CUser::HandleTestCommand)
 {
+	if (isInSpecialZone())
+		g_pMain->SendHelpDescription(this, string_format("Your Coordinate is : %d, %d",int32(GetX()),int32(GetZ())).c_str());
 	return true;
 }
 

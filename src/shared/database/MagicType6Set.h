@@ -7,7 +7,7 @@ public:
 		: OdbcRecordset(dbConnection), m_pMap(pMap) {}
 
 	virtual tstring GetTableName() { return _T("MAGIC_TYPE6"); }
-	virtual tstring GetColumns() { return _T("iNum, Size, TransformID, Duration, MaxHp, MaxMp, Speed, AttackSpeed, TotalHit, TotalAc, TotalHitRate, TotalEvasionRate, TotalFireR, TotalColdR, TotalLightningR, TotalMagicR, TotalDiseaseR, TotalPoisonR, Class, UserSkillUse, NeedItem, SkillSuccessRate, MonsterFriendly"); }
+	virtual tstring GetColumns() { return _T("iNum, Size, TransformID, Duration, MaxHp, MaxMp, Speed, AttackSpeed, TotalHit, TotalAc, TotalHitRate, TotalEvasionRate, TotalFireR, TotalColdR, TotalLightningR, TotalMagicR, TotalDiseaseR, TotalPoisonR, Class, UserSkillUse, NeedItem, SkillSuccessRate, MonsterFriendly, Nation"); }
 
 	virtual bool Fetch()
 	{
@@ -36,6 +36,7 @@ public:
 		_dbCommand->FetchByte(21, pData->bNeedItem);
 		_dbCommand->FetchByte(22, pData->bSkillSuccessRate);
 		_dbCommand->FetchByte(23, pData->bMonsterFriendly);
+		_dbCommand->FetchByte(24, pData->bNation);
 
 		if (!m_pMap->PutData(pData->iNum, pData))
 			delete pData;

@@ -11,6 +11,7 @@ public:
 	bool LoadUserCountList();
 
 	uint16 AccountLogin(std::string & id, std::string & pwd);
+	int16 AccountPremium(std::string & id);
 
 private:
 	OdbcConnection m_dbConnection;

@@ -6,8 +6,8 @@ struct _MAGIC_TABLE
 	uint32	nBeforeAction;
 	uint8	bTargetAction;
 	uint8	bSelfEffect;
-	uint8	bFlyingEffect;
-	uint32	iTargetEffect;
+	uint16	bFlyingEffect;
+	uint16	iTargetEffect;
 	uint8	bMoral;
 	uint16	sSkillLevel;	
 	uint16	sSkill;
@@ -131,6 +131,7 @@ struct _MAGIC_TYPE6
 	uint8	bNeedItem;
 	uint8	bSkillSuccessRate;
 	uint8	bMonsterFriendly;
+	uint8	bNation;
 };
 
 

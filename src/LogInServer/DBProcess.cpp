@@ -93,3 +93,19 @@ uint16 CDBProcess::AccountLogin(string & id, string & pwd)
 
 	return result;
 }
+
+int16 CDBProcess::AccountPremium(string & id)
+{
+	int16 result = -1;
+	unique_ptr<OdbcCommand> dbCommand(m_dbConnection.CreateCommand());
+	if (dbCommand.get() == nullptr)
+		return -1;
+	
+	dbCommand->AddParameter(SQL_PARAM_INPUT, id.c_str(), id.length());
+	dbCommand->AddParameter(SQL_PARAM_OUTPUT, &result);
+
+	if (!dbCommand->Execute(_T("{CALL ACCOUNT_PREMIUM(?, ?)}")))
+		g_pMain->ReportSQLError(m_dbConnection.GetError());
+
+	return result;
+}
