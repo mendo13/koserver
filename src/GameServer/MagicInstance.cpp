@@ -643,6 +643,31 @@ void MagicInstance::BuildAndSendSkillPacket(Unit * pUnit, bool bSendToRegion, in
 	Packet result;
 	BuildSkillPacket(result, sSkillCaster, sSkillTarget, opcode, nSkillID, sData);
 
+	// Success Rate ( MAGIC_TYPE4 )
+	if (pSkill->bType[0] == 4 || pSkill->bType[1] == 4)
+	{
+		_MAGIC_TYPE4 * pType = g_pMain->m_Magictype4Array.GetData(nSkillID);
+		if (pType != nullptr)
+		{
+			if (pType->bBuffType == BUFF_TYPE_SPEED2
+				|| pType->bBuffType == BUFF_TYPE_STUN)
+			{
+				if (pSkill->bSuccessRate <= myrand(0, myrand(90, 100)))
+				{
+					// Skill Effecti Karşı Tarafa Gönderilmiyor Düzeltilecek...
+					result.put(0, MAGIC_FAIL);
+					result.put(4, (sData[0] = 0));
+					result.put(5, (sData[1] = 0));
+					result.put(6, (sData[2] = 0));
+					result.put(7, (sData[3] = SKILLMAGIC_FAIL_NOEFFECT));
+					result.put(8, (sData[4] = 0));
+					result.put(9, (sData[5] = 0));
+					result.put(10, (sData[6] = 0));
+				}
+			}
+		}
+	}
+
 	// No need to proceed if we're not sending fail packets.
 	if (opcode == MAGIC_FAIL
 		&& !bSendFail)
@@ -1595,7 +1620,8 @@ fail_return:
 				if (pType->bBuffType == BUFF_TYPE_SPEED || pType->bBuffType == BUFF_TYPE_SPEED2)
 					status = USER_STATUS_SPEED;
 
-				TO_USER(pTarget)->SendUserStatusUpdate(status, USER_STATUS_INFLICT);
+				if (sData[3] != SKILLMAGIC_FAIL_NOEFFECT)
+					TO_USER(pTarget)->SendUserStatusUpdate(status, USER_STATUS_INFLICT);
 			}
 		}
 
