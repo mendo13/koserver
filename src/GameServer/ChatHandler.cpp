@@ -687,11 +687,11 @@ COMMAND_HANDLER(CUser::HandlePermitConnectCommand)
 }
 COMMAND_HANDLER(CUser::HandleTeleportAllCommand)
 {
-	// Char name
+	// Zone number
 	if (vargs.size() < 1)
 	{
-		g_pMain->SendHelpDescription(this, "Using Sample : +tp_all ZoneNumber");
 		// send description
+		g_pMain->SendHelpDescription(this, "Using Sample : +tp_all ZoneNumber");
 		return true;
 	}
 

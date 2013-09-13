@@ -1583,7 +1583,7 @@ fail_return:
 			int16 sDataCopy[] = 
 			{
 				sData[0], bResult, sData[2], sDuration,
-				sData[4], pTarget->m_bSpeedAmount, sData[6]
+				sData[4], pType->bSpeed, sData[6]
 			};
 
 			BuildAndSendSkillPacket(pTmp, true, sCasterID, pTarget->GetID(), bOpcode, nSkillID, sDataCopy);

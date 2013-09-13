@@ -307,10 +307,7 @@ bool CMagicProcess::GrantType4Buff(_MAGIC_TABLE * pSkill, _MAGIC_TYPE4 *pType, U
 		break;
 
 	case BUFF_TYPE_SPEED:
-		if(myrand(0,100) > pSkill->bSuccessRate)
-			pTarget->m_bSpeedAmount = pType->bSpeed;
-		else
-			return false;
+		pTarget->m_bSpeedAmount = pType->bSpeed;
 		break;
 
 	case BUFF_TYPE_STATS:
@@ -485,10 +482,7 @@ bool CMagicProcess::GrantType4Buff(_MAGIC_TABLE * pSkill, _MAGIC_TYPE4 *pType, U
 		break;
 
 	case BUFF_TYPE_SPEED2:				// Cold Wave
-		if(myrand(0,100) > pSkill->bSuccessRate)
-			pTarget->m_bSpeedAmount = (pTarget->m_bSpeedAmount / 100 * pType->bSpeed); 
-		else
-			return false;
+		pTarget->m_bSpeedAmount = (pTarget->m_bSpeedAmount / 100 * pType->bSpeed);
 		break;
 
 	case BUFF_TYPE_UNK_EXPERIENCE:		// unknown buff type, used for something relating to XP.
@@ -513,10 +507,7 @@ bool CMagicProcess::GrantType4Buff(_MAGIC_TABLE * pSkill, _MAGIC_TYPE4 *pType, U
 		break;
 
 	case BUFF_TYPE_STUN:
-		if(myrand(0,100) > pSkill->bSuccessRate)
-			pTarget->m_bSpeedAmount = (pTarget->m_bSpeedAmount / 100 * pType->bSpeed); 
-		else
-			return false;
+		pTarget->m_bSpeedAmount = pType->bSpeed; 
 		break;
 
 	case BUFF_TYPE_LOYALTY_AMOUNT:		// Santa's Present (gives an extra +2NP per kill, unlike BUFF_TYPE_LOYALTY which uses an percent).
@@ -1062,7 +1053,7 @@ bool CMagicProcess::IsBuff(_MAGIC_TYPE4 * pType)
 
 	case BUFF_TYPE_SPEED2:				// Cold Wave
 		// skill explicitly slows
-		return true;
+		return false;
 
 	case BUFF_TYPE_UNK_EXPERIENCE:		//unknown buff type, used for something relating to XP.
 		return true;
@@ -1075,7 +1066,7 @@ bool CMagicProcess::IsBuff(_MAGIC_TYPE4 * pType)
 		return false;
 
 	case BUFF_TYPE_STUN:	// Stun
-		return true;
+		return false;
 
 	case BUFF_TYPE_LOYALTY_AMOUNT:		// Santa's Present (gives an extra +2NP per kill).
 		return true;
