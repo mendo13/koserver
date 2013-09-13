@@ -267,7 +267,10 @@ void CKnights::Disband(CUser *pLeader /*= nullptr*/)
 		// If the user's logged in, handle the player data removal in-game.
 		// It will be saved to the database when they log out.
 		if (p->pSession != nullptr)
+		{
 			RemoveUser(p->pSession);
+			p->pSession->UserDataSaveToAgent();
+		}
 		else
 			RemoveUser(p->strUserName);
 
@@ -277,6 +280,7 @@ void CKnights::Disband(CUser *pLeader /*= nullptr*/)
 	Packet result(WIZ_KNIGHTS_PROCESS, uint8(KNIGHTS_DESTROY));
 	result << uint8(1);
 	pLeader->Send(&result);
+	pLeader->UserDataSaveToAgent();
 }
 
 void CKnights::SendUpdate()
