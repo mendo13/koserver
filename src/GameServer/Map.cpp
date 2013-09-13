@@ -108,12 +108,15 @@ bool C3DMap::CheckEvent(float x, float z, CUser* pUser)
 	if (event_index < 2)
 		return false;
 
+	if (g_pMain->m_byBattleOpen == NATION_BATTLE)
+		event_index +=  g_pMain->m_byBattleZone -1;
+
 	CGameEvent *pEvent = m_EventArray.GetData( event_index );
 	if (pEvent == nullptr)
 		return false;
 
-	if (pEvent->m_bType == 1 && pEvent->m_iExec[0]==ZONE_BATTLE && g_pMain->m_byBattleOpen != NATION_BATTLE ) return false;
-	if (pEvent->m_bType == 1 && pEvent->m_iExec[0]==ZONE_SNOW_BATTLE && g_pMain->m_byBattleOpen != SNOW_BATTLE ) return false;
+	if (pEvent->m_bType == 1 && (pEvent->m_iExec[0] > ZONE_BATTLE_BASE && pEvent->m_iExec[0] <= ZONE_BATTLE6) && g_pMain->m_byBattleOpen != NATION_BATTLE ) return false;
+	if (pEvent->m_bType == 1 && pEvent->m_iExec[0]== ZONE_SNOW_BATTLE && g_pMain->m_byBattleOpen != SNOW_BATTLE ) return false;
 	if (pEvent->m_iExec[0] == ZONE_BATTLE)
 	{
 		if ((pUser->GetNation() == KARUS && g_pMain->m_sKarusCount > MAX_BATTLE_ZONE_USERS
