@@ -352,7 +352,7 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 		// War zones may only be entered if that war zone is active.
 		if (pTargetMap->isWarZone())
 		{
-			if ((ZONE_BATTLE_BASE - pTargetMap->GetID()) != g_pMain->m_byBattleZone)
+			if ((pTargetMap->GetID() - ZONE_BATTLE_BASE) != g_pMain->m_byBattleZone)
 				return false;
 		}
 	}
