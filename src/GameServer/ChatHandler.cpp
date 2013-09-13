@@ -870,6 +870,8 @@ COMMAND_HANDLER(CGameServerDlg::HandleReloadTablesCommand)
 	g_pMain->LoadItemExchangeTable();
 	g_pMain->m_StartPositionArray.DeleteAllData();
 	g_pMain->LoadStartPositionTable();
+	g_pMain->m_ItemUpgradeArray.DeleteAllData();
+	g_pMain->LoadItemUpgradeTable();
 	return true;
 }
 

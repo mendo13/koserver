@@ -62,7 +62,7 @@ void CUser::ItemUpgradeProcess(Packet & pkt)
 *
 * @param	pkt	The packet.
 */
-void CUser::ItemUpgrade(Packet & pkt)
+void CUser::ItemUpgrade(Packet & pkt, bool isRebirthUpgrade)
 {
 	enum UpgradeErrorCodes
 	{
@@ -76,7 +76,7 @@ void CUser::ItemUpgrade(Packet & pkt)
 
 	enum UpgradeType { UpgradeTypeNormal = 1, UpgradeTypePreview = 2 };
 
-	Packet result(WIZ_ITEM_UPGRADE, uint8(ITEM_UPGRADE));
+	Packet result(WIZ_ITEM_UPGRADE, uint8(isRebirthUpgrade ? ITEM_UPGRADE_REBIRTH : ITEM_UPGRADE));
 	_ITEM_DATA  * pOriginItem;
 	_ITEM_TABLE * proto;
 	int32 nItemID[10]; int8 bPos[10];
@@ -556,4 +556,5 @@ void CUser::SpecialItemExchange(Packet & pkt)
 */
 void CUser::ItemUpgradeRebirth(Packet & pkt)
 {
+	ItemUpgrade(pkt, true);
 }
