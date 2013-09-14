@@ -201,7 +201,7 @@ CNpc* CRoomEvent::GetNpcPtr( int sid )
 {
 	if (m_mapRoomNpcArray.IsEmpty())	
 	{
-		TRACE("### RoomEvent-GetNpcPtr() : monster empty ###\n");
+		TRACE("### RoomEvent-GetNpcPtr() : monster empty, sid=%d###\n",sid);
 		return nullptr;
 	}
 
@@ -226,7 +226,7 @@ bool  CRoomEvent::CheckMonsterCount( int sid, int count, int type )
 	int nMonster = m_mapRoomNpcArray.GetSize();
 	if (nMonster == 0)
 	{
-		TRACE("### RoomEvent-GetNpcPtr() : monster empty ###\n");
+		TRACE("### RoomEvent-GetNpcPtr() : monster empty, sid=%d###\n",sid);
 		return nullptr;
 	}
 

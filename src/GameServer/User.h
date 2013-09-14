@@ -670,6 +670,7 @@ public:
 	COMMAND_HANDLER(HandleCaptainCommand);
 	COMMAND_HANDLER(HandleSnowWarOpenCommand);
 	COMMAND_HANDLER(HandleWarCloseCommand);
+	COMMAND_HANDLER(HandleShutdownCommand);
 	COMMAND_HANDLER(HandleLoyaltyChangeCommand);
 	COMMAND_HANDLER(HandleExpChangeCommand);
 	COMMAND_HANDLER(HandleGoldChangeCommand);

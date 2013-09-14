@@ -62,6 +62,7 @@ void CUser::InitChatCommands()
 		{ "captain",			&CUser::HandleCaptainCommand,					"Sets the captains/commanders for the war" },
 		{ "snowopen",			&CUser::HandleSnowWarOpenCommand,				"Opens the snow war zone" },
 		{ "close",				&CUser::HandleWarCloseCommand,					"Closes the active war zone" },
+		{ "down",				&CUser::HandleShutdownCommand,			"Shuts down the server" },
 		{ "np_change",			&CUser::HandleLoyaltyChangeCommand,				"Change a player an loyalty" },
 		{ "exp_change",			&CUser::HandleExpChangeCommand,					"Change a player an exp" },
 		{ "gold_change",		&CUser::HandleGoldChangeCommand,				"Change a player an gold" },
@@ -700,6 +701,7 @@ COMMAND_HANDLER(CUser::HandleTeleportAllCommand)
 	return true;
 }
 
+COMMAND_HANDLER(CUser::HandleShutdownCommand) { return g_pMain->HandleShutdownCommand(vargs, args, description); }
 COMMAND_HANDLER(CGameServerDlg::HandleShutdownCommand)
 {
 	g_pMain->m_socketMgr.SuspendServer();

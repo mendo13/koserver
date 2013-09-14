@@ -251,6 +251,7 @@ void CGameServerDlg::GetTimeFromIni()
 	}
 
 	ini.GetString("AI_SERVER", "IP", "127.0.0.1", m_AIServerIP);
+	m_nGameMasterRHitDamage = ini.GetInt("SETTINGS","GAME_MASTER_R_HIT_DAMAGE", 0);
 
 	for (int i = 0; i < BIFROST_EVENT_COUNT; i++)
 		m_nBifrostTime[i] = ini.GetInt("BIFROST",string_format("START_TIME%d",i+1).c_str(), 0);

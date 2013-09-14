@@ -335,8 +335,11 @@ short CUser::GetDamage(Unit *pTarget, _MAGIC_TABLE *pSkill /*= nullptr*/, bool b
 #ifdef GAMESERVER
 			if (isGM() && !pTarget->isPlayer())
 			{
-				damage = 30000;
-				return damage;
+				if (g_pMain->m_nGameMasterRHitDamage != 0)
+				{
+					damage = g_pMain->m_nGameMasterRHitDamage;
+					return damage;
+				}
 			}
 #endif
 
