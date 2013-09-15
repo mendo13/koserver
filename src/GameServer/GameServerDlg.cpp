@@ -1989,7 +1989,8 @@ void CGameServerDlg::TempleEventFinish()
 		CUser * pUser = GetUserPtr(itr->second->m_socketID);
 
 		if (pUser == nullptr 
-			||	!pUser->isInGame())
+			||	!pUser->isInGame()
+			||	pUser->GetUserGroup() == -1)
 			continue;
 
 		pUser->UpdateEventUser(pUser->GetSocketID(), -1);

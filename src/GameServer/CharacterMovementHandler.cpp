@@ -417,12 +417,12 @@ void CUser::ZoneChange(uint16 sNewZone, float x, float z)
 	if (sNewZone == ZONE_SNOW_BATTLE)
 	{
 		SetMaxHp();
-		HpChange(GetMaxHealth());
+		HpChange(GetMaxHealth(), nullptr, true);
 	}
 	else if (sNewZone == ZONE_CHAOS_DUNGEON)
 	{
 		SetMaxHp();
-		HpChange(GetMaxHealth());
+		HpChange(GetMaxHealth(), nullptr, true);
 	}
 
 	if (GetZoneID() != sNewZone)
@@ -463,7 +463,8 @@ void CUser::ZoneChange(uint16 sNewZone, float x, float z)
 		else if (isInTempleEventZone())
 		{
 			SetMaxHp(1);
-			HpChange(GetMaxHealth());
+			HpChange(GetMaxHealth(), nullptr, true);
+			RemoveEventUser(GetSocketID());
 		}
 
 		if (isInParty() && !m_bZoneChangeSameZone)

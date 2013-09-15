@@ -4095,7 +4095,7 @@ void CUser::KickOutZoneUser(bool home, int nZoneID /*= ZONE_MORADON */)
 
 		if (pStartPosition == nullptr)
 		{
-			KickOutZoneUser(true);
+			KickOutZoneUser();
 			return;
 		}
 
@@ -4658,7 +4658,7 @@ void CUser::RecastSavedMagic(bool bFillToMaxHealth)
 	}
 
 	if (bFillToMaxHealth)
-		HpChange(GetMaxHealth());
+		HpChange(GetMaxHealth(), nullptr, true);
 }
 
 /**

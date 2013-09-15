@@ -329,6 +329,7 @@ COMMAND_HANDLER(CUser::HandleTestCommand)
 {
 	if (isInTempleEventZone())
 		g_pMain->SendHelpDescription(this, string_format("Your Coordinate is : %d, %d",int32(GetX()),int32(GetZ())).c_str());
+
 	return true;
 }
 

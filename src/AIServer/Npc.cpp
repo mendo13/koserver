@@ -2105,7 +2105,7 @@ int CNpc::GetTargetPath(int option)
 		return 0;	
 
 	CPoint start, end;
-	start.x = (int)(GetX()/TILE_SIZE) - min_x;
+	start.x = (int)(GetX()/TILE_SIZE) - min_x; 
 	start.y = (int)(GetZ()/TILE_SIZE) - min_z;
 	end.x = (int)(vEnd22.x/TILE_SIZE) - min_x;
 	end.y = (int)(vEnd22.z/TILE_SIZE) - min_z;
