@@ -77,9 +77,9 @@ bool CRoomEvent::CheckEvent(int event_num)
 		pNpc = GetNpcPtr( nOption_1 );
 		if( pNpc )	{
 			if( pNpc->m_byChangeType == 100 )	return true;
-		}
-		else	{
-			TRACE("### CheckEvent Error : monster nid = %d, logic=%d ###\n", nOption_1, m_byLogicNumber);
+		} else {
+			if (nOption_1 != 11510 && nOption_1 != 21510)
+				TRACE("### CheckEvent Error : monster nid = %d, logic=%d ###\n", nOption_1, m_byLogicNumber);
 		}
 		//TRACE("---Check Event : monster dead = %d \n", nMonsterNid);
 		break;
@@ -201,7 +201,9 @@ CNpc* CRoomEvent::GetNpcPtr( int sid )
 {
 	if (m_mapRoomNpcArray.IsEmpty())	
 	{
-		TRACE("### RoomEvent-GetNpcPtr() : monster empty, sid=%d###\n",sid);
+		if (sid != 11510 && sid != 21510)
+			TRACE("### RoomEvent-GetNpcPtr() : monster empty, sid=%d ###\n",sid);
+
 		return nullptr;
 	}
 
@@ -226,7 +228,9 @@ bool  CRoomEvent::CheckMonsterCount( int sid, int count, int type )
 	int nMonster = m_mapRoomNpcArray.GetSize();
 	if (nMonster == 0)
 	{
-		TRACE("### RoomEvent-GetNpcPtr() : monster empty, sid=%d###\n",sid);
+		if (sid != 11510 && sid != 21510)
+			TRACE("### RoomEvent-GetNpcPtr() : monster empty, sid=%d ###\n",sid);
+
 		return nullptr;
 	}
 

@@ -251,7 +251,7 @@ void CGameServerDlg::GetTimeFromIni()
 	}
 
 	ini.GetString("AI_SERVER", "IP", "127.0.0.1", m_AIServerIP);
-	m_nGameMasterRHitDamage = ini.GetInt("SETTINGS","GAME_MASTER_R_HIT_DAMAGE", 0);
+	m_nGameMasterRHitDamage = ini.GetInt("SETTINGS","GAME_MASTER_R_HIT_DAMAGE", 30000);
 
 	for (int i = 0; i < BIFROST_EVENT_COUNT; i++)
 		m_nBifrostTime[i] = ini.GetInt("BIFROST",string_format("START_TIME%d",i+1).c_str(), 0);
@@ -1983,7 +1983,6 @@ void CGameServerDlg::TempleEventFinish()
 	}
 
 	pTempleEvent.ActiveEvent = -1;
-	KickOutZoneUsers(ZoneID);
 
 	foreach_stlmap_nolock(itr, m_TempleEventUserArray)
 	{
@@ -1993,15 +1992,17 @@ void CGameServerDlg::TempleEventFinish()
 			||	!pUser->isInGame())
 			continue;
 
+		pUser->UpdateEventUser(pUser->GetSocketID(), -1);
+
 		_USER_RANKING * pRankInfo = m_UserRankingArray->GetData(itr->second->m_socketID);
 
 		if (pRankInfo != nullptr)
 		{
 			int64 nChangeExp = -1;
 
-			if (ZoneID == ZONE_CHAOS_DUNGEON)
+			if (ZoneID == ZONE_BORDER_DEFENSE_WAR)
 				nChangeExp = int64((pUser->GetLevel()^3) * 0.15 * (5 * pRankInfo->m_KillCount - pRankInfo->m_DeathCount));
-			else if (ZoneID == ZONE_BORDER_DEFENSE_WAR)
+			else if (ZoneID == ZONE_CHAOS_DUNGEON)
 				if (pUser->GetLevel() < 58)
 					nChangeExp = int64((pUser->GetLevel()-20) * (3000 + 100/* Temp Score */* 1000));
 				else
@@ -2011,7 +2012,12 @@ void CGameServerDlg::TempleEventFinish()
 				pUser->ExpChange(nChangeExp);
 		}
 
-		pUser->UpdateEventUser(pUser->GetSocketID(), -1);
+		if (ZoneID == ZONE_BORDER_DEFENSE_WAR)
+			pUser->KickOutZoneUser();
+		else if (ZoneID == ZONE_CHAOS_DUNGEON)
+			pUser->KickOutZoneUser(false, ZONE_RONARK_LAND);
+		else if (ZoneID == ZONE_JURAD_MOUNTAIN)
+			pUser->KickOutZoneUser(false, pUser->GetNation() + 1);
 	}
 
 	m_TempleEventUserArray.DeleteAllData();
