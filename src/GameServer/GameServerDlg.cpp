@@ -2001,14 +2001,14 @@ void CGameServerDlg::TempleEventFinish()
 			int64 nChangeExp = -1;
 
 			if (ZoneID == ZONE_BORDER_DEFENSE_WAR)
-				nChangeExp = int64((pUser->GetLevel()^3) * 0.15 * (5 * pRankInfo->m_KillCount - pRankInfo->m_DeathCount));
-			else if (ZoneID == ZONE_CHAOS_DUNGEON)
 				if (pUser->GetLevel() < 58)
 					nChangeExp = int64((pUser->GetLevel()-20) * (3000 + 100/* Temp Score */* 1000));
 				else
-					nChangeExp = int64((pUser->GetLevel()+55) * (20000 + 100/* Temp Score */ * 500));
+					nChangeExp = int64((pUser->GetLevel()+55) * (20000 + 100/* Temp Score */ * 500));				
+			else if (ZoneID == ZONE_CHAOS_DUNGEON)
+				nChangeExp = int64((pUser->GetLevel()^3) * 0.15 * (5 * pRankInfo->m_KillCount - pRankInfo->m_DeathCount));
 
-			if (nChangeExp != -1)
+			if (nChangeExp > 0)
 				pUser->ExpChange(nChangeExp);
 		}
 
@@ -2017,7 +2017,7 @@ void CGameServerDlg::TempleEventFinish()
 		else if (ZoneID == ZONE_CHAOS_DUNGEON)
 			pUser->KickOutZoneUser(false, ZONE_RONARK_LAND);
 		else if (ZoneID == ZONE_JURAD_MOUNTAIN)
-			pUser->KickOutZoneUser(false, pUser->GetNation() + 1);
+			pUser->KickOutZoneUser(false, pUser->GetNation() + 10);
 	}
 
 	m_TempleEventUserArray.DeleteAllData();
