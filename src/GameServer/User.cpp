@@ -4095,7 +4095,7 @@ void CUser::KickOutZoneUser(bool home, int nZoneID /*= ZONE_MORADON */)
 
 		if (pStartPosition == nullptr)
 		{
-			KickOutZoneUser();
+			KickOutZoneUser(true);
 			return;
 		}
 
