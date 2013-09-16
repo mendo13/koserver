@@ -1076,7 +1076,7 @@ bool CMagicProcess::IsBuff(_MAGIC_TYPE4 * pType)
 	case BUFF_TYPE_SILENCE_TARGET:		// Silences the target to prevent them from using any skills (or potions)
 	case BUFF_TYPE_NO_POTIONS:			// "No Potion" prevents target from using potions.
 	case BUFF_TYPE_KAUL_TRANSFORMATION:	// Transforms the target into a Kaul (a pig thing), preventing you from /town'ing or attacking, but increases defense.
-		return true;
+		return false;
 
 	case BUFF_TYPE_UNDEAD:				// User becomes undead, increasing defense but preventing the use of potions and converting all health received into damage.
 	case BUFF_TYPE_UNSIGHT:				// Blocks the caster's sight (not the target's).

@@ -414,6 +414,9 @@ bool CUser::ExecuteExchange()
 		_ITEM_DATA * pDstItem = GetItem(nSlot);
 		_ITEM_DATA * pSrcItem = pUser->GetItem((*Iter)->bSrcPos);
 
+		if(pDstItem == nullptr || pSrcItem == nullptr)
+			continue;
+
 		ASSERT(pDstItem->nNum == pSrcItem->nNum || pDstItem->nNum == 0);
 
 		pDstItem->nNum = pSrcItem->nNum;
