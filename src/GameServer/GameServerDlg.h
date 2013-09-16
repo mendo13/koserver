@@ -118,6 +118,7 @@ public:
 	void TempleEventFinish();
 	void TempleEventGetActiveEventTime(CUser *pUser);
 	void TempleEventSendActiveEventTime(CUser *pUser);
+	void TempleEventKickOutUser(CUser *pUser);
 
 	void AddDatabaseRequest(Packet & pkt, CUser *pUser = nullptr);
 

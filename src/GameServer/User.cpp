@@ -4089,32 +4089,6 @@ void CUser::KickOutZoneUser(bool home, int nZoneID /*= ZONE_MORADON */)
 		return;
 	}
 
-	if (!home && nZoneID != 21)
-	{
-		_START_POSITION * pStartPosition =  g_pMain->m_StartPositionArray.GetData(nZoneID);
-
-		if (pStartPosition == nullptr)
-		{
-			KickOutZoneUser(true);
-			return;
-		}
-
-		if (GetNation() == KARUS)
-		{
-			ZoneChange(nZoneID, 
-				(float)pStartPosition->sKarusZ + myrand(0, pStartPosition->bRangeX), 
-				(float)pStartPosition->sKarusX + myrand(0, pStartPosition->bRangeZ));
-		}
-		else
-		{
-			ZoneChange(nZoneID, 
-				(float)pStartPosition->sElmoradX + myrand(0, pStartPosition->bRangeX), 
-				(float)pStartPosition->sElmoradZ + myrand(0, pStartPosition->bRangeZ));
-		}
-
-		return;
-	}
-
 	// Teleport the player to their native zone.
 	_HOME_INFO * pHomeInfo = g_pMain->m_HomeArray.GetData(GetNation());
 	if (pHomeInfo == nullptr)

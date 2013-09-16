@@ -2013,12 +2013,7 @@ void CGameServerDlg::TempleEventFinish()
 				pUser->ExpChange(nChangeExp);
 		}
 
-		if (ZoneID == ZONE_BORDER_DEFENSE_WAR)
-			pUser->KickOutZoneUser();
-		else if (ZoneID == ZONE_CHAOS_DUNGEON)
-			pUser->KickOutZoneUser(false, ZONE_RONARK_LAND);
-		else if (ZoneID == ZONE_JURAD_MOUNTAIN)
-			pUser->KickOutZoneUser(false, pUser->GetNation() + 10);
+		TempleEventKickOutUser(pUser);
 	}
 
 	m_TempleEventUserArray.DeleteAllData();
@@ -2037,6 +2032,54 @@ void CGameServerDlg::TempleEventGetActiveEventTime(CUser *pUser)
 void CGameServerDlg::TempleEventSendActiveEventTime(CUser *pUser)
 {
 
+}
+
+void CGameServerDlg::TempleEventKickOutUser(CUser *pUser)
+{
+	if (pUser == nullptr || !pUser->isInGame())
+		return;
+
+	uint8 nZoneID = 0;
+
+	if (pUser->GetZoneID() == ZONE_BORDER_DEFENSE_WAR)
+		nZoneID = pUser->GetNation();
+	else if (pUser->GetZoneID() == ZONE_CHAOS_DUNGEON)
+	{
+		if (pUser->GetLevel() <  35)
+			nZoneID = ZONE_MORADON;
+		else if (pUser->GetLevel() >=  35 && pUser->GetLevel() <=59)
+			nZoneID = ZONE_ARDREAM;
+		else if (pUser->GetLevel() >=  60 && pUser->GetLevel() <=69)
+			nZoneID = ZONE_RONARK_LAND_BASE;
+		else if (pUser->GetLevel() >=  70)
+			nZoneID = ZONE_RONARK_LAND;
+	}
+	else if (pUser->GetZoneID() == ZONE_JURAD_MOUNTAIN)
+		nZoneID = pUser->GetNation() + 10;
+
+	if (nZoneID == 0)
+		return;
+
+	_START_POSITION * pStartPosition =  g_pMain->m_StartPositionArray.GetData(nZoneID);
+
+	if (pStartPosition == nullptr)
+	{
+		TRACE("### StartPosition not found : Zone ID=%d",nZoneID);
+		return;
+	}
+
+	if (pUser->GetNation() == KARUS)
+	{
+		pUser->ZoneChange(nZoneID, 
+			(float)pStartPosition->sKarusZ + myrand(0, pStartPosition->bRangeX), 
+			(float)pStartPosition->sKarusX + myrand(0, pStartPosition->bRangeZ));
+	}
+	else
+	{
+		pUser->ZoneChange(nZoneID, 
+			(float)pStartPosition->sElmoradX + myrand(0, pStartPosition->bRangeX), 
+			(float)pStartPosition->sElmoradZ + myrand(0, pStartPosition->bRangeZ));
+	}
 }
 
 void CGameServerDlg::Announcement(uint8 type, int nation, int chat_type)
