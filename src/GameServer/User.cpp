@@ -4658,7 +4658,7 @@ void CUser::RecastSavedMagic(bool bFillToMaxHealth)
 	}
 
 	if (bFillToMaxHealth)
-		HpChange(GetMaxHealth(), nullptr, true);
+		HpChange(GetMaxHealth());
 }
 
 /**

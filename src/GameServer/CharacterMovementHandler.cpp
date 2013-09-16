@@ -414,17 +414,6 @@ void CUser::ZoneChange(uint16 sNewZone, float x, float z)
 
 	UserInOut(INOUT_OUT);
 
-	if (sNewZone == ZONE_SNOW_BATTLE)
-	{
-		SetMaxHp();
-		HpChange(GetMaxHealth(), nullptr, true);
-	}
-	else if (sNewZone == ZONE_CHAOS_DUNGEON)
-	{
-		SetMaxHp();
-		HpChange(GetMaxHealth(), nullptr, true);
-	}
-
 	if (GetZoneID() != sNewZone)
 	{
 		SetZoneAbilityChange(sNewZone);
@@ -458,15 +447,6 @@ void CUser::ZoneChange(uint16 sNewZone, float x, float z)
 		}
 #endif
 
-		if (m_bZone == ZONE_SNOW_BATTLE)
-			SetMaxHp(1);
-		else if (isInTempleEventZone())
-		{
-			SetMaxHp(1);
-			HpChange(GetMaxHealth(), nullptr, true);
-			RemoveEventUser(GetSocketID());
-		}
-
 		if (isInParty() && !m_bZoneChangeSameZone)
 			PartyRemove(GetSocketID());
 
@@ -474,6 +454,15 @@ void CUser::ZoneChange(uint16 sNewZone, float x, float z)
 			RemoveRival();
 
 		ResetWindows();
+	}
+
+	if (sNewZone != ZONE_SNOW_BATTLE && m_bZone == ZONE_SNOW_BATTLE)
+	{
+		SetMaxHp(1);
+	}
+	else if (sNewZone != ZONE_CHAOS_DUNGEON && m_bZone == ZONE_CHAOS_DUNGEON)
+	{
+		SetMaxHp(1);
 	}
 
 	m_bZone = (uint8) sNewZone; // this is 2 bytes to support the warp data loaded from SMDs. It should not go above a byte, however.

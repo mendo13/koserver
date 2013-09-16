@@ -880,7 +880,7 @@ public:
 	void SendPremiumInfo();
 	void SetZoneAbilityChange(uint16 sNewZone);
 	void SetMaxMp();
-	void SetMaxHp(int iFlag=0);
+	void SetMaxHp(int iFlag = 0);
 	void RecvUserExp(Packet & pkt);
 	void ExpChange(int64 iExp);
 	void LogOut();
