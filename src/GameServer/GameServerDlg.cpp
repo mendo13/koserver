@@ -1818,7 +1818,7 @@ void CGameServerDlg::TempleEventTimer()
 			TempleEventStart();
 			sleep(1 * SECOND);
 			break;
-		}  else if(nHour == m_nBorderDefenseWarTime[i] && nMinute == 31 && nSecond == 0) {
+		}  else if(nHour == m_nBorderDefenseWarTime[i] && nMinute == 30 && nSecond == 30) {
 			TempleEventCreateGroups();
 			sleep(1 * SECOND);
 			m_nTempleEventRemainSeconds = 0;
@@ -1837,11 +1837,11 @@ void CGameServerDlg::TempleEventTimer()
 			TempleEventStart();
 			sleep(1 * SECOND);
 			break;
-		}  else if (nHour == m_nChaosTime[i] && nMinute == 11 && nSecond == 0) {
+		}  else if (nHour == m_nChaosTime[i] && nMinute == 10 && nSecond == 30) {
 			TempleEventCreateGroups();
 			sleep(1 * SECOND);
 			break;
-		}  else if (nHour == m_nChaosTime[i] && nMinute == 12 && nSecond == 0) {
+		}  else if (nHour == m_nChaosTime[i] && nMinute == 11 && nSecond == 0) {
 			m_nTempleEventRemainSeconds = 0;
 			TempleEventStart();
 			TempleEventTeleportUsers();
