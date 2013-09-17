@@ -11,11 +11,15 @@ local ITEMA = 0;
 
 if EVENT == 150 then
    ITEMA = HowmuchItem(UID, 900000000);
+   Check = isRoomForItem(UID, 389132000);
    if ITEMA < 1000000 then
       SelectMsg(UID, 2, -1, 851, NPC, 27);
+   else if Check == -1 then
+      SelectMsg(UID, 2, -1, 832, NPC, 27);
    else
       GoldLose(UID, 1000000)
       GiveItem(UID, 389132000, 1)
+   end
    end
 end
 
@@ -27,11 +31,15 @@ local ITEMB = 0;
 
 if EVENT == 200 then
    ITEMB = HowmuchItem(UID, 508122000);
+   Check = isRoomForItem(UID, 389135000);
    if ITEMB < 1 then
       SelectMsg(UID, 2, -1, 820, NPC, 27);
+   else if Check == -1 then
+      SelectMsg(UID, 2, -1, 832, NPC, 27);
    else
       RobItem(UID, 508122000, 1)
       GiveItem(UID, 389135000, 1)
+   end
    end
 end
 

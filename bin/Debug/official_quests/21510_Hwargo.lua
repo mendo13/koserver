@@ -41,7 +41,12 @@ if EVENT == 202 then
     ItemE = HowmuchItem(UID, 910041000);
 	ItemF = HowmuchItem(UID, 910044000);
 	if ItemF == 0 then
+	Check = isRoomForItem(UID, 910041000);
+    if Check == -1 then
+    SelectMsg(UID, 2, -1, 832, NPC ,27);
+	else
 	GiveItem(UID, 910044000, 1)
+	end
 	end
     if ItemD < 3 then 
        SelectMsg(UID, 2, 8, 671, NPC, 18, 213);
@@ -77,8 +82,13 @@ if EVENT == 533 then
    ItemC = HowmuchItem(UID, 910050000);
    ItemA = HowmuchItem(UID, 910057000);
    if ItemC <= 0 then
+   Check = isRoomForItem(UID, 910041000);
+   if Check == -1 then
+   SelectMsg(UID, 2, -1, 832, NPC ,27);
+   else
     SaveEvent(UID, 4211);
     GiveItem(UID, 910050000, 1);
+	end
    elseif ItemA > 0 and ItemC > 0 then
     EVENT = 536
    else

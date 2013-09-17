@@ -110,19 +110,20 @@ if EVENT == 185 then
    end
 end
 
-
-
 if EVENT == 188 then
    ShowMap(UID, 1);
 end
 
-local Check;
-
 if EVENT == 177 then
+   Check = isRoomForItem(UID, 910041000);
+   if Check == -1 then
+   SelectMsg(UID, 2, -1, 832, NPC ,27);
+   else
    ExpChange(UID, 17)
    GiveItem(UID, 389016000, 5)
    GiveItem(UID, 389010000, 10)
-   SaveEvent(UID, 50);   
+   SaveEvent(UID, 50);
+   end
 end
 
 if EVENT == 220 then
@@ -185,8 +186,6 @@ end
 if EVENT == 239 then
    ShowMap(UID, 7);
 end
-
-local Check;
 
 if EVENT == 238 then
   SaveEvent(UID, 65);
@@ -251,8 +250,6 @@ end
 if EVENT == 306 then
    ShowMap(UID, 11);
 end
-
-local Check;
 
 if EVENT == 307 then
    SaveEvent(UID, 3324);
@@ -321,8 +318,6 @@ if EVENT == 406 then
    ShowMap(UID, 34);
 end
 
-local Check;
-
 if EVENT == 407 then
    SaveEvent(UID, 3334);
    ExpChange(UID, 1167) 
@@ -369,7 +364,6 @@ if EVENT == 9267 then
    SaveEvent(UID, 5303);
 end
 
-
 if EVENT == 9273 then
    SelectMsg(UID, 2, 890, 3171, NPC, 10, 168);
 end
@@ -413,8 +407,6 @@ if EVENT == 506 then
    ShowMap(UID, 325);
 end
 
-local Check;
-
 if EVENT == 507 then
    SaveEvent(UID, 3344);
    ExpChange(UID, 1500)
@@ -447,8 +439,6 @@ if EVENT == 671 then
    SaveEvent(UID, 3353);
    SelectMsg(UID, 1, 323, 3182, NPC, 10, 168);
 end
-
-
 
 if EVENT == 672 then
    SelectMsg(UID, 1, 323, 3177, NPC, 24, 3002);
@@ -527,8 +517,6 @@ if EVENT == 606 then
    ShowMap(UID, 326);
 end
 
-local Check;
-
 if EVENT == 607 then
    SaveEvent(UID, 3354);
    ExpChange(UID, 2084)
@@ -597,8 +585,6 @@ if EVENT == 706 then
    ShowMap(UID, 12);
 end
 
-local Check;
-
 if EVENT == 707 then
    SaveEvent(UID, 3364);
    ExpChange(UID, 2084)
@@ -666,8 +652,6 @@ if EVENT == 806 then
    ShowMap(UID, 325);
 end
 
-local Check;
-
 if EVENT == 807 then
    SaveEvent(UID, 3374);
    ExpChange(UID, 4584)
@@ -706,7 +690,7 @@ if EVENT == 901 then
 end
 
 if EVENT == 902 then
-	SelectMsg(UID, 2, 320, 3818, NPC, 10, 168);
+   SelectMsg(UID, 2, 320, 3818, NPC, 10, 168);
    SaveEvent(UID, 3383);
 end
 
@@ -723,8 +707,8 @@ end
 local MonsterCount = 0;
 
 if EVENT == 905 then
-   MonsterCount  = CountMonsterQuestSub(UID,326, 1);
-   if  MonsterCount < 10 then
+   MonsterCount  = CountMonsterQuestSub(UID, 326, 1);
+   if MonsterCount < 10 then
       SelectMsg(UID, 2, 326, 3820, NPC, 10, 906);
    else
       SelectMsg(UID, 4, 326, 3823, NPC, 10, 907, 27, 906);

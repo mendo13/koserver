@@ -1,4 +1,3 @@
-
 local UserClass;
 local QuestNum;
 local Ret = 0;
@@ -37,7 +36,7 @@ if EVENT == 104 then
       if CLAN then
          ZoneChangeParty(UID, 48, 197, 181)
       else
-	     SelectMsg(UID, 2, -1, 6405, NPC, 27);
+	 SelectMsg(UID, 2, -1, 6405, NPC, 27);
       end
    else
       SelectMsg(UID, 2, -1, 6044, NPC, 4069, 168);

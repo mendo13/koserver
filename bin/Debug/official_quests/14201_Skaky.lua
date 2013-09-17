@@ -20,8 +20,13 @@ local ITEM = 0;
 if EVENT == 226 then
    ITEM = HowmuchItem(UID, 900017000);
    if ITEM > 6 then
+   Check = isRoomForItem(UID, 910041000);
+      if Check == -1 then
+      SelectMsg(UID, 2, -1, 832, NPC ,27);
+      else
       RobItem(UID, 900017000, 7)
       GiveItem(UID, 379063000, 1)
+      end
    else
       SelectMsg(UID, 2, 310, 3067, NPC, 32, 193);
    end

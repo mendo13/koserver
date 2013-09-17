@@ -17,10 +17,13 @@ if EVENT == 193 then
 end
 
 if EVENT == 218 then
+   Check = isRoomForItem(UID, 910041000);
+   if Check == -1 then
+   SelectMsg(UID, 2, -1, 832, NPC ,27);
+   else
    RobItem(UID, 910044000, 1)
    GiveItem(UID, 910041000, 1)   
    SaveEvent(UID, 446);
-   SelectMsg(UID, 2, 137, 676, NPC, 10, 217); 
+   SelectMsg(UID, 2, 137, 676, NPC, 10, 217);
+   end
 end
-
-return Ret;

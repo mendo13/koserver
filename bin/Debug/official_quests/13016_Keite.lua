@@ -34,7 +34,9 @@ if EVENT == 103 then
 end    
 
 if EVENT == 105 then
-   if RobItem(UID, 800440000) then
+   MagicBag = HowmuchItem(UID, 800440000);
+   if MagicBag > 0 then
+      RobItem(UID, 800440000, 1)
       GiveItem(UID, 700011001, 1)
    else
       SelectMsg(UID, 2, -1, 823, NPC, 10, 3001)
@@ -52,6 +54,3 @@ if EVENT == 106 then
       SelectMsg(UID, 2, -1, 824, NPC, 10, 3001)
    end
 end
-
-
-return Ret;

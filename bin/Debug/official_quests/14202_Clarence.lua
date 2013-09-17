@@ -87,9 +87,14 @@ if EVENT == 229 then
 end
 
 if EVENT == 230 then
+   Check = isRoomForItem(UID, 910041000);
+   if Check == -1 then
+   SelectMsg(UID, 2, -1, 832, NPC ,27);
+   else
    RobItem(UID, 900017000, 7)
    GiveItem(UID, 379064000, 1)
    SaveEvent(UID, 3222);
+   end
 end
 
 if EVENT == 300 then
@@ -307,12 +312,17 @@ if EVENT == 509 then
 end
 
 if EVENT == 510 then
+   Check = isRoomForItem(UID, 910041000);
+   if Check == -1 then
+   SelectMsg(UID, 2, -1, 832, NPC ,27);
+   else
    RobItem(UID, 379040000, 1) 
    RobItem(UID, 379041000, 1) 
    RobItem(UID, 379042000, 1) 
    RobItem(UID, 379014000, 10)
    GiveItem(UID, 379241000, 1)
-   SaveEvent(UID, 3261); 
+   SaveEvent(UID, 3261);
+   end
 end
 
 if EVENT == 600 then

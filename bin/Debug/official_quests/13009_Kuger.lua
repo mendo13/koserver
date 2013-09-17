@@ -130,7 +130,6 @@ if EVENT == 6003 then
    WATING = CheckWaiting(1);  -- 1:Begginer  2:Medium  3:Higher
    if WATING == 1 then
       SelectMsg(UID, 2, savenum, 6004, NPC, 10, 3001);
-      return;
    end
    SetCampaignGrade(UID, 1, 3, 9, 6004, "13009_Kuger.lua");  -- 1:Begginer  2:Medium  3:Higher, level limitation 3 ~ 9
    SelectMsg(UID, 8, savenum, 6005, NPC, 6003, 3001, 6004, 3001);
@@ -249,7 +248,6 @@ if EVENT == 6064 then
    else
       SelectMsg(UID, 2, 7, 6018, NPC, 10, 3001);
    end
-
 end
 
 if EVENT == 6065 then
@@ -278,7 +276,7 @@ local RUN_EXCHANGE ;
 
 if EVENT == 6068 then
    ITEM_COUNT = HowmuchItem(UID, 910039000);
-   if  ITEM_COUNT <= 9 then
+   if ITEM_COUNT <= 9 then
       SelectMsg(UID, 2, 7, 6021, NPC, 18, 6069);
    else
       SelectMsg(UID, 2, 7, 6022, NPC, 4006, 6070, 27, 3001);
@@ -494,5 +492,3 @@ if EVENT == 637 then
       end  
    end	 
 end
-
-return Ret;
