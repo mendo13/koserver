@@ -413,6 +413,9 @@ bool CUser::GiveItem(uint32 itemid, uint16 count, bool send_packet /*= true*/)
 	if (pItem->sCount > MAX_ITEM_COUNT)
 		pItem->sCount = MAX_ITEM_COUNT;
 
+	if (pItem->nNum == CHAOS_MAP)
+		pItem->nExpirationTime = int32(UNIXTIME) + 86400; // 1 day
+
 	pItem->sDuration = pTable->m_sDuration;
 
 	// This is really silly, but match the count up with the duration

@@ -193,6 +193,17 @@ enum ZoneChangeOpcodes
 	ZoneChangeTeleport	= 3
 };
 
+enum PremiumPropertyOpCodes
+{
+	PremiumExpRestorePercent = 0,
+	PremiumNoahPercent = 1,
+	PremiumDropPercent = 2,
+	PremiumBonusLoyalty = 3,
+	PremiumRepairDiscountPercent = 4,
+	PremiumItemSellPercent = 5,
+	PremiumExpPercent = 6
+};
+
 ////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////

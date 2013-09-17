@@ -887,7 +887,7 @@ public:
 	void SendMyInfo();
 	void SendServerChange(std::string & ip, uint8 bInit);
 	void Send2AI_UserUpdateInfo(bool initialInfo = false);
-	uint16 GetPremiumExpPercent();
+	uint16 GetPremiumProperty(uint8 type);
 	void BifrostProcess(CUser * pUser);
 
 	virtual void GetInOut(Packet & result, uint8 bType);

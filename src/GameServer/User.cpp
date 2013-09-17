@@ -597,8 +597,9 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 		if (bIsKillReward)
 		{
 			if (m_bPremiumType > 0) {
-				m_iLoyalty += g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->BonusLoyalty;
-				m_iLoyaltyMonthly += g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->BonusLoyalty;
+
+				m_iLoyalty += GetPremiumProperty(PremiumBonusLoyalty);
+				m_iLoyaltyMonthly += GetPremiumProperty(PremiumBonusLoyalty);
 
 				if (isPVPZone())
 					m_iLoyaltyPremiumBonus += g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->BonusLoyalty;
@@ -1497,7 +1498,7 @@ void CUser::ExpChange(int64 iExp)
 		iExp = iExp * (100 + g_pMain->m_byExpEventAmount) / 100;
 
 		if (m_bPremiumType > 0)
-			iExp = iExp * (100 + GetPremiumExpPercent()) / 100;
+			iExp = iExp * (100 + GetPremiumProperty(PremiumExpPercent)) / 100;
 	}
 
 	bool bLevel = true;
@@ -1553,29 +1554,43 @@ void CUser::ExpChange(int64 iExp)
 }
 
 /**
-* @brief	Player Premium experience point percent.
+* @brief	Get premium properties.
 */
-uint16 CUser::GetPremiumExpPercent() {
+uint16 CUser::GetPremiumProperty(uint8 type) {
 
-	uint16 iBonusExpPercent = 0;
+	if (m_bPremiumType < 1)
+		return 0;
 
-	foreach_stlmap_nolock(itr, g_pMain->m_PremiumItemExpArray) {
-		_PREMIUM_ITEM_EXP *pPremiumItemExp = g_pMain->m_PremiumItemExpArray.GetData(itr->first);
+	_PREMIUM_ITEM * pPremiumItem = g_pMain->m_PremiumItemArray.GetData(m_bPremiumType);
 
-		if (pPremiumItemExp != nullptr)
-		{
-			if (m_bPremiumType == pPremiumItemExp->Type)
-			{
-				if (GetLevel() >= pPremiumItemExp->MinLevel && GetLevel() <= pPremiumItemExp->MaxLevel)
-				{
-					iBonusExpPercent= pPremiumItemExp->sPercent;
-					break;
-				}
-			}
+	if (pPremiumItem == nullptr)
+		return 0;
+
+	if (type == PremiumExpRestorePercent) // Exp restore percent
+		return pPremiumItem->ExpRestorePercent;
+	else if (type == PremiumNoahPercent) // Noah percent
+		return pPremiumItem->NoahPercent;
+	else if (type == PremiumDropPercent) // Drop percent
+		return pPremiumItem->DropPercent;
+	else if (type == PremiumBonusLoyalty) // Bonus loyalty
+		return pPremiumItem->BonusLoyalty;
+	else if (type == PremiumRepairDiscountPercent) // Repair discount percent
+		return pPremiumItem->RepairDiscountPercent;
+	else if (type == PremiumItemSellPercent) // Item sell percent
+		return pPremiumItem->ItemSellPercent;
+	else if (type == PremiumExpPercent) // Exp percent
+	{
+		foreach_stlmap_nolock(itr, g_pMain->m_PremiumItemExpArray) {
+			_PREMIUM_ITEM_EXP *pPremiumItemExp = g_pMain->m_PremiumItemExpArray.GetData(itr->first);
+
+			if (pPremiumItemExp != nullptr)
+				if (m_bPremiumType == pPremiumItemExp->Type)
+					if (GetLevel() >= pPremiumItemExp->MinLevel && GetLevel() <= pPremiumItemExp->MaxLevel)
+						return pPremiumItemExp->sPercent;
 		}
 	}
 
-	return iBonusExpPercent;
+	return 0;
 }
 
 /**
@@ -2224,7 +2239,7 @@ void CUser::ItemGet(Packet & pkt)
 		{
 			// NOTE: Coins have been checked already.
 			if (m_bPremiumType > 0)
-				pGold = pItem->sCount * (100 + g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->NoahPercent) / 100;
+				pGold = pItem->sCount * (100 + GetPremiumProperty(PremiumNoahPercent)) / 100;
 			else
 				pGold = pItem->sCount;
 
