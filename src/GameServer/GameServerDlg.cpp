@@ -2269,7 +2269,7 @@ uint64 CGameServerDlg::GenerateItemSerial()
 *
 * @param	zone	The zone to kick users out from.
 */
-void CGameServerDlg::KickOutZoneUsers(uint8 ZoneID)
+void CGameServerDlg::KickOutZoneUsers(uint8 ZoneID, uint8 TargetZoneID)
 {
 	// TO-DO: Make this localised to zones.
 	SessionMap & sessMap = g_pMain->m_socketMgr.GetActiveSessionMap();
@@ -2285,6 +2285,17 @@ void CGameServerDlg::KickOutZoneUsers(uint8 ZoneID)
 		if (!pUser->isInGame()
 			|| pUser->GetZoneID() != ZoneID) 
 			continue;
+
+		if (TargetZoneID > 0)
+		{
+			short x, y;
+
+			if (pUser->GetStartPosition(x,y))
+			{
+				pUser->ZoneChange(TargetZoneID,x,y);
+				continue;
+			}
+		}
 
 		C3DMap * pMap = (pUser->GetNation() == KARUS ? pKarusMap : pElMoradMap);
 		pUser->ZoneChange(pMap->m_nZoneNumber, pMap->m_fInitX, pMap->m_fInitZ);

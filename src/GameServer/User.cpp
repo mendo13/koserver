@@ -602,7 +602,7 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 				m_iLoyaltyMonthly += GetPremiumProperty(PremiumBonusLoyalty);
 
 				if (isPVPZone())
-					m_iLoyaltyPremiumBonus += g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->BonusLoyalty;
+					m_iLoyaltyPremiumBonus += GetPremiumProperty(PremiumBonusLoyalty);
 			}
 		}
 
@@ -2276,7 +2276,7 @@ void CUser::ItemGet(Packet & pkt)
 				int coins = (int)(pItem->sCount * (float)((*itr)->GetLevel() / (float)sumOfLevels));
 
 				if ((*itr)->m_bPremiumType > 0)
-					pGold = coins * (100 + g_pMain->m_PremiumItemArray.GetData((*itr)->m_bPremiumType)->NoahPercent) / 100;
+					pGold = coins * (100 + GetPremiumProperty(PremiumNoahPercent)) / 100;
 				else
 					pGold = coins;
 
@@ -3311,6 +3311,9 @@ void CUser::Home()
 			|| isKaul())
 			return;
 
+	if (m_sHp < (m_iMaxHp / 2)) // No cheats allowed...
+		return;
+
 	// The point where you will be warped to.
 	short x = 0, z = 0;
 
@@ -4196,7 +4199,7 @@ void CUser::OnDeath(Unit *pKiller)
 				noticeType = DeathNotice;
 
 			if (m_bPremiumType > 0)
-				nExpLost = nExpLost * (g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->ExpRestorePercent) / 100;
+				nExpLost = nExpLost * (GetPremiumProperty(PremiumExpRestorePercent)) / 100;
 
 			ExpChange(-nExpLost);
 		}
@@ -4869,15 +4872,12 @@ void CUser::HandleMiningAttempt(Packet & pkt)
 	{
 		int rate = myrand(1, 100), random = myrand(1, 10000);
 
-		if (m_bPremiumType != 0)
+		if (m_bPremiumType > 0)
 		{
-			_PREMIUM_ITEM* pPremiumItem = g_pMain->m_PremiumItemArray.GetData(m_bPremiumType);
-			if (pPremiumItem != nullptr)
-			{
-				rate += (rate / 100) * pPremiumItem->DropPercent;
-				random += (rate / 100) * pPremiumItem->DropPercent;
-			}
+			rate += (rate / 100) * GetPremiumProperty(PremiumDropPercent);
+			random += (rate / 100) * GetPremiumProperty(PremiumDropPercent);
 		}
+
 		if (pTable->m_iNum == GOLDEN_MATTOCK)
 		{
 			rate += (rate / 100) * 10;

@@ -693,12 +693,25 @@ COMMAND_HANDLER(CUser::HandleTeleportAllCommand)
 	if (vargs.size() < 1)
 	{
 		// send description
-		g_pMain->SendHelpDescription(this, "Using Sample : +tp_all ZoneNumber");
+		g_pMain->SendHelpDescription(this, "Using Sample : +tp_all ZoneNumber | +tp_all ZoneNumber TargetZoneNumber");
 		return true;
 	}
 
-	int nZoneID = atoi(vargs.front().c_str());
-	g_pMain->KickOutZoneUsers(nZoneID);
+	int nZoneID;
+	int nTargetZoneID;
+
+	if (vargs.size() == 1)
+		nZoneID = atoi(vargs.front().c_str());
+
+	if (vargs.size() == 2)
+	{
+		nZoneID = atoi(vargs.front().c_str());
+		vargs.pop_front();
+		nTargetZoneID = atoi(vargs.front().c_str());
+	}
+
+	if (nZoneID > 0)
+		g_pMain->KickOutZoneUsers(nZoneID);
 	return true;
 }
 

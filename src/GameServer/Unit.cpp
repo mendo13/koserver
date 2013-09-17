@@ -592,10 +592,14 @@ short Unit::GetMagicDamage(int damage, Unit *pTarget, bool bPreviewOnly /*= fals
 	int16 sReflectDamage = 0;
 
 	// Check each item that has a bonus effect.
+	int aa = m_equippedItemBonuses.size();
+
 	foreach (itr, m_equippedItemBonuses)
 	{
 		// Each item can support multiple bonuses.
 		// Thus, we must handle each bonus.
+		int ss = itr->second.size();
+
 		foreach (bonusItr, itr->second)
 		{
 			short total_r = 0, temp_damage = 0;
@@ -618,14 +622,14 @@ short Unit::GetMagicDamage(int damage, Unit *pTarget, bool bPreviewOnly /*= fals
 				total_r = (pTarget->m_sLightningR + pTarget->m_bAddLightningR) * pTarget->m_bPctLightningR / 100;
 				break;
 			case ITEM_TYPE_HP_DRAIN:
-				HpChange(temp_damage);			
-				break;
+				HpChange(temp_damage);		
+				return 0;
 			case ITEM_TYPE_MP_DAMAGE:
 				pTarget->MSpChange(-temp_damage);
 				break;
 			case ITEM_TYPE_MP_DRAIN:
 				MSpChange(temp_damage);
-				break;
+				return 0;
 			case ITEM_TYPE_MIRROR_DAMAGE:
 				sReflectDamage += sAmount;
 				break;

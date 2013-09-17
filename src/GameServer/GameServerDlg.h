@@ -84,7 +84,7 @@ public:
 	void BattleZoneCurrentUsers();
 	void GetCaptainUserPtr();
 	void Send_CommandChat(Packet *pkt, int nation, CUser* pExceptUser = nullptr);
-	void KickOutZoneUsers(uint8 zone);
+	void KickOutZoneUsers(uint8 ZoneID, uint8 TargetZoneID = 0);
 	void SendItemZoneUsers(uint8 ZoneID, uint32 nItemID, uint16 sCount = 1);
 	uint64 GenerateItemSerial();
 	int KickOutAllUsers();
