@@ -1804,27 +1804,26 @@ void CGameServerDlg::TempleEventTimer()
 
 	if (m_nTempleEventFinishRemainSeconds == 0 && pTempleEvent.isActive)
 	{
+		sleep(1 * SECOND);
 		pTempleEvent.isActive = false;
 		TempleEventFinish();
-		sleep(1 * SECOND);
 	}
 
 	for(int i = 0; i < BORDER_DEFENSE_WAR_EVENT_COUNT; i++)
 	{
 		if(nHour == m_nBorderDefenseWarTime[i] && nMinute == 20 && nSecond == 0) {
+			sleep(1 * SECOND);
 			pTempleEvent.ActiveEvent = TEMPLE_EVENT_BORDER_DEFENCE_WAR;
 			pTempleEvent.isActive = false;
 			m_nTempleEventRemainSeconds = 600;
 			TempleEventStart();
-			sleep(1 * SECOND);
 			break;
 		}  else if(nHour == m_nBorderDefenseWarTime[i] && nMinute == 30 && nSecond == 30) {
-			TempleEventCreateGroups();
 			sleep(1 * SECOND);
+			TempleEventCreateGroups();
 			m_nTempleEventRemainSeconds = 0;
 			TempleEventStart();
 			TempleEventTeleportUsers();
-			sleep(1 * SECOND);
 			break;
 		} 
 	}
@@ -1832,20 +1831,20 @@ void CGameServerDlg::TempleEventTimer()
 	for(int i = 0; i < CHAOS_EVENT_COUNT; i++)
 	{
 		if(nHour == m_nChaosTime[i] && nMinute == 0 && nSecond == 0) {
+			sleep(1 * SECOND);
 			pTempleEvent.ActiveEvent = TEMPLE_EVENT_CHAOS;
 			m_nTempleEventRemainSeconds = 600;
 			TempleEventStart();
-			sleep(1 * SECOND);
 			break;
 		}  else if (nHour == m_nChaosTime[i] && nMinute == 10 && nSecond == 30) {
-			TempleEventCreateGroups();
 			sleep(1 * SECOND);
+			TempleEventCreateGroups();
 			break;
 		}  else if (nHour == m_nChaosTime[i] && nMinute == 11 && nSecond == 0) {
+			sleep(1 * SECOND);
 			m_nTempleEventRemainSeconds = 0;
 			TempleEventStart();
 			TempleEventTeleportUsers();
-			sleep(1 * SECOND);
 			break;
 		}
 	}
@@ -1950,7 +1949,7 @@ void CGameServerDlg::TempleEventTeleportUsers()
 		pUser->ZoneChange(ZoneID, x, z);
 	}
 
-	m_nTempleEventFinishRemainSeconds = 1800 ; // 20 minute is both
+	m_nTempleEventFinishRemainSeconds = 300; // 20 minute is both
 	pTempleEvent.isActive = true;
 }
 

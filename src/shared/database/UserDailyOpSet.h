@@ -7,7 +7,7 @@ public:
 		: OdbcRecordset(dbConnection), m_pMap(pMap) {}
 
 	virtual tstring GetTableName() { return _T("USER_DAILY_OP"); }
-	virtual tstring GetColumns() { return _T("strUserId, ChaosMapTime, UserRankRewardTime, PersonalRankRewardTime, KingWingTime"); }
+	virtual tstring GetColumns() { return _T("strUserId, ChaosMapTime, UserRankRewardTime, PersonalRankRewardTime, KingWingTime, WarderKillerTime1, WarderKillerTime2, KeeperKillerTime, UserLoyaltyWingRewardTime"); }
 
 	virtual bool Fetch()
 	{
@@ -19,6 +19,10 @@ public:
 		_dbCommand->FetchInt32(i++, pData->UserRankRewardTime);
 		_dbCommand->FetchInt32(i++, pData->PersonalRankRewardTime);
 		_dbCommand->FetchInt32(i++, pData->KingWingTime);
+		_dbCommand->FetchInt32(i++, pData->WarderKillerTime1);
+		_dbCommand->FetchInt32(i++, pData->WarderKillerTime2);
+		_dbCommand->FetchInt32(i++, pData->KeeperKillerTime);
+		_dbCommand->FetchInt32(i++, pData->UserLoyaltyWingRewardTime);
 
 		if (pData->strUserId.empty())
 		{
