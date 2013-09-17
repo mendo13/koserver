@@ -1247,6 +1247,12 @@ bool MagicInstance::ExecuteType3()
 				pTarget->HpChangeMagic(damage, pSkillCaster, (AttributeType) pType->bAttribute);
 				if (pTarget->m_bReflectArmorType != 0 && pTarget != pSkillCaster)
 					ReflectDamage(damage, pTarget);
+
+				if (pType->bAttribute == 2 &&  pTarget->m_sColdR <= myrand(0,myrand(200,300)))
+					bOpcode = 0;
+				else if (pTarget->isPlayer() && pType->bAttribute == 3 &&  pTarget->m_sLightningR <= myrand(0,myrand(200,300)))
+					bOpcode = 0;
+
 				break;
 
 				// Affects target's MP
@@ -1395,6 +1401,11 @@ bool MagicInstance::ExecuteType3()
 				TO_USER(pTarget)->SendUserStatusUpdate(pType->bAttribute == POISON_R ? USER_STATUS_POISON : USER_STATUS_DOT, USER_STATUS_INFLICT);
 			}
 		}
+
+		if (pType->bDirectType == 1 && pType->bAttribute == 2 &&  pTarget->m_sColdR <= myrand(0,myrand(200,300)))
+			bOpcode = 0;
+		else if (pType->bDirectType == 1 &&pTarget->isPlayer() && pType->bAttribute == 3 &&  pTarget->m_sLightningR <= myrand(0,myrand(200,300)))
+			bOpcode = 0;
 
 		// Send the skill data in the current context to the caster's region, with the target explicitly set.
 		// In the case of AOEs, this will mean the AOE will show the AOE's effect on the user (not show the AOE itself again).
