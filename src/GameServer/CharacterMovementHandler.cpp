@@ -348,43 +348,6 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 			return false;
 		}
 		break;
-	case ZONE_BATTLE:
-	case ZONE_BATTLE2:
-	case ZONE_BATTLE3:
-		if (GetLoyalty() <= 0)
-		{
-			errorReason = WarpListNeedNP;
-			return false;
-		}
-
-		if (GetLevel() < MIN_LEVEL_NIEDS_TRIANGLE)
-		{
-			errorReason = WarpListMinLevel;
-			return false;
-		}
-
-		if (!CanLevelQualify(MAX_LEVEL_NIEDS_TRIANGLE) || GetLevel() > MAX_LEVEL_NIEDS_TRIANGLE)
-		{
-			errorReason = WarpListDoNotQualify;
-			return false;
-		}
-		break;
-	case ZONE_BATTLE4:
-	case ZONE_BATTLE5:
-	case ZONE_BATTLE6:
-	case ZONE_SNOW_BATTLE:
-		if (GetLoyalty() <= 0)
-		{
-			errorReason = WarpListNeedNP;
-			return false;
-		}
-
-		if (GetLevel() < MIN_LEVEL_WAR_ZONE)
-		{
-			errorReason = WarpListMinLevel;
-			return false;
-		}
-		break;
 	default:
 		// War zones may only be entered if that war zone is active.
 		if (pTargetMap->isWarZone())
