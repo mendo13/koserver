@@ -2060,11 +2060,11 @@ void CGameServerDlg::TempleEventKickOutUser(CUser *pUser)
 	if (nZoneID == 0)
 		return;
 
-	_START_POSITION * pStartPosition =  g_pMain->m_StartPositionArray.GetData(nZoneID);
+	_START_POSITION * pStartPosition = GetStartPosition(nZoneID);
 
 	if (pStartPosition == nullptr)
 	{
-		TRACE("### StartPosition not found : Zone ID=%d",nZoneID);
+		TRACE("### TempleEventKickOutUser - StartPosition not found : Zone ID=%d",nZoneID);
 		return;
 	}
 

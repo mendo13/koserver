@@ -231,6 +231,6 @@ void CUser::Regene(uint8 regene_type, uint32 magicid /*= 0*/)
 		if (GetMap()->isNationPVPZone() 
 			&& GetMap()->isWarZone()
 			&& GetLoyalty() == 0)
-			KickOutZoneUser(false);
+			KickOutZoneUser();
 	}
 }

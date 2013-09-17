@@ -4062,7 +4062,7 @@ void CUser::TrapProcess()
 	}
 }
 
-void CUser::KickOutZoneUser(bool home, int nZoneID /*= ZONE_MORADON */)
+void CUser::KickOutZoneUser(bool home, uint8 nZoneID)
 {
 	if (home)
 	{
@@ -4090,24 +4090,13 @@ void CUser::KickOutZoneUser(bool home, int nZoneID /*= ZONE_MORADON */)
 	}
 
 	// Teleport the player to their native zone.
-	_HOME_INFO * pHomeInfo = g_pMain->m_HomeArray.GetData(GetNation());
-	if (pHomeInfo == nullptr)
-	{
-		KickOutZoneUser(true);
-		return;
-	}
+	short x, z;
 
-	if (GetNation() == KARUS)
-	{
-		ZoneChange(GetNation(), 
-			(float)pHomeInfo->KarusZoneX + myrand(0, pHomeInfo->KarusZoneLX), 
-			(float)pHomeInfo->KarusZoneZ + myrand(0, pHomeInfo->KarusZoneLZ));
-	}
+	if (GetStartPosition(x,z,GetNation()))
+		ZoneChange(GetNation(), x, z);
 	else
 	{
-		ZoneChange(GetNation(), 
-			(float)pHomeInfo->ElmoZoneX + myrand(0, pHomeInfo->ElmoZoneLX), 
-			(float)pHomeInfo->ElmoZoneZ + myrand(0, pHomeInfo->ElmoZoneLZ));
+		TRACE("### KickOutZoneUser - StartPosition not found : Nation=%d",GetNation());
 	}
 }
 

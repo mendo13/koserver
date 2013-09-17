@@ -559,7 +559,7 @@ public:
 	void SendLoyaltyChange(int32 nChangeAmount = 0, bool bIsKillReward = false);
 
 	void NativeZoneReturn();
-	void KickOutZoneUser(bool home = false, int nZoneID = 21);
+	void KickOutZoneUser(bool home = false, uint8 nZoneID = 21);
 	void TrapProcess();
 	bool JobGroupCheck(short jobgroupid);
 	void SendSay(int32 nTextID[8]);
