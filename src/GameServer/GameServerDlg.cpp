@@ -1852,6 +1852,8 @@ void CGameServerDlg::TempleEventTimer()
 
 void CGameServerDlg::TempleEventStart()
 {
+	return;
+
 	Packet result(WIZ_EVENT, uint8(TEMPLE_EVENT));
 	pTempleEvent.StartTime = (uint32)UNIXTIME;
 	pTempleEvent.KarusUserCount = 0;
@@ -1863,6 +1865,8 @@ void CGameServerDlg::TempleEventStart()
 
 void CGameServerDlg::TempleEventCreateGroups()
 {
+	return;
+
 	uint8 nMaxUserCount = 0;
 
 	switch (pTempleEvent.ActiveEvent)
@@ -1902,6 +1906,8 @@ void CGameServerDlg::TempleEventCreateGroups()
 
 void CGameServerDlg::TempleEventTeleportUsers()
 {
+	return;
+
 	uint8 ZoneID = 0;
 	float x;
 	float z;
@@ -1955,6 +1961,8 @@ void CGameServerDlg::TempleEventTeleportUsers()
 
 void CGameServerDlg::TempleEventFinish()
 {
+	return;
+
 	uint8 ZoneID = 0;
 
 	switch (pTempleEvent.ActiveEvent)
@@ -2020,6 +2028,8 @@ void CGameServerDlg::TempleEventFinish()
 
 void CGameServerDlg::TempleEventGetActiveEventTime(CUser *pUser)
 {
+	return;
+
 	if (pUser == nullptr)
 		return;
 
@@ -2030,11 +2040,13 @@ void CGameServerDlg::TempleEventGetActiveEventTime(CUser *pUser)
 
 void CGameServerDlg::TempleEventSendActiveEventTime(CUser *pUser)
 {
-
+	return;
 }
 
 void CGameServerDlg::TempleEventKickOutUser(CUser *pUser)
 {
+	return;
+
 	if (pUser == nullptr || !pUser->isInGame())
 		return;
 
