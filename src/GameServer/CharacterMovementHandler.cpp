@@ -535,6 +535,7 @@ void CUser::AddPlayerRank(uint16 ZoneID)
 	_USER_RANKING * pData = new _USER_RANKING;
 
 	pData->m_socketID = GetSocketID();
+	pData->m_nUserGroup = GetUserGroup() -1 ? GetUserGroup() : -1;
 	pData->m_bZone = ZoneID;
 	pData->m_bNation = GetNation();
 	pData->m_iLoyaltyDaily = m_iLoyaltyDaily;

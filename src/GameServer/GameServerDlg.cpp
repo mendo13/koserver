@@ -1909,8 +1909,6 @@ void CGameServerDlg::TempleEventTeleportUsers()
 	return;
 
 	uint8 ZoneID = 0;
-	float x;
-	float z;
 
 	switch (pTempleEvent.ActiveEvent)
 	{
@@ -1928,7 +1926,10 @@ void CGameServerDlg::TempleEventTeleportUsers()
 	_START_POSITION *pStartPosition = GetStartPosition(ZoneID);
 
 	if (pStartPosition == nullptr)
+	{
+		TRACE("### TempleEventTeleportUsers - StartPosition not found : Zone ID=%d",ZoneID);
 		return;
+	}
 
 	foreach_stlmap_nolock(itr, m_TempleEventUserArray)
 	{
@@ -1938,21 +1939,21 @@ void CGameServerDlg::TempleEventTeleportUsers()
 			||	!pUser->isInGame())
 			continue;
 
-		if (pUser->GetNation() == KARUS)
-		{
-			x = (float)pStartPosition->sKarusX + myrand(0, pStartPosition->bRangeX);
-			z = (float)pStartPosition->sKarusZ + myrand(0, pStartPosition->bRangeZ);
-		}
-		else
-		{
-			x = (float)pStartPosition->sElmoradX + myrand(0, pStartPosition->bRangeX);
-			z = (float)pStartPosition->sElmoradZ + myrand(0, pStartPosition->bRangeZ);
-		}
-
 		if (ZoneID == ZONE_CHAOS_DUNGEON)
 			pUser->RobItem(CHAOS_MAP,1);
 
-		pUser->ZoneChange(ZoneID, x, z);
+		if (pUser->GetNation() == KARUS)
+		{
+			pUser->ZoneChange(ZoneID, 
+				(float)pStartPosition->sKarusZ + myrand(0, pStartPosition->bRangeX), 
+				(float)pStartPosition->sKarusX + myrand(0, pStartPosition->bRangeZ));
+		}
+		else
+		{
+			pUser->ZoneChange(ZoneID, 
+				(float)pStartPosition->sElmoradX + myrand(0, pStartPosition->bRangeX), 
+				(float)pStartPosition->sElmoradZ + myrand(0, pStartPosition->bRangeZ));
+		}
 	}
 
 	m_nTempleEventFinishRemainSeconds = 300; // 20 minute is both
@@ -1996,8 +1997,7 @@ void CGameServerDlg::TempleEventFinish()
 		CUser * pUser = GetUserPtr(itr->second->m_socketID);
 
 		if (pUser == nullptr 
-			||	!pUser->isInGame()
-			||	pUser->GetUserGroup() == -1)
+			||	!pUser->isInGame())
 			continue;
 
 		pUser->UpdateEventUser(pUser->GetSocketID(), -1);
@@ -2018,6 +2018,8 @@ void CGameServerDlg::TempleEventFinish()
 
 			if (nChangeExp > 0)
 				pUser->ExpChange(nChangeExp);
+
+			m_UserRankingArray->DeleteData(itr->second->m_socketID);
 		}
 
 		TempleEventKickOutUser(pUser);
