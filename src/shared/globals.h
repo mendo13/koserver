@@ -22,7 +22,7 @@
 #define VIEW_DISTANCE		48
 
 // Define a minute as 60s.
-#define MINUTE				60000u
+#define MINUTE				60u
 // Define a second as 1000ms.
 #define SECOND				1000u
 

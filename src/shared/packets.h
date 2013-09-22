@@ -685,7 +685,7 @@ const uint8	AG_NPC_EVENT_ITEM	= 12;
 const uint8	AG_NPC_HP_REQ		= 13;
 const uint8 AG_NPC_SPAWN_REQ	= 14;	// spawns an NPC/monster at the desired location
 const uint8 AG_NPC_REGION_UPDATE	= 15;
-const uint8 AG_NPC_PROPERTIES_UPDATE	= 16;
+const uint8 AG_NPC_UPDATE	= 16;
 
 // ---------------------------------------------------------------------
 // AI Server와 게임서버간의 User, Npc 공통 관련된 패킷은 50번~100번 

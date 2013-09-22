@@ -276,10 +276,10 @@ public:
 	Unit * GetUnitPtr(uint16 id);
 
 	// Spawns an event NPC/monster
-	void SpawnEventNpc(uint16 sSid, bool bIsMonster, uint8 byZone, float fX, float fY, float fZ, uint16 sCount = 1, uint16 sRadius = 0);
+	void SpawnEventNpc(uint16 sSid, bool bIsMonster, uint8 byZone, float fX, float fY, float fZ, uint16 sCount = 1, uint16 sRadius = 0, int16 nRoom = -1);
 
 	// Change NPC/Monster properties for Respawn
-	void ChangeNpcProperties(uint16 sSid, bool bIsMonster, uint8 byGroup = 0, uint16 sPid = 0);	
+	void NpcUpdate(uint16 sSid, bool bIsMonster, uint8 byGroup = 0, uint16 sPid = 0);	
 
 	// Adds the account name & session to a hashmap (on login)
 	void AddAccountName(CUser *pSession);

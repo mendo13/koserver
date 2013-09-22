@@ -686,7 +686,7 @@ bool CServerDlg::AddObjectEventNpc(_OBJECT_EVENT* pEvent, MAP * pMap)
 	return true;
 }
 
-CNpc * CServerDlg::SpawnEventNpc(uint16 sSid, bool bIsMonster, uint8 byZone, float fX, float fY, float fZ)
+CNpc * CServerDlg::SpawnEventNpc(uint16 sSid, bool bIsMonster, uint8 byZone, float fX, float fY, float fZ, int16 nRoom)
 {
 	CNpcTable * proto = nullptr;
 	MAP * pZone = GetZoneByID(byZone);
@@ -717,6 +717,7 @@ CNpc * CServerDlg::SpawnEventNpc(uint16 sSid, bool bIsMonster, uint8 byZone, flo
 	pNpc->m_bZone = byZone;
 	pNpc->SetPosition(fX, fY, fZ);
 	pNpc->m_pMap = pZone;
+	pNpc->m_bRoom = nRoom;
 
 	pNpc->Load(++m_TotalNPC, proto, bIsMonster);
 	pNpc->InitPos();
@@ -737,7 +738,7 @@ void CServerDlg::RemoveEventNPC(CNpc * pNpc)
 	itr->second->RemoveNPC(pNpc);
 }
 
-void CServerDlg::NpcPropertiesUpdate(uint16 sSid, bool bIsMonster, uint8 byGroup, uint16 sPid)
+void CServerDlg::NpcUpdate(uint16 sSid, bool bIsMonster, uint8 byGroup, uint16 sPid)
 {
 	CNpcTable * proto = nullptr;
 

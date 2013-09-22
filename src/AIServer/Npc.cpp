@@ -291,7 +291,6 @@ void CNpc::Load(uint16 sNpcID, CNpcTable * proto, bool bMonster)
 	m_iMoney			= proto->m_iMoney;
 	m_iItem				= proto->m_iItem;
 
-
 	m_sRegenTime		= 10000 * SECOND;
 	m_sMaxPathCount		= 0;
 

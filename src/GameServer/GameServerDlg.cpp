@@ -486,20 +486,21 @@ Unit * CGameServerDlg::GetUnitPtr(uint16 id)
 * @param	sCount	  	Number of spawns to create.
 * @param	sRadius	  	Spawn radius.
 */
-void CGameServerDlg::SpawnEventNpc(uint16 sSid, bool bIsMonster, uint8 byZone, float fX, float fY, float fZ, uint16 sCount /*= 1*/, uint16 sRadius /*= 0*/)
+void CGameServerDlg::SpawnEventNpc(uint16 sSid, bool bIsMonster, uint8 byZone, float fX, float fY, float fZ, uint16 sCount /*= 1*/, uint16 sRadius /*= 0*/, int16 nRoom)
 {
 	Packet result(AG_NPC_SPAWN_REQ);
 	result	<< sSid << bIsMonster 
 		<< byZone 
 		<< uint16(fX * 10) << uint16(fY * 10) << uint16(fZ * 10) 
 		<< sCount 
-		<< sRadius;
+		<< sRadius
+		<< nRoom;
 	Send_AIServer(&result);
 }
 
-void CGameServerDlg::ChangeNpcProperties(uint16 sSid, bool bIsMonster, uint8 byGroup, uint16 sPid)
+void CGameServerDlg::NpcUpdate(uint16 sSid, bool bIsMonster, uint8 byGroup, uint16 sPid)
 {
-	Packet result(AG_NPC_PROPERTIES_UPDATE);
+	Packet result(AG_NPC_UPDATE);
 	result	<< sSid << bIsMonster << byGroup << sPid;
 	Send_AIServer(&result);
 }
@@ -591,7 +592,7 @@ uint32 CGameServerDlg::Timer_BifrostTime(void * lpParam)
 			}
 		} 
 
-		sleep(1 * MINUTE);
+		sleep(60 * SECOND);
 	}
 	return 0;
 }
@@ -1353,7 +1354,7 @@ void CGameServerDlg::GetRegionNpcIn(C3DMap *pMap, uint16 region_x, uint16 region
 			|| pNpc->isDead())
 			continue;
 
-		if (nRoom != -1 && pNpc->GetRoom() != nRoom)
+		if (nRoom != pNpc->GetRoom())
 			continue;
 
 		pkt << pNpc->GetID();

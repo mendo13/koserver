@@ -61,9 +61,6 @@ void MagicInstance::Run()
 		}
 	}
 
-	if (pSkill->bSuccessRate != 100 && pSkill->bSuccessRate <= myrand(0,myrand(90,100)))
-		bSendSkillFailed = true;
-
 	if (bSendSkillFailed)
 	{
 		SendSkillFailed();
@@ -643,15 +640,22 @@ void MagicInstance::BuildAndSendSkillPacket(Unit * pUnit, bool bSendToRegion, in
 {
 	Packet result;
 
-	if (pSkillTarget->isPlayer() && pSkill->bType[0] == 4 || pSkill->bType[1] == 4)
+	if (nSkillID < 400000 && pSkill->bType[0] == 4 || pSkill->bType[1] == 4)
 	{
-		_MAGIC_TYPE4 * pType = g_pMain->m_Magictype4Array.GetData(nSkillID);
-		if (pType != nullptr && pType->bBuffType == BUFF_TYPE_SPEED2 || pType->bBuffType == BUFF_TYPE_STUN)
+		if (pSkill->bSuccessRate != 100 && pSkill->bSuccessRate <= myrand(0,myrand(90,100)))
 		{
-			if ((pSkillTarget->m_sColdR + pSkillTarget->m_sLightningR) <= myrand(0,myrand(200,300)) && bSendSpeedSkill)
+			_MAGIC_TYPE4 * pType = g_pMain->m_Magictype4Array.GetData(nSkillID);
+
+			if (pType != nullptr)
 			{
-				sData[5] = pSkillTarget->m_bSpeedAmount;
-				bSendSpeedSkill = false;
+				if (pType->bBuffType == BUFF_TYPE_SPEED2 || pType->bBuffType == BUFF_TYPE_STUN)
+				{
+					if ((pSkillTarget->m_sColdR + pSkillTarget->m_sLightningR) <= myrand(0,myrand(200,300)) && bSendSpeedSkill)
+					{
+						sData[5] = pSkillTarget->m_bSpeedAmount;
+						bSendSpeedSkill = false;
+					}
+				}
 			}
 		}
 	}
@@ -1224,14 +1228,20 @@ bool MagicInstance::ExecuteType3()
 
 		bool bSendColdAndLightningSkill = true;
 
-		if (pType->bDirectType == 1)
+		if (pType->bDirectType == 1 && nSkillID < 400000)
 		{
-			int nColdAndLightningPossibility = myrand(0,myrand(200,300));
+			if (pSkill->bSuccessRate != 100 && pSkill->bSuccessRate <= myrand(0,myrand(90,100)))
+			{
+				int nColdAndLightningPossibility = myrand(0,myrand(200,300));
 
-			if (pType->bAttribute == 2 && pTarget->m_sColdR <= nColdAndLightningPossibility)
-				bSendColdAndLightningSkill = false;
-			else if (pTarget->isPlayer() && pType->bAttribute == 3 && pTarget->m_sLightningR <= nColdAndLightningPossibility)
-				bSendColdAndLightningSkill = false;
+				if (pType->bAttribute == 2 && pTarget->m_sColdR <= nColdAndLightningPossibility)
+				{
+					bSendColdAndLightningSkill = false;
+					bOpcode = 0;
+				}
+				else if (pTarget->isPlayer() && pType->bAttribute == 3 && pTarget->m_sLightningR <= nColdAndLightningPossibility)
+					bSendColdAndLightningSkill = false;
+			}
 		}
 
 		// Non-durational spells.

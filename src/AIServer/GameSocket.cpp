@@ -90,8 +90,8 @@ bool CGameSocket::HandlePacket(Packet & pkt)
 	case AG_MAGIC_ATTACK_REQ:
 		CMagicProcess::MagicPacket(pkt);
 		break;
-	case AG_NPC_PROPERTIES_UPDATE:
-		RecvNpcPropertiesUpdateRequest(pkt);
+	case AG_NPC_UPDATE:
+		RecvNpcUpdate(pkt);
 		break;
 	}
 	return true;
@@ -519,11 +519,12 @@ void CGameSocket::RecvBattleEvent(Packet & pkt)
 void CGameSocket::RecvNpcSpawnRequest(Packet & pkt)
 {
 	uint16 sSid, sX, sY, sZ, sCount, sRadius;
+	int16 nRoom;
 	uint8 byZone;
 	bool bIsMonster;
 	float fX, fY, fZ;
 
-	pkt >> sSid >> bIsMonster >> byZone >> sX >> sY >> sZ >> sCount >> sRadius;
+	pkt >> sSid >> bIsMonster >> byZone >> sX >> sY >> sZ >> sCount >> sRadius >> nRoom;
 
 	fX = sX / 10.0f;
 	fY = sY / 10.0f;
@@ -536,11 +537,11 @@ void CGameSocket::RecvNpcSpawnRequest(Packet & pkt)
 			byZone, 
 			(float)(fX + myrand(minRange, sRadius)), 
 			fY, 
-			(float)(fZ + myrand(minRange, sRadius)));
+			(float)(fZ + myrand(minRange, sRadius)), nRoom);
 	}
 }
 
-void CGameSocket::RecvNpcPropertiesUpdateRequest(Packet & pkt)
+void CGameSocket::RecvNpcUpdate(Packet & pkt)
 {
 	uint16 sSid;
 	bool bIsMonster;
@@ -549,5 +550,5 @@ void CGameSocket::RecvNpcPropertiesUpdateRequest(Packet & pkt)
 
 	pkt >> sSid >> bIsMonster >> byGroup >> sPid;
 
-	g_pMain->NpcPropertiesUpdate(sSid, bIsMonster, byGroup, sPid);
+	g_pMain->NpcUpdate(sSid, bIsMonster, byGroup, sPid);
 }

@@ -58,7 +58,7 @@ public:
 	uint16	m_iItem;			// 떨어지는 아이템
 	uint8	m_byDirectAttack;	// 공격방법( 0 : 직접, 1:롱공격(간접공격), 2:직,간접공격 )
 	uint8	m_byMagicAttack;	// 마법공격( 0:마법공격 없음, 1:마법공격, 2:독공격, 3:힐링)
-	uint8	m_byGroupSpecial;			// 소속집단
+	uint8	m_byGroupSpecial;
 
 	CNpcTable() : m_sSpeed(MONSTER_SPEED)
 	{
