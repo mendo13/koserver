@@ -127,7 +127,7 @@ public:
 	uint8 m_iWeather;
 	bool m_bIsNight;
 
-	FastMutex m_userLock, m_eventThreadLock;
+	FastMutex m_userLock, m_npcThreadLock, m_eventThreadLock;
 
 	KOSocketMgr<CGameSocket> m_socketMgr;
 };

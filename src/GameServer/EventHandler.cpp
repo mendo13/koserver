@@ -132,12 +132,21 @@ void CUser::TempleOperations(uint8 bType)
 
 void CUser::AddEventUser(CUser *pUser)
 {
+	if (pUser == nullptr)
+		pUser = this;
+
+	if (pUser == nullptr)
+	{
+		TRACE("#### AddEventUser : pUser == nullptr ####\n");
+		return;
+	}
+
 	_TEMPLE_EVENT_USER * pEventUser = new _TEMPLE_EVENT_USER;
 
-	pEventUser->m_socketID =  pUser != nullptr ? pUser->GetSocketID() : GetSocketID();
-	pEventUser->m_nUserGroup = pUser != nullptr ? pUser->GetUserGroup() : GetUserGroup();
-	pEventUser->m_bZone = pUser != nullptr ? pUser->GetZoneID() : GetZoneID();
-	pEventUser->m_bNation = pUser != nullptr ? pUser->GetNation() : GetNation();
+	pEventUser->m_socketID =  pUser->GetSocketID();
+	pEventUser->m_bRoom = pUser->GetRoom();
+	pEventUser->m_bZone = pUser->GetZoneID();
+	pEventUser->m_bNation = pUser->GetNation();
 
 	if (!g_pMain->m_TempleEventUserArray.PutData(pEventUser->m_socketID, pEventUser))
 		delete pEventUser;
@@ -148,7 +157,7 @@ void CUser::RemoveEventUser(uint16 m_socketID)
 	g_pMain->m_TempleEventUserArray.DeleteData(m_socketID);
 }
 
-void CUser::UpdateEventUser(uint16 m_socketID, int16 nUserGroup)
+void CUser::UpdateEventUser(uint16 m_socketID, int16 nRoom)
 {
 	_TEMPLE_EVENT_USER * pEventUser = g_pMain->m_TempleEventUserArray.GetData(m_socketID);
 	CUser *pUser = g_pMain->GetUserPtr(m_socketID);
@@ -156,8 +165,8 @@ void CUser::UpdateEventUser(uint16 m_socketID, int16 nUserGroup)
 	if (pEventUser == nullptr || pUser == nullptr)
 		return;
 
-	pEventUser->m_nUserGroup = nUserGroup;
-	pUser->m_nUserGroup = nUserGroup;
+	pEventUser->m_bRoom = nRoom;
+	pUser->m_bRoom = nRoom;
 }
 
 bool CUser::isEventUser(uint16 m_socketID)

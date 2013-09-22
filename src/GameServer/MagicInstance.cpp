@@ -36,9 +36,7 @@ void MagicInstance::Run()
 				if (pCaster->isInSafetyArea())
 					return;
 
-				if (pCaster->isInTempleEventZone()
-					&& pCaster->GetUserGroup() != -1
-					&&  !pCaster->isSameUserGroup(pSkillTarget))
+				if (pCaster->isInTempleEventZone() &&  !pCaster->isSameUserGroup(pSkillTarget))
 					return;
 
 				if (bOpcode != MAGIC_TYPE4_EXTEND && pCaster->m_CoolDownList.find(nSkillID) != pCaster->m_CoolDownList.end())
@@ -618,7 +616,7 @@ void MagicInstance::BuildSkillPacket(Packet & result, int16 sSkillCaster, int16 
 		// No need to proceed if we're not sending fail packets.
 		if (!bSendFail)
 			return;
-	}
+	}	
 
 	result.Initialize(WIZ_MAGIC_PROCESS);
 	result	<< opcode << nSkillID << sSkillCaster << sSkillTarget
@@ -641,9 +639,8 @@ void MagicInstance::BuildSkillPacket(Packet & result, int16 sSkillCaster, int16 
 void MagicInstance::BuildAndSendSkillPacket(Unit * pUnit, bool bSendToRegion, int16 sSkillCaster, int16 sSkillTarget, int8 opcode, uint32 nSkillID, int16 sData[7])
 {
 	Packet result;
-	BuildSkillPacket(result, sSkillCaster, sSkillTarget, opcode, nSkillID, sData);
 
-	// Success Rate ( MAGIC_TYPE4 )
+	//HOP
 	if (pSkill->bType[0] == 4 || pSkill->bType[1] == 4)
 	{
 		_MAGIC_TYPE4 * pType = g_pMain->m_Magictype4Array.GetData(nSkillID);
@@ -652,21 +649,18 @@ void MagicInstance::BuildAndSendSkillPacket(Unit * pUnit, bool bSendToRegion, in
 			if (pType->bBuffType == BUFF_TYPE_SPEED2
 				|| pType->bBuffType == BUFF_TYPE_STUN)
 			{
-				if (pSkill->bSuccessRate <= myrand(0, myrand(90, 100)))
+				if ((pSkillTarget->m_sColdR + pSkillTarget->m_sLightningR) <= myrand(0,myrand(200,300)) && bSendSpeedSkill)
 				{
-					// Skill Effecti Karşı Tarafa Gönderilmiyor Düzeltilecek...
-					result.put(0, MAGIC_FAIL);
-					result.put(4, (sData[0] = 0));
-					result.put(5, (sData[1] = 0));
-					result.put(6, (sData[2] = 0));
-					result.put(7, (sData[3] = SKILLMAGIC_FAIL_NOEFFECT));
-					result.put(8, (sData[4] = 0));
-					result.put(9, (sData[5] = 0));
-					result.put(10, (sData[6] = 0));
+					sData[5] = pSkillTarget->m_bSpeedAmount;
+					bSendSpeedSkill = false;
 				}
 			}
 		}
 	}
+
+	BuildSkillPacket(result, sSkillCaster, sSkillTarget, opcode, nSkillID, sData);
+
+
 
 	// No need to proceed if we're not sending fail packets.
 	if (opcode == MAGIC_FAIL
@@ -1232,6 +1226,18 @@ bool MagicInstance::ExecuteType3()
 				damage = -10;
 		}
 
+		bool bSendColdAndLightningSkill = true;
+
+		if (pType->bDirectType == 1)
+		{
+			int nColdAndLightningPossibility = myrand(0,myrand(200,300));
+
+			if (pType->bAttribute == 2 && pTarget->m_sColdR <= nColdAndLightningPossibility)
+				bSendColdAndLightningSkill = false;
+			else if (pType->bAttribute == 3 && pTarget->m_sLightningR <= nColdAndLightningPossibility && pTarget->isPlayer())
+				bSendColdAndLightningSkill = false;
+		}
+
 		// Non-durational spells.
 		if (pType->bDuration == 0) 
 		{
@@ -1247,14 +1253,6 @@ bool MagicInstance::ExecuteType3()
 				pTarget->HpChangeMagic(damage, pSkillCaster, (AttributeType) pType->bAttribute);
 				if (pTarget->m_bReflectArmorType != 0 && pTarget != pSkillCaster)
 					ReflectDamage(damage, pTarget);
-
-				if (pType->bAttribute == 2 &&  pTarget->m_sColdR <= myrand(0,myrand(200,300)))
-					bOpcode = 0;
-				else if (pTarget->isPlayer() && pType->bAttribute == 3 &&  pTarget->m_sLightningR <= myrand(0,myrand(200,300)))
-					bOpcode = 0;
-
-				break;
-
 				// Affects target's MP
 			case 2:
 			case 3:
@@ -1398,14 +1396,13 @@ bool MagicInstance::ExecuteType3()
 				// Ignore healing spells, not sure if this will break any skills.
 					&& pType->sTimeDamage < 0)
 			{
-				TO_USER(pTarget)->SendUserStatusUpdate(pType->bAttribute == POISON_R ? USER_STATUS_POISON : USER_STATUS_DOT, USER_STATUS_INFLICT);
+				if (bSendColdAndLightningSkill)
+					TO_USER(pTarget)->SendUserStatusUpdate(pType->bAttribute == POISON_R ? USER_STATUS_POISON : USER_STATUS_DOT, USER_STATUS_INFLICT);
 			}
 		}
 
-		if (pType->bDirectType == 1 && pType->bAttribute == 2 &&  pTarget->m_sColdR <= myrand(0,myrand(200,300)))
-			bOpcode = 0;
-		else if (pType->bDirectType == 1 &&pTarget->isPlayer() && pType->bAttribute == 3 &&  pTarget->m_sLightningR <= myrand(0,myrand(200,300)))
-			bOpcode = 0;
+		if (!bSendColdAndLightningSkill)
+			sData[1] = 0;
 
 		// Send the skill data in the current context to the caster's region, with the target explicitly set.
 		// In the case of AOEs, this will mean the AOE will show the AOE's effect on the user (not show the AOE itself again).
@@ -1615,6 +1612,9 @@ bool MagicInstance::ExecuteType4()
 fail_return:
 		if (pSkill->bType[1] == 0 || pSkill->bType[1] == 4)
 		{
+			if (!bSendSpeedSkill)
+				return true;
+
 			Unit *pTmp = (pSkillCaster->isPlayer() ? pSkillCaster : pTarget);
 			int16 sDataCopy[] = 
 			{
@@ -1622,7 +1622,7 @@ fail_return:
 				sData[4], pType->bSpeed, sData[6]
 			};
 
-			BuildAndSendSkillPacket(pTmp, true, sCasterID, pTarget->GetID(), bOpcode, nSkillID, sDataCopy);
+			//BuildAndSendSkillPacket(pTmp, true, sCasterID, pTarget->GetID(), bOpcode, nSkillID, sDataCopy);
 
 			if (pSkill->bMoral >= MORAL_ENEMY
 				&& pTarget->isPlayer())
@@ -1631,8 +1631,7 @@ fail_return:
 				if (pType->bBuffType == BUFF_TYPE_SPEED || pType->bBuffType == BUFF_TYPE_SPEED2)
 					status = USER_STATUS_SPEED;
 
-				if (sData[3] != SKILLMAGIC_FAIL_NOEFFECT)
-					TO_USER(pTarget)->SendUserStatusUpdate(status, USER_STATUS_INFLICT);
+				TO_USER(pTarget)->SendUserStatusUpdate(status, USER_STATUS_INFLICT);
 			}
 		}
 

@@ -1238,10 +1238,7 @@ bool Unit::isSameUserGroup(Unit *pTarget)
 	if (pTarget == nullptr)
 		return false;
 
-	int16 sUserGroup = GetUserGroup();
-	int16 tUserGroup = pTarget->GetUserGroup();
-
-	if (sUserGroup == tUserGroup)
+	if (GetRoom() == pTarget->GetRoom())
 		return true;
 
 	return false;

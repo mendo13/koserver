@@ -25,13 +25,8 @@ uint32 THREADCALL NpcThreadProc(void * pParam /* CNpcThread ptr */)
 			pInfo->m_lock.Acquire();
 			foreach (itr, pInfo->m_pNpcs)
 			{
-				pNpc = *itr;
-
-				if (pNpc == nullptr)
-					continue;
-
 				bool bDeleteNPC = false;
-
+				pNpc = *itr;
 				dwTickTime = fTime2 - pNpc->m_fDelayTime;
 
 				if (pNpc->m_Delay > (int)dwTickTime && !pNpc->m_bFirstLive && pNpc->m_Delay != 0) 

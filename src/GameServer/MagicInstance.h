@@ -85,13 +85,14 @@ public:
 	bool	bInstantCast;
 
 	bool	bSkillSuccessful;
+	bool	bSendSpeedSkill;
 
 	uint32	nConsumeItem;
 
 	MagicInstance() : bOpcode(MAGIC_EFFECTING), nSkillID(0), pSkill(nullptr), 
 		sCasterID(-1), sTargetID(-1), pSkillCaster(nullptr), pSkillTarget(nullptr),
 		bSendFail(true), bIsRecastingSavedMagic(false), bIsItemProc(false), bInstantCast(false),
-		bSkillSuccessful(true), nConsumeItem(0)
+		bSkillSuccessful(true), bSendSpeedSkill(true), nConsumeItem(0)
 	{
 		memset(&sData, 0, sizeof(sData));
 	}

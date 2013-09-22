@@ -253,9 +253,6 @@ void CUser::MerchantItemBuy(Packet & pkt)
 	_MERCH_DATA *pMerch = &pMerchant->m_arMerchantItems[item_slot];
 	_ITEM_DATA *pItem = GetItem(SLOT_MAX + dest_slot);
 
-	if (pMerch == nullptr || pItem == nullptr)
-		return;
-
 	// Make sure the merchant actually has that item in that slot
 	// and that they have enough
 	if (pMerch->nNum != itemid

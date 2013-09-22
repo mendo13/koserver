@@ -251,9 +251,6 @@ void CKnights::RefundDonatedNP(uint32 nDonatedNP, CUser * pUser /*= nullptr*/, c
 
 void CKnights::Disband(CUser *pLeader /*= nullptr*/)
 {
-	if (pLeader == nullptr)
-		return;
-
 	string clanNotice;
 	g_pMain->GetServerResource(m_byFlag == ClanTypeTraining ? IDS_CLAN_DESTROY : IDS_KNIGHTS_DESTROY, 
 		&clanNotice, m_strName.c_str());

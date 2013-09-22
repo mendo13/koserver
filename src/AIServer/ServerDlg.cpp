@@ -280,7 +280,7 @@ bool CServerDlg::LoadSpawnCallback(OdbcCommand *dbCommand)
 		pNpc->InitPos();
 
 		pNpc->m_bZone = bZoneID;
-		pNpc->m_nUserGroup = -1;
+		pNpc->m_bRoom = -1;
 
 		nRandom = abs(iLeftX - iRightX);
 		if (nRandom <= 1)

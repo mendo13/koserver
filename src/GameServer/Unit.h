@@ -53,7 +53,9 @@ public:
 
 	virtual uint16 GetID() = 0;
 	INLINE uint8 GetZoneID() { return m_bZone; }
-	INLINE int16 GetUserGroup() { return m_nUserGroup; }
+	INLINE int16 GetRoom() { return m_bRoom; }
+	
+	INLINE bool isInTempleEventZone() {  return GetZoneID() == ZONE_BORDER_DEFENSE_WAR || GetZoneID() == ZONE_CHAOS_DUNGEON || GetZoneID() == ZONE_JURAD_MOUNTAIN; }
 
 	INLINE float GetX() { return m_curx; }
 	INLINE float GetY() { return m_cury; }
@@ -188,7 +190,7 @@ public:
 	CRegion * m_pRegion;
 
 	uint8	m_bZone;
-	int16	m_nUserGroup;
+	int16	m_bRoom;
 	float	m_curx, m_curz, m_cury;
 
 	uint16	m_sRegionX, m_sRegionZ; // this is probably redundant
