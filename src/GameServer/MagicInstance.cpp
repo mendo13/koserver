@@ -1622,7 +1622,7 @@ fail_return:
 				sData[4], pType->bSpeed, sData[6]
 			};
 
-			//BuildAndSendSkillPacket(pTmp, true, sCasterID, pTarget->GetID(), bOpcode, nSkillID, sDataCopy);
+			BuildAndSendSkillPacket(pTmp, true, sCasterID, pTarget->GetID(), bOpcode, nSkillID, sDataCopy);
 
 			if (pSkill->bMoral >= MORAL_ENEMY
 				&& pTarget->isPlayer())
