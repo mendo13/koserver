@@ -53,7 +53,7 @@ public:
 
 	virtual uint16 GetID() = 0;
 	INLINE uint8 GetZoneID() { return m_bZone; }
-	INLINE int16 GetRoom() { return m_bRoom; }
+	INLINE int16 GetEventRoom() { return m_bEventRoom; }
 	
 	INLINE bool isInTempleEventZone() {  return GetZoneID() == ZONE_BORDER_DEFENSE_WAR || GetZoneID() == ZONE_CHAOS_DUNGEON || GetZoneID() == ZONE_JURAD_MOUNTAIN; }
 
@@ -179,7 +179,7 @@ public:
 	virtual bool CanAttack(Unit * pTarget);
 	virtual bool isAttackable(Unit * pTarget);
 	virtual bool CanCastRHit(uint16 m_SocketID);
-	virtual bool isSameUserGroup(Unit * pTarget);
+	virtual bool isSameEventRoom(Unit * pTarget);
 
 	void OnDeath(Unit *pKiller);
 	void SendDeathAnimation(Unit *pKiller = nullptr);
@@ -190,7 +190,7 @@ public:
 	CRegion * m_pRegion;
 
 	uint8	m_bZone;
-	int16	m_bRoom;
+	int16	m_bEventRoom;
 	float	m_curx, m_curz, m_cury;
 
 	uint16	m_sRegionX, m_sRegionZ; // this is probably redundant

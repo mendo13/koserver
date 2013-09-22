@@ -438,14 +438,17 @@ void CUser::ReqChangeCape(Packet & pkt)
 
 void CUser::ReqUserLogOut()
 {
-	g_DBAgent.UpdateUser(GetName(), UPDATE_LOGOUT, this);
-	g_DBAgent.UpdateWarehouseData(GetAccountName(), UPDATE_LOGOUT, this);
-	g_DBAgent.UpdateSavedMagic(this);
-
 	PlayerRankingProcess(GetZoneID(), true);
 
 	if (isInTempleEventZone())
 		RemoveEventUser(GetSocketID());
+
+	if (m_bLevel == 0)
+		TRACE("### ReqUserLogOut - Level is Zero : bRoom=%d, bNation=%d, bZone=%d ####\n", GetEventRoom(), GetNation(), GetZoneID());
+
+	g_DBAgent.UpdateUser(GetName(), UPDATE_LOGOUT, this);
+	g_DBAgent.UpdateWarehouseData(GetAccountName(), UPDATE_LOGOUT, this);
+	g_DBAgent.UpdateSavedMagic(this);
 
 	if (m_bLogout != 2)	// zone change logout
 		g_DBAgent.AccountLogout(GetAccountName());
@@ -456,6 +459,9 @@ void CUser::ReqUserLogOut()
 
 void CUser::ReqSaveCharacter()
 {
+	if (m_bLevel == 0)
+		TRACE("### ReqSaveCharacter - Level is Zero : bRoom=%d, bNation=%d, bZone=%d ####\n", GetEventRoom(), GetNation(), GetZoneID());
+
 	g_DBAgent.UpdateUser(GetName(), UPDATE_PACKET_SAVE, this);
 	g_DBAgent.UpdateWarehouseData(GetAccountName(), UPDATE_PACKET_SAVE, this);
 	g_DBAgent.UpdateSavedMagic(this);

@@ -160,7 +160,7 @@ void CUser::Initialize()
 	m_bLastSkillType = 0;
 	m_iLoyaltyDaily = 0;
 	m_iLoyaltyPremiumBonus = 0;
-	m_bRoom = -1;
+	m_bEventRoom = -1;
 }
 
 /**
@@ -4145,9 +4145,9 @@ void CUser::NativeZoneReturn()
 * @param	pkt		   	The packet.
 * @param	pExceptUser	User to except. If specified, will ignore this user.
 */
-void CUser::SendToRegion(Packet *pkt, CUser *pExceptUser /*= nullptr*/)
+void CUser::SendToRegion(Packet *pkt, CUser *pExceptUser /*= nullptr*/, int16 nEventRoom /*-1*/)
 {
-	g_pMain->Send_Region(pkt, GetMap(), GetRegionX(), GetRegionZ(), pExceptUser);
+	g_pMain->Send_Region(pkt, GetMap(), GetRegionX(), GetRegionZ(), pExceptUser, nEventRoom);
 }
 
 /**
@@ -4157,9 +4157,9 @@ void CUser::SendToRegion(Packet *pkt, CUser *pExceptUser /*= nullptr*/)
 * @param	pkt		   	The packet.
 * @param	pExceptUser	User to except. If specified, will ignore this user.
 */
-void CUser::SendToZone(Packet *pkt, CUser *pExceptUser /*= nullptr*/)
+void CUser::SendToZone(Packet *pkt, CUser *pExceptUser /*= nullptr*/, int16 nEventRoom /*-1*/)
 {
-	g_pMain->Send_Zone(pkt, GetZoneID(), pExceptUser);
+	g_pMain->Send_Zone(pkt, GetZoneID(), pExceptUser, 0, nEventRoom);
 }
 
 void CUser::OnDeath(Unit *pKiller)

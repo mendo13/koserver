@@ -67,7 +67,7 @@ void Unit::Initialize()
 	m_bManaAbsorb = 0;
 	m_bRadiusAmount = 0;
 	m_buffCount = 0;
-	m_bRoom = -1;
+	m_bEventRoom = -1;
 
 	InitType3();
 	InitType4(true);
@@ -1234,12 +1234,12 @@ bool CUser::isInSafetyArea()
 	return false;
 }
 
-bool Unit::isSameUserGroup(Unit *pTarget)
+bool Unit::isSameEventRoom(Unit *pTarget)
 {
 	if (pTarget == nullptr)
 		return false;
 
-	if (GetRoom() == pTarget->GetRoom())
+	if (GetEventRoom() == pTarget->GetEventRoom())
 		return true;
 
 	return false;

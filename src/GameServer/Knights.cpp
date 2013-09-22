@@ -229,9 +229,9 @@ void CKnights::RefundDonatedNP(uint32 nDonatedNP, CUser * pUser /*= nullptr*/, c
 {
 	// Refund 30% of NP unless the user has the item "CONT Recovery".
 	// In this case, ALL of the donated NP will be refunded.
-	if (pUser->CheckExistItem(ITEM_CONT_RECOVERY))
-		if (!pUser->RobItem(ITEM_CONT_RECOVERY))
-			nDonatedNP = (nDonatedNP * 30) / 100;
+
+	//if (!pUser->RobItem(ITEM_CONT_RECOVERY))
+	nDonatedNP = (nDonatedNP * 30) / 100;
 
 	// Remove the refunded NP from the clan fund
 	m_nClanPointFund -= nDonatedNP;

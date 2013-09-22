@@ -94,7 +94,7 @@ void CUser::UserInOut(uint8 bType)
 	else
 		GetRegion()->Add(this);
 
-	SendToRegion(&result, this);
+	SendToRegion(&result, this, GetEventRoom());
 
 	if (bType == INOUT_OUT || !isBlinking())
 	{
@@ -535,7 +535,7 @@ void CUser::AddPlayerRank(uint16 ZoneID)
 	_USER_RANKING * pData = new _USER_RANKING;
 
 	pData->m_socketID = GetSocketID();
-	pData->m_bRoom = GetRoom();
+	pData->m_bEventRoom = GetEventRoom();
 	pData->m_bZone = ZoneID;
 	pData->m_bNation = GetNation();
 	pData->m_iLoyaltyDaily = m_iLoyaltyDaily;

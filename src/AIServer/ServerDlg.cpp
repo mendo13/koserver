@@ -280,7 +280,7 @@ bool CServerDlg::LoadSpawnCallback(OdbcCommand *dbCommand)
 		pNpc->InitPos();
 
 		pNpc->m_bZone = bZoneID;
-		pNpc->m_bRoom = -1;
+		pNpc->m_bEventRoom = -1;
 
 		nRandom = abs(iLeftX - iRightX);
 		if (nRandom <= 1)
@@ -686,7 +686,7 @@ bool CServerDlg::AddObjectEventNpc(_OBJECT_EVENT* pEvent, MAP * pMap)
 	return true;
 }
 
-CNpc * CServerDlg::SpawnEventNpc(uint16 sSid, bool bIsMonster, uint8 byZone, float fX, float fY, float fZ, int16 nRoom)
+CNpc * CServerDlg::SpawnEventNpc(uint16 sSid, bool bIsMonster, uint8 byZone, float fX, float fY, float fZ, int16 nEventRoom)
 {
 	CNpcTable * proto = nullptr;
 	MAP * pZone = GetZoneByID(byZone);
@@ -717,7 +717,7 @@ CNpc * CServerDlg::SpawnEventNpc(uint16 sSid, bool bIsMonster, uint8 byZone, flo
 	pNpc->m_bZone = byZone;
 	pNpc->SetPosition(fX, fY, fZ);
 	pNpc->m_pMap = pZone;
-	pNpc->m_bRoom = nRoom;
+	pNpc->m_bEventRoom = nEventRoom;
 
 	pNpc->Load(++m_TotalNPC, proto, bIsMonster);
 	pNpc->InitPos();

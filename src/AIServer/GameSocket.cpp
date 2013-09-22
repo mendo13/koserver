@@ -519,12 +519,12 @@ void CGameSocket::RecvBattleEvent(Packet & pkt)
 void CGameSocket::RecvNpcSpawnRequest(Packet & pkt)
 {
 	uint16 sSid, sX, sY, sZ, sCount, sRadius;
-	int16 nRoom;
+	int16 nEventRoom;
 	uint8 byZone;
 	bool bIsMonster;
 	float fX, fY, fZ;
 
-	pkt >> sSid >> bIsMonster >> byZone >> sX >> sY >> sZ >> sCount >> sRadius >> nRoom;
+	pkt >> sSid >> bIsMonster >> byZone >> sX >> sY >> sZ >> sCount >> sRadius >> nEventRoom;
 
 	fX = sX / 10.0f;
 	fY = sY / 10.0f;
@@ -537,7 +537,7 @@ void CGameSocket::RecvNpcSpawnRequest(Packet & pkt)
 			byZone, 
 			(float)(fX + myrand(minRange, sRadius)), 
 			fY, 
-			(float)(fZ + myrand(minRange, sRadius)), nRoom);
+			(float)(fZ + myrand(minRange, sRadius)), nEventRoom);
 	}
 }
 

@@ -36,7 +36,7 @@ void MagicInstance::Run()
 				if (pCaster->isInSafetyArea())
 					return;
 
-				if (pCaster->isInTempleEventZone() &&  !pCaster->isSameUserGroup(pSkillTarget))
+				if (pCaster->isInTempleEventZone() &&  !pCaster->isSameEventRoom(pSkillTarget))
 					return;
 
 				if (bOpcode != MAGIC_TYPE4_EXTEND && pCaster->m_CoolDownList.find(nSkillID) != pCaster->m_CoolDownList.end())
@@ -640,20 +640,23 @@ void MagicInstance::BuildAndSendSkillPacket(Unit * pUnit, bool bSendToRegion, in
 {
 	Packet result;
 
-	if (nSkillID < 400000 && pSkill->bType[0] == 4 || pSkill->bType[1] == 4)
+	if (pSkill->bType[0] == 4 || pSkill->bType[1] == 4)
 	{
-		if (pSkill->bSuccessRate != 100 && pSkill->bSuccessRate <= myrand(0,myrand(90,100)))
+		if (pSkillTarget != nullptr && nSkillID < 400000) 
 		{
-			_MAGIC_TYPE4 * pType = g_pMain->m_Magictype4Array.GetData(nSkillID);
-
-			if (pType != nullptr)
+			if (pSkill->bSuccessRate != 100 && pSkill->bSuccessRate <= myrand(0,myrand(90,100)))
 			{
-				if (pType->bBuffType == BUFF_TYPE_SPEED2 || pType->bBuffType == BUFF_TYPE_STUN)
+				_MAGIC_TYPE4 * pType = g_pMain->m_Magictype4Array.GetData(nSkillID);
+
+				if (pType != nullptr)
 				{
-					if ((pSkillTarget->m_sColdR + pSkillTarget->m_sLightningR) <= myrand(0,myrand(200,300)) && bSendSpeedSkill)
+					if (pType->bBuffType == BUFF_TYPE_SPEED2 || pType->bBuffType == BUFF_TYPE_STUN)
 					{
-						sData[5] = pSkillTarget->m_bSpeedAmount;
-						bSendSpeedSkill = false;
+						if ((pSkillTarget->m_sColdR + pSkillTarget->m_sLightningR) <= myrand(0,myrand(200,300)) && bSendSpeedSkill)
+						{
+							sData[5] = pSkillTarget->m_bSpeedAmount;
+							bSendSpeedSkill = false;
+						}
 					}
 				}
 			}

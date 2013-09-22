@@ -80,7 +80,7 @@ void CUser::TempleOperations(uint8 bType)
 
 	uint8 bResult = 1;
 	Packet result(WIZ_EVENT);
-	
+
 	if(bType == TEMPLE_EVENT_JOIN && !isEventUser(GetSocketID()))
 	{
 		if (nActiveEvent == TEMPLE_EVENT_CHAOS)
@@ -96,7 +96,7 @@ void CUser::TempleOperations(uint8 bType)
 		if (bResult == 1) {
 			GetNation() == KARUS ? g_pMain->pTempleEvent.KarusUserCount++ :g_pMain->pTempleEvent.ElMoradUserCount++;
 			g_pMain->pTempleEvent.AllUserCount = (g_pMain->pTempleEvent.KarusUserCount + g_pMain->pTempleEvent.ElMoradUserCount);
-		
+
 			TempleOperations(TEMPLE_EVENT_COUNTER);
 			AddEventUser();
 		}
@@ -115,7 +115,7 @@ void CUser::TempleOperations(uint8 bType)
 		result <<  bType << bResult << nActiveEvent;
 		Send(&result);
 
-		
+
 	}
 	else if (bType == TEMPLE_EVENT_COUNTER)
 	{
@@ -144,7 +144,7 @@ void CUser::AddEventUser(CUser *pUser)
 	_TEMPLE_EVENT_USER * pEventUser = new _TEMPLE_EVENT_USER;
 
 	pEventUser->m_socketID =  pUser->GetSocketID();
-	pEventUser->m_bRoom = pUser->GetRoom();
+	pEventUser->m_bEventRoom = pUser->GetEventRoom();
 	pEventUser->m_bZone = pUser->GetZoneID();
 	pEventUser->m_bNation = pUser->GetNation();
 
@@ -154,10 +154,13 @@ void CUser::AddEventUser(CUser *pUser)
 
 void CUser::RemoveEventUser(uint16 m_socketID)
 {
-	g_pMain->m_TempleEventUserArray.DeleteData(m_socketID);
+	if (g_pMain->m_TempleEventUserArray.GetData(m_socketID) != nullptr)
+		g_pMain->m_TempleEventUserArray.DeleteData(m_socketID);
+
+	m_bEventRoom = -1;
 }
 
-void CUser::UpdateEventUser(uint16 m_socketID, int16 nRoom)
+void CUser::UpdateEventUser(uint16 m_socketID, int16 nEventRoom)
 {
 	_TEMPLE_EVENT_USER * pEventUser = g_pMain->m_TempleEventUserArray.GetData(m_socketID);
 	CUser *pUser = g_pMain->GetUserPtr(m_socketID);
@@ -165,8 +168,8 @@ void CUser::UpdateEventUser(uint16 m_socketID, int16 nRoom)
 	if (pEventUser == nullptr || pUser == nullptr)
 		return;
 
-	pEventUser->m_bRoom = nRoom;
-	pUser->m_bRoom = nRoom;
+	pEventUser->m_bEventRoom = nEventRoom;
+	pUser->m_bEventRoom = nEventRoom;
 }
 
 bool CUser::isEventUser(uint16 m_socketID)

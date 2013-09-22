@@ -45,7 +45,7 @@ void CUser::Attack(Packet & pkt)
 	{
 		if (isAttackable(pTarget) && CanCastRHit(GetSocketID()))
 		{
-			if (isInTempleEventZone() && !isSameUserGroup(pTarget))
+			if (isInTempleEventZone() && !isSameEventRoom(pTarget))
 				return;
 
 			CUser *pUser = g_pMain->GetUserPtr(GetSocketID());
