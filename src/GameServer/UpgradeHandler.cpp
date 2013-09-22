@@ -202,6 +202,16 @@ void CUser::ItemUpgrade(Packet & pkt, bool isRebirthUpgrade)
 					if (proto->m_bKind != 60) 
 						continue;
 					break;
+				
+				case 13:
+					if (proto->m_bKind != 210 && proto->m_bKind != 220 && proto->m_bKind != 230 && proto->m_bKind != 240) 
+						continue;
+					break;
+					
+				case 14:
+					if (proto->m_bKind != 11)
+						continue;
+					break;
 				}
 			}
 
