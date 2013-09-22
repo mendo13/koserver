@@ -61,6 +61,9 @@ void MagicInstance::Run()
 		}
 	}
 
+	if (pSkill->bSuccessRate != 100 && pSkill->bSuccessRate <= myrand(0,myrand(90,100)))
+		bSendSkillFailed = true;
+
 	if (bSendSkillFailed)
 	{
 		SendSkillFailed();
@@ -640,7 +643,6 @@ void MagicInstance::BuildAndSendSkillPacket(Unit * pUnit, bool bSendToRegion, in
 {
 	Packet result;
 
-	//HOP
 	if (pSkill->bType[0] == 4 || pSkill->bType[1] == 4)
 	{
 		_MAGIC_TYPE4 * pType = g_pMain->m_Magictype4Array.GetData(nSkillID);
@@ -659,8 +661,6 @@ void MagicInstance::BuildAndSendSkillPacket(Unit * pUnit, bool bSendToRegion, in
 	}
 
 	BuildSkillPacket(result, sSkillCaster, sSkillTarget, opcode, nSkillID, sData);
-
-
 
 	// No need to proceed if we're not sending fail packets.
 	if (opcode == MAGIC_FAIL
