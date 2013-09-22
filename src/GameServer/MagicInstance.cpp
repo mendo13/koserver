@@ -1263,6 +1263,7 @@ bool MagicInstance::ExecuteType3()
 				if (pTarget->m_bReflectArmorType != 0 && pTarget != pSkillCaster)
 					ReflectDamage(damage, pTarget);
 				// Affects target's MP
+				break;
 			case 2:
 			case 3:
 				pTarget->MSpChange(damage);			

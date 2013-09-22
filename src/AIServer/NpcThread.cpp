@@ -28,7 +28,6 @@ uint32 THREADCALL NpcThreadProc(void * pParam /* CNpcThread ptr */)
 				bool bDeleteNPC = false;
 				pNpc = *itr;
 				dwTickTime = fTime2 - pNpc->m_fDelayTime;
-								pNpc->m_bEventRoom = -1;
 
 				if (pNpc->m_Delay > (int)dwTickTime && !pNpc->m_bFirstLive && pNpc->m_Delay != 0) 
 				{

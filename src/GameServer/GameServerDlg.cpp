@@ -1184,7 +1184,7 @@ void CGameServerDlg::UserInOutForMe(CUser *pSendUser)
 
 	int16 rx = pSendUser->GetRegionX(), rz = pSendUser->GetRegionZ();
 	foreach_region(x, z)
-		GetRegionUserIn(pMap, rx + x, rz + z, result, user_count, pSendUser->isInTempleEventZone() ? pSendUser->GetEventRoom() : -1);
+		GetRegionUserIn(pMap, rx + x, rz + z, result, user_count, pSendUser->GetEventRoom());
 
 	result.put(0, uint16(user_count));
 	pSendUser->SendCompressed(&result);
@@ -1204,7 +1204,7 @@ void CGameServerDlg::RegionUserInOutForMe(CUser *pSendUser)
 
 	int16 rx = pSendUser->GetRegionX(), rz = pSendUser->GetRegionZ();
 	foreach_region(x, z)
-		GetRegionUserList(pMap, rx + x, rz + z, result, user_count, pSendUser->isInTempleEventZone() ? pSendUser->GetEventRoom() : -1);
+		GetRegionUserList(pMap, rx + x, rz + z, result, user_count, pSendUser->GetEventRoom());
 
 	result.put(1, user_count);
 	pSendUser->SendCompressed(&result);
@@ -1277,7 +1277,7 @@ void CGameServerDlg::MerchantUserInOutForMe(CUser *pSendUser)
 
 	int16 rx = pSendUser->GetRegionX(), rz = pSendUser->GetRegionZ();
 	foreach_region(x, z)
-		GetRegionMerchantUserIn(pMap, rx + x, rz + z, result, user_count, pSendUser->isInTempleEventZone() ? pSendUser->GetEventRoom() : -1);
+		GetRegionMerchantUserIn(pMap, rx + x, rz + z, result, user_count, pSendUser->GetEventRoom());
 
 	result.put(1, user_count);
 	pSendUser->SendCompressed(&result);
@@ -1329,7 +1329,7 @@ void CGameServerDlg::NpcInOutForMe(CUser* pSendUser)
 
 	int16 rx = pSendUser->GetRegionX(), rz = pSendUser->GetRegionZ();
 	foreach_region(x, z)
-		GetRegionNpcIn(pMap, rx + x, rz + z, result, npc_count, pSendUser->isInTempleEventZone() ? pSendUser->GetEventRoom() : -1);
+		GetRegionNpcIn(pMap, rx + x, rz + z, result, npc_count, pSendUser->GetEventRoom());
 
 	result.put(0, npc_count);
 	pSendUser->SendCompressed(&result);
@@ -1376,7 +1376,7 @@ void CGameServerDlg::RegionNpcInfoForMe(CUser *pSendUser)
 
 	int16 rx = pSendUser->GetRegionX(), rz = pSendUser->GetRegionZ();
 	foreach_region(x, z)
-		GetRegionNpcList(pMap, rx + x, rz + z, result, npc_count, pSendUser->isInTempleEventZone() ? pSendUser->GetEventRoom() : -1);
+		GetRegionNpcList(pMap, rx + x, rz + z, result, npc_count, pSendUser->GetEventRoom());
 
 	result.put(0, npc_count);
 	pSendUser->SendCompressed(&result);

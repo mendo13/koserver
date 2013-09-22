@@ -2638,7 +2638,7 @@ void CUser::UserLookChange(int pos, int itemid, int durability)
 
 	Packet result(WIZ_USERLOOK_CHANGE);
 	result << GetSocketID() << uint8(pos) << itemid << uint16(durability);
-	SendToRegion(&result, this);
+	SendToRegion(&result, this, GetEventRoom());
 }
 
 void CUser::SendNotice()

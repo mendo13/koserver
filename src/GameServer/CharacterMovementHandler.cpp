@@ -180,7 +180,7 @@ void CUser::Rotate(Packet & pkt)
 	Packet result(WIZ_ROTATE);
 	pkt >> m_sDirection;
 	result << GetSocketID() << m_sDirection;
-	SendToRegion(&result, this);
+	SendToRegion(&result, this, GetEventRoom());
 }
 
 bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
