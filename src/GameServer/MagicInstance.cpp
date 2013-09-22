@@ -643,19 +643,15 @@ void MagicInstance::BuildAndSendSkillPacket(Unit * pUnit, bool bSendToRegion, in
 {
 	Packet result;
 
-	if (pSkill->bType[0] == 4 || pSkill->bType[1] == 4)
+	if (pSkillTarget->isPlayer() && pSkill->bType[0] == 4 || pSkill->bType[1] == 4)
 	{
 		_MAGIC_TYPE4 * pType = g_pMain->m_Magictype4Array.GetData(nSkillID);
-		if (pType != nullptr)
+		if (pType != nullptr && pType->bBuffType == BUFF_TYPE_SPEED2 || pType->bBuffType == BUFF_TYPE_STUN)
 		{
-			if (pType->bBuffType == BUFF_TYPE_SPEED2
-				|| pType->bBuffType == BUFF_TYPE_STUN)
+			if ((pSkillTarget->m_sColdR + pSkillTarget->m_sLightningR) <= myrand(0,myrand(200,300)) && bSendSpeedSkill)
 			{
-				if ((pSkillTarget->m_sColdR + pSkillTarget->m_sLightningR) <= myrand(0,myrand(200,300)) && bSendSpeedSkill)
-				{
-					sData[5] = pSkillTarget->m_bSpeedAmount;
-					bSendSpeedSkill = false;
-				}
+				sData[5] = pSkillTarget->m_bSpeedAmount;
+				bSendSpeedSkill = false;
 			}
 		}
 	}
@@ -1234,7 +1230,7 @@ bool MagicInstance::ExecuteType3()
 
 			if (pType->bAttribute == 2 && pTarget->m_sColdR <= nColdAndLightningPossibility)
 				bSendColdAndLightningSkill = false;
-			else if (pType->bAttribute == 3 && pTarget->m_sLightningR <= nColdAndLightningPossibility && pTarget->isPlayer())
+			else if (pTarget->isPlayer() && pType->bAttribute == 3 && pTarget->m_sLightningR <= nColdAndLightningPossibility)
 				bSendColdAndLightningSkill = false;
 		}
 
