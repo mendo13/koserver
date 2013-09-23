@@ -160,7 +160,7 @@ void CUser::Initialize()
 	m_bLastSkillType = 0;
 	m_iLoyaltyDaily = 0;
 	m_iLoyaltyPremiumBonus = 0;
-	m_bEventRoom = -1;
+	m_bEventRoom = 0;
 }
 
 /**

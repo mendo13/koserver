@@ -67,7 +67,7 @@ void Unit::Initialize()
 	m_bManaAbsorb = 0;
 	m_bRadiusAmount = 0;
 	m_buffCount = 0;
-	m_bEventRoom = -1;
+	m_bEventRoom = 0;
 
 	InitType3();
 	InitType4(true);

@@ -157,7 +157,7 @@ void CUser::RemoveEventUser(uint16 m_socketID)
 	if (g_pMain->m_TempleEventUserArray.GetData(m_socketID) != nullptr)
 		g_pMain->m_TempleEventUserArray.DeleteData(m_socketID);
 
-	m_bEventRoom = -1;
+	m_bEventRoom = 0;
 }
 
 void CUser::UpdateEventUser(uint16 m_socketID, int16 nEventRoom)

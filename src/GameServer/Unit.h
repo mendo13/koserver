@@ -53,8 +53,17 @@ public:
 
 	virtual uint16 GetID() = 0;
 	INLINE uint8 GetZoneID() { return m_bZone; }
-	INLINE int16 GetEventRoom() { return m_bEventRoom; }
-	
+	INLINE int16 GetEventRoom() 
+	{ 
+		if (m_bEventRoom < 0 || m_bEventRoom > MAX_TEMPLE_EVENT_ROOM)
+		{
+			TRACE("### Max Event Room Size : EventRoom=%d\n",m_bEventRoom);
+			m_bEventRoom = 0;
+		}
+
+		return m_bEventRoom; 
+	}
+
 	INLINE bool isInTempleEventZone() {  return GetZoneID() == ZONE_BORDER_DEFENSE_WAR || GetZoneID() == ZONE_CHAOS_DUNGEON || GetZoneID() == ZONE_JURAD_MOUNTAIN; }
 
 	INLINE float GetX() { return m_curx; }

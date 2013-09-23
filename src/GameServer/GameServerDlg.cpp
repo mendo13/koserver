@@ -1816,7 +1816,7 @@ void CGameServerDlg::TempleEventTimer()
 			&& pTempleEvent.ActiveEvent == TEMPLE_EVENT_BORDER_DEFENCE_WAR
 			&& pTempleEvent.isActive)
 		{
-			TempleEventCreateGroups();
+			TempleEventCreateRooms();
 			m_nTempleEventRemainSeconds = 0;
 			TempleEventStart();
 			TempleEventTeleportUsers();
@@ -1839,7 +1839,7 @@ void CGameServerDlg::TempleEventTimer()
 		&& nMinute == 11 
 			&& pTempleEvent.ActiveEvent == TEMPLE_EVENT_CHAOS
 			&& pTempleEvent.isActive) {
-				TempleEventCreateGroups();
+				TempleEventCreateRooms();
 				m_nTempleEventRemainSeconds = 0;
 				TempleEventStart();
 				TempleEventTeleportUsers();
@@ -1859,7 +1859,7 @@ void CGameServerDlg::TempleEventStart()
 	Send_All(&result);
 }
 
-void CGameServerDlg::TempleEventCreateGroups()
+void CGameServerDlg::TempleEventCreateRooms()
 {
 	uint8 nMaxUserCount = 0;
 
@@ -1877,7 +1877,7 @@ void CGameServerDlg::TempleEventCreateGroups()
 	}
 
 	uint8 nCurrentUserCount = 0;
-	uint8 nCurrentUserGroup = 0;
+	uint8 nCurrentEventRoom = 1;
 
 	foreach_stlmap_nolock(itr, g_pMain->m_TempleEventUserArray)
 	{
@@ -1887,13 +1887,13 @@ void CGameServerDlg::TempleEventCreateGroups()
 			||	!pUser->isInGame())
 			continue;
 
-		pUser->UpdateEventUser(pUser->GetSocketID(), nCurrentUserGroup);
+		pUser->UpdateEventUser(pUser->GetSocketID(), nCurrentEventRoom);
 		nCurrentUserCount++;
 
 		if (nCurrentUserCount == nMaxUserCount)
 		{
 			nCurrentUserCount = 0;
-			nCurrentUserGroup++;
+			nCurrentEventRoom++;
 		}
 	}
 }

@@ -62,7 +62,7 @@ public:
 	void GameServerAcceptThread();
 	void GetServerResource(int nResourceID, std::string * result, ...);
 	bool AddObjectEventNpc(_OBJECT_EVENT* pEvent, MAP * pMap);
-	CNpc * SpawnEventNpc(uint16 sSid, bool bIsMonster, uint8 byZone, float fX, float fY, float fZ, int16 nEventRoom = -1);
+	CNpc * SpawnEventNpc(uint16 sSid, bool bIsMonster, uint8 byZone, float fX, float fY, float fZ, int16 nEventRoom = 0);
 	void NpcUpdate(uint16 sSid, bool bIsMonster, uint8 byGroup = 0, uint16 sPid = 0);
 
 	void RemoveEventNPC(CNpc * pNpc);

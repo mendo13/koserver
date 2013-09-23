@@ -865,7 +865,7 @@ public:
 
 	void AddEventUser(CUser * pUser = nullptr);
 	void RemoveEventUser(uint16 m_socketID);
-	void UpdateEventUser(uint16 m_socketID, int16 nEventRoom = -1);
+	void UpdateEventUser(uint16 m_socketID, int16 nEventRoom = 0);
 	bool isEventUser(uint16 m_socketID);
 
 	void SendTargetHP( uint8 echo, int tid, int damage = 0 );
@@ -899,8 +899,8 @@ public:
 	void ChangeFame(uint8 bFame);
 	void SendServerIndex();
 
-	void SendToRegion(Packet *pkt, CUser *pExceptUser = nullptr, int16 nEventRoom = -1);
-	void SendToZone(Packet *pkt, CUser *pExceptUser = nullptr, int16 nEventRoom = -1);
+	void SendToRegion(Packet *pkt, CUser *pExceptUser = nullptr, int16 nEventRoom = 0);
+	void SendToZone(Packet *pkt, CUser *pExceptUser = nullptr, int16 nEventRoom = 0);
 
 	virtual void OnDeath(Unit *pKiller);
 	void UpdateAngerGauge(uint8 byAngerGauge);
