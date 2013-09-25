@@ -728,8 +728,8 @@ void CGameServerDlg::Send_Zone_Matched_Class(Packet *pkt, uint8 bZoneID, CUser* 
 			|| pUser->isInParty()) // looking for users to join the party
 			continue;
 
-		/*if (nEventRoom != pUser->GetEventRoom())
-			continue;*/
+		if (nEventRoom != pUser->GetEventRoom())
+			continue;
 
 		// If we're in the neutral zone (Moradon), it doesn't matter which nation we party with.
 		// For all other zones, we must party with a player of the same nation.
@@ -774,8 +774,8 @@ void CGameServerDlg::Send_Zone(Packet *pkt, uint8 bZoneID, CUser* pExceptUser /*
 			continue;
 		}
 
-		/*if (nEventRoom != pUser->GetEventRoom())
-			continue;*/
+		if (nEventRoom != pUser->GetEventRoom())
+			continue;
 
 		pUser->Send(pkt);
 	}
@@ -805,8 +805,8 @@ void CGameServerDlg::Send_All(Packet *pkt, CUser* pExceptUser /*= nullptr*/, uin
 			if (pUser->GetZoneID() != ZoneID) 
 				continue;
 
-		/*if (nEventRoom != pUser->GetEventRoom())
-			continue;*/
+		if (nEventRoom != pUser->GetEventRoom())
+			continue;
 
 		pUser->Send(pkt);
 	}
@@ -838,8 +838,8 @@ void CGameServerDlg::Send_UnitRegion(Packet *pkt, C3DMap *pMap, int x, int z, CU
 			|| !pUser->isInGame())
 			continue;
 
-		/*if (nEventRoom != pUser->GetEventRoom())
-			continue;*/
+		if (nEventRoom != pUser->GetEventRoom())
+			continue;
 
 		pUser->Send(pkt);
 	}
@@ -944,8 +944,8 @@ void CGameServerDlg::Send_FilterUnitRegion(Packet *pkt, C3DMap *pMap, int x, int
 			|| !pUser->isInGame())
 			continue;
 
-		/*if (nEventRoom != pUser->GetEventRoom())
-			continue;*/
+		if (nEventRoom != pUser->GetEventRoom())
+			continue;
 
 		if (sqrt(pow((pUser->m_curx - ref_x), 2) + pow((pUser->m_curz - ref_z), 2)) < 32)
 			pUser->Send(pkt);
@@ -1228,8 +1228,8 @@ void CGameServerDlg::GetRegionUserIn(C3DMap *pMap, uint16 region_x, uint16 regio
 			|| !pUser->isInGame())
 			continue;
 
-		/*if (nEventRoom != pUser->GetEventRoom())
-			continue;*/
+		if (nEventRoom != pUser->GetEventRoom())
+			continue;
 
 		pkt << uint8(0) << pUser->GetSocketID();
 		pUser->GetUserInfo(pkt);
@@ -1255,8 +1255,8 @@ void CGameServerDlg::GetRegionUserList(C3DMap* pMap, uint16 region_x, uint16 reg
 			|| !pUser->isInGame())
 			continue;
 
-		/*if (nEventRoom != pUser->GetEventRoom())
-			continue;*/
+		if (nEventRoom != pUser->GetEventRoom())
+			continue;
 
 		pkt << pUser->GetSocketID();
 		t_count++;
@@ -1302,8 +1302,8 @@ void CGameServerDlg::GetRegionMerchantUserIn(C3DMap *pMap, uint16 region_x, uint
 			|| !pUser->isMerchanting())
 			continue;
 
-		/*if (nEventRoom != pUser->GetEventRoom())
-			continue;*/
+		if (nEventRoom != pUser->GetEventRoom())
+			continue;
 
 		pkt << pUser->GetSocketID()
 			<< pUser->GetMerchantState() // 0 is selling, 1 is buying
@@ -1354,8 +1354,8 @@ void CGameServerDlg::GetRegionNpcIn(C3DMap *pMap, uint16 region_x, uint16 region
 			|| pNpc->isDead())
 			continue;
 
-		/*if (nEventRoom != pNpc->GetEventRoom())
-			continue;*/
+		if (nEventRoom != pNpc->GetEventRoom())
+			continue;
 
 		pkt << pNpc->GetID();
 		pNpc->GetNpcInfo(pkt);
@@ -1430,8 +1430,8 @@ void CGameServerDlg::GetRegionNpcList(C3DMap *pMap, uint16 region_x, uint16 regi
 		if (pNpc == nullptr || pNpc->isDead())
 			continue;
 
-		/*if (nEventRoom != pNpc->GetEventRoom())
-			continue;*/
+		if (nEventRoom != pNpc->GetEventRoom())
+			continue;
 
 		pkt << pNpc->GetID();
 		t_count++;
