@@ -55,7 +55,7 @@ public:
 	INLINE uint8 GetZoneID() { return m_bZone; }
 	INLINE int16 GetEventRoom() 
 	{ 
-		if (m_bEventRoom < 0 || m_bEventRoom > MAX_TEMPLE_EVENT_ROOM)
+		if (m_bEventRoom < 0 || m_bEventRoom > (int16)MAX_TEMPLE_EVENT_ROOM)
 		{
 			TRACE("### Max Event Room Size : EventRoom=%d\n",m_bEventRoom);
 			m_bEventRoom = 0;
