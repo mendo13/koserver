@@ -4444,7 +4444,7 @@ bool Unit::isInAttackRange(Unit * pTarget, _MAGIC_TABLE * pSkill /*= nullptr*/)
 		// If not, resort to using the weapon range -- or predefined 15m range in the case of type 3 skills.
 		if (pSkill->bType[0] != 2)
 		{
-			return isInRangeSlow(pTarget, fBaseMeleeRange + (pSkill->sRange == 0 ? fRange : pSkill->sRange / 10.0f) + pSkill->bType[0] == 1 ? fWeaponRange : 0);
+			return isInRangeSlow(pTarget, fBaseMeleeRange + (pSkill->sRange == 0 ? fRange : pSkill->sRange) + (pSkill->bType[0] == 1 ? fWeaponRange : 0)); 
 		}
 		// Ranged skills (type 2) don't typically have the main skill range set to anything useful, so
 		// we need to allow for the: bow's range, flying skill-specific range, and an extra 50m for the
@@ -4452,7 +4452,7 @@ bool Unit::isInAttackRange(Unit * pTarget, _MAGIC_TABLE * pSkill /*= nullptr*/)
 		else
 		{
 			_MAGIC_TYPE2 * pType2 = g_pMain->m_Magictype2Array.GetData(pSkill->iNum);
-			return pType2 != nullptr && isInRangeSlow(pTarget, fRange + (pType2->sAddRange / 10.0f) + fBaseRangedRange); 
+			return pType2 != nullptr && isInRangeSlow(pTarget, fRange + pType2->sAddRange + fBaseRangedRange);
 		}
 	}
 
