@@ -398,6 +398,7 @@ public:
 	void SendNpcInfo();
 	void SendRegionUpdate();
 	void Dead(Unit * pKiller = nullptr, bool bSendDeathPacket = true);
+	bool isShowBox();
 
 	bool FindEnemy();
 	bool CheckFindEnemy();

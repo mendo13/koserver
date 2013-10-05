@@ -150,8 +150,9 @@ void CUser::MerchantItemAdd(Packet & pkt)
 		|| pSrcItem->isSealed())
 		return;
 
-	_MERCH_DATA *pMerch = &m_arMerchantItems[bDstPos];
-	
+	// TODO: Kontrol Edilecek...
+	_MERCH_DATA *pMerch = &m_arMerchantItems[bDstPos - SLOT_MAX];
+
 	if(pMerch == nullptr)
 		return; 
 

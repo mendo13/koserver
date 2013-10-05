@@ -61,7 +61,7 @@ void CKnights::ConstructClanNoticePacket(Packet *result)
 	result->DByte();
 	*result	<< uint8(4)			// type
 		<< uint8(1)			// total blocks
-		<< "Clan Notice"	// header
+		<< m_strName	// header
 		<< m_strClanNotice;
 }
 

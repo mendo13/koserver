@@ -576,7 +576,7 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 		else
 			m_iLoyalty += nChangeAmount;
 
-		if (isPVPZone())
+		if (isInPKZone())
 		{
 			if (bIsKillReward)
 				if (g_pMain->m_nPVPMonumentNation[GetZoneID()] == GetNation())
@@ -601,7 +601,7 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 				m_iLoyalty += GetPremiumProperty(PremiumBonusLoyalty);
 				m_iLoyaltyMonthly += GetPremiumProperty(PremiumBonusLoyalty);
 
-				if (isPVPZone())
+				if (isInPKZone())
 					m_iLoyaltyPremiumBonus += GetPremiumProperty(PremiumBonusLoyalty);
 			}
 		}
@@ -931,10 +931,10 @@ void CUser::SetMaxHp(int iFlag)
 	int temp_sta = getStatTotal(STAT_STA);
 	//	if( temp_sta > 255 ) temp_sta = 255;
 
-	if (m_bZone == ZONE_SNOW_BATTLE && iFlag == 0)
+	if (GetZoneID() == ZONE_SNOW_BATTLE && iFlag == 0)
 		m_iMaxHp = 100;
-	else if (m_bZone == ZONE_CHAOS_DUNGEON && iFlag == 0)
-		m_iMaxHp = 1000;
+	else if (GetZoneID() == ZONE_CHAOS_DUNGEON)
+		m_iMaxHp = 10000;
 	else	
 	{
 		m_iMaxHp = (short)(((p_TableCoefficient->HP * GetLevel() * GetLevel() * temp_sta ) 
@@ -1621,7 +1621,7 @@ void CUser::LevelChange(short level, bool bLevelUp /*= true*/)
 	SetUserAbility();
 
 	m_sMp = m_iMaxMp;
-	HpChange(m_iMaxHp);
+	HpChange(GetMaxHealth()); 
 
 	Send2AI_UserUpdateInfo();
 
@@ -1689,6 +1689,10 @@ void CUser::HpChange(int amount, Unit *pAttacker /*= nullptr*/, bool bSendToAI /
 	int16 oldHP = m_sHp;
 	int originalAmount = amount;
 	int mirrorDamage = 0;
+
+	// No cheats allowed
+	if (pAttacker && pAttacker->GetZoneID() != GetZoneID())
+		return; 
 
 	// Implement damage/HP cap.
 	if (amount < -MAX_DAMAGE)
@@ -1762,7 +1766,8 @@ void CUser::HpChange(int amount, Unit *pAttacker /*= nullptr*/, bool bSendToAI /
 	result << m_iMaxHp << m_sHp << tid;
 
 	if (GetHealth() > 0
-		&& isMastered())
+		&& isMastered()
+		&& !isMage())
 	{
 		const uint16 hp30Percent = (30 * GetMaxHealth()) / 100;
 		if ((oldHP >= hp30Percent && m_sHp < hp30Percent)
@@ -3267,7 +3272,8 @@ int CUser::FindSlotForItem(uint32 nItemID, uint16 sCount /*= 1*/)
 				continue; 
 
 			// If it's the item we're after, and there will be room to store it...
-			if (pItem->nNum == nItemID
+			if (pItem
+				&& pItem->nNum == nItemID 
 				&& pItem->sCount + sCount <= ITEMCOUNT_MAX)
 				return i;
 
@@ -3294,7 +3300,7 @@ int CUser::GetEmptySlot()
 	{
 		_ITEM_DATA *pItem = GetItem(i);
 
-		if(pItem == nullptr)
+		if (pItem && pItem->nNum == 0) 
 			continue; 
 
 		if (pItem->nNum == 0)
@@ -3308,11 +3314,12 @@ void CUser::Home()
 {
 	if (isDead()
 		// When transformed into a "Kaul", you are unable to /town or attack.
-			|| isKaul())
+			|| isKaul()
+			/* No cheats allowed */
+			|| GetHealth() < (GetMaxHealth() / 2)
+			|| GetZoneID() == ZONE_CHAOS_DUNGEON
+			|| GetZoneID() == ZONE_BORDER_DEFENSE_WAR) 
 			return;
-
-	if (m_sHp < (m_iMaxHp / 2)) // No cheats allowed...
-		return;
 
 	// The point where you will be warped to.
 	short x = 0, z = 0;
@@ -4195,7 +4202,7 @@ void CUser::OnDeath(Unit *pKiller)
 			else
 				nExpLost = m_iMaxExp / 20;
 
-			if (pNpc->GetType() == NPC_GUARD_TOWER1 && isPVPZone())
+			if (pNpc->GetType() == NPC_GUARD_TOWER1 || pNpc->GetType() == NPC_GUARD_TOWER2 || isInPKZone())
 				noticeType = DeathNotice;
 
 			if (m_bPremiumType > 0)
@@ -4239,8 +4246,8 @@ void CUser::OnDeath(Unit *pKiller)
 						uint16 bonusNP = 0;
 						bool bKilledByRival = false;
 
-						// In PVP zones (just Ronark Land for now)
-						if (isPVPZone())
+						// In PVP zones
+						if (isInPKZone())
 						{
 							// Show death notices in PVP zones
 							noticeType = DeathNoticeCoordinates;
@@ -4292,12 +4299,12 @@ void CUser::OnDeath(Unit *pKiller)
 							pUser->LoyaltyDivide(GetID(), bonusNP);
 
 							_PARTY_GROUP * pParty = g_pMain->GetPartyPtr(GetPartyID());
-							if (pParty != nullptr)
+							if (pParty) 
 							{
 								for (uint8 i = 0; i < MAX_PARTY_USERS; i++)
 								{
 									CUser * pPartyUser = g_pMain->GetUserPtr(pParty->uid[i]);
-									if (pPartyUser != nullptr)
+									if (pPartyUser)
 										pPartyUser->GiveItem(ITEM_MEAT_DUMPLING);
 								}
 							}
@@ -4309,7 +4316,7 @@ void CUser::OnDeath(Unit *pKiller)
 							ExpChange(-(m_iMaxExp / 100));
 
 						// If we don't have a rival, this player is now our rival for 3 minutes.
-						if (isPVPZone()
+						if (isInPKZone()
 							&& !hasRival())
 							SetRival(pUser);
 					}
@@ -4437,7 +4444,7 @@ bool Unit::isInAttackRange(Unit * pTarget, _MAGIC_TABLE * pSkill /*= nullptr*/)
 		// If not, resort to using the weapon range -- or predefined 15m range in the case of type 3 skills.
 		if (pSkill->bType[0] != 2)
 		{
-			return isInRangeSlow(pTarget, fBaseMeleeRange + (pSkill->sRange == 0 ? fRange : pSkill->sRange));
+			return isInRangeSlow(pTarget, fBaseMeleeRange + (pSkill->sRange == 0 ? fRange : pSkill->sRange / 10.0f) + pSkill->bType[0] == 1 ? fWeaponRange : 0);
 		}
 		// Ranged skills (type 2) don't typically have the main skill range set to anything useful, so
 		// we need to allow for the: bow's range, flying skill-specific range, and an extra 50m for the
@@ -4445,7 +4452,7 @@ bool Unit::isInAttackRange(Unit * pTarget, _MAGIC_TABLE * pSkill /*= nullptr*/)
 		else
 		{
 			_MAGIC_TYPE2 * pType2 = g_pMain->m_Magictype2Array.GetData(pSkill->iNum);
-			return pType2 != nullptr && isInRangeSlow(pTarget, fRange + pType2->sAddRange + fBaseRangedRange);
+			return pType2 != nullptr && isInRangeSlow(pTarget, fRange + (pType2->sAddRange / 10.0f) + fBaseRangedRange); 
 		}
 	}
 
@@ -4679,7 +4686,7 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 				std::sort(UserRankingSorted[nation].begin(),UserRankingSorted[nation].end(),[](_USER_RANKING const &a, _USER_RANKING const &b){ return a.m_iLoyaltyDaily > b.m_iLoyaltyDaily; });
 		}
 
-		if (isPVPZone())
+		if (isInPKZone())
 		{
 			if ((nation + 1) == GetNation())
 			{
@@ -4696,7 +4703,7 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 
 		for (int i = 0; i < (int32)UserRankingSorted[nation].size(); i++)
 		{
-			if (isPVPZone() && sCount > 10)
+			if (isInPKZone() && sCount > 10)
 				break;
 			else
 			{
@@ -4724,7 +4731,7 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 			else
 				result << pUser->m_strUserID << true;
 
-			if (GetZoneID() == ZONE_BORDER_DEFENSE_WAR || isPVPZone())
+			if (GetZoneID() == ZONE_BORDER_DEFENSE_WAR || isInPKZone())
 			{
 				CKnights * pKnights = g_pMain->GetClanPtr(pUser->m_bKnights);
 
@@ -4741,7 +4748,7 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 				result	<< sClanID << sMarkVersion << strClanName;
 				result << pPlayerRankInfo->m_iLoyaltyDaily;
 
-				if(isPVPZone())
+				if(isInPKZone())
 					result << pPlayerRankInfo->m_iLoyaltyPremiumBonus;
 
 			} else 	if (GetZoneID() == ZONE_CHAOS_DUNGEON)
@@ -4754,7 +4761,7 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 		wpos = result.wpos();
 	}
 
-	if (isPVPZone())
+	if (isInPKZone())
 		result  << MyRank << m_iLoyaltyDaily << m_iLoyaltyPremiumBonus;
 	else if (GetZoneID() == ZONE_BORDER_DEFENSE_WAR)
 		result << int32(100000) << int32(50000);

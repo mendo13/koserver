@@ -27,14 +27,13 @@ void CUser::LoginProcess(Packet & pkt)
 		return;
 
 	Packet result(WIZ_LOGIN);
-	CUser * pUser;
 	std::string strAccountID, strPasswd;
 	pkt >> strAccountID >> strPasswd;
 	if (strAccountID.empty() || strAccountID.size() > MAX_ID_SIZE
 		|| strPasswd.empty() || strPasswd.size() > MAX_PW_SIZE)
 		goto fail_return;
 
-	pUser = g_pMain->GetUserPtr(strAccountID, TYPE_ACCOUNT);
+	CUser * pUser = g_pMain->GetUserPtr(strAccountID, TYPE_ACCOUNT);
 
 	if (pUser && (pUser->GetSocketID() != GetSocketID()))
 	{

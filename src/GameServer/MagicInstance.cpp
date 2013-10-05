@@ -973,7 +973,21 @@ bool MagicInstance::ExecuteType1()
 				sAdditionalDamage /= 3;
 		}
 
-		damage = pSkillCaster->GetDamage(pSkillTarget, pSkill);
+		// Chaos Dungeon Skills 
+		if (pSkillCaster->GetZoneID() == ZONE_CHAOS_DUNGEON)
+		{
+			switch (pType->iNum)
+			{
+			case 490226: // Killing Blade
+				damage = 10000;
+				break;
+			case 490219: // Spirint Sword
+				damage = 1000;
+				break;
+			}	
+		}
+		else
+			damage = pSkillCaster->GetDamage(pSkillTarget, pSkill);
 
 		// Only add additional damage if the target's not currently blocking it.
 		// NOTE: Not sure whether to count this as physical or magic damage.
@@ -1340,6 +1354,15 @@ bool MagicInstance::ExecuteType3()
 				{
 					pTarget->MSpChange(pType->sFirstDamage);
 					pSkillCaster->HpChangeMagic(-(pType->sFirstDamage) / 2);
+				}
+				break;
+			case 19: // Chaos Dungeon Skills
+				if (pSkillCaster->GetZoneID() == ZONE_CHAOS_DUNGEON)
+				{
+					if (pType->iNum == 490221) // Fire Sword
+						pTarget->HpChangeMagic(-3000, pSkillCaster, AttributeFire);
+					if (pType->iNum == 490227)// Stun Lighting
+						pTarget->HpChangeMagic(-2000, pSkillCaster, AttributeLightning);
 				}
 				break;
 			}

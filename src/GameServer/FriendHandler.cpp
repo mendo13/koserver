@@ -36,7 +36,7 @@ void CUser::FriendModify(Packet & pkt, uint8 opcode)
 	pkt >> strUserID;
 
 	if (strUserID.empty() || strUserID.size() > MAX_ID_SIZE
-		|| (opcode == FRIEND_ADD && (pUser = g_pMain->GetUserPtr(strUserID, TYPE_CHARACTER)) == nullptr))
+		|| (opcode == FRIEND_ADD && (pUser = g_pMain->GetUserPtr(strUserID, TYPE_CHARACTER)) == nullptr) && pUser->GetNation() != GetNation()) 
 		return;
 
 	Packet result(WIZ_FRIEND_PROCESS, opcode);

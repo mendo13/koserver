@@ -1301,20 +1301,36 @@ void CNpc::Dead(Unit * pKiller /*= nullptr*/, bool bSendDeathPacket /*= false*/)
 	{
 		SendDeathAnimation(pKiller);
 		SendExpToUserList();
-		switch (GetType())
-		{
-		case NPC_CHAOS_STONE:
-			break;
-		case NPC_PVP_MONUMENT:
-			break;
-		case NPC_BIFROST_MONUMENT:
-			break;
-		default:
-			GiveNpcHaveItem();
-			break;
-		}
+		if (isShowBox())
+			GiveNpcHaveItem(); 
 	}
 }
+
+bool CNpc::isShowBox()
+{ 
+	uint8 bType = GetType();
+
+	if (bType == NPC_CHAOS_STONE
+		|| bType == NPC_CHAOS_STONE
+		|| bType == NPC_PVP_MONUMENT
+		|| bType == NPC_BIFROST_MONUMENT
+		|| bType == NPC_GUARD_TOWER1
+		|| bType == NPC_GUARD_TOWER2
+		|| bType == NPC_SCARECROW
+		|| bType == NPC_KARUS_WARDER1
+		|| bType == NPC_KARUS_WARDER2
+		|| bType == NPC_ELMORAD_WARDER1
+		|| bType == NPC_ELMORAD_WARDER2
+		|| bType == NPC_KARUS_GATEKEEPER
+		|| bType == NPC_ELMORAD_GATEKEEPER
+		|| bType == NPC_CHAOS_STONE
+		|| bType == NPC_CHAOS_STONE
+		|| bType == NPC_CHAOS_STONE
+		|| bType == NPC_CHAOS_STONE)
+		return false;
+
+	return true;
+} 
 
 bool CNpc::FindEnemy()
 {

@@ -98,7 +98,8 @@ void CUser::PartyRequest(int memberid, bool bCreate)
 	// Only allow partying of the enemy nation in Moradon or FT.
 	// Also, we threw in a check to prevent them from partying from other zones.
 	if ((GetNation() != pUser->GetNation() && GetZoneID() != ZONE_MORADON && GetZoneID() != ZONE_FORGOTTEN_TEMPLE)
-		|| GetZoneID() != pUser->GetZoneID())
+		|| GetZoneID() != pUser->GetZoneID()
+		|| GetZoneID() == ZONE_CHAOS_DUNGEON)
 	{
 		errorCode = -3;
 		goto fail_return;
@@ -320,7 +321,8 @@ void CUser::PartyPromote(uint16 sMemberID)
 
 void CUser::PartyRemove(int memberid)
 {
-	if (!isInParty()) 
+	if (!isInParty()
+		|| GetZoneID() == ZONE_JURAD_MOUNTAIN)  
 		return;
 
 	CUser *pUser = g_pMain->GetUserPtr(memberid);
@@ -388,7 +390,8 @@ void CUser::PartyRemove(int memberid)
 
 void CUser::PartyDelete()
 {
-	if (!isInParty())
+	if (!isInParty()
+		|| GetZoneID() == ZONE_JURAD_MOUNTAIN)
 		return;
 
 	_PARTY_GROUP *pParty = g_pMain->GetPartyPtr(GetPartyID());

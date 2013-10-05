@@ -270,6 +270,9 @@ void CUser::ItemUpgrade(Packet & pkt, bool isRebirthUpgrade)
 		}
 		else
 		{
+			// Rob gold upgrade noah
+			GoldLose(pUpgrade->nReqNoah, true); 
+
 			// Generate the new item ID
 			int nNewItemID = pOriginItem->nNum + pUpgrade->nGiveItem;
 

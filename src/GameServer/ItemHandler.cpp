@@ -466,7 +466,7 @@ void CUser::ItemMove(Packet & pkt)
 
 	pkt >> dir >> nItemID >> bSrcPos >> bDstPos;
 
-	if (isTrading() || isMerchanting() || isMining())
+	if (isTrading() || isMerchanting() || isMining() || GetZoneID() == ZONE_CHAOS_DUNGEON)
 		goto fail_return;
 
 	pTable = g_pMain->GetItemPtr(nItemID);
@@ -1055,7 +1055,9 @@ void CUser::ItemRemove(Packet & pkt)
 	// Make sure the item matches what the client says it is
 	if (pItem == nullptr || pItem->nNum != nItemID
 		|| pItem->isSealed() 
-		|| pItem->isRented())
+		|| pItem->isRented()
+		|| isMining()
+		|| GetZoneID() == ZONE_CHAOS_DUNGEON) 
 		goto fail_return;
 
 	memset(pItem, 0, sizeof(_ITEM_DATA));

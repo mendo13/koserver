@@ -18,9 +18,7 @@ void CUser::MoveProcess(Packet & pkt)
 	if (!isGM())
 	{
 		// TO-DO: Handle proper speed checks against server-side amounts.
-		// We should also avoid relying on what the client has sent us.
-		if (speed > 200)	// What is the signifance of this number? Considering 90 is light feet...
-			// We shouldn't be using magic numbers at all here.
+		if (speed > 90)
 		{
 			Disconnect();
 			return;

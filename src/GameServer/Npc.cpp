@@ -359,9 +359,9 @@ void CNpc::OnDeathProcess(Unit *pKiller)
 						pUser->SaveEvent(STARTER_SEED_QUEST, 2);
 				}
 				else if (g_pMain->m_MonsterRespawnListArray.GetData(m_sSid) != nullptr) {
-					if (pUser->isPVPZone() || GetZoneID() == ZONE_JURAD_MOUNTAIN)
+					if (pUser->isInPKZone() || GetZoneID() == ZONE_JURAD_MOUNTAIN)
 						g_pMain->SpawnEventNpc(g_pMain->m_MonsterRespawnListArray.GetData(m_sSid)->sSid, true, GetZoneID(), GetX(), GetY(), GetZ(), g_pMain->m_MonsterRespawnListArray.GetData(m_sSid)->sCount);
-				} else if (m_tNpcType == NPC_CHAOS_STONE && pUser->isPVPZone()) {
+				} else if (m_tNpcType == NPC_CHAOS_STONE && pUser->isInPKZone()) {
 					ChaosStoneProcess(pUser,5);
 				}
 			}
