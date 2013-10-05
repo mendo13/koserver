@@ -1007,7 +1007,7 @@ void CGameServerDlg::UpdateGameTime()
 	// Every minute
 	if (m_sMin != now.GetMinute())
 	{
-		SendNotice(string_format("Web Sitemiz : http://212.175.109.65").c_str());
+		
 	}
 
 	// Every hour
