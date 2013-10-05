@@ -1311,7 +1311,6 @@ bool CNpc::isShowBox()
 	uint8 bType = GetType();
 
 	if (bType == NPC_CHAOS_STONE
-		|| bType == NPC_CHAOS_STONE
 		|| bType == NPC_PVP_MONUMENT
 		|| bType == NPC_BIFROST_MONUMENT
 		|| bType == NPC_GUARD_TOWER1
@@ -1322,11 +1321,7 @@ bool CNpc::isShowBox()
 		|| bType == NPC_ELMORAD_WARDER1
 		|| bType == NPC_ELMORAD_WARDER2
 		|| bType == NPC_KARUS_GATEKEEPER
-		|| bType == NPC_ELMORAD_GATEKEEPER
-		|| bType == NPC_CHAOS_STONE
-		|| bType == NPC_CHAOS_STONE
-		|| bType == NPC_CHAOS_STONE
-		|| bType == NPC_CHAOS_STONE)
+		|| bType == NPC_ELMORAD_GATEKEEPER)
 		return false;
 
 	return true;
