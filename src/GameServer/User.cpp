@@ -3300,7 +3300,7 @@ int CUser::GetEmptySlot()
 	{
 		_ITEM_DATA *pItem = GetItem(i);
 
-		if (pItem && pItem->nNum == 0) 
+		if (!pItem) 
 			continue; 
 
 		if (pItem->nNum == 0)
