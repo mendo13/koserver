@@ -2932,6 +2932,8 @@ int16 CUser::GetLoyaltyDivideTarget()
 		return RONARK_LAND_KILL_LOYALTY_TARGET;
 	else
 		return OTHER_ZONE_KILL_LOYALTY_TARGET;
+	
+	return 0;
 }
 
 void CUser::ItemWoreOut(int type, int damage)
