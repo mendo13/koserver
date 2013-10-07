@@ -4344,7 +4344,14 @@ void CUser::OnDeath(Unit *pKiller)
 						pUser->GoldChange(GetID(), 0);
 
 						if (GetZoneID() != GetNation() && GetZoneID() <= ELMORAD)
-							ExpChange(-(m_iMaxExp / 100));
+						{
+							int64 nExpLost = m_iMaxExp / 100;
+
+							if (m_bPremiumType > 0)
+								nExpLost = nExpLost * (GetPremiumProperty(PremiumExpRestorePercent)) / 100;
+
+							ExpChange(-nExpLost);
+						}
 
 						// If we don't have a rival, this player is now our rival for 3 minutes.
 						if (isInPKZone()

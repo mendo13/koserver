@@ -55,7 +55,7 @@ enum PVPKillLoyalty
 	RONARK_LAND_KILL_LOYALTY_SOURCE			= 64,
 	RONARK_LAND_KILL_LOYALTY_TARGET			= -50,
 	OTHER_ZONE_KILL_LOYALTY_SOURCE			= 50,
-	OTHER_ZONE_KILL_LOYALTY_TARGET			= -50,
+	OTHER_ZONE_KILL_LOYALTY_TARGET			= -50
 };
 
 ////////////////////////////////////////////////////////////
