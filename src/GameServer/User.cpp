@@ -2576,34 +2576,28 @@ void CUser::LoyaltyChange(int16 tid, uint16 bonusNP /*= 0*/)
 			loyalty_source = 0;
 			loyalty_target = 0;
 		}
-		// TO-DO: Rewrite this out, it'd be better to handle this in the database.
-		// Colony Zone
-		else if (pTUser->GetZoneID() == ZONE_RONARK_LAND) 
-		{
-			loyalty_source = 64;
-			loyalty_target = -50;
-
-			// Handle CZ rank
-			//	m_zColonyZoneLoyalty += loyalty_source;
-			//	g_pMain->UpdateColonyZoneRankInfo();
-		}
 		// Ardream
 		else if (pTUser->GetZoneID() == ZONE_ARDREAM)
 		{
-			loyalty_source =  25; 
-			loyalty_target = -25;
+			loyalty_source = ARDREAM_KILL_LOYALTY_SOURCE; 
+			loyalty_target = ARDREAM_KILL_LOYALTY_TARGET;
 		}
 		// Ronark Land Base
 		else if (pTUser->GetZoneID() == ZONE_RONARK_LAND_BASE)
 		{
-			loyalty_source =  50; 
-			loyalty_target = -50;
+			loyalty_source = RONARK_LAND_BASE_KILL_LOYALTY_SOURCE; 
+			loyalty_target = RONARK_LAND_BASE_KILL_LOYALTY_TARGET;
+		}
+		else if (pTUser->GetZoneID() == ZONE_RONARK_LAND) 
+		{
+			loyalty_source = RONARK_LAND_KILL_LOYALTY_SOURCE;
+			loyalty_target = RONARK_LAND_KILL_LOYALTY_TARGET;
 		}
 		// Other zones
 		else 
 		{
-			loyalty_source =  50;
-			loyalty_target = -50;
+			loyalty_source = OTHER_ZONE_KILL_LOYALTY_SOURCE;
+			loyalty_target = OTHER_ZONE_KILL_LOYALTY_TARGET;
 		}
 	}
 
@@ -2810,7 +2804,7 @@ void CUser::CountConcurrentUser()
 void CUser::LoyaltyDivide(int16 tid, uint16 bonusNP /*= 0*/)
 {
 	int levelsum = 0, individualvalue = 0;
-	short temp_loyalty = 0, level_difference = 0, loyalty_source = 0, loyalty_target = 0, average_level = 0; 
+	short temp_loyalty = 0, loyalty_source = 0, loyalty_target = 0;
 	uint8 total_member = 0;
 
 	if (!isInParty())
@@ -2836,8 +2830,6 @@ void CUser::LoyaltyDivide(int16 tid, uint16 bonusNP /*= 0*/)
 	if (levelsum <= 0) return;		// Protection codes.
 	if (total_member <= 0) return;
 
-	average_level = levelsum / total_member;	// Calculate average level.
-
 	//	This is for the Event Battle on Wednesday :(
 	if (g_pMain->m_byBattleOpen
 		&& GetZoneID() == (ZONE_BATTLE_BASE + g_pMain->m_byBattleZone))
@@ -2849,23 +2841,20 @@ void CUser::LoyaltyDivide(int16 tid, uint16 bonusNP /*= 0*/)
 	}
 
 	if (pTUser->GetNation() != GetNation()) {		// Different nations!!!
-		level_difference = pTUser->GetLevel() - average_level;	// Calculate difference!
-
 		if (pTUser->GetLoyalty() == 0) {	   // No cheats allowed...
 			loyalty_source = 0;
 			loyalty_target = 0;
 		}
-		else if (level_difference > 5) {	// At least six levels higher...
-			loyalty_source  = 50;
-			loyalty_target = -25;
-		}
-		else if (level_difference < -5) {	// At least six levels lower...
-			loyalty_source  = 10; 
-			loyalty_target = -5;
-		}
-		else {		// Within the 5 and -5 range...
-			loyalty_source  =  30;
-			loyalty_target = -15;
+		else
+		{
+			loyalty_source = GetLoyaltyDivideSource(total_member);
+			loyalty_target = GetLoyaltyDivideTarget();
+
+			if (loyalty_source == 0)
+			{
+				loyalty_source = 0;
+				loyalty_target = 0;
+			}
 		}
 	}
 	else {		// Same Nation!!! 
@@ -2901,6 +2890,48 @@ void CUser::LoyaltyDivide(int16 tid, uint16 bonusNP /*= 0*/)
 	}
 
 	pTUser->SendLoyaltyChange(loyalty_target, true);
+}
+
+int16 CUser::GetLoyaltyDivideSource(uint8 totalmember)
+{
+	int16 nLoyaltySource = RONARK_LAND_KILL_LOYALTY_SOURCE * 2;
+
+	if (nLoyaltySource > 0)
+	{
+		switch (totalmember)
+		{
+		case 8:
+			return nLoyaltySource / 8;
+		case 7:
+			return (nLoyaltySource - 2) / 7;
+		case 6:
+			return (nLoyaltySource - 8) / 6;
+		case 5:
+			return (nLoyaltySource - 18) / 5;
+		case 4:
+			return (nLoyaltySource - 32) / 4;
+		case 3:
+			return (nLoyaltySource - 44) / 3;
+		case 2:
+			return (nLoyaltySource - 56) / 2;
+		case 1:
+			return (nLoyaltySource / 2);
+		}
+	}
+
+	return 0;
+}
+
+int16 CUser::GetLoyaltyDivideTarget()
+{
+	if (GetZoneID() == ZONE_ARDREAM)
+		return ARDREAM_KILL_LOYALTY_TARGET;
+	else if (GetZoneID() == ZONE_RONARK_LAND_BASE)
+		return RONARK_LAND_BASE_KILL_LOYALTY_TARGET;
+	else if (GetZoneID() == ZONE_RONARK_LAND)
+		return RONARK_LAND_KILL_LOYALTY_TARGET;
+	else
+		return OTHER_ZONE_KILL_LOYALTY_TARGET;
 }
 
 void CUser::ItemWoreOut(int type, int damage)

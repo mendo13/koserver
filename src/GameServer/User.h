@@ -850,6 +850,8 @@ public:
 	void SpeedHackUser();
 	void LoyaltyChange(int16 tid, uint16 bonusNP = 0);
 	void LoyaltyDivide(int16 tid, uint16 bonusNP = 0);
+	int16 GetLoyaltyDivideSource(uint8 totalmember = 0);
+	int16 GetLoyaltyDivideTarget();
 	void GrantChickenManner();
 	void SendMannerChange(int32 iMannerPoints);
 
