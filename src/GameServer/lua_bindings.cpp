@@ -107,7 +107,7 @@ DEFINE_LUA_CLASS
 	MAKE_LUA_METHOD(CheckSkillPoint)
 	MAKE_LUA_METHOD(isRoomForItem) // FindSlotForItem()
 	MAKE_LUA_METHOD(CountMonsterQuestSub)
-	// MAKE_LUA_METHOD(CountMonsterQuestMain) // CheckMonsterCount(3)
+	MAKE_LUA_METHOD(CountMonsterQuestMain)
 	MAKE_LUA_METHOD(CheckExchange)
 	MAKE_LUA_METHOD(RunExchange)
 	MAKE_LUA_METHOD(SendNameChange)
@@ -319,6 +319,7 @@ _LUA_WRAPPER_USER_FUNCTION(GetMaxExchange, GetMaxExchange);
 _LUA_WRAPPER_USER_FUNCTION(PartyCountMembers, GetPartyMemberAmount);
 _LUA_WRAPPER_USER_FUNCTION(GetUserDailyOp, GetUserDailyOp);
 _LUA_WRAPPER_USER_FUNCTION(CountMonsterQuestSub, CountMonsterQuestSub);
+_LUA_WRAPPER_USER_FUNCTION(CountMonsterQuestMain, CountMonsterQuestMain);
 
 LUA_FUNCTION(SelectMsg)
 {

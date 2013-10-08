@@ -617,6 +617,8 @@ void CAISocket::RecvBattleEvent(Packet & pkt)
 			nResourceID = IDS_KILL_ELMO_GUARD2;
 			break;
 		case 7: // Karus Keeper
+			nResourceID = IDS_KILL_GATEKEEPER;
+			break; 
 		case 8: // El Morad Keeper
 			nResourceID = IDS_KILL_GATEKEEPER;
 			break;

@@ -16,6 +16,7 @@ LUA_FUNCTION(ShowEffect);
 LUA_FUNCTION(ShowNpcEffect);
 LUA_FUNCTION(ExistMonsterQuestSub);
 LUA_FUNCTION(CountMonsterQuestSub);
+LUA_FUNCTION(CountMonsterQuestMain); 
 LUA_FUNCTION(PromoteKnight);
 LUA_FUNCTION(SelectMsg);
 LUA_FUNCTION(CastSkill);

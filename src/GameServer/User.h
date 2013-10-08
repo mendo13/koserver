@@ -1140,6 +1140,10 @@ public:
 		LUA_RETURN(LUA_GET_INSTANCE()->QuestV2CheckMonsterCount((LUA_ARG(uint16, 2))));
 	}
 
+	DECLARE_LUA_FUNCTION(CountMonsterQuestMain) {
+		LUA_NO_RETURN(LUA_GET_INSTANCE()->QuestV2MonsterCountAdd((LUA_ARG(uint16, 2))));
+	} 
+
 	DECLARE_LUA_FUNCTION(NpcSay) {
 		CUser * pUser = LUA_GET_INSTANCE();
 		uint32 arg = 2; // start from after the user instance.
