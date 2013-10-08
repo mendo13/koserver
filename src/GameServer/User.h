@@ -571,7 +571,9 @@ public:
 	bool RobAllItemParty(uint32 nItemID, uint16 sCount = 1);
 	bool CheckExistItem(int itemid, short count = 1);
 	bool CheckExistItemAnd(int32 nItemID1, int16 sCount1, int32 nItemID2, int16 sCount2,
-		int32 nItemID3, int16 sCount3, int32 nItemID4, int16 sCount4, int32 nItemID5, int16 sCount5);
+		int32 nItemID3, int16 sCount3, int32 nItemID4, int16 sCount4, int32 nItemID5, int16 sCount5,
+		int32 nItemID6, int16 sCount6, int32 nItemID7, int16 sCount7, int32 nItemID8, int16 sCount8,
+		int32 nItemID9, int16 sCount9, int32 nItemID10, int16 sCount10, int32 nItemID11, int16 sCount11);
 	uint16 GetItemCount(uint32 nItemID);
 	bool CheckWeight(uint32 nItemID, uint16 sCount);
 	bool CheckWeight(_ITEM_TABLE * pTable, uint32 nItemID, uint16 sCount);

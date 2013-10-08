@@ -16,6 +16,8 @@
 #define UPGRADE_PEARL_EARRING_MIN 310150005
 #define UPGRADE_PEARL_EARRING_MAX 310150007
 
+#define SHADOW_PIECE			700009000
+
 /**
 * @brief	Packet handler for the assorted systems that
 * 			were deemed to come under the 'upgrade' system.
@@ -202,12 +204,12 @@ void CUser::ItemUpgrade(Packet & pkt, bool isRebirthUpgrade)
 					if (proto->m_bKind != 60) 
 						continue;
 					break;
-				
+
 				case 13:
 					if (proto->m_bKind != 210 && proto->m_bKind != 220 && proto->m_bKind != 230 && proto->m_bKind != 240) 
 						continue;
 					break;
-					
+
 				case 14:
 					if (proto->m_bKind != 11)
 						continue;
@@ -446,7 +448,7 @@ void CUser::BifrostPieceProcess(Packet & pkt)
 		if (pExchange == nullptr
 			|| !CheckExchange(nExchangeID)
 			|| pExchange->bRandomFlag > 101
-			|| !CheckExistItemAnd(pExchange->nOriginItemNum[0], pExchange->sOriginItemCount[0], 0, 0, 0, 0, 0, 0, 0, 0)) 
+			|| !CheckExistItemAnd(pExchange->nOriginItemNum[0], pExchange->sOriginItemCount[0], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)) 
 			resultOpCode = Failed;
 
 		if (pExchange->bRandomFlag == 101 && resultOpCode == Success)
@@ -527,20 +529,81 @@ void CUser::SpecialItemExchange(Packet & pkt)
 	ResultOpCodes resultOpCode = WrongMaterial;
 
 	uint16 sNpcID;
-	uint32 Unknown1;
-	uint8 Unknown2;
+	uint32 nShadowPiece;
+	uint8 nShadowPieceSlot;
 	uint8 nMaterialCount;
-	uint8 nItemSlot[11];
-	uint8 Unknown3;
-	//uint32 nItemID[11]; 
-	//uint8 nCount[11];
+	uint8 nItemSlot[10];
+	uint8 nDownFlag;
+	uint32 nItemID[10]; 
+	uint8 nItemCount[10];
 
-	pkt >> sNpcID >> Unknown1 >> Unknown2 >> nMaterialCount;
+	pkt >> sNpcID >> nShadowPiece >> nShadowPieceSlot >> nMaterialCount;
+
+	for (int i = 0; i < 10; i++)
+	{
+		nItemID[i]=0;
+		nItemCount[i]=0;
+	}
 
 	for (int i = 0; i < nMaterialCount; i++)
 		pkt >> nItemSlot[i];
 
-	pkt >> Unknown3;
+	pkt >> nDownFlag;
+
+	for (int i = 0; i < nMaterialCount; i++)
+	{
+		uint8 nReadByte;
+		int nDigit = 100000000;
+		nItemID[i]=0;
+		for( int x=0; x < 9; x++ ) // item id packet
+		{
+			pkt >> nReadByte;
+			nItemID[i] += (nReadByte - 48) * nDigit;
+			nDigit = nDigit / 10;
+		}
+
+		uint8 nCount[3] = { 0, 0, 0};
+		pkt >> nCount[0];
+		pkt >> nCount[1];
+		pkt >> nCount[2];
+		int nCountFinish = 0;
+		nCountFinish += (nCount[0] - 48) * 100;
+		nCountFinish += (nCount[1] - 48) * 10;
+		nCountFinish += (nCount[2] - 48) * 1;
+		nItemCount[i] = nCountFinish;
+	}
+
+	std::vector<uint32> ExchangeIndexList;
+
+	if (g_pMain->m_ItemExchangeArray.GetSize() > 0)
+	{
+		foreach_stlmap_nolock(itr, g_pMain->m_ItemExchangeArray)
+		{
+			if (itr->second->bRandomFlag == 102) // Special Item Exchange
+			{
+				if (nShadowPiece != 0 && itr->second->nOriginItemNum[0] == SHADOW_PIECE) // If Need Shadow Piece Please Set is nOriginItem1 Column... 
+				{
+					if (std::find(ExchangeIndexList.begin(),ExchangeIndexList.end(),itr->second->nIndex) == ExchangeIndexList.end())
+						ExchangeIndexList.push_back(itr->second->nIndex);
+				}
+				else
+				{
+					if (std::find(ExchangeIndexList.begin(),ExchangeIndexList.end(),itr->second->nIndex) == ExchangeIndexList.end())
+						ExchangeIndexList.push_back(itr->second->nIndex);
+				}
+			}
+			else
+				continue;
+		}
+	}
+
+	if (ExchangeIndexList.size() > 0)
+	{
+		uint32 randIndex = myrand(0, (ExchangeIndexList.size() - 1));
+		uint32 nExchangeID = ExchangeIndexList[randIndex];
+
+		// EXCHANGE EDİLECEK KISIM - DAHA SONRA EKLENECEK.
+	}
 
 	Packet result(WIZ_ITEM_UPGRADE);
 	result << (uint8)ITEM_SPECIAL_EXCHANGE << (uint8)resultOpCode;
@@ -555,8 +618,6 @@ void CUser::SpecialItemExchange(Packet & pkt)
 		break;
 	case Failed:
 		ShowNpcEffect(31034);
-		break;
-	default:
 		break;
 	}
 }

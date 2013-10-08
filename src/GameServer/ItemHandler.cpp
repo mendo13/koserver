@@ -270,7 +270,9 @@ uint16 CUser::GetItemCount(uint32 nItemID)
 
 // Pretend you didn't see me. This really needs to go (just copying official)
 bool CUser::CheckExistItemAnd(int32 nItemID1, int16 sCount1, int32 nItemID2, int16 sCount2,
-							  int32 nItemID3, int16 sCount3, int32 nItemID4, int16 sCount4, int32 nItemID5, int16 sCount5)
+							  int32 nItemID3, int16 sCount3, int32 nItemID4, int16 sCount4, int32 nItemID5, int16 sCount5,
+							  int32 nItemID6, int16 sCount6, int32 nItemID7, int16 sCount7, int32 nItemID8, int16 sCount8,
+							  int32 nItemID9, int16 sCount9, int32 nItemID10, int16 sCount10, int32 nItemID11, int16 sCount11)
 {
 	if (nItemID1
 		&& !CheckExistItem(nItemID1, sCount1))
@@ -290,6 +292,30 @@ bool CUser::CheckExistItemAnd(int32 nItemID1, int16 sCount1, int32 nItemID2, int
 
 	if (nItemID5
 		&& !CheckExistItem(nItemID5, sCount5))
+		return false;
+
+	if (nItemID6
+		&& !CheckExistItem(nItemID6, sCount6))
+		return false;
+
+	if (nItemID7
+		&& !CheckExistItem(nItemID7, sCount7))
+		return false;
+
+	if (nItemID8
+		&& !CheckExistItem(nItemID8, sCount8))
+		return false;
+
+	if (nItemID9
+		&& !CheckExistItem(nItemID9, sCount9))
+		return false;
+
+	if (nItemID10
+		&& !CheckExistItem(nItemID10, sCount10))
+		return false;
+
+	if (nItemID11
+		&& !CheckExistItem(nItemID11, sCount11))
 		return false;
 
 	return true;
@@ -729,6 +755,13 @@ bool CUser::RunExchange(int nExchangeID, uint16 count)
 	uint16 temp_sOriginItemCount2 = 0;
 	uint16 temp_sOriginItemCount3 = 0;
 	uint16 temp_sOriginItemCount4 = 0;
+	uint16 temp_sOriginItemCount5 = 0;
+	uint16 temp_sOriginItemCount6 = 0;
+	uint16 temp_sOriginItemCount7 = 0;
+	uint16 temp_sOriginItemCount8 = 0;
+	uint16 temp_sOriginItemCount9 = 0;
+	uint16 temp_sOriginItemCount10 = 0;
+
 	uint16 temp_sCount = 0;
 
 	if (pExchange != nullptr)
@@ -739,6 +772,12 @@ bool CUser::RunExchange(int nExchangeID, uint16 count)
 		sItemCount[2] = GetItemCount(pExchange->nOriginItemNum[2]);
 		sItemCount[3] = GetItemCount(pExchange->nOriginItemNum[3]);
 		sItemCount[4] = GetItemCount(pExchange->nOriginItemNum[4]);
+		sItemCount[4] = GetItemCount(pExchange->nOriginItemNum[5]);
+		sItemCount[4] = GetItemCount(pExchange->nOriginItemNum[6]);
+		sItemCount[4] = GetItemCount(pExchange->nOriginItemNum[7]);
+		sItemCount[4] = GetItemCount(pExchange->nOriginItemNum[8]);
+		sItemCount[4] = GetItemCount(pExchange->nOriginItemNum[9]);
+		sItemCount[4] = GetItemCount(pExchange->nOriginItemNum[10]);
 		temp_sCount = sItemCount[0];
 
 		for (int i = 1; i < 5; i++){
@@ -754,12 +793,18 @@ bool CUser::RunExchange(int nExchangeID, uint16 count)
 		temp_sOriginItemCount2 = pExchange->nOriginItemNum[2] == 0 ? 0 : (count == 0 ? pExchange->sOriginItemCount[2] : temp_sCount);
 		temp_sOriginItemCount3 = pExchange->nOriginItemNum[3] == 0 ? 0 : (count == 0 ? pExchange->sOriginItemCount[3] : temp_sCount);
 		temp_sOriginItemCount4 = pExchange->nOriginItemNum[4] == 0 ? 0 : (count == 0 ? pExchange->sOriginItemCount[4] : temp_sCount);
+		temp_sOriginItemCount4 = pExchange->nOriginItemNum[5] == 0 ? 0 : (count == 0 ? pExchange->sOriginItemCount[5] : temp_sCount);
+		temp_sOriginItemCount4 = pExchange->nOriginItemNum[6] == 0 ? 0 : (count == 0 ? pExchange->sOriginItemCount[6] : temp_sCount);
+		temp_sOriginItemCount4 = pExchange->nOriginItemNum[7] == 0 ? 0 : (count == 0 ? pExchange->sOriginItemCount[7] : temp_sCount);
+		temp_sOriginItemCount4 = pExchange->nOriginItemNum[8] == 0 ? 0 : (count == 0 ? pExchange->sOriginItemCount[8] : temp_sCount);
+		temp_sOriginItemCount4 = pExchange->nOriginItemNum[9] == 0 ? 0 : (count == 0 ? pExchange->sOriginItemCount[9] : temp_sCount);
+		temp_sOriginItemCount4 = pExchange->nOriginItemNum[10] == 0 ? 0 : (count == 0 ? pExchange->sOriginItemCount[10] : temp_sCount);
 	}
 
 	if (pExchange == nullptr
 		// Is it a valid exchange (do we have room?)
 			|| !CheckExchange(nExchangeID)
-			// We handle flags from 0-101 only. Anything else is broken.
+			// We handle flags from 0-102 only. Anything else is broken.
 			|| pExchange->bRandomFlag > 101
 			// Do we have all of the required items?
 			|| !CheckExistItemAnd(
@@ -767,13 +812,25 @@ bool CUser::RunExchange(int nExchangeID, uint16 count)
 			pExchange->nOriginItemNum[1], temp_sOriginItemCount1, 
 			pExchange->nOriginItemNum[2], temp_sOriginItemCount2, 
 			pExchange->nOriginItemNum[3], temp_sOriginItemCount3, 
-			pExchange->nOriginItemNum[4], temp_sOriginItemCount4)
+			pExchange->nOriginItemNum[4], temp_sOriginItemCount4,
+			pExchange->nOriginItemNum[5], temp_sOriginItemCount5,
+			pExchange->nOriginItemNum[6], temp_sOriginItemCount6,
+			pExchange->nOriginItemNum[7], temp_sOriginItemCount7,
+			pExchange->nOriginItemNum[8], temp_sOriginItemCount8,
+			pExchange->nOriginItemNum[9], temp_sOriginItemCount9,
+			pExchange->nOriginItemNum[10], temp_sOriginItemCount10)
 			// These checks are a little pointless, but remove the required items as well.
 			|| !RobItem(pExchange->nOriginItemNum[0], temp_sOriginItemCount0)
 			|| !RobItem(pExchange->nOriginItemNum[1], temp_sOriginItemCount1)
 			|| !RobItem(pExchange->nOriginItemNum[2], temp_sOriginItemCount2)
 			|| !RobItem(pExchange->nOriginItemNum[3], temp_sOriginItemCount3)
-			|| !RobItem(pExchange->nOriginItemNum[4], temp_sOriginItemCount4))
+			|| !RobItem(pExchange->nOriginItemNum[4], temp_sOriginItemCount4)
+			|| !RobItem(pExchange->nOriginItemNum[5], temp_sOriginItemCount5)
+			|| !RobItem(pExchange->nOriginItemNum[6], temp_sOriginItemCount6)
+			|| !RobItem(pExchange->nOriginItemNum[7], temp_sOriginItemCount7)
+			|| !RobItem(pExchange->nOriginItemNum[8], temp_sOriginItemCount8)
+			|| !RobItem(pExchange->nOriginItemNum[9], temp_sOriginItemCount9)
+			|| !RobItem(pExchange->nOriginItemNum[10], temp_sOriginItemCount10))
 			return false;
 
 	// No random element? We're just exchanging x items for y items.

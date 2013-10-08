@@ -14,7 +14,13 @@ public:
 			"nOriginItemNum2, nOriginItemCount2, nExchangeItemNum2, nExchangeItemCount2, "
 			"nOriginItemNum3, nOriginItemCount3, nExchangeItemNum3, nExchangeItemCount3, "
 			"nOriginItemNum4, nOriginItemCount4, nExchangeItemNum4, nExchangeItemCount4, "
-			"nOriginItemNum5, nOriginItemCount5, nExchangeItemNum5, nExchangeItemCount5");
+			"nOriginItemNum5, nOriginItemCount5, nExchangeItemNum5, nExchangeItemCount5, "
+			"nOriginItemNum6, nOriginItemCount6, nExchangeItemNum6, nExchangeItemCount6, "
+			"nOriginItemNum7, nOriginItemCount7, nExchangeItemNum7, nExchangeItemCount7, "
+			"nOriginItemNum8, nOriginItemCount8, nExchangeItemNum8, nExchangeItemCount8, "
+			"nOriginItemNum9, nOriginItemCount9, nExchangeItemNum9, nExchangeItemCount9, "
+			"nOriginItemNum10, nOriginItemCount10, nExchangeItemNum10, nExchangeItemCount10, "
+			"nOriginItemNum11, nOriginItemCount11, nExchangeItemNum11, nExchangeItemCount11");
 	}
 
 	virtual bool Fetch()
