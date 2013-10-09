@@ -766,21 +766,21 @@ bool CUser::RunExchange(int nExchangeID, uint16 count)
 
 	if (pExchange != nullptr)
 	{
-		uint16 sItemCount[5];
+		uint16 sItemCount[11];
 		sItemCount[0] = GetItemCount(pExchange->nOriginItemNum[0]);
 		sItemCount[1] = GetItemCount(pExchange->nOriginItemNum[1]);
 		sItemCount[2] = GetItemCount(pExchange->nOriginItemNum[2]);
 		sItemCount[3] = GetItemCount(pExchange->nOriginItemNum[3]);
 		sItemCount[4] = GetItemCount(pExchange->nOriginItemNum[4]);
-		sItemCount[4] = GetItemCount(pExchange->nOriginItemNum[5]);
-		sItemCount[4] = GetItemCount(pExchange->nOriginItemNum[6]);
-		sItemCount[4] = GetItemCount(pExchange->nOriginItemNum[7]);
-		sItemCount[4] = GetItemCount(pExchange->nOriginItemNum[8]);
-		sItemCount[4] = GetItemCount(pExchange->nOriginItemNum[9]);
-		sItemCount[4] = GetItemCount(pExchange->nOriginItemNum[10]);
+		sItemCount[5] = GetItemCount(pExchange->nOriginItemNum[5]);
+		sItemCount[6] = GetItemCount(pExchange->nOriginItemNum[6]);
+		sItemCount[7] = GetItemCount(pExchange->nOriginItemNum[7]);
+		sItemCount[8] = GetItemCount(pExchange->nOriginItemNum[8]);
+		sItemCount[9] = GetItemCount(pExchange->nOriginItemNum[9]);
+		sItemCount[10] = GetItemCount(pExchange->nOriginItemNum[10]);
 		temp_sCount = sItemCount[0];
 
-		for (int i = 1; i < 5; i++){
+		for (int i = 1; i < 11; i++){
 			if (sItemCount[i] < temp_sCount && sItemCount[i] != 0)
 				temp_sCount = sItemCount[i];
 		}
@@ -804,7 +804,7 @@ bool CUser::RunExchange(int nExchangeID, uint16 count)
 	if (pExchange == nullptr
 		// Is it a valid exchange (do we have room?)
 			|| !CheckExchange(nExchangeID)
-			// We handle flags from 0-102 only. Anything else is broken.
+			// We handle flags from 0-101 only. Anything else is broken.
 			|| pExchange->bRandomFlag > 101
 			// Do we have all of the required items?
 			|| !CheckExistItemAnd(
@@ -880,7 +880,7 @@ bool CUser::RunExchange(int nExchangeID, uint16 count)
 
 		// Build array of exchange item slots (0-4)
 		int offset = 0;
-		for (int n = 0, i = 0; n < 5; n++)
+		for (int n = 0, i = 0; n < ITEMS_IN_EXCHANGE_GROUP; n++)
 		{
 			if (sExchangeCount[n] > 0)
 			{
@@ -910,7 +910,7 @@ uint16 CUser::GetMaxExchange(int nExchangeID)
 
 	if (pExchange != nullptr)
 	{
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < ITEMS_IN_EXCHANGE_GROUP; i++)
 		{
 			pTable = g_pMain->GetItemPtr(pExchange->nExchangeItemNum[i]);
 			if (pTable != nullptr)

@@ -612,7 +612,7 @@ public:
 	virtual void MSpChange(int amount);
 	void SendPartyHPUpdate();
 	void ShowEffect(uint32 nSkillID);
-	void ShowNpcEffect(uint32 nEffectID);
+	void ShowNpcEffect(uint32 nEffectID, bool bSendToRegion = false);
 	void SendAnvilRequest(uint16 sNpcID, uint8 bType = ITEM_UPGRADE_REQ);
 	void RecastSavedMagic(bool bFillToMaxHealth = false);
 

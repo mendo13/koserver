@@ -469,15 +469,17 @@ struct _USER_RANK
 
 // TO-DO: Rewrite this system to be less script dependent for exchange logic.
 // Coin requirements should be in the database, and exchanges should be grouped.
-#define ITEMS_IN_EXCHANGE_GROUP 11
+#define ITEMS_IN_ORIGIN_GROUP 11
+#define ITEMS_IN_EXCHANGE_GROUP 5
+
 struct _ITEM_EXCHANGE
 {
 	uint32	nIndex;
 	uint16	sNpcNum;
 	uint8	bRandomFlag;
 
-	uint32	nOriginItemNum[ITEMS_IN_EXCHANGE_GROUP];
-	uint16	sOriginItemCount[ITEMS_IN_EXCHANGE_GROUP];
+	uint32	nOriginItemNum[ITEMS_IN_ORIGIN_GROUP];
+	uint16	sOriginItemCount[ITEMS_IN_ORIGIN_GROUP];
 
 	uint32	nExchangeItemNum[ITEMS_IN_EXCHANGE_GROUP];
 	uint16	sExchangeItemCount[ITEMS_IN_EXCHANGE_GROUP];

@@ -1866,11 +1866,14 @@ void CUser::ShowEffect(uint32 nSkillID)
 *
 * @param	nEffectID	Identifier for the effect.
 */
-void CUser::ShowNpcEffect(uint32 nEffectID)
+void CUser::ShowNpcEffect(uint32 nEffectID, bool bSendToRegion)
 {
 	Packet result(WIZ_OBJECT_EVENT, uint8(OBJECT_NPC));
 	result << uint8(3) << m_sEventNid << nEffectID;
-	Send(&result);
+	if (bSendToRegion)
+		SendToRegion(&result);
+	else
+		Send(&result);
 }
 
 /**
@@ -2932,7 +2935,7 @@ int16 CUser::GetLoyaltyDivideTarget()
 		return RONARK_LAND_KILL_LOYALTY_TARGET;
 	else
 		return OTHER_ZONE_KILL_LOYALTY_TARGET;
-	
+
 	return 0;
 }
 
