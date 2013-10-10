@@ -30,6 +30,7 @@ void CUser::ItemRepair(Packet & pkt)
 	pNpc = g_pMain->GetNpcPtr(sNpcID);
 	if (pNpc == nullptr
 		|| pNpc->GetType() != NPC_TINKER
+		|| pNpc->GetType() != NPC_MERCHANT
 		|| !isInRange(pNpc, MAX_NPC_RANGE))
 		return;
 

@@ -557,8 +557,8 @@ void CUser::SpecialItemExchange(Packet & pkt)
 	{
 		uint8 nReadByte;
 		int nDigit = 100000000;
-		nItemID[i]=0;
-		for( int x=0; x < 9; x++ ) // item id packet
+		nItemID[i] = 0;
+		for( int x = 0; x < 9; x++ ) 
 		{
 			pkt >> nReadByte;
 			nItemID[i] += (nReadByte - 48) * nDigit;
