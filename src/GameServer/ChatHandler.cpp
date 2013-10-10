@@ -148,6 +148,12 @@ void CUser::Chat(Packet & pkt)
 		break;
 
 	case PRIVATE_CHAT:
+		{
+			// TODO : Kontrol Edilecek.
+			CUser *pUser = g_pMain->GetUserPtr(m_sPrivateChatUser);
+			if (pUser == nullptr || !pUser->isInGame()) 
+				return;
+		}
 	case COMMAND_PM_CHAT:
 		{
 			if (type == COMMAND_PM_CHAT && GetFame() != COMMAND_CAPTAIN)
