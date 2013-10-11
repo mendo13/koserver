@@ -496,7 +496,8 @@ void CGameSocket::RecvBattleEvent(Packet & pkt)
 
 	if (bEvent == BATTLEZONE_OPEN || bEvent == BATTLEZONE_CLOSE)
 	{
-		g_pMain->m_sKillKarusNpc = g_pMain->m_sKillElmoNpc = 0;
+		g_pMain->m_sKillKarusNpc = 0;
+		g_pMain->m_sKillElmoNpc = 0;
 		g_pMain->m_byBattleEvent = bEvent;
 		if (bEvent == BATTLEZONE_CLOSE)
 			g_pMain->ResetBattleZone();

@@ -68,6 +68,7 @@ CGameServerDlg::CGameServerDlg()
 	m_byBattleZone = 0;
 	m_byBattleOpen = NO_BATTLE;
 	m_byOldBattleOpen = NO_BATTLE;
+	m_byBattleOpenedTime = 0;
 	m_bFirstServerFlag = false;
 	// m_bPointCheckFlag = false;
 	m_bPointCheckFlag = true;
@@ -264,6 +265,9 @@ void CGameServerDlg::GetTimeFromIni()
 
 	m_UserRankingArray[KARUS_ARRAY].DeleteAllData();
 	m_UserRankingArray[ELMORAD_ARRAY].DeleteAllData();
+
+	m_byBattleOpenedTime = 0;
+	m_xBattleTime = 7200; // 2 Hours
 
 	m_xBifrostRemainingTime = (240 * MINUTE);  // Bifrost remaining time ( 4 hour ).
 	m_xBifrostMonumentAttackTime = (30 * MINUTE); // Players is attack a monument last 30 minute.
@@ -1007,7 +1011,7 @@ void CGameServerDlg::UpdateGameTime()
 	// Every minute
 	if (m_sMin != now.GetMinute())
 	{
-		
+
 	}
 
 	// Every hour
@@ -1677,6 +1681,7 @@ void CGameServerDlg::BattleZoneOpen(int nType, uint8 bZone /*= 0*/)
 		m_byBattleOpen = NATION_BATTLE;	
 		m_byOldBattleOpen = NATION_BATTLE;
 		m_byBattleZone = bZone;
+		m_byBattleOpenedTime = int32(UNIXTIME);
 	}
 	else if( nType == SNOW_BATTLEZONE_OPEN ) {		// Open snow battlezone.
 		m_byBattleOpen = SNOW_BATTLE;	
@@ -1771,9 +1776,11 @@ void CGameServerDlg::ResetBattleZone()
 	m_sBanishDelay = 0;
 	m_bKarusFlag = 0;
 	m_bElmoradFlag = 0;
-	m_byKarusOpenFlag = m_byElmoradOpenFlag = false;
+	m_byKarusOpenFlag = false;
+	m_byElmoradOpenFlag = false;
 	m_byBattleOpen = NO_BATTLE;
 	m_byOldBattleOpen = NO_BATTLE;
+	m_byBattleOpenedTime = 0;
 	m_sKarusDead = m_sElmoradDead = 0;
 	m_byBattleSave = false;
 	m_sKarusCount = 0;
