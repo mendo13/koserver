@@ -936,6 +936,10 @@ COMMAND_HANDLER(CGameServerDlg::HandleReloadTablesCommand)
 	g_pMain->LoadItemExchangeTable();
 	g_pMain->m_ItemUpgradeArray.DeleteAllData();
 	g_pMain->LoadItemUpgradeTable();
+	g_pMain->m_QuestHelperArray.DeleteAllData();
+	g_pMain->LoadQuestHelperTable();
+	g_pMain->m_QuestMonsterArray.DeleteAllData();
+	g_pMain->LoadQuestMonsterTable();
 	return true;
 }
 
