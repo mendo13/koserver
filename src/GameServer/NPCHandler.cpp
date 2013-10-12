@@ -28,40 +28,40 @@ void CUser::ItemRepair(Packet & pkt)
 	}
 
 	pNpc = g_pMain->GetNpcPtr(sNpcID);
-	if (pNpc == nullptr
-		|| pNpc->GetType() != NPC_TINKER
-		|| pNpc->GetType() != NPC_MERCHANT
-		|| !isInRange(pNpc, MAX_NPC_RANGE))
+	if (pNpc == nullptr || !isInRange(pNpc, MAX_NPC_RANGE))
 		return;
 
-	pTable = g_pMain->GetItemPtr( itemid );
-	if (pTable == nullptr
-		|| pTable->m_iSellPrice == SellTypeNoRepairs) 
-		goto fail_return;
+	if (pNpc->GetType() == NPC_TINKER || pNpc->GetType() == NPC_MERCHANT)
+	{
+		pTable = g_pMain->GetItemPtr( itemid );
+		if (pTable == nullptr
+			|| pTable->m_iSellPrice == SellTypeNoRepairs) 
+			goto fail_return;
 
-	durability = pTable->m_sDuration;
-	if( durability == 1 ) goto fail_return;
-	if( sPos == 1 )
-		quantity = pTable->m_sDuration - m_sItemArray[sSlot].sDuration;
-	else if( sPos == 2 ) 
-		quantity = pTable->m_sDuration - m_sItemArray[SLOT_MAX+sSlot].sDuration;
+		durability = pTable->m_sDuration;
+		if( durability == 1 ) goto fail_return;
+		if( sPos == 1 )
+			quantity = pTable->m_sDuration - m_sItemArray[sSlot].sDuration;
+		else if( sPos == 2 ) 
+			quantity = pTable->m_sDuration - m_sItemArray[SLOT_MAX+sSlot].sDuration;
 
-	money = (unsigned int)((((pTable->m_iBuyPrice-10) / 10000.0f) + pow((float)pTable->m_iBuyPrice, 0.75f)) * quantity / (double)durability);
+		money = (unsigned int)((((pTable->m_iBuyPrice-10) / 10000.0f) + pow((float)pTable->m_iBuyPrice, 0.75f)) * quantity / (double)durability);
 
-	if (m_bPremiumType > 0)
-		money = money * GetPremiumProperty(PremiumRepairDiscountPercent) / 100;
+		if (m_bPremiumType > 0)
+			money = money * GetPremiumProperty(PremiumRepairDiscountPercent) / 100;
 
-	if (!GoldLose(money, false))
-		goto fail_return;
+		if (!GoldLose(money, false))
+			goto fail_return;
 
-	if (sPos == 1)
-		m_sItemArray[sSlot].sDuration = durability;
-	else if( sPos == 2 )
-		m_sItemArray[SLOT_MAX+sSlot].sDuration = durability;
+		if (sPos == 1)
+			m_sItemArray[sSlot].sDuration = durability;
+		else if( sPos == 2 )
+			m_sItemArray[SLOT_MAX+sSlot].sDuration = durability;
 
-	result << uint8(1) << GetCoins();
-	Send(&result);
-	return;
+		result << uint8(1) << GetCoins();
+		Send(&result);
+		return;
+	}
 
 fail_return:
 	result << uint8(0) << GetCoins();
