@@ -16,7 +16,7 @@ SET @nRet = DATEDIFF(HH,GETDATE(),@Hours)
 IF @nRet <= 0
 BEGIN
 	SET @nRet = -1
-	UPDATE TB_USER SET PremiumEndDate = 0 WHERE strAccountID = @AccountID
+	UPDATE TB_USER SET PremiumType = 0 WHERE strAccountID = @AccountID
 END
 RETURN
 GO
