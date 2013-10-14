@@ -1570,7 +1570,7 @@ bool MagicInstance::ExecuteType4()
 		// rather than just stacking the modifiers, as the client only supports one (de)buff of that type active.
 		if (bSkillTypeAlreadyOnTarget && pType->isDebuff())
 		{
-			CMagicProcess::RemoveType4Buff(pType->bBuffType, pTarget, false);
+			CMagicProcess::RemoveType4Buff(pType->bBuffType, pTarget);
 			bSkillTypeAlreadyOnTarget = false;
 		}
 
@@ -1786,20 +1786,9 @@ bool MagicInstance::ExecuteType5()
 				foreach (itr, buffMap)
 				{
 					if (itr->second.isDebuff())
-					{
-						pType4 = g_pMain->m_Magictype4Array.GetData(itr->second.m_nSkillID);
-						if (pType != nullptr && (pType4->bBuffType == BUFF_TYPE_HP_MP || pType4->bBuffType == BUFF_TYPE_AC))
-							bRecastSavedMagic = true;
-
 						CMagicProcess::RemoveType4Buff(itr->first, pTUser);
-					}
 				}
 
-				if (bRecastSavedMagic)
-				{
-					pTUser->InitType4();
-					pTUser->RecastSavedMagic(false);
-				}
 				// NOTE: This originally checked to see if there were any active debuffs.
 				// As this seems pointless (as we're removing all of them), it was removed
 				// however leaving this note in, in case this behaviour in certain conditions
