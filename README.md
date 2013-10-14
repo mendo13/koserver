@@ -8,3 +8,4 @@ KOServer
   - AKUMA  / Source Code [ Email : akuma@xskip.net ]
   - Eridia / Source Code
   - bodom61 / LUA Scripts
+  - katanatr / Database
