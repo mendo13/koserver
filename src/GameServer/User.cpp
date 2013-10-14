@@ -4468,14 +4468,14 @@ bool Unit::isInAttackRange(Unit * pTarget, _MAGIC_TABLE * pSkill /*= nullptr*/)
 	if (pTable != nullptr
 		&& pItem->sDuration > 0)
 	{
-		fWeaponRange = pTable->m_sRange / 10.0f;
+		fWeaponRange = pTable->m_sRange;
 	}
 	else
 	{
 		pTable = TO_USER(this)->GetItemPrototype(LEFTHAND, pItem);
 		if (pTable != nullptr
 			&& pItem->sDuration != 0)
-			fWeaponRange = pTable->m_sRange / 10.0f;
+			fWeaponRange = pTable->m_sRange;
 	}
 
 	if (pSkill != nullptr)

@@ -75,6 +75,11 @@ void MagicInstance::Run()
 		return;
 	}
 
+	if (UserCanCast() == SkillUseFail)
+	{
+		bool kontrolpanpa = false;
+	}
+
 	// If the skill's already been handled (e.g. death taunts), 
 	// we don't need to do anything further.
 	if (result == SkillUseHandled)
