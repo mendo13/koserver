@@ -5180,7 +5180,7 @@ void CUser::SetUserDailyOp(uint8 type, bool isInsert)
 
 uint32 CUser::GetEventTrigger()
 {
-	CNpc *pNpc = g_pMain->GetNpcPtr(m_targetID);
+	CNpc *pNpc = g_pMain->GetNpcPtr(GetTargetID());
 	if (pNpc == nullptr)
 		return 0;
 

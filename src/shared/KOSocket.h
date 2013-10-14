@@ -18,6 +18,7 @@ public:
 
 	INLINE bool isCryptoEnabled() { return m_usingCrypto; };
 	INLINE uint16 GetSocketID() { return m_socketID; };
+	INLINE uint16 GetTargetID() { return m_targetID; };
 	INLINE time_t GetLastResponseTime() { return m_lastResponse; }
 
 	virtual void OnConnect();
