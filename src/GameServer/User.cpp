@@ -1704,6 +1704,9 @@ void CUser::HpChange(int amount, Unit *pAttacker /*= nullptr*/, bool bSendToAI /
 	// If we're taking damage...
 	if (amount < 0)
 	{
+		if (isGM())
+			return;
+
 		if (m_bInvisibilityType != INVIS_NONE)
 		{
 			CMagicProcess::RemoveStealth(this, INVIS_DISPEL_ON_MOVE);
@@ -1818,6 +1821,9 @@ void CUser::MSpChange(int amount)
 {
 	Packet result(WIZ_MSP_CHANGE);
 	int16 oldMP = m_sMp;
+
+	if (isGM() && amount < 0)
+		return;
 
 	// TO-DO: Make this behave unsigned.
 	m_sMp += amount;
@@ -5190,19 +5196,16 @@ uint32 CUser::GetEventTrigger()
 	if (pNpc == nullptr)
 		return 0;
 
-	uint8 nNpcType = pNpc->m_tNpcType;
-	uint8 nTrapNumber = pNpc->m_byTrapNumber;
-
 	foreach_stlmap_nolock(itr, g_pMain->m_EventTriggerArray) {
 		_EVENT_TRIGGER *pEventTrigger = g_pMain->m_EventTriggerArray.GetData(itr->first);
 
 		if (pEventTrigger == nullptr)
 			continue;
 
-		if (nNpcType != pEventTrigger->bNpcType)
+		if (pNpc->m_tNpcType != pEventTrigger->bNpcType)
 			continue;
 
-		if (nTrapNumber == pEventTrigger->sNpcID)
+		if (pNpc->m_byTrapNumber == pEventTrigger->sNpcID)
 			return pEventTrigger->nTriggerNum;
 	}
 

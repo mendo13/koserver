@@ -1370,6 +1370,9 @@ bool MagicInstance::ExecuteType3()
 		// Durational spells! Durational spells only involve HP.
 		else if (pType->bDuration != 0) 
 		{
+			if (pType->bDirectType == 18)
+				damage = -(int)(pSkillCaster->GetLevel() * 12.5);
+
 			if (damage != 0)		// In case there was first damage......
 				pTarget->HpChangeMagic(damage, pSkillCaster);			// Initial damage!!!
 
@@ -1386,6 +1389,9 @@ bool MagicInstance::ExecuteType3()
 				// Allow for complete magic damage blocks.
 				if (duration_damage < 0 && pTarget->m_bBlockMagic)
 					continue;
+
+				if (pType->bDirectType == 18)
+					duration_damage = -(int)((pSkillCaster->GetLevel() * 12.5) * (pType->bDuration / 2));
 
 				// Setup DOT (damage over time)
 				for (int k = 0; k < MAX_TYPE3_REPEAT; k++) 
