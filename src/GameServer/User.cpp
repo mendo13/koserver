@@ -1704,6 +1704,12 @@ void CUser::HpChange(int amount, Unit *pAttacker /*= nullptr*/, bool bSendToAI /
 	// If we're taking damage...
 	if (amount < 0)
 	{
+		if (m_bInvisibilityType != INVIS_NONE)
+		{
+			CMagicProcess::RemoveStealth(this, INVIS_DISPEL_ON_MOVE);
+			CMagicProcess::RemoveStealth(this, INVIS_DISPEL_ON_ATTACK);
+		}
+
 		// Handle the mirroring of damage.
 		if (m_bMirrorDamage && isInParty())
 		{

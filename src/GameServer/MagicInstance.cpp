@@ -1781,7 +1781,6 @@ bool MagicInstance::ExecuteType5()
 				bool bRecastSavedMagic = false;
 				FastGuard lock(pTUser->m_buffLock);
 				Type4BuffMap buffMap = pTUser->m_buffMap; // copy the map so we can't break it while looping
-				_MAGIC_TYPE4* pType4;
 
 				foreach (itr, buffMap)
 				{
