@@ -266,11 +266,26 @@ SkillUseResult MagicInstance::UserCanCast()
 			}
 		}
 
+		_MAGIC_TYPE5 * pType5;
+
+		uint8 bType = 0;
+		uint16 sNeedStone = 0;
+
+		if (pSkill->bType[0] == 5)
+		{
+			pType5 = g_pMain->m_Magictype5Array.GetData(pSkill->iNum);
+
+			if (pType5)
+			{
+				bType = pType5->bType;
+				sNeedStone = pType5->sNeedStone;
+			}
+		}
+
 		// Archer & transformation skills will handle item checking themselves
 		if ((pSkill->bType[0] != 2 && pSkill->bType[0] != 6) 
 			// The user does not meet the item's requirements or does not have any of said item.
-				&& (pSkill->iUseItem != 0
-				&& !TO_USER(pSkillCaster)->CanUseItem(pSkill->iUseItem))) 
+				&& (pSkill->iUseItem != 0 && !TO_USER(bType == RESURRECTION ? pSkillTarget : pSkillCaster)->CanUseItem(pSkill->iUseItem, (bType == RESURRECTION ? sNeedStone : 1))))
 				return SkillUseFail;
 
 		// Some skills also require class-specific stones which are taken instead of UseItem.
@@ -282,8 +297,7 @@ SkillUseResult MagicInstance::UserCanCast()
 
 		if ((pSkill->bType[0] != 2 && pSkill->bType[0] != 6) 
 			// The user does not meet the item's requirements or does not have any of said item.
-				&& (pSkill->iUseItem != 0
-				&& !TO_USER(pSkillCaster)->CanUseItem(nConsumeItem))) 
+				&& (pSkill->iUseItem != 0 && !TO_USER(pSkillCaster)->CanUseItem(nConsumeItem)) && bType != RESURRECTION)
 				return SkillUseFail;
 
 		// We cannot use CSW transformations outside of Delos (or when CSW is not enabled.)
@@ -1807,6 +1821,8 @@ bool MagicInstance::ExecuteType5()
 
 		case RESURRECTION:
 			pTUser->Regene(1, nSkillID);
+			pTUser->RobItem(pSkill->iUseItem, pType->sNeedStone);
+			TO_USER(pSkillCaster)->GiveItem(pSkill->iUseItem, pType->sNeedStone / 2);
 			break;
 
 		case REMOVE_BLESS:
