@@ -4239,7 +4239,7 @@ void CUser::OnDeath(Unit *pKiller)
 			else
 				nExpLost = m_iMaxExp / 20;
 
-			if (pNpc->GetType() == NPC_GUARD_TOWER1 || pNpc->GetType() == NPC_GUARD_TOWER2 || isInPKZone())
+			if ((pNpc->GetType() == NPC_GUARD_TOWER1 || pNpc->GetType() == NPC_GUARD_TOWER2) && isInPKZone())
 				noticeType = DeathNotice;
 
 			if (m_bPremiumType > 0)
