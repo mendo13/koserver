@@ -97,10 +97,12 @@ void CUser::RecvFriendModify(Packet & pkt, uint8 opcode)
 	Packet result(WIZ_FRIEND_PROCESS);
 	std::string strUserID;
 	int16 sid = -1;
-	uint8 bResult = pkt.read<uint8>();
+	uint8 bResult = 0;
 
 	if (opcode == FRIEND_ADD)
 		pkt >> sid;
+
+	pkt >> bResult;
 
 	pkt.SByte();
 	pkt >> strUserID;
