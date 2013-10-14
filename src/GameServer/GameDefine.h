@@ -661,6 +661,14 @@ struct _TEMPLE_EVENT_USER
 	uint8 m_bNation;
 };
 
+struct _EVENT_TRIGGER
+{
+	uint32 nIndex;
+	uint16 bNpcType;
+	uint32 sNpcID;
+	uint32 nTriggerNum;
+};
+
 struct _USER_DAILY_OP
 {
 	std::string strUserId;

@@ -132,6 +132,7 @@ DEFINE_LUA_CLASS
 	MAKE_LUA_METHOD(GetMaxExchange)
 	MAKE_LUA_METHOD(GetPartyMemberAmount)
 	MAKE_LUA_METHOD(GetUserDailyOp)
+	MAKE_LUA_METHOD(GetEventTrigger)
 	);
 #undef LUA_CLASS
 
@@ -320,6 +321,7 @@ _LUA_WRAPPER_USER_FUNCTION(PartyCountMembers, GetPartyMemberAmount);
 _LUA_WRAPPER_USER_FUNCTION(GetUserDailyOp, GetUserDailyOp);
 _LUA_WRAPPER_USER_FUNCTION(CountMonsterQuestSub, CountMonsterQuestSub);
 _LUA_WRAPPER_USER_FUNCTION(CountMonsterQuestMain, CountMonsterQuestMain);
+_LUA_WRAPPER_USER_FUNCTION(GetEventTrigger, GetEventTrigger);
 
 LUA_FUNCTION(SelectMsg)
 {

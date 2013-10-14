@@ -317,6 +317,7 @@ bool CUser::HandlePacket(Packet & pkt)
 		{
 			uint16 uid = pkt.read<uint16>();
 			uint8 echo = pkt.read<uint8>();
+			m_targetID = uid;
 			SendTargetHP(echo, uid);
 		}
 		break;
@@ -5175,4 +5176,29 @@ void CUser::SetUserDailyOp(uint8 type, bool isInsert)
 			g_DBAgent.UpdateUserDailyOp(GetName(), type, nUnixTime);
 		}
 	}
+}
+
+uint32 CUser::GetEventTrigger()
+{
+	CNpc *pNpc = g_pMain->GetNpcPtr(m_targetID);
+	if (pNpc == nullptr)
+		return 0;
+
+	uint8 nNpcType = pNpc->m_tNpcType;
+	uint8 nTrapNumber = pNpc->m_byTrapNumber;
+
+	foreach_stlmap_nolock(itr, g_pMain->m_EventTriggerArray) {
+		_EVENT_TRIGGER *pEventTrigger = g_pMain->m_EventTriggerArray.GetData(itr->first);
+
+		if (pEventTrigger == nullptr)
+			continue;
+
+		if (nNpcType != pEventTrigger->bNpcType)
+			continue;
+
+		if (nTrapNumber == pEventTrigger->sNpcID)
+			return pEventTrigger->nTriggerNum;
+	}
+
+	return 0;
 }

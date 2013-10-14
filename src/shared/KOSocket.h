@@ -36,7 +36,7 @@ protected:
 	CJvCryption m_crypto;
 	time_t m_lastResponse;
 	uint32 m_sequence;
-	uint16 m_remaining, m_socketID;
+	uint16 m_remaining, m_socketID, m_targetID;
 	uint8 m_readTries;
 	bool m_usingCrypto;
 };

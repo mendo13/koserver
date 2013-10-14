@@ -65,6 +65,7 @@ public:
 	bool LoadPremiumItemTable();
 	bool LoadPremiumItemExpTable();
 	bool LoadUserDailyOpTable();
+	bool LoadEventTriggerTable();
 
 	bool MapFileLoad();
 	bool LoadNoticeData();
@@ -353,6 +354,7 @@ public:
 	UserRankingArray			m_UserRankingArray[2];
 	UserDailyOpMap				m_UserDailyOpMap;
 	TempleEventUserArray		m_TempleEventUserArray;
+	EventTriggerArray			m_EventTriggerArray;
 
 	Atomic<uint16>				m_sPartyIndex;
 	short	m_sZoneCount;							// AI Server 재접속시 사용

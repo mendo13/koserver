@@ -50,6 +50,7 @@
 #include "../shared/database/PremiumItemSet.h"
 #include "../shared/database/PremiumItemExpSet.h"
 #include "../shared/database/UserDailyOpSet.h"
+#include "../shared/database/EventTriggerSet.h"
 
 bool CGameServerDlg::LoadItemTable()
 {
@@ -333,6 +334,11 @@ bool CGameServerDlg::LoadUserDailyOpTable()
 	CUserDailyOpSet UserDailyOpSet(g_DBAgent.m_GameDB, &m_UserDailyOpMap);
 	UserDailyOpSet.Read(true);
 	return true;
+}
+
+bool CGameServerDlg::LoadEventTriggerTable()
+{
+	LOAD_TABLE(CEventTriggerSet, g_DBAgent.m_GameDB, &m_EventTriggerArray, true);
 }
 
 bool CGameServerDlg::MapFileLoad()

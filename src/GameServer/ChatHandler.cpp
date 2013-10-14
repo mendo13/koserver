@@ -940,6 +940,8 @@ COMMAND_HANDLER(CGameServerDlg::HandleReloadTablesCommand)
 	g_pMain->LoadQuestHelperTable();
 	g_pMain->m_QuestMonsterArray.DeleteAllData();
 	g_pMain->LoadQuestMonsterTable();
+	g_pMain->m_EventTriggerArray.DeleteAllData();
+	g_pMain->LoadEventTriggerTable();
 	return true;
 }
 

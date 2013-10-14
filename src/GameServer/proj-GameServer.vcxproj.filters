@@ -359,6 +359,9 @@
     <ClInclude Include="..\shared\database\UserDailyOpSet.h">
       <Filter>Database</Filter>
     </ClInclude>
+    <ClInclude Include="..\shared\database\EventTriggerSet.h">
+      <Filter>Database</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\GameServer.ico">

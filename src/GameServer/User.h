@@ -657,6 +657,8 @@ public:
 	uint8 GetUserDailyOp(uint8 type = 0);
 	void SetUserDailyOp(uint8 type = 0, bool isInsert = false);
 
+	uint32 GetEventTrigger();
+
 	COMMAND_HANDLER(HandleTestCommand);
 	COMMAND_HANDLER(HandleGiveItemCommand);
 	COMMAND_HANDLER(HandleZoneChangeCommand);
@@ -1312,5 +1314,9 @@ public:
 
 	DECLARE_LUA_FUNCTION(GetUserDailyOp) {
 		LUA_RETURN(LUA_GET_INSTANCE()->GetUserDailyOp((LUA_ARG(uint8, 2))));
+	}
+
+	DECLARE_LUA_FUNCTION(GetEventTrigger) {
+		LUA_RETURN(LUA_GET_INSTANCE()->GetEventTrigger());
 	}
 };

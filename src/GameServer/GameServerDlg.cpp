@@ -153,7 +153,8 @@ bool CGameServerDlg::Startup()
 		|| !LoadMonsterRespawnListTable()
 		|| !LoadPremiumItemTable()
 		|| !LoadPremiumItemExpTable()
-		|| !LoadUserDailyOpTable())
+		|| !LoadUserDailyOpTable()
+		|| !LoadEventTriggerTable())
 		return false;
 
 	// Clear any remaining users in the currently logged in list
