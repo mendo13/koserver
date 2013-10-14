@@ -27,7 +27,7 @@
 *.log
 
 # Map files
-*.smd
+# *.smd
 
 # Debug info
 *.sbr
