@@ -1047,8 +1047,10 @@ int CDBAgent::UpdateKnights(uint8 bType, string & strCharID, uint16 sClanID, uin
 
 int CDBAgent::DeleteKnights(uint16 sClanID)
 {
-	unique_ptr<OdbcCommand> dbCommand(m_GameDB->CreateCommand());
 	int16 nRet = -1;
+	unique_ptr<OdbcCommand> dbCommand(m_GameDB->CreateCommand());
+	if (dbCommand.get() == nullptr)
+		return nRet;
 
 	dbCommand->AddParameter(SQL_PARAM_OUTPUT, &nRet);
 	if (!dbCommand->Execute(string_format(_T("{call DELETE_KNIGHTS (?,%d)}"), sClanID)))
@@ -1061,13 +1063,13 @@ uint16 CDBAgent::LoadKnightsAllMembers(uint16 sClanID, Packet & result)
 {
 	unique_ptr<OdbcCommand> dbCommand(m_GameDB->CreateCommand());
 	if (dbCommand.get() == nullptr)
-		return 0;
+		return false;
 
 	if (!dbCommand->Execute(string_format(_T("SELECT strUserId, Fame, Level, Class FROM USERDATA WHERE Knights = %d"), sClanID)))
 		ReportSQLError(m_GameDB->GetError());
 
 	if (!dbCommand->hasData())
-		return 0;
+		return false;
 
 	uint16 count = 0;
 	do
