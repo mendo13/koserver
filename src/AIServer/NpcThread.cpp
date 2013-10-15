@@ -21,99 +21,108 @@ uint32 THREADCALL NpcThreadProc(void * pParam /* CNpcThread ptr */)
 
 		while (!g_bNpcExit)
 		{
-			fTime2 = getMSTime();
 			pInfo->m_lock.Acquire();
-			foreach (itr, pInfo->m_pNpcs)
+
+			if (pInfo->m_pNpcs.size() > 0)
 			{
-				bool bDeleteNPC = false;
-				pNpc = *itr;
-				dwTickTime = fTime2 - pNpc->m_fDelayTime;
+				fTime2 = getMSTime();
 
-				if (pNpc->m_Delay > (int)dwTickTime && !pNpc->m_bFirstLive && pNpc->m_Delay != 0) 
+				foreach (itr, pInfo->m_pNpcs)
 				{
-					if (pNpc->m_Delay < 0) pNpc->m_Delay = 0;
+					pNpc = *itr;
+					if (pNpc == nullptr)
+						continue;
 
-					if (pNpc->m_NpcState == NPC_STANDING 
-						&& pNpc->CheckFindEnemy()
-						&& pNpc->FindEnemy())
+					bool bDeleteNPC = false;
+
+					dwTickTime = fTime2 - pNpc->m_fDelayTime;
+
+					if (pNpc->m_Delay > (int)dwTickTime && !pNpc->m_bFirstLive && pNpc->m_Delay != 0) 
 					{
-						pNpc->m_NpcState = NPC_ATTACKING;
-						pNpc->m_Delay = 0;
+						if (pNpc->m_Delay < 0) pNpc->m_Delay = 0;
+
+						if (pNpc->m_NpcState == NPC_STANDING 
+							&& pNpc->CheckFindEnemy()
+							&& pNpc->FindEnemy())
+						{
+							pNpc->m_NpcState = NPC_ATTACKING;
+							pNpc->m_Delay = 0;
+						}
+						continue;
+					}	
+
+					dwTickTime = fTime2 - pNpc->m_fHPChangeTime;
+					if( 10000 < dwTickTime )	{	
+						pNpc->HpChange();
 					}
-					continue;
-				}	
 
-				dwTickTime = fTime2 - pNpc->m_fHPChangeTime;
-				if( 10000 < dwTickTime )	{	// 10초마다 HP를 회복 시켜준다
-					pNpc->HpChange();
+					uint8 bState = pNpc->m_NpcState;
+					time_t tDelay = -1;
+					switch (bState)
+					{
+					case NPC_LIVE:			
+						tDelay = pNpc->NpcLive();
+						break;
+
+					case NPC_STANDING:		
+						tDelay = pNpc->NpcStanding();
+						break;
+
+					case NPC_MOVING:
+						tDelay = pNpc->NpcMoving();
+						break;
+
+					case NPC_ATTACKING:
+						tDelay = pNpc->NpcAttacking();
+						break;
+
+					case NPC_TRACING:
+						tDelay = pNpc->NpcTracing();
+						break;
+
+					case NPC_FIGHTING:
+						tDelay = pNpc->Attack();
+						break;
+
+					case NPC_BACK:
+						tDelay = pNpc->NpcBack();
+						break;
+
+					case NPC_STRATEGY:
+						break;
+
+					case NPC_DEAD:
+						pNpc->m_NpcState = NPC_LIVE;
+						break;
+
+					case NPC_SLEEPING:
+						tDelay = pNpc->NpcSleeping();
+						break;
+
+					case NPC_FAINTING:
+						tDelay = pNpc->NpcFainting();
+						break;
+
+					case NPC_HEALING:
+						tDelay = pNpc->NpcHealing();
+						break;
+
+					case NPC_CASTING:
+						tDelay = pNpc->NpcCasting();
+						break;
+					}
+
+					// This may not be necessary, but it keeps behaviour identical.
+					if (bState != NPC_LIVE && bState != NPC_DEAD
+						&& pNpc->m_NpcState != NPC_DEAD)
+						pNpc->m_fDelayTime = getMSTime();
+
+					if (tDelay >= 0)
+						pNpc->m_Delay = tDelay;
+
+					if (pNpc->m_bDelete)
+						g_pMain->m_arNpc.DeleteData(pNpc->GetID());
 				}
-
-				uint8 bState = pNpc->m_NpcState;
-				time_t tDelay = -1;
-				switch (bState)
-				{
-				case NPC_LIVE:					// 방금 살아난 경우
-					tDelay = pNpc->NpcLive();
-					break;
-
-				case NPC_STANDING:						// 하는 일 없이 서있는 경우
-					tDelay = pNpc->NpcStanding();
-					break;
-
-				case NPC_MOVING:
-					tDelay = pNpc->NpcMoving();
-					break;
-
-				case NPC_ATTACKING:
-					tDelay = pNpc->NpcAttacking();
-					break;
-
-				case NPC_TRACING:
-					tDelay = pNpc->NpcTracing();
-					break;
-
-				case NPC_FIGHTING:
-					tDelay = pNpc->Attack();
-					break;
-
-				case NPC_BACK:
-					tDelay = pNpc->NpcBack();
-					break;
-
-				case NPC_STRATEGY:
-					break;
-
-				case NPC_DEAD:
-					pNpc->m_NpcState = NPC_LIVE;
-					break;
-
-				case NPC_SLEEPING:
-					tDelay = pNpc->NpcSleeping();
-					break;
-
-				case NPC_FAINTING:
-					tDelay = pNpc->NpcFainting();
-					break;
-
-				case NPC_HEALING:
-					tDelay = pNpc->NpcHealing();
-					break;
-
-				case NPC_CASTING:
-					tDelay = pNpc->NpcCasting();
-					break;
-				}
-
-				// This may not be necessary, but it keeps behaviour identical.
-				if (bState != NPC_LIVE && bState != NPC_DEAD
-					&& pNpc->m_NpcState != NPC_DEAD)
-					pNpc->m_fDelayTime = getMSTime();
-
-				if (tDelay >= 0)
-					pNpc->m_Delay = tDelay;
-
-				if (pNpc->m_bDelete)
-					g_pMain->m_arNpc.DeleteData(pNpc->GetID());
 			}
 
 			pInfo->m_lock.Release();
@@ -123,7 +132,7 @@ uint32 THREADCALL NpcThreadProc(void * pParam /* CNpcThread ptr */)
 	}
 	catch (std::exception & ex)
 	{
-		printf("Exception occurred: %s\n", ex.what());
+		TRACE("### ERROR - NpcThread :%s\n ###", ex.what());
 	}
 	return 0;
 }
