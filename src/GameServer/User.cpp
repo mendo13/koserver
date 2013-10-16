@@ -4339,8 +4339,8 @@ void CUser::OnDeath(Unit *pKiller)
 							// When your anger gauge is full (5 deaths), you can use the "Anger Explosion" skill.
 							if (!hasFullAngerGauge())
 								UpdateAngerGauge(++m_byAngerGauge);
-						}
 
+							
 						// Loyalty should be awarded on kill.
 						// Additionally, we should receive a "Meat dumpling"
 						if (!pUser->isInParty())
@@ -4365,6 +4365,8 @@ void CUser::OnDeath(Unit *pKiller)
 								}
 							}
 						}
+						}
+
 
 						pUser->GoldChange(GetID(), 0);
 
