@@ -1664,7 +1664,7 @@ void CUser::PointChange(Packet & pkt)
 
 	if (statType < STAT_STR || statType >= STAT_COUNT 
 		|| m_sPoints < 1
-		|| GetStat(statType) == STAT_MAX) 
+		|| GetStat(statType) >= STAT_MAX) 
 		return;
 
 	Packet result(WIZ_POINT_CHANGE, type);
