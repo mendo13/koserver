@@ -1557,7 +1557,7 @@ void CUser::ExpChange(int64 iExp)
 /**
 * @brief	Get premium properties.
 */
-uint16 CUser::GetPremiumProperty(uint8 type) {
+uint16 CUser::GetPremiumProperty(PremiumPropertyOpCodes type) {
 
 	if (m_bPremiumType < 1)
 		return 0;
@@ -1566,21 +1566,28 @@ uint16 CUser::GetPremiumProperty(uint8 type) {
 
 	if (pPremiumItem == nullptr)
 		return 0;
-
-	if (type == PremiumExpRestorePercent) // Exp restore percent
-		return pPremiumItem->ExpRestorePercent;
-	else if (type == PremiumNoahPercent) // Noah percent
-		return pPremiumItem->NoahPercent;
-	else if (type == PremiumDropPercent) // Drop percent
-		return pPremiumItem->DropPercent;
-	else if (type == PremiumBonusLoyalty) // Bonus loyalty
-		return pPremiumItem->BonusLoyalty;
-	else if (type == PremiumRepairDiscountPercent) // Repair discount percent
-		return pPremiumItem->RepairDiscountPercent;
-	else if (type == PremiumItemSellPercent) // Item sell percent
-		return pPremiumItem->ItemSellPercent;
-	else if (type == PremiumExpPercent) // Exp percent
+          
+	switch (type)
 	{
+	case PremiumExpRestorePercent:
+		return pPremiumItem->ExpRestorePercent;
+		break;
+	case PremiumNoahPercent:
+		return pPremiumItem->NoahPercent;
+		break;
+	case PremiumDropPercent:
+		return pPremiumItem->DropPercent;
+		break;
+	case PremiumBonusLoyalty:
+		return pPremiumItem->BonusLoyalty;
+		break;
+	case PremiumRepairDiscountPercent:
+		return pPremiumItem->RepairDiscountPercent;
+		break;
+	case PremiumItemSellPercent:
+		return pPremiumItem->ItemSellPercent;
+		break;
+	case PremiumExpPercent:
 		foreach_stlmap_nolock(itr, g_pMain->m_PremiumItemExpArray) {
 			_PREMIUM_ITEM_EXP *pPremiumItemExp = g_pMain->m_PremiumItemExpArray.GetData(itr->first);
 
@@ -1589,9 +1596,9 @@ uint16 CUser::GetPremiumProperty(uint8 type) {
 					if (GetLevel() >= pPremiumItemExp->MinLevel && GetLevel() <= pPremiumItemExp->MaxLevel)
 						return pPremiumItemExp->sPercent;
 		}
+		break;
 	}
-
-	return 0;
+		return 0;
 }
 
 /**
