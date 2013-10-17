@@ -229,6 +229,9 @@ enum InOutType
 #define GREEN_TREASURE_CHEST	379155000
 #define BLUE_TREASURE_CHEST		379156000
 
+//Monster Stone
+#define MONSTER_STONE           900144023
+
 // ID of the Seed quest, to be automatically started on first load.
 #define STARTER_SEED_QUEST	500
 

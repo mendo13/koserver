@@ -71,7 +71,11 @@ void CUser::TempleProcess(Packet &pkt )
 
 void CUser::MonsterStoneProcess()
 {
-
+	if(CheckExistItem(MONSTER_STONE,1))
+	{
+		RobItem(MONSTER_STONE,1);
+		ZoneChange(myrand(1004,1016),m_curx,m_curz);
+	}
 } 
 
 void CUser::TempleOperations(uint8 bType)
