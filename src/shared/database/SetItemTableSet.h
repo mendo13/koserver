@@ -43,7 +43,7 @@ public:
 		_dbCommand->FetchUInt16(i++, pData->ACBonusClassType);
 		_dbCommand->FetchUInt16(i++, pData->ACBonusClassPercent);
 		_dbCommand->FetchUInt16(i++, pData->MaxWeightBonus);
-		_dbCommand->FetchUInt16(i++, pData->NPBonus);
+		_dbCommand->FetchByte(i++, pData->NPBonus);
 
 		if (!m_pMap->PutData(pData->SetIndex, pData))
 			delete pData;

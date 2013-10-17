@@ -543,7 +543,7 @@ struct _SET_ITEM
 	uint16 ACBonusClassPercent;	// +AC% for ACBonusClassType only
 
 	uint16 MaxWeightBonus;
-	uint16 NPBonus;
+	uint8 NPBonus;
 };
 
 struct _QUEST_HELPER
