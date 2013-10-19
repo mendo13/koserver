@@ -368,6 +368,7 @@ public:
 	INLINE uint8 GetFame() { return m_bFame; }
 
 	INLINE uint16 GetClass() { return m_sClass; }
+	INLINE uint8 GetPremium() { return m_bPremiumType; }
 
 	/**
 	* @brief	Gets the player's base class type, independent of nation.
@@ -1318,5 +1319,9 @@ public:
 
 	DECLARE_LUA_FUNCTION(GetEventTrigger) {
 		LUA_RETURN(LUA_GET_INSTANCE()->GetEventTrigger());
+	}
+
+	DECLARE_LUA_FUNCTION(GetPremium) {
+		LUA_NO_RETURN(LUA_GET_INSTANCE()->GetPremium());
 	}
 };

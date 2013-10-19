@@ -133,6 +133,7 @@ DEFINE_LUA_CLASS
 	MAKE_LUA_METHOD(GetPartyMemberAmount)
 	MAKE_LUA_METHOD(GetUserDailyOp)
 	MAKE_LUA_METHOD(GetEventTrigger)
+	MAKE_LUA_METHOD(GetPremium)
 	);
 #undef LUA_CLASS
 
@@ -322,6 +323,7 @@ _LUA_WRAPPER_USER_FUNCTION(GetUserDailyOp, GetUserDailyOp);
 _LUA_WRAPPER_USER_FUNCTION(CountMonsterQuestSub, CountMonsterQuestSub);
 _LUA_WRAPPER_USER_FUNCTION(CountMonsterQuestMain, CountMonsterQuestMain);
 _LUA_WRAPPER_USER_FUNCTION(GetEventTrigger, GetEventTrigger);
+_LUA_WRAPPER_USER_FUNCTION(GetPremium, GetPremium);
 
 LUA_FUNCTION(SelectMsg)
 {

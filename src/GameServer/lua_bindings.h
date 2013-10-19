@@ -87,3 +87,4 @@ LUA_FUNCTION(RunCountExchange);
 LUA_FUNCTION(GetMaxExchange);
 LUA_FUNCTION(GetUserDailyOp);
 LUA_FUNCTION(GetEventTrigger);
+LUA_FUNCTION(GetPremium);
