@@ -204,6 +204,38 @@ void CUser::ClassChange(Packet & pkt, bool bFromClient /*= true */)
 		if( classcode == CLERIC || classcode == DRUID )
 			bSuccess = true;
 		break;
+	case BERSERKER:
+		if (classcode == GUARDIAN)
+		    bSuccess = true;
+		break;
+	case HUNTER:
+		if (classcode == PENETRATOR)
+			bSuccess = true;
+		break;
+	case SORSERER:
+		if (classcode == NECROMANCER)
+			bSuccess = true;
+		break;
+	case SHAMAN:
+		if (classcode == DARKPRIEST)
+			bSuccess = true;
+		break;
+	case BLADE:
+		if (classcode == PROTECTOR)
+			bSuccess = true;
+		break;
+	case RANGER:
+		if (classcode == ASSASSIN)
+			bSuccess = true;
+		break;
+	case MAGE:
+		if (classcode == ENCHANTER)
+			bSuccess = true;
+		break;
+	case CLERIC:
+		if (classcode == DRUID)
+			bSuccess = true;
+		break;
 	}
 
 	// Not allowed this job change
