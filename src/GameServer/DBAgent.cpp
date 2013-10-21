@@ -752,7 +752,7 @@ bool CDBAgent::LoadWebItemMall(std::vector<_ITEM_DATA> & itemList, CUser *pUser)
 
 	dbCommand->AddParameter(SQL_PARAM_INPUT, pUser->m_strUserID.c_str(), pUser->m_strUserID.length());
 
-	// TO-DO: Add an arg for the free slot count so we only need to pull/delete what we can hold.
+	// TODO: Add an arg for the free slot count so we only need to pull/delete what we can hold.
 	if (!dbCommand->Execute(_T("{CALL LOAD_WEB_ITEMMALL(?)}")))
 		ReportSQLError(m_AccountDB->GetError());
 

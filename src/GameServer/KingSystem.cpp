@@ -286,9 +286,9 @@ void CKingSystem::CheckSpecialEvent()
 			m_byExpEvent_Minute = 0;
 			m_sExpEvent_Duration = 0;
 
-			// TO-DO: Tell other servers that the event expired (i.e. via UDP)
-			// TO-DO: Update the bonuses on the AI server's side (which we don't have implemented). 
-			// TO-DO: Update the KING_SYSTEM table to reset the stored event data there too.
+			// TODO: Tell other servers that the event expired (i.e. via UDP)
+			// TODO: Update the bonuses on the AI server's side (which we don't have implemented). 
+			// TODO: Update the KING_SYSTEM table to reset the stored event data there too.
 
 			g_pMain->SendFormattedResource(IDS_KING_EXP_BONUS_EVENT_STOP, m_byNation, false);
 
@@ -313,9 +313,9 @@ void CKingSystem::CheckSpecialEvent()
 			m_byNoahEvent_Minute = 0;
 			m_sNoahEvent_Duration = 0;
 
-			// TO-DO: Tell other servers that the event expired (i.e. via UDP)
-			// TO-DO: Update the bonuses on the AI server's side (which we don't have implemented). 
-			// TO-DO: Update the KING_SYSTEM table to reset the stored event data there too.
+			// TODO: Tell other servers that the event expired (i.e. via UDP)
+			// TODO: Update the bonuses on the AI server's side (which we don't have implemented). 
+			// TODO: Update the KING_SYSTEM table to reset the stored event data there too.
 			g_pMain->SendFormattedResource(IDS_KING_NOAH_BONUS_EVENT_STOP, m_byNation, false);
 
 			// KingNotifyMessage(IDS_KING_NOAH_BONUS_EVENT_STOP, m_byNation, WAR_SYSTEM_CHAT);
@@ -780,7 +780,7 @@ void CKingSystem::CandidacyNoticeBoard(CUser * pUser, Packet & pkt)
 			|| m_byType == ELECTION_TYPE_PRE_ELECTION
 			|| m_byType == ELECTION_TYPE_ELECTION)
 		{
-			// TO-DO: Find user in (candidate list?), if not found we can break out of here and error.
+			// TODO: Find user in (candidate list?), if not found we can break out of here and error.
 			if (1 == 2)
 				break;
 
@@ -1071,7 +1071,7 @@ void CKingSystem::KingTaxSystem(CUser * pUser, Packet & pkt)
 			result << int16(1) << byTerritoryTariff << m_byNation;
 			g_pMain->Send_All(&result, nullptr, m_byNation);
 
-			// Update the database (TO-DO: Implement the request)
+			// Update the database (TODO: Implement the request)
 			g_pMain->AddDatabaseRequest(result, pUser);
 		} break;
 
@@ -1146,8 +1146,8 @@ void CKingSystem::KingSpecialEvent(CUser * pUser, Packet & pkt)
 			g_pMain->SendFormattedResource(m_byNation == KARUS ? IDS_KING_KARUS_NOAH_BONUS_EVENT : IDS_KING_ELMO_NOAH_BONUS_EVENT,
 				m_byNation, false, bAmount);
 
-			// TO-DO: Update other servers via UDP
-			// TO-DO: Update the AI server
+			// TODO: Update other servers via UDP
+			// TODO: Update the AI server
 
 			// Update the database
 			result << m_byNation << bAmount << m_byNoahEvent_Day << m_byNoahEvent_Hour << m_byNoahEvent_Minute << m_sNoahEvent_Duration;
@@ -1183,8 +1183,8 @@ void CKingSystem::KingSpecialEvent(CUser * pUser, Packet & pkt)
 			g_pMain->SendFormattedResource(m_byNation == KARUS ? IDS_KING_KARUS_EXP_BONUS_EVENT : IDS_KING_ELMO_EXP_BONUS_EVENT,
 				m_byNation, false, bAmount);
 
-			// TO-DO: Update other servers via UDP
-			// TO-DO: Update the AI server
+			// TODO: Update other servers via UDP
+			// TODO: Update the AI server
 
 			// Update the database
 			result << m_byNation << bAmount << m_byExpEvent_Day << m_byExpEvent_Hour << m_byExpEvent_Minute << m_sExpEvent_Duration;
@@ -1230,7 +1230,7 @@ void CKingSystem::KingSpecialEvent(CUser * pUser, Packet & pkt)
 			g_pMain->SendFormattedResource(m_byNation == KARUS ? IDS_KING_KARUS_PRIZE_EVENT_MESSAGE : IDS_KING_ELMO_PRIZE_EVENT_MESSAGE,
 				m_byNation, false, pTUser->m_strUserID.c_str(), nCoins);
 
-			// TO-DO: Update other servers via UDP
+			// TODO: Update other servers via UDP
 
 			// Update the database
 			result << m_byNation << nCoins << strUserID;
@@ -1270,7 +1270,7 @@ void CKingSystem::KingSpecialEvent(CUser * pUser, Packet & pkt)
 
 			g_pMain->UpdateWeather();
 
-			// TO-DO: Update other servers via UDP
+			// TODO: Update other servers via UDP
 
 			// Get the resource ID, which differs per nation and weather type.
 			// This works because they're sequential.

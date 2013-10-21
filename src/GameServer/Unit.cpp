@@ -152,7 +152,7 @@ bool Unit::isInRangeSlow(float fStartX, float fStartZ, float fEndX, float fEndZ,
 void Unit::SetRegion(uint16 x /*= -1*/, uint16 z /*= -1*/) 
 {
 	m_sRegionX = x; m_sRegionZ = z; 
-	m_pRegion = m_pMap->GetRegion(x, z); // TO-DO: Clean this up
+	m_pRegion = m_pMap->GetRegion(x, z); // TODO: Clean this up
 }
 
 bool Unit::RegisterRegion()

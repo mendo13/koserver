@@ -479,7 +479,7 @@ bool MagicInstance::CheckType4Prerequisites()
 			return false;
 	}
 
-	// TO-DO: Allow for siege-weapon only buffs (e.g. "Physical Attack Scroll")
+	// TODO: Allow for siege-weapon only buffs (e.g. "Physical Attack Scroll")
 
 	return true;
 }
@@ -1088,7 +1088,7 @@ bool MagicInstance::ExecuteType2()
 		}
 		else 
 		{
-			// TO-DO: Verify this. It's more a placeholder than anything. 
+			// TODO: Verify this. It's more a placeholder than anything. 
 			pTable = g_pMain->GetItemPtr(TO_NPC(pSkillCaster)->m_iWeapon_1);
 			if (pTable == nullptr)
 				return false; 
@@ -1781,7 +1781,7 @@ bool MagicInstance::ExecuteType5()
 				}
 
 				pEffect->Reset();
-				// TO-DO: Wrap this up (ugh, I feel so dirty)
+				// TODO: Wrap this up (ugh, I feel so dirty)
 				Packet result(WIZ_MAGIC_PROCESS, uint8(MAGIC_DURATION_EXPIRED));
 				result << uint8(200); // removes DOT skill
 				pTUser->Send(&result); 
@@ -1922,14 +1922,14 @@ bool MagicInstance::ExecuteType6()
 		return false;
 	}
 
-	// TO-DO : Save duration, and obviously end
+	// TODO : Save duration, and obviously end
 	pCaster->m_sTransformID = pType->sTransformID;
 	pCaster->m_tTransformationStartTime = UNIXTIME;
 	pCaster->m_sTransformationDuration = sDuration;
 
 	pSkillCaster->StateChangeServerDirect(3, nSkillID);
 
-	// TO-DO : Give the users ALL TEH BONUSES!!
+	// TODO : Give the users ALL TEH BONUSES!!
 
 	sData[1] = 1;
 	sData[3] = sDuration;
@@ -1957,7 +1957,7 @@ bool MagicInstance::ExecuteType8()
 
 	if (sTargetID == -1)
 	{
-		// TO-DO: Localise this loop to make it not suck (the life out of the server).
+		// TODO: Localise this loop to make it not suck (the life out of the server).
 		SessionMap & sessMap = g_pMain->m_socketMgr.GetActiveSessionMap();
 		foreach (itr, sessMap)
 		{		
@@ -2454,7 +2454,7 @@ void MagicInstance::Type6Cancel(bool bForceRemoval /*= false*/)
 	CUser * pUser = TO_USER(pSkillCaster);
 	Packet result(WIZ_MAGIC_PROCESS, uint8(MAGIC_CANCEL_TRANSFORMATION));
 
-	// TO-DO: Reset stat changes, recalculate stats.
+	// TODO: Reset stat changes, recalculate stats.
 	pUser->m_transformationType = TransformationNone;
 	pUser->Send(&result);
 

@@ -17,7 +17,7 @@ void CUser::MoveProcess(Packet & pkt)
 
 	if (!isGM())
 	{
-		// TO-DO: Handle proper speed checks against server-side amounts.
+		// TODO: Handle proper speed checks against server-side amounts.
 		if (speed > 90)
 		{
 			Disconnect();
@@ -36,7 +36,7 @@ void CUser::MoveProcess(Packet & pkt)
 		m_oldz = GetZ();
 	}
 
-	// TO-DO: Ensure this is checked properly to prevent speedhacking
+	// TODO: Ensure this is checked properly to prevent speedhacking
 	SetPosition(real_x, real_y, real_z);
 
 	if (RegisterRegion())
@@ -359,7 +359,7 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 	if (GetLevel() < pTargetMap->GetMinLevelReq()
 		|| GetLevel() > pTargetMap->GetMaxLevelReq())
 	{
-		// TO-DO: Implement overrides for zone-specific behaviour (e.g. wars)
+		// TODO: Implement overrides for zone-specific behaviour (e.g. wars)
 		errorReason = WarpListMinLevel;
 		return false;
 	}
@@ -671,7 +671,7 @@ void CUser::RecvZoneChange(Packet & pkt)
 	{
 		UserInOut(INOUT_RESPAWN);
 
-		// TO-DO: Fix all this up (it's too messy/confusing)
+		// TODO: Fix all this up (it's too messy/confusing)
 		if (!m_bZoneChangeSameZone)
 		{
 			BlinkStart();

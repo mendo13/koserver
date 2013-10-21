@@ -19,7 +19,7 @@ public:
 		_dbCommand->FetchUInt16(i++, pData->m_sIndex);
 		_dbCommand->FetchByte(i++, pData->m_bType);
 
-		// TO-DO: Get rid of this (need to tweak the database to just use int fields)
+		// TODO: Get rid of this (need to tweak the database to just use int fields)
 		for (int j = 0; j < 5; j++)
 		{
 			char tmp[16];

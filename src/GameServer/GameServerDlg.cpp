@@ -850,7 +850,7 @@ void CGameServerDlg::Send_UnitRegion(Packet *pkt, C3DMap *pMap, int x, int z, CU
 	}
 }
 
-// TO-DO: Move the following two methods into a base CUser/CNpc class
+// TODO: Move the following two methods into a base CUser/CNpc class
 void CGameServerDlg::Send_OldRegions(Packet *pkt, int old_x, int old_z, C3DMap *pMap, int x, int z, CUser* pExceptUser, int16 nEventRoom)
 {
 	if (old_x != 0)
@@ -2278,7 +2278,7 @@ uint64 CGameServerDlg::GenerateItemSerial()
 */
 void CGameServerDlg::KickOutZoneUsers(uint8 ZoneID, uint8 TargetZoneID)
 {
-	// TO-DO: Make this localised to zones.
+	// TODO: Make this localised to zones.
 	SessionMap & sessMap = g_pMain->m_socketMgr.GetActiveSessionMap();
 	C3DMap	*pKarusMap		= GetZoneByID(KARUS),
 		*pElMoradMap	= GetZoneByID(ELMORAD);	
@@ -2312,7 +2312,7 @@ void CGameServerDlg::KickOutZoneUsers(uint8 ZoneID, uint8 TargetZoneID)
 
 void CGameServerDlg::SendItemZoneUsers(uint8 ZoneID, uint32 nItemID, uint16 sCount)
 {
-	// TO-DO: Make this localised to zones.
+	// TODO: Make this localised to zones.
 	SessionMap & sessMap = g_pMain->m_socketMgr.GetActiveSessionMap();
 
 	foreach (itr, sessMap)

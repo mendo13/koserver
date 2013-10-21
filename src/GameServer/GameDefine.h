@@ -467,7 +467,7 @@ struct _USER_RANK
 	uint32	nLoyalty[2]; // nKarusLoyaltyMonthly/nElmoLoyaltyMonthly for USER_PERSONAL_RANK
 };
 
-// TO-DO: Rewrite this system to be less script dependent for exchange logic.
+// TODO: Rewrite this system to be less script dependent for exchange logic.
 // Coin requirements should be in the database, and exchanges should be grouped.
 #define ITEMS_IN_ORIGIN_GROUP 11
 #define ITEMS_IN_EXCHANGE_GROUP 5

@@ -5,7 +5,7 @@ using namespace std;
 
 void CUser::PartyProcess(Packet & pkt)
 {
-	// TO-DO: Clean this entire system up.
+	// TODO: Clean this entire system up.
 	string strUserID;
 	CUser *pUser;
 	uint8 opcode = pkt.read<uint8>();
@@ -463,7 +463,7 @@ void CUser::PartyBBSRegister(Packet & pkt)
 
 	StateChangeServerDirect(2, 2); // seeking a party
 
-	// TO-DO: Make this a more localised map
+	// TODO: Make this a more localised map
 	SessionMap & sessMap = g_pMain->m_socketMgr.GetActiveSessionMap();
 	foreach (itr, sessMap)
 	{
@@ -523,7 +523,7 @@ void CUser::SendPartyBBSNeeded(uint16 page_index, uint8 bType)
 
 	result << bType << uint8(1) << page_index << uint8(0) << uint8(0); //Not sure what the last 2 bytes are.
 
-	// TO-DO: Make this a more localised map
+	// TODO: Make this a more localised map
 	SessionMap & sessMap = g_pMain->m_socketMgr.GetActiveSessionMap();
 	int i = -1; // start at -1, first iteration gets us to 0.
 	foreach (itr, sessMap)

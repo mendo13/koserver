@@ -105,7 +105,7 @@ void CMagicProcess::MagicPacket(Packet & pkt, Unit * pCaster /*= nullptr*/)
 }
 #endif
 
-// TO-DO: Clean this up (even using unit code...)
+// TODO: Clean this up (even using unit code...)
 bool CMagicProcess::UserRegionCheck(Unit * pSkillCaster, Unit * pSkillTarget, _MAGIC_TABLE * pSkill, int radius, short mousex /*= 0*/, short mousez /*= 0*/)
 {
 	if (pSkillCaster->isDead()
@@ -1095,7 +1095,7 @@ bool CMagicProcess::IsBuff(_MAGIC_TYPE4 * pType)
 	case BUFF_TYPE_HELP_COMPENSATION:	// Compensation for using the help system (to help, ask for help, both?)
 		return true;
 
-		// TO-DO: Identify and name these.
+		// TODO: Identify and name these.
 	case 48: // DC/War/Exp Flash - grants additional NP/XP
 		return true;
 

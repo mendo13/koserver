@@ -97,7 +97,7 @@ void LoginServer::UpdateServerList()
 		result << uint8(0); 
 #endif
 
-		// we read all this stuff from ini, TO-DO: make this more versatile.
+		// we read all this stuff from ini, TODO: make this more versatile.
 		result	<< pServer->strKarusKingName << pServer->strKarusNotice 
 			<< pServer->strElMoradKingName << pServer->strElMoradNotice;
 #endif
@@ -124,7 +124,7 @@ void LoginServer::GetInfoFromIni()
 
 	m_ServerList.reserve(nServerCount);
 
-	// TO-DO: Replace this nonsense with something a little more versatile
+	// TODO: Replace this nonsense with something a little more versatile
 	for (int i = 0; i < nServerCount; i++)
 	{
 		pInfo = new _SERVER_INFO;

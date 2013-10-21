@@ -228,7 +228,7 @@ bool CUser::HandlePacket(Packet & pkt)
 		return true;
 	}
 	// If we haven't logged in yet, don't let us hit in-game packets.
-	// TO-DO: Make sure we support all packets in the loading stage (and rewrite this logic considerably better).
+	// TODO: Make sure we support all packets in the loading stage (and rewrite this logic considerably better).
 	else if (!m_bSelectedCharacter)
 	{
 		switch (command)
@@ -1481,7 +1481,7 @@ void CUser::ExpChange(int64 iExp)
 {	
 	// Stop players level 5 or under from losing XP on death.
 	if ((GetLevel() < 6 && iExp < 0)
-		// Stop players in the war zone (TO-DO: Add other war zones) from losing XP on death.
+		// Stop players in the war zone (TODO: Add other war zones) from losing XP on death.
 			|| (GetMap()->isWarZone() && iExp < 0))
 			return;
 
@@ -1644,7 +1644,7 @@ void CUser::LevelChange(short level, bool bLevelUp /*= true*/)
 	g_pMain->Send_Region(&result, GetMap(), GetRegionX(), GetRegionZ());
 	if (isInParty())
 	{
-		// TO-DO: Move this to party specific code
+		// TODO: Move this to party specific code
 		result.Initialize(WIZ_PARTY);
 		result << uint8(PARTY_LEVELCHANGE) << GetSocketID() << GetLevel();
 		g_pMain->Send_PartyMember(GetPartyID(), &result);
@@ -1832,7 +1832,7 @@ void CUser::MSpChange(int amount)
 	if (isGM() && amount < 0)
 		return;
 
-	// TO-DO: Make this behave unsigned.
+	// TODO: Make this behave unsigned.
 	m_sMp += amount;
 	if (m_sMp < 0)
 		m_sMp = 0;
@@ -2111,7 +2111,7 @@ void CUser::SetUserAbility(bool bSendPacket /*= true*/)
 	if (bInt > 100)
 		m_bResistanceBonus += (bInt - 100) / 2;
 
-	// TO-DO: Transformation stats need to be applied here
+	// TODO: Transformation stats need to be applied here
 
 	if (bSendPacket)
 		SendItemMove(2);
@@ -2584,7 +2584,7 @@ void CUser::LoyaltyChange(int16 tid, uint16 bonusNP /*= 0*/)
 {
 	short loyalty_source = 0, loyalty_target = 0;
 
-	// TO-DO: Rewrite this out, it shouldn't handle all cases so generally like this
+	// TODO: Rewrite this out, it shouldn't handle all cases so generally like this
 	if (!GetMap()->isNationPVPZone()) 
 		return;
 
@@ -2630,7 +2630,7 @@ void CUser::LoyaltyChange(int16 tid, uint16 bonusNP /*= 0*/)
 	SendLoyaltyChange(loyalty_source, true);
 	pTUser->SendLoyaltyChange(loyalty_target, true);
 
-	// TO-DO: Move this to a better place (death handler, preferrably)
+	// TODO: Move this to a better place (death handler, preferrably)
 	// If a war's running, and we died/killed in a war zone... (this method should NOT be so tied up in specifics( 
 	if (g_pMain->m_byBattleOpen && GetMap()->isWarZone()) 
 	{
@@ -3080,7 +3080,7 @@ void CUser::HPTimeChange()
 	{
 		if (isTransformed())
 		{
-			// TO-DO: Apply transformation rates
+			// TODO: Apply transformation rates
 		}
 		else if (m_iMaxMp != m_sMp)
 		{
@@ -3402,7 +3402,7 @@ bool CUser::GetStartPosition(short & x, short & z, uint8 bZone /*= 0 */)
 	if (pData == nullptr)
 		return false;
 
-	// TO-DO: Allow for Delos/CSW.
+	// TODO: Allow for Delos/CSW.
 
 	// NOTE: This is how mgame does it.
 	// This only allows for positive randomisation; we should really allow for the full range...
@@ -3593,7 +3593,7 @@ void CUser::AllPointChange()
 	if (!GoldLose(temp_money, false))
 		goto fail_return;
 
-	// TO-DO: Pull this from the database.
+	// TODO: Pull this from the database.
 	switch (m_bRace)
 	{
 	case KARUS_BIG:	
@@ -3707,7 +3707,7 @@ void CUser::GoldChange(short tid, int gold)
 		int userCount = 0, levelSum = 0, temp_gold = (pTUser->m_iGold * 4) / 10;	
 		pTUser->GoldLose(pTUser->m_iGold / 2);		
 
-		// TO-DO: Clean up the party system. 
+		// TODO: Clean up the party system. 
 		for (int i = 0; i < MAX_PARTY_USERS; i++)
 		{
 			CUser *pUser = g_pMain->GetUserPtr(pParty->uid[i]);
@@ -4051,7 +4051,7 @@ void CUser::BlinkTimeCheck()
 	Send_AIServer(&result);
 
 	result.Initialize(AG_USER_INOUT);
-	result.SByte(); // TO-DO: Remove this redundant uselessness that is mgame
+	result.SByte(); // TODO: Remove this redundant uselessness that is mgame
 	result	<< uint8(INOUT_RESPAWN) << GetSocketID()
 		<< GetName()
 		<< GetX() << GetZ();
@@ -4428,7 +4428,7 @@ void CUser::SendClanUserStatusUpdate(bool bToRegion /*= true*/)
 	result	<< uint8(1) << GetSocketID() 
 		<< GetClanID() << GetFame();
 
-	// TO-DO: Make this region code user-specific to perform faster.
+	// TODO: Make this region code user-specific to perform faster.
 	if (bToRegion)
 		SendToRegion(&result);
 	else

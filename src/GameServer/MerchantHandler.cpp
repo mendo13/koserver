@@ -131,7 +131,7 @@ void CUser::MerchantItemAdd(Packet & pkt)
 
 	pkt >> nItemID >> sCount >> nGold >> bSrcPos >> bDstPos >> bMode;
 
-	// TO-DO: Implement the possible error codes for these various error cases.
+	// TODO: Implement the possible error codes for these various error cases.
 	if (bSrcPos >= HAVE_MAX
 		|| bDstPos >= MAX_MERCH_ITEMS)
 		return;
@@ -287,7 +287,7 @@ void CUser::MerchantItemBuy(Packet & pkt)
 
 	pMerch->sCount -= item_count;
 
-	// TO-DO : Proper checks for the removal of the items in the array, we're now assuming everything gets bought
+	// TODO : Proper checks for the removal of the items in the array, we're now assuming everything gets bought
 	if (pMerch->sCount == 0)
 		memset(pMerch, 0, sizeof(_MERCH_DATA));
 
@@ -565,7 +565,7 @@ void CUser::BuyingMerchantBuy(Packet & pkt)
 	if (pSellerItem->sCount == 0)
 		memset(pSellerItem, 0, sizeof(_ITEM_DATA));
 
-	// TO-DO : Proper checks for the removal of the items in the array, we're now assuming everything gets bought
+	// TODO : Proper checks for the removal of the items in the array, we're now assuming everything gets bought
 
 	// Update players
 	SendStackChange(pSellerItem->nNum, pSellerItem->sCount, pSellerItem->sDuration, bSellerSrcSlot);

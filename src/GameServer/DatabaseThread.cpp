@@ -240,7 +240,7 @@ void CUser::ReqDeleteChar(Packet & pkt)
 #if 0
 	if (retCode == 1 && sKnights != 0)
 	{
-		// TO-DO: Synchronise this system better. Much better. This is dumb.
+		// TODO: Synchronise this system better. Much better. This is dumb.
 		CKnightsManager::RemoveKnightsUser(sKnights, (char *)strCharID.c_str());
 	}
 #endif
@@ -675,7 +675,7 @@ void CKnightsManager::ReqKnightsList(Packet & pkt)
 		}
 	}
 
-	// TO-DO: Move this all to a single method, as this is done multiple times
+	// TODO: Move this all to a single method, as this is done multiple times
 	pKnights->m_sIndex = sClanID;
 	pKnights->m_byNation = bNation;
 	pKnights->m_strName = strKnightsName;
@@ -723,7 +723,7 @@ void CKnightsManager::ReqRegisterClanSymbol(CUser *pUser, Packet & pkt)
 
 		memcpy(pKnights->m_Image, clanSymbol, sSymbolSize);
 
-		// TO-DO: Send to all servers for updating via UDP
+		// TODO: Send to all servers for updating via UDP
 
 		sErrorCode = 1;
 	} while (0);

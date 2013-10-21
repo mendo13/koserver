@@ -122,7 +122,7 @@ void Socket::Disconnect()
 	OnDisconnect();
 
 	// remove from mgr
-#ifndef CONFIG_USE_IOCP // to-do: clean this up
+#ifndef CONFIG_USE_IOCP // TODO: clean this up
 	GetSocketMgr()->RemoveSocket(this);
 #endif
 	GetSocketMgr()->OnDisconnect(this);

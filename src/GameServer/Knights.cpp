@@ -42,7 +42,7 @@ void CKnights::OnLogin(CUser *pUser)
 	}
 
 	// Send login notice
-	// TO-DO: Shift this to SERVER_RESOURCE
+	// TODO: Shift this to SERVER_RESOURCE
 	std::string buffer = string_format("%s is online.", pUser->GetName().c_str()); 
 	ChatPacket::Construct(&result, KNIGHTS_CHAT, &buffer);
 	Send(&result);
@@ -116,7 +116,7 @@ void CKnights::OnLogout(CUser *pUser)
 	}
 
 	Packet logoutNotice;
-	// TO-DO: Shift this to SERVER_RESOURCE
+	// TODO: Shift this to SERVER_RESOURCE
 	std::string buffer = string_format("%s is offline.", pUser->GetName().c_str()); 
 	ChatPacket::Construct(&logoutNotice, KNIGHTS_CHAT, &buffer);
 	Send(&logoutNotice);

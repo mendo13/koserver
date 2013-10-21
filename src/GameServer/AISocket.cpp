@@ -245,7 +245,7 @@ void CAISocket::RecvNpcAttack(Packet & pkt)
 		|| pTarget->isDead())
 		return;
 
-	// TO-DO: Wrap this up into its own virtual method
+	// TODO: Wrap this up into its own virtual method
 	sDamage = pAttacker->GetDamage(pTarget);
 	if (sDamage > 0)
 	{
@@ -482,7 +482,7 @@ void CAISocket::RecvGateDestory(Packet & pkt)
 	TRACE("RecvGateDestory - (%d,%s), gate_status=%d\n", pNpc->GetID(), pNpc->GetName().c_str(), pNpc->m_byGateOpen);
 }
 
-// TO-DO: Remove this. NPCs don't just randomly die, it would make sense to do this as a result of the cause, not just because.
+// TODO: Remove this. NPCs don't just randomly die, it would make sense to do this as a result of the cause, not just because.
 void CAISocket::RecvNpcDead(Packet & pkt)
 {
 	CNpc * pNpc;
@@ -591,7 +591,7 @@ void CAISocket::RecvBattleEvent(Packet & pkt)
 				/* War rewards */
 				// Warders
 				if (bResult >= 3 && bResult <= 6)
-					pUser->SendLoyaltyChange(500); /* TO-DO: Remove hardcoded values */
+					pUser->SendLoyaltyChange(500); /* TODO: Remove hardcoded values */
 				// Keeper
 				else if (bResult == 7 || bResult == 8)
 					pUser->SendLoyaltyChange(1000);

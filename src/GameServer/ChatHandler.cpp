@@ -237,7 +237,7 @@ void CUser::ChatTargetSelect(Packet & pkt)
 {
 	uint8 type = pkt.read<uint8>();
 
-	// TO-DO: Replace this with an enum
+	// TODO: Replace this with an enum
 	// Attempt to find target player in-game
 	if (type == 1)
 	{

@@ -201,7 +201,7 @@ void SMDFile::GetWarpList(int warpGroup, std::set<_WARP_INFO *> & warpEntries)
 
 bool SMDFile::IsValidPosition(float x, float z, float y)
 {
-	// TO-DO: Implement more thorough check
+	// TODO: Implement more thorough check
 	return (x < m_N3ShapeMgr->Width() && z < m_N3ShapeMgr->Height());
 }
 

@@ -137,7 +137,7 @@ void CUser::SaveEvent(uint16 sQuestID, uint8 bQuestState)
 	if (bQuestState == 1
 		&& pQuestMonster != nullptr)
 	{
-		// TO-DO: Decipher this into more meaningful code. :p
+		// TODO: Decipher this into more meaningful code. :p
 		int16 v11 = ((int16)((uint32)(6711 * sQuestID) >> 16) >> 10) - (sQuestID >> 15);
 		int16 v12 = ((int16)((uint32)(5243 * (int16)(sQuestID - 10000 * v11)) >> 16) >> 3)
 			- ((int16)(sQuestID - 10000 * v11) >> 15);
@@ -183,7 +183,7 @@ void CUser::QuestV2MonsterCountAdd(uint16 sNpcID)
 	if (pQuestMonster == nullptr)
 		return;
 
-	// TO-DO: Implement obscure zone ID logic
+	// TODO: Implement obscure zone ID logic
 
 	for (int group = 0; group < QUEST_MOB_GROUPS; group++)
 	{
@@ -392,12 +392,12 @@ bool CUser::PromoteUserNovice()
 	// Change the class & update party.
 	result.clear();
 	result << uint8(2) << sNewClass;
-	ClassChange(result, false); // TO-DO: Clean this up. Shouldn't need to build a packet for this.
+	ClassChange(result, false); // TODO: Clean this up. Shouldn't need to build a packet for this.
 
 	// Update the clan.
 	result.clear();
 	result << uint16(0);
-	CKnightsManager::CurrentKnightsMember(this, result); // TO-DO: Clean this up too.
+	CKnightsManager::CurrentKnightsMember(this, result); // TODO: Clean this up too.
 	return true;
 }
 
@@ -421,7 +421,7 @@ bool CUser::PromoteUser()
 	// Change the class & update party.
 	result.clear();
 	result << uint8(2) << sNewClass;
-	ClassChange(result, false); // TO-DO: Clean this up. Shouldn't need to build a packet for this.
+	ClassChange(result, false); // TODO: Clean this up. Shouldn't need to build a packet for this.
 
 	// use integer division to get from 5/7/9/11 (novice classes) to 1/2/3/4 (base classes)
 	uint8 bBaseClass = (bOldClass / 2) - 1; 
@@ -432,7 +432,7 @@ bool CUser::PromoteUser()
 	// Update the clan.
 	result.clear();
 	result << uint16(0);
-	CKnightsManager::CurrentKnightsMember(this, result); // TO-DO: Clean this up too.
+	CKnightsManager::CurrentKnightsMember(this, result); // TODO: Clean this up too.
 	return true;
 }
 

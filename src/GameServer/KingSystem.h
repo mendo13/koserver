@@ -152,6 +152,6 @@ public:
 	*/
 	ResignedCandidateList m_resignedCandidateList;
 
-	// TO-DO: Give this a more appropriate name.
+	// TODO: Give this a more appropriate name.
 	bool m_bSentFirstMessage;
 };

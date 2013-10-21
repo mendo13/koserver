@@ -4,7 +4,7 @@
 #include "../shared/tstring.h"
 #include "DBAgent.h"
 
-// TO-DO: Move this to the CUser class.
+// TODO: Move this to the CUser class.
 void CKnightsManager::PacketProcess(CUser *pUser, Packet & pkt)
 {
 	if (pUser == nullptr)

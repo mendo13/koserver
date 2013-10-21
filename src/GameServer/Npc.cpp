@@ -235,9 +235,9 @@ void CNpc::SendHpChangeToAI(uint16 sTargetID, int amount, AttributeType attribut
 */
 void CNpc::MSpChange(int amount)
 {
-#if 0 // TO-DO: Implement this
+#if 0 // TODO: Implement this
 	// Glorious copypasta.
-	// TO-DO: Make this behave unsigned.
+	// TODO: Make this behave unsigned.
 	m_iMP += amount;
 	if (m_iMP < 0)
 		m_iMP = 0;

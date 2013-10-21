@@ -82,7 +82,7 @@ void CUser::ReqLetterSystem(Packet & pkt)
 
 void CUser::ReqLetterUnread()
 {
-	// TO-DO: Force this to use cached list data (or update if stale). Calling the DB for just this is pointless.
+	// TODO: Force this to use cached list data (or update if stale). Calling the DB for just this is pointless.
 	Packet result(WIZ_SHOPPING_MALL, uint8(STORE_LETTER));
 	result	<< uint8(LETTER_UNREAD) 
 		<< g_DBAgent.GetUnreadLetterCount(m_strUserID);
@@ -109,7 +109,7 @@ void CUser::ReqLetterRead(Packet & pkt)
 	result << uint8(LETTER_READ);
 	if (!g_DBAgent.ReadLetter(m_strUserID, nLetterID, strMessage))
 	{
-		// TO-DO: research error codes
+		// TODO: research error codes
 		result << uint8(0);
 	}
 	else

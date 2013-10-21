@@ -118,7 +118,7 @@ CLuaScript::CLuaScript() : m_luaState(nullptr), m_lock(new FastMutex())
 bool CLuaEngine::Initialise()
 {
 	printf("Starting up Lua engine in %s mode (built with %s)...\n", LUA_ENGINE_MODE, LUA_RELEASE);
-	// TO-DO: Initialise a pool of scripts (enough for 1 per worker thread).
+	// TODO: Initialise a pool of scripts (enough for 1 per worker thread).
 	return m_luaScript.Initialise();
 }
 
@@ -168,7 +168,7 @@ bool CLuaScript::Initialise()
 }
 
 /**
-* @brief	TO-DO: Pull an available script for use.
+* @brief	TODO: Pull an available script for use.
 *
 * @return	null if it fails, else.
 */
@@ -463,7 +463,7 @@ void CLuaScript::Shutdown()
 void CLuaEngine::Shutdown()
 {
 	m_lock->AcquireWriteLock();
-	// TO-DO: Script pool.
+	// TODO: Script pool.
 	m_luaScript.Shutdown();
 	m_lock->ReleaseWriteLock();
 }

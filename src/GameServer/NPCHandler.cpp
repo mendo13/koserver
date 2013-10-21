@@ -249,7 +249,7 @@ void CUser::ClassChange(Packet & pkt, bool bFromClient /*= true */)
 	m_sClass = classcode;
 	if (isInParty())
 	{
-		// TO-DO: Move this somewhere better.
+		// TODO: Move this somewhere better.
 		result.SetOpcode(WIZ_PARTY);
 		result << uint8(PARTY_CLASSCHANGE) << GetSocketID() << uint16(classcode);
 		g_pMain->Send_PartyMember(GetPartyID(), &result);
@@ -779,12 +779,12 @@ void CUser::HandleCapeChange(Packet & pkt)
 
 	Send(&result);
 
-	// TO-DO:
+	// TODO:
 	// When we implement alliances, this should send to the alliance
 	// if the clan is part of one. Also, their capes should be updated.
 	pKnights->SendUpdate();
 
-	// TO-DO: Send to other servers via UDP.
+	// TODO: Send to other servers via UDP.
 
 	// Now tell Aujard to save (we don't particularly care whether it was able to do so or not).
 	result.Initialize(WIZ_CAPE);
