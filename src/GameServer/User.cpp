@@ -1170,13 +1170,9 @@ void CUser::SetSlotItemValue()
 				|| i >= INVENTORY_MBAG)
 				continue;
 
-		item_ac = pTable->m_sAc;
-		if (pItem->sDuration == 0) 
-			item_ac /= 10;
-
 		m_sItemMaxHp += pTable->m_MaxHpB;
 		m_sItemMaxMp += pTable->m_MaxMpB;
-		m_sItemAc += item_ac;
+		m_sItemAc += pTable->m_sAc;
 		m_sStatItemBonuses[STAT_STR] += pTable->m_sStrB;
 		m_sStatItemBonuses[STAT_STA] += pTable->m_sStaB;
 		m_sStatItemBonuses[STAT_DEX] += pTable->m_sDexB;
@@ -1559,7 +1555,7 @@ void CUser::ExpChange(int64 iExp)
 */
 uint16 CUser::GetPremiumProperty(PremiumPropertyOpCodes type) {
 
-	if (m_bPremiumType < 1)
+	if (m_bPremiumType <= 0)
 		return 0;
 
 	_PREMIUM_ITEM * pPremiumItem = g_pMain->m_PremiumItemArray.GetData(m_bPremiumType);
