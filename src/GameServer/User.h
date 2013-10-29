@@ -368,7 +368,7 @@ public:
 	INLINE uint8 GetFame() { return m_bFame; }
 
 	INLINE uint16 GetClass() { return m_sClass; }
-	INLINE uint8 GetPremium() { return m_bPremiumType; }
+	INLINE bool GetPremium() { return m_bPremiumType; }
 
 	/**
 	* @brief	Gets the player's base class type, independent of nation.
@@ -1066,6 +1066,7 @@ public:
 	DECLARE_LUA_GETTER(isKing)
 	DECLARE_LUA_GETTER(GetBeefRoastVictory)
 	DECLARE_LUA_GETTER(GetPartyMemberAmount)
+	DECLARE_LUA_GETTER(GetPremium)
 
 	// Shortcuts for lazy people
 	DECLARE_LUA_FUNCTION(hasCoins)  {
@@ -1319,9 +1320,5 @@ public:
 
 	DECLARE_LUA_FUNCTION(GetEventTrigger) {
 		LUA_RETURN(LUA_GET_INSTANCE()->GetEventTrigger());
-	}
-
-	DECLARE_LUA_FUNCTION(GetPremium) {
-		LUA_NO_RETURN(LUA_GET_INSTANCE()->GetPremium());
 	}
 };
