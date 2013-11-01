@@ -935,7 +935,7 @@ void CUser::SetMaxHp(int iFlag)
 	if (GetZoneID() == ZONE_SNOW_BATTLE && iFlag == 0)
 		m_iMaxHp = 100;
 	else if (GetZoneID() == ZONE_CHAOS_DUNGEON)
-		m_iMaxHp = 10000;
+		m_iMaxHp = 1000;
 	else	
 	{
 		m_iMaxHp = (short)(((p_TableCoefficient->HP * GetLevel() * GetLevel() * temp_sta ) 
