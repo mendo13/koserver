@@ -2913,7 +2913,7 @@ void CUser::LoyaltyDivide(int16 tid, uint16 bonusNP /*= 0*/)
 
 int16 CUser::GetLoyaltyDivideSource(uint8 totalmember)
 {
-	int16 nLoyaltySource = RONARK_LAND_KILL_LOYALTY_SOURCE * 2;
+	int16 nLoyaltySource = RONARK_LAND_KILL_LOYALTY_SOURCE * 8; // Kontrol Edilecek..
 
 	if (nLoyaltySource > 0)
 	{
