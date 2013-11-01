@@ -2884,7 +2884,7 @@ void CUser::LoyaltyDivide(int16 tid, uint16 bonusNP /*= 0*/)
 			if (pUser == nullptr)
 				continue;
 
-			pUser->SendLoyaltyChange(individualvalue, true);
+			pUser->SendLoyaltyChange(loyalty_source, true);
 		}
 
 		return;
@@ -2904,8 +2904,8 @@ void CUser::LoyaltyDivide(int16 tid, uint16 bonusNP /*= 0*/)
 			continue;
 
 		//TRACE("LoyaltyDivide 333 - user1=%s, %d\n", pUser->GetName(), pUser->m_iLoyalty);
-		individualvalue = pUser->GetLevel() * loyalty_source / levelsum;
-		pUser->SendLoyaltyChange(individualvalue, true);
+		loyalty_source = pUser->GetLevel() * loyalty_source / levelsum;
+		pUser->SendLoyaltyChange(loyalty_source, true);
 	}
 
 	pTUser->SendLoyaltyChange(loyalty_target, true);
