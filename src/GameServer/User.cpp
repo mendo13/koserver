@@ -549,8 +549,15 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 		// so we can determine if we're trying to take more NP than we have.
 		uint32 amt = -nChangeAmount; /* avoids unsigned/signed comparison warning */
 
-		if (amt > m_iLoyalty) m_iLoyalty = 0;
-		else m_iLoyalty += nChangeAmount;
+		if (amt > m_iLoyalty)
+		{
+			m_iLoyalty = 0;
+
+			if (isInPKZone())
+				Home();
+		}
+		else 
+			m_iLoyalty += nChangeAmount;
 
 		// We should only adjust monthly NP when NP was lost when killing a player.
 		if (bIsKillReward)
@@ -587,13 +594,10 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 			UpdatePlayerRank();
 		}
 		//// We should only apply additional monthly NP when NP was gained as a reward for killing a player.
-		//if (bIsKillReward)
-		//{
 		if (m_iLoyaltyMonthly + nChangeAmount > LOYALTY_MAX)
 			m_iLoyaltyMonthly = LOYALTY_MAX;
 		else
 			m_iLoyaltyMonthly += nChangeAmount;
-		//}
 
 		if (bIsKillReward)
 		{
