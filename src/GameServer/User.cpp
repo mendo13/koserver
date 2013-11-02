@@ -2921,20 +2921,28 @@ int16 CUser::GetLoyaltyDivideSource(uint8 totalmember)
 		{
 		case 8:
 			return nLoyaltySource / 8;
+			break;
 		case 7:
 			return (nLoyaltySource - 2) / 7;
+			break;
 		case 6:
 			return (nLoyaltySource - 8) / 6;
+			break;
 		case 5:
 			return (nLoyaltySource - 18) / 5;
+			break;
 		case 4:
 			return (nLoyaltySource - 32) / 4;
+			break;
 		case 3:
 			return (nLoyaltySource - 44) / 3;
+			break;
 		case 2:
 			return (nLoyaltySource - 56) / 2;
+			break;
 		case 1:
 			return (nLoyaltySource / 2);
+			break;
 		}
 	}
 

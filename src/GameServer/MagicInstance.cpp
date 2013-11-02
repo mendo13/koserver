@@ -1995,6 +1995,7 @@ bool MagicInstance::ExecuteType8()
 
 		// If we're in a home zone, we'll want the coordinates from there. Otherwise, assume our own home zone.
 		_HOME_INFO* pHomeInfo = g_pMain->m_HomeArray.GetData(pTUser->GetZoneID() <= ZONE_ELMORAD ? pTUser->GetZoneID() : pTUser->GetNation());
+		_START_POSITION * pStartP = g_pMain->m_StartPositionArray.GetData(pTUser->GetZoneID());
 		if (pHomeInfo == nullptr)
 			return false;
 
@@ -2057,7 +2058,30 @@ bool MagicInstance::ExecuteType8()
 				}
 			} 
 			else if (pTUser->GetMap()->canAttackOtherNation())
-				pTUser->Warp(uint16((pHomeInfo->FreeZoneX + myrand(0, pHomeInfo->FreeZoneLX)) * 10), uint16((pHomeInfo->FreeZoneZ + myrand(0, pHomeInfo->FreeZoneLZ)) * 10));
+				switch (pTUser->GetZoneID())
+			{
+		        case ZONE_RONARK_LAND:
+					pTUser->Warp(uint16((pHomeInfo->FreeZoneX + myrand(0, pHomeInfo->FreeZoneLX)) * 10), uint16((pHomeInfo->FreeZoneZ + myrand(0, pHomeInfo->FreeZoneLZ)) * 10));
+			        break;
+				case ZONE_RONARK_LAND_BASE:
+					if (pTUser->GetNation() == ELMORAD)
+					{
+						pTUser->Warp(uint16((pStartP->sElmoradX + myrand(0, pStartP->bRangeX)) * 10), uint16((pStartP->sElmoradZ + myrand(0, pStartP->bRangeZ)) * 10));
+					}
+					else
+					{
+						pTUser->Warp(uint16((pStartP->sKarusX + myrand(0, pStartP->bRangeX)) * 10), uint16((pStartP->sKarusZ + myrand(0, pStartP->bRangeZ)) * 10));
+					}
+				case ZONE_ARDREAM:
+					if (pTUser->GetNation() == ELMORAD)
+					{
+						pTUser->Warp(uint16((pStartP->sElmoradX + myrand(0, pStartP->bRangeX)) * 10), uint16((pStartP->sElmoradZ + myrand(0, pStartP->bRangeZ)) * 10));
+					}
+					else
+					{
+						pTUser->Warp(uint16((pStartP->sKarusX + myrand(0, pStartP->bRangeX)) * 10), uint16((pStartP->sKarusZ + myrand(0, pStartP->bRangeZ)) * 10));
+					}
+			}
 			else
 				pTUser->Warp(uint16(pTUser->GetMap()->m_fInitX * 10), uint16(pTUser->GetMap()->m_fInitZ * 10));
 			break;
