@@ -930,12 +930,11 @@ void CUser::SetMaxHp(int iFlag)
 	if( !p_TableCoefficient ) return;
 
 	int temp_sta = getStatTotal(STAT_STA);
-	//	if( temp_sta > 255 ) temp_sta = 255;
 
 	if (GetZoneID() == ZONE_SNOW_BATTLE && iFlag == 0)
 		m_iMaxHp = 100;
 	else if (GetZoneID() == ZONE_CHAOS_DUNGEON)
-		m_iMaxHp = 1000;
+		m_iMaxHp = 10000 / 10;
 	else	
 	{
 		m_iMaxHp = (short)(((p_TableCoefficient->HP * GetLevel() * GetLevel() * temp_sta ) 
@@ -1170,9 +1169,13 @@ void CUser::SetSlotItemValue()
 				|| i >= INVENTORY_MBAG)
 				continue;
 
+		item_ac = pTable->m_sAc;
+		if (pItem->sDuration == 0) 
+			item_ac /= 10;
+
 		m_sItemMaxHp += pTable->m_MaxHpB;
 		m_sItemMaxMp += pTable->m_MaxMpB;
-		m_sItemAc += pTable->m_sAc;
+		m_sItemAc += item_ac;
 		m_sStatItemBonuses[STAT_STR] += pTable->m_sStrB;
 		m_sStatItemBonuses[STAT_STA] += pTable->m_sStaB;
 		m_sStatItemBonuses[STAT_DEX] += pTable->m_sDexB;
@@ -1562,39 +1565,35 @@ uint16 CUser::GetPremiumProperty(PremiumPropertyOpCodes type) {
 
 	if (pPremiumItem == nullptr)
 		return 0;
-          
+
 	switch (type)
 	{
-	case PremiumExpRestorePercent:
-		return pPremiumItem->ExpRestorePercent;
-		break;
+		if (type == PremiumExpRestorePercent)
+			return pPremiumItem->ExpRestorePercent;
 	case PremiumNoahPercent:
 		return pPremiumItem->NoahPercent;
-		break;
 	case PremiumDropPercent:
 		return pPremiumItem->DropPercent;
-		break;
 	case PremiumBonusLoyalty:
 		return pPremiumItem->BonusLoyalty;
-		break;
 	case PremiumRepairDiscountPercent:
 		return pPremiumItem->RepairDiscountPercent;
-		break;
 	case PremiumItemSellPercent:
 		return pPremiumItem->ItemSellPercent;
-		break;
 	case PremiumExpPercent:
-		foreach_stlmap_nolock(itr, g_pMain->m_PremiumItemExpArray) {
-			_PREMIUM_ITEM_EXP *pPremiumItemExp = g_pMain->m_PremiumItemExpArray.GetData(itr->first);
+		{
+			foreach_stlmap_nolock(itr, g_pMain->m_PremiumItemExpArray) {
+				_PREMIUM_ITEM_EXP *pPremiumItemExp = g_pMain->m_PremiumItemExpArray.GetData(itr->first);
 
-			if (pPremiumItemExp != nullptr)
-				if (m_bPremiumType == pPremiumItemExp->Type)
-					if (GetLevel() >= pPremiumItemExp->MinLevel && GetLevel() <= pPremiumItemExp->MaxLevel)
-						return pPremiumItemExp->sPercent;
+				if (pPremiumItemExp != nullptr)
+					if (m_bPremiumType == pPremiumItemExp->Type)
+						if (GetLevel() >= pPremiumItemExp->MinLevel && GetLevel() <= pPremiumItemExp->MaxLevel)
+							return pPremiumItemExp->sPercent;
+			}
 		}
-		break;
 	}
-		return 0;
+
+	return 0;
 }
 
 /**
@@ -2877,6 +2876,11 @@ void CUser::LoyaltyDivide(int16 tid, uint16 bonusNP /*= 0*/)
 		}
 	}
 	else {		// Same Nation!!! 
+
+		return;
+
+		// TODO: Kontrol Edilmeli ( Mage Girince Aynı IRK Sanıyor )
+
 		individualvalue = -1000 ;
 
 		for (int j = 0; j < MAX_PARTY_USERS; j++) {		// Distribute loyalty amongst party members.
@@ -2903,7 +2907,6 @@ void CUser::LoyaltyDivide(int16 tid, uint16 bonusNP /*= 0*/)
 		if (pUser == nullptr)
 			continue;
 
-		//TRACE("LoyaltyDivide 333 - user1=%s, %d\n", pUser->GetName(), pUser->m_iLoyalty);
 		loyalty_source = pUser->GetLevel() * loyalty_source / levelsum;
 		pUser->SendLoyaltyChange(loyalty_source, true);
 	}
@@ -4344,31 +4347,31 @@ void CUser::OnDeath(Unit *pKiller)
 							if (!hasFullAngerGauge())
 								UpdateAngerGauge(++m_byAngerGauge);
 
-							
-						// Loyalty should be awarded on kill.
-						// Additionally, we should receive a "Meat dumpling"
-						if (!pUser->isInParty())
-						{
-							pUser->LoyaltyChange(GetID(), bonusNP);
-							pUser->GiveItem(ITEM_MEAT_DUMPLING);
-						}
-						// In parties, the loyalty should be divided up across the party.
-						// Each party member in range should also receive a "Meat Dumpling".
-						else
-						{
-							pUser->LoyaltyDivide(GetID(), bonusNP);
 
-							_PARTY_GROUP * pParty = g_pMain->GetPartyPtr(GetPartyID());
-							if (pParty) 
+							// Loyalty should be awarded on kill.
+							// Additionally, we should receive a "Meat dumpling"
+							if (!pUser->isInParty())
 							{
-								for (uint8 i = 0; i < MAX_PARTY_USERS; i++)
+								pUser->LoyaltyChange(GetID(), bonusNP);
+								pUser->GiveItem(ITEM_MEAT_DUMPLING);
+							}
+							// In parties, the loyalty should be divided up across the party.
+							// Each party member in range should also receive a "Meat Dumpling".
+							else
+							{
+								pUser->LoyaltyDivide(GetID(), bonusNP);
+
+								_PARTY_GROUP * pParty = g_pMain->GetPartyPtr(GetPartyID());
+								if (pParty) 
 								{
-									CUser * pPartyUser = g_pMain->GetUserPtr(pParty->uid[i]);
-									if (pPartyUser)
-										pPartyUser->GiveItem(ITEM_MEAT_DUMPLING);
+									for (uint8 i = 0; i < MAX_PARTY_USERS; i++)
+									{
+										CUser * pPartyUser = g_pMain->GetUserPtr(pParty->uid[i]);
+										if (pPartyUser)
+											pPartyUser->GiveItem(ITEM_MEAT_DUMPLING);
+									}
 								}
 							}
-						}
 						}
 
 
