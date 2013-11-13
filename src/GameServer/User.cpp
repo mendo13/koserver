@@ -2598,6 +2598,12 @@ void CUser::LoyaltyChange(int16 tid, uint16 bonusNP /*= 0*/)
 			loyalty_source = 0;
 			loyalty_target = 0;
 		}
+		// Caitharos Arena
+		else if (pTUser->GetZoneID() == ZONE_CAITHAROS_ARENA)
+		{
+			loyalty_source = 0;
+			loyalty_target = 0;
+		}
 		// Ardream
 		else if (pTUser->GetZoneID() == ZONE_ARDREAM)
 		{
