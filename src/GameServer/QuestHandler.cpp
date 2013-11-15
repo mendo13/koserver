@@ -488,7 +488,6 @@ uint8 CUser::GetClanRank()
 	return pClan->m_byFlag;
 }
 
-uint8 CUser::GetBeefRoastVictory()
-{
-	return g_pMain->m_BifrostVictory;
-}
+uint8 CUser::GetBeefRoastVictory() { return g_pMain->m_BifrostVictory; }
+
+uint8 CUser::GetWarVictory() { return g_pMain->m_bVictory; }

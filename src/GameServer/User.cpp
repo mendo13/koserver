@@ -4316,54 +4316,45 @@ void CUser::OnDeath(Unit *pKiller)
 					}
 					else
 					{
-						uint16 bonusNP = 0;
-						bool bKilledByRival = false;
-
-						// In PVP zones
-						if (isInPKZone())
+						// In PVP and War zones
+						if (isInPKZone() || GetMap()->isWarZone() || GetMap()->isNationPVPZone())
 						{
-							// Show death notices in PVP zones
-							noticeType = DeathNoticeCoordinates;
+							uint16 bonusNP = 0;
+							bool bKilledByRival = false;
 
-							/**
-							* NOTE:
-							* The rival system is poorly named, evidently it's meant to work more
-							* like a vengeance system than anything.
-							*
-							* In a nutshell:
-							* - user a kills user b,
-							* - user b sets user a as their rival.
-							* - when user b kills user a, they receive +150NP and the rivalry ends.
-							* - if user a at this point does not have a rival already, user b becomes their rival and it starts again.
-							* - if a rivalry expires (after 3min) before the user has killed their rival, the rivalry ends.
-							**/
-
-							// If the killer has us set as their rival, reward them & remove the rivalry.
-							bKilledByRival = (!pUser->hasRivalryExpired() && pUser->GetRivalID() == GetID());
-							if (bKilledByRival)
+							if (!GetMap()->isWarZone() && !GetMap()->isNationPVPZone())
 							{
-								// If we are our killer's rival, use the rival notice instead.
-								noticeType = DeathNoticeRival;
+								// Show death notices in PVP zones
+								noticeType = DeathNoticeCoordinates;
 
-								// Apply bonus NP for rival kills
-								bonusNP += RIVALRY_NP_BONUS;
+								// If the killer has us set as their rival, reward them & remove the rivalry.
+								bKilledByRival = (!pUser->hasRivalryExpired() && pUser->GetRivalID() == GetID());
+								if (bKilledByRival)
+								{
+									// If we are our killer's rival, use the rival notice instead.
+									noticeType = DeathNoticeRival;
 
-								// This player is no longer our rival
-								pUser->RemoveRival();
+									// Apply bonus NP for rival kills
+									bonusNP += RIVALRY_NP_BONUS;
+
+									// This player is no longer our rival
+									pUser->RemoveRival();
+								}
+
+								// The anger gauge is increased on each death.
+								// When your anger gauge is full (5 deaths), you can use the "Anger Explosion" skill.
+								if (!hasFullAngerGauge())
+									UpdateAngerGauge(++m_byAngerGauge);
+
 							}
-
-							// The anger gauge is increased on each death.
-							// When your anger gauge is full (5 deaths), you can use the "Anger Explosion" skill.
-							if (!hasFullAngerGauge())
-								UpdateAngerGauge(++m_byAngerGauge);
-
 
 							// Loyalty should be awarded on kill.
 							// Additionally, we should receive a "Meat dumpling"
 							if (!pUser->isInParty())
 							{
 								pUser->LoyaltyChange(GetID(), bonusNP);
-								pUser->GiveItem(ITEM_MEAT_DUMPLING);
+								if (!GetMap()->isWarZone() && !GetMap()->isNationPVPZone())
+									pUser->GiveItem(ITEM_MEAT_DUMPLING);
 							}
 							// In parties, the loyalty should be divided up across the party.
 							// Each party member in range should also receive a "Meat Dumpling".
@@ -4377,15 +4368,15 @@ void CUser::OnDeath(Unit *pKiller)
 									for (uint8 i = 0; i < MAX_PARTY_USERS; i++)
 									{
 										CUser * pPartyUser = g_pMain->GetUserPtr(pParty->uid[i]);
-										if (pPartyUser)
+										if (pPartyUser && !GetMap()->isWarZone() && !GetMap()->isNationPVPZone())
 											pPartyUser->GiveItem(ITEM_MEAT_DUMPLING);
 									}
 								}
 							}
 						}
 
-
-						pUser->GoldChange(GetID(), 0);
+						if (!pUser->GetMap()->isWarZone())
+							pUser->GoldChange(GetID(), 0);
 
 						if (GetZoneID() != GetNation() && GetZoneID() <= ELMORAD)
 						{

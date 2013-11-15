@@ -586,6 +586,7 @@ COMMAND_HANDLER(CGameServerDlg::HandleSnowWarOpenCommand)
 COMMAND_HANDLER(CUser::HandleWarCloseCommand) { return g_pMain->HandleWarCloseCommand(vargs, args, description); }
 COMMAND_HANDLER(CGameServerDlg::HandleWarCloseCommand)
 {
+	ResetBattleZone();
 	m_byBanishFlag = true;
 	return true;
 }

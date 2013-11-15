@@ -99,6 +99,7 @@ DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions,
 						  MAKE_LUA_FUNCTION(GetUserDailyOp)
 						  MAKE_LUA_FUNCTION(GetEventTrigger)
 						  MAKE_LUA_FUNCTION(GetPremium)
+						  MAKE_LUA_FUNCTION(CheckWarVictory)
 						  );
 #endif
 

@@ -561,18 +561,16 @@ void CAISocket::RecvBattleEvent(Packet & pkt)
 		pUser = g_pMain->GetUserPtr(strMaxUserName, TYPE_CHARACTER);
 		if (pUser != nullptr)
 		{
-			g_pMain->m_bVictory = pUser->GetNation();
-			g_pMain->m_byOldVictory = pUser->GetNation();
-		}
-		else 
-		{
-			g_pMain->m_bVictory = bResult;
-			g_pMain->m_byOldVictory = bResult;
-		}
+			if (pUser->GetNation() == KARUS)
+				g_pMain->m_sKillElmoNpc++;
+			else
+				g_pMain->m_sKillKarusNpc++;
 
-		g_pMain->m_byKarusOpenFlag = false;
-		g_pMain->m_byElmoradOpenFlag = false;
-		g_pMain->m_byBanishFlag = true;
+			if (g_pMain->m_sKillKarusNpc == 3)
+				g_pMain->BattleZoneResult(pUser->GetNation());
+			else if (g_pMain->m_sKillElmoNpc == 3)
+				g_pMain->BattleZoneResult(pUser->GetNation());
+		}
 	}
 	else if (bType == BATTLE_EVENT_MAX_USER)
 	{

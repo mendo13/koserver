@@ -15,8 +15,21 @@ void CGameEvent::RunEvent(CUser *pUser)
 	case ZONE_CHANGE:
 		if (pUser->m_bWarp)
 			break;
-		pUser->ZoneChange( m_iExec[0], (float)m_iExec[1], (float)m_iExec[2] );
-		break;
+
+		{
+			bool canZoneChange = true;
+
+			if (g_pMain->m_byBattleOpen == NATION_BATTLE)
+			{
+				if (g_pMain->m_bVictory != 0 && pUser->GetNation() != g_pMain->m_bVictory)
+					canZoneChange = false;
+			}
+
+			if (canZoneChange)
+				pUser->ZoneChange( m_iExec[0], (float)m_iExec[1], (float)m_iExec[2] );
+
+			break;
+		}
 	case ZONE_TRAP_DEAD:
 		//	TRACE("&&& User - zone trap dead ,, name=%s\n", pUser->GetName().c_str());
 		//	pUser->Dead();

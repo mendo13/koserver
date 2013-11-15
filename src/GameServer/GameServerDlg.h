@@ -100,6 +100,7 @@ public:
 	void BattleZoneVictoryCheck();
 	void BattleZoneOpenTimer();
 	void BattleZoneOpen(int nType, uint8 bZone = 0);	// 0:open 1:close
+	void BattleZoneResult(uint8 nation);
 	void AliveUserCheck();
 	void Send_PartyMember(int party, Packet *result);
 	void Send_KnightsMember(int index, Packet *pkt);
@@ -369,12 +370,14 @@ public:
 	uint16 m_sWeatherAmount;
 	int m_nCastleCapture;
 
-	uint8    m_byBattleOpen, m_byOldBattleOpen;					// 0:ÀüÀïÁßÀÌ ¾Æ´Ô, 1:ÀüÀïÁß(±¹°¡°£ÀüÀï), 2:´«½Î¿òÀüÀï
+	uint8   m_byBattleOpen, m_byOldBattleOpen;					// 0:ÀüÀïÁßÀÌ ¾Æ´Ô, 1:ÀüÀïÁß(±¹°¡°£ÀüÀï), 2:´«½Î¿òÀüÀï
 	uint8	m_byBattleZone;
 	uint8	m_bVictory, m_byOldVictory;
 	uint8	m_bKarusFlag, m_bElmoradFlag;
 	int32	m_byBattleOpenedTime;
-	int32	m_xBattleTime;
+	int32	m_byBattleTime;
+	int32	m_sBattleTimeDelay;
+	uint8	m_sKillKarusNpc, m_sKillElmoNpc;
 	bool    m_byKarusOpenFlag, m_byElmoradOpenFlag, m_byBanishFlag, m_byBattleSave;
 	short   m_sDiscount;	// ´É·ÂÄ¡¿Í Æ÷ÀÎÆ® ÃÊ±âÈ­ ÇÒÀÎ (0:ÇÒÀÎ¾øÀ½, 1:ÇÒÀÎ(50%) )
 	short	m_sKarusDead, m_sElmoradDead, m_sBanishDelay, m_sKarusCount, m_sElmoradCount;

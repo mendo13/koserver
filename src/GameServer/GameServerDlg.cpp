@@ -50,7 +50,8 @@ CGameServerDlg::CGameServerDlg()
 	m_bKarusFlag = 0;
 	m_bElmoradFlag = 0;
 
-	m_byKarusOpenFlag = m_byElmoradOpenFlag = false;
+	m_byKarusOpenFlag = false;
+	m_byElmoradOpenFlag = false;
 	m_byBanishFlag = false;
 	m_sBanishDelay = 0;
 
@@ -268,7 +269,7 @@ void CGameServerDlg::GetTimeFromIni()
 	m_UserRankingArray[ELMORAD_ARRAY].DeleteAllData();
 
 	m_byBattleOpenedTime = 0;
-	m_xBattleTime = 7200; // 2 Hours
+	m_byBattleTime = (2 * 60) * 60; // 2 Hours
 
 	m_xBifrostRemainingTime = (240 * MINUTE);  // Bifrost remaining time ( 4 hour ).
 	m_xBifrostMonumentAttackTime = (30 * MINUTE); // Players is attack a monument last 30 minute.
@@ -1621,59 +1622,73 @@ void CGameServerDlg::BattleZoneOpenTimer()
 	CUser *pKarusUser = nullptr, *pElmoUser = nullptr;
 
 	if (m_byBattleOpen == NATION_BATTLE)	
+	{
 		BattleZoneCurrentUsers();
 
-	if (m_byBanishFlag)
-	{
-		if( m_sBanishDelay == 0 )	{
-			m_byBattleOpen = NO_BATTLE;
-			m_byKarusOpenFlag = m_byElmoradOpenFlag = false;
-		}
+		int32 WarElapsedTime = int32(UNIXTIME) - m_byBattleOpenedTime;
 
-		m_sBanishDelay++;
-
-		if( m_sBanishDelay == 3 )	{
-			if( m_byOldBattleOpen == SNOW_BATTLE )	{		// ���ο� ����
-				if( m_sKarusDead > m_sElmoradDead )	{
-					m_bVictory = ELMORAD;
-					loser_nation = KARUS;
-				}
-				else if( m_sKarusDead < m_sElmoradDead )	{
-					m_bVictory = KARUS;
-					loser_nation = ELMORAD;
-				}
-				else if( m_sKarusDead == m_sElmoradDead )	{
-					m_bVictory = 0;
-				}
+		if (m_bVictory == 0 && WarElapsedTime >= (m_byBattleTime / 2)) // Savaşın Yarısı Geçmiş ve Kazanan Yok Kill Sayısına Bakalım...
+		{
+			if (m_sKarusDead > m_sElmoradDead)	{
+				BattleZoneResult(ELMORAD);
+			} else if (m_sElmoradDead > m_sKarusDead)	{
+				BattleZoneResult(KARUS);
 			}
+		}
+		else if (g_pMain->m_bVictory != 0 && WarElapsedTime <  m_byBattleTime) // Savaş Kazanılmış...
+		{
+			m_sBattleTimeDelay++;
 
-			if( m_bVictory == 0 )
-				BattleZoneOpen( BATTLEZONE_CLOSE );
-			else if (m_bVictory)	
+			if ((m_sBattleTimeDelay * 6) >= 300)
 			{
-				if (m_bVictory == KARUS)
-					loser_nation = ELMORAD;
-				else if (m_bVictory == ELMORAD)
-					loser_nation = KARUS;
-
-				Announcement( DECLARE_WINNER, m_bVictory );
-				Announcement( DECLARE_LOSER, loser_nation );
+				m_sBattleTimeDelay = 0;
+				Announcement(UNDER_ATTACK_NOTIFY);
 			}
 		}
-		else if( m_sBanishDelay == 8 )	{
-			Announcement(DECLARE_BAN);
-		}
-		else if( m_sBanishDelay == 10 )	{
-			BanishLosers();
-		}
-		else if( m_sBanishDelay == 20 )
+		else if (WarElapsedTime >=  m_byBattleTime) // Savaş Zamanı Geçmiş Kapatıyoruz...
 		{
 			Packet result(AG_BATTLE_EVENT, uint8(BATTLE_EVENT_OPEN));
 			result << uint8(BATTLEZONE_CLOSE);
 			Send_AIServer(&result);
 			ResetBattleZone();
+			m_byBanishFlag = true;
+		}
+		else if (g_pMain->m_bVictory == 0) // Savaş Devam Ediyor
+		{
+			m_sBattleTimeDelay++;
+
+			if ((m_sBattleTimeDelay * 6) >= 300)
+			{
+				m_sBattleTimeDelay = 0;
+				Announcement(DECLARE_BATTLE_ZONE_STATUS);
+			}
 		}
 	}
+
+	if (m_byBanishFlag)
+	{
+		m_sBanishDelay++;
+
+		if (m_sBanishDelay == 8) {
+			Announcement(DECLARE_BAN);
+		}
+		else if (m_sBanishDelay == 10)	{
+			m_byBanishFlag = false;
+			m_sBanishDelay = 0;
+			BanishLosers();
+		}
+	}
+}
+
+void CGameServerDlg::BattleZoneResult(uint8 nation)
+{
+	m_bVictory = nation;
+	m_byKarusOpenFlag = nation == KARUS ? true : false;
+	m_byElmoradOpenFlag = nation == ELMORAD ? true : false;
+	m_byBanishFlag = true;
+	m_sBanishDelay = 0;
+	Announcement( DECLARE_WINNER, g_pMain->m_bVictory );
+	Announcement( DECLARE_LOSER, nation == KARUS ? ELMORAD : KARUS);
 }
 
 void CGameServerDlg::BattleZoneOpen(int nType, uint8 bZone /*= 0*/)
@@ -1683,14 +1698,20 @@ void CGameServerDlg::BattleZoneOpen(int nType, uint8 bZone /*= 0*/)
 		m_byOldBattleOpen = NATION_BATTLE;
 		m_byBattleZone = bZone;
 		m_byBattleOpenedTime = int32(UNIXTIME);
+		//TODO : Geçici Test Amaçlı
+		m_sBattleTimeDelay = 0;
+		m_sKillKarusNpc = 0;
+		m_sKillElmoNpc = 0;
 	}
 	else if( nType == SNOW_BATTLEZONE_OPEN ) {		// Open snow battlezone.
 		m_byBattleOpen = SNOW_BATTLE;	
 		m_byOldBattleOpen = SNOW_BATTLE;
+		m_byBattleOpenedTime = int32(UNIXTIME);
 	}
 	else if( nType == BATTLEZONE_CLOSE )	{		// battle close
 		m_byBattleOpen = NO_BATTLE;
 		Announcement(BATTLEZONE_CLOSE);
+		m_byBattleOpenedTime = 0;
 	}
 	else return;
 
@@ -1758,14 +1779,24 @@ void CGameServerDlg::BanishLosers()
 			continue;
 
 		// Reset captains
-		if (pUser->GetFame() == COMMAND_CAPTAIN)
-			pUser->ChangeFame(CHIEF);
+		if (m_byBattleOpen == NO_BATTLE)
+			if (pUser->GetFame() == COMMAND_CAPTAIN)
+				pUser->ChangeFame(CHIEF);
 
-		// Kick out invaders
-		if ((pUser->GetZoneID() <= ELMORAD && pUser->GetZoneID() != pUser->GetNation())
-			// and those still in the war zone.
+
+		if (m_byBattleOpen == NATION_BATTLE)
+		{
+			// Kick out losers
+			if (pUser->GetMap()->isWarZone() && m_bVictory != pUser->GetNation())
+				pUser->KickOutZoneUser(true);
+		}
+		else if (m_byBattleOpen == NO_BATTLE)
+		{
+			// Kick out invaders
+			if ((pUser->GetZoneID() <= ELMORAD && pUser->GetZoneID() != pUser->GetNation())
 				|| pUser->GetMap()->isWarZone())
 				pUser->KickOutZoneUser(true);
+		}
 	}
 	g_pMain->m_socketMgr.ReleaseLock();
 }
@@ -1782,11 +1813,14 @@ void CGameServerDlg::ResetBattleZone()
 	m_byBattleOpen = NO_BATTLE;
 	m_byOldBattleOpen = NO_BATTLE;
 	m_byBattleOpenedTime = 0;
-	m_sKarusDead = m_sElmoradDead = 0;
+	m_sKarusDead = 0;
+	m_sElmoradDead = 0;
 	m_byBattleSave = false;
 	m_sKarusCount = 0;
 	m_sElmoradCount = 0;
-	// REMEMBER TO MAKE ALL FLAGS AND LEVERS NEUTRAL AGAIN!!!!!!!!!!
+	m_sKillKarusNpc = 0;
+	m_sKillElmoNpc = 0;
+	m_sBattleTimeDelay = 0;
 }
 
 void CGameServerDlg::TempleEventTimer()
@@ -2118,6 +2152,17 @@ void CGameServerDlg::Announcement(uint8 type, int nation, int chat_type)
 
 	case DECLARE_BAN:
 		GetServerResource(IDS_BANISH_USER, &chatstr);
+		break;
+	case DECLARE_BATTLE_ZONE_STATUS:
+		GetServerResource(IDS_BATTLEZONE_STATUS, &chatstr,  m_sKarusDead, m_sElmoradDead);
+		break;
+	case UNDER_ATTACK_NOTIFY:
+		if (m_bVictory == KARUS)
+			GetServerResource(IDS_UNDER_ATTACK_ELMORAD, &chatstr, m_sKarusDead, m_sElmoradDead);
+		else if (m_bVictory == ELMORAD)
+			GetServerResource(IDS_UNDER_ATTACK_KARUS, &chatstr, m_sElmoradDead, m_sKarusDead);
+		else 
+			return;
 		break;
 	case BATTLEZONE_CLOSE:
 		GetServerResource(IDS_BATTLE_CLOSE, &chatstr);

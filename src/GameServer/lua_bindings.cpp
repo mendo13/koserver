@@ -134,6 +134,7 @@ DEFINE_LUA_CLASS
 	MAKE_LUA_METHOD(GetUserDailyOp)
 	MAKE_LUA_METHOD(GetEventTrigger)
 	MAKE_LUA_METHOD(GetPremium)
+	MAKE_LUA_METHOD(GetWarVictory)
 	);
 #undef LUA_CLASS
 
@@ -324,6 +325,7 @@ _LUA_WRAPPER_USER_FUNCTION(CountMonsterQuestSub, CountMonsterQuestSub);
 _LUA_WRAPPER_USER_FUNCTION(CountMonsterQuestMain, CountMonsterQuestMain);
 _LUA_WRAPPER_USER_FUNCTION(GetEventTrigger, GetEventTrigger);
 _LUA_WRAPPER_USER_FUNCTION(GetPremium, GetPremium);
+_LUA_WRAPPER_USER_FUNCTION(CheckWarVictory, GetWarVictory);
 
 LUA_FUNCTION(SelectMsg)
 {

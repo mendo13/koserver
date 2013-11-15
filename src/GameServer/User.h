@@ -440,6 +440,7 @@ public:
 	void SendClanPointChange(int32 nChangeAmount = 0);
 	uint8 GetBeefRoastVictory();
 	uint8 GetRankReward(bool isMonthly);
+	uint8 GetWarVictory();
 
 	INLINE uint8 GetStat(StatType type)
 	{
@@ -1067,6 +1068,7 @@ public:
 	DECLARE_LUA_GETTER(GetBeefRoastVictory)
 	DECLARE_LUA_GETTER(GetPartyMemberAmount)
 	DECLARE_LUA_GETTER(GetPremium)
+	DECLARE_LUA_GETTER(GetWarVictory)
 
 	// Shortcuts for lazy people
 	DECLARE_LUA_FUNCTION(hasCoins)  {
