@@ -455,13 +455,9 @@ void CUser::ZoneChange(uint16 sNewZone, float x, float z)
 	}
 
 	if (sNewZone != ZONE_SNOW_BATTLE && m_bZone == ZONE_SNOW_BATTLE)
-	{
 		SetMaxHp(1);
-	}
 	else if (sNewZone != ZONE_CHAOS_DUNGEON && m_bZone == ZONE_CHAOS_DUNGEON)
-	{
 		SetMaxHp(1);
-	}
 
 	m_bZone = (uint8) sNewZone; // this is 2 bytes to support the warp data loaded from SMDs. It should not go above a byte, however.
 	SetPosition(x, 0.0f, z);

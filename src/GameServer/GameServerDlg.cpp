@@ -1702,8 +1702,8 @@ void CGameServerDlg::BattleZoneOpenTimer()
 void CGameServerDlg::BattleZoneResult(uint8 nation)
 {
 	m_bVictory = nation;
-	m_byKarusOpenFlag = nation == KARUS ? true : false;
-	m_byElmoradOpenFlag = nation == ELMORAD ? true : false;
+	m_byKarusOpenFlag = nation == ELMORAD ? true : false;
+	m_byElmoradOpenFlag = nation == KARUS ? true : false;
 	m_byBanishFlag = true;
 	m_sBanishDelay = 0;
 	Announcement( DECLARE_WINNER, g_pMain->m_bVictory );
