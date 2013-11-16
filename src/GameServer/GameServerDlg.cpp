@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "KingSystem.h"
 
 #include "../shared/ClientSocketMgr.h"
@@ -63,8 +63,6 @@ CGameServerDlg::CGameServerDlg()
 	m_byBattleSave = false;
 	m_sKarusCount = 0;
 	m_sElmoradCount = 0;
-
-	m_nBattleZoneOpenWeek=m_nBattleZoneOpenHourStart=m_nBattleZoneOpenHourEnd = 0;
 
 	m_byBattleZone = 0;
 	m_byBattleOpen = NO_BATTLE;
@@ -207,9 +205,18 @@ void CGameServerDlg::GetTimeFromIni()
 
 	m_byWeather = ini.GetInt("TIMER", "WEATHER", 1);
 
-	m_nBattleZoneOpenWeek  = ini.GetInt("BATTLE", "WEEK", 5);
-	m_nBattleZoneOpenHourStart  = ini.GetInt("BATTLE", "START_TIME", 20);
-	m_nBattleZoneOpenHourEnd  = ini.GetInt("BATTLE", "END_TIME", 0);
+	for (int i = 0; i < WAR_DAY_COUNT; i++)
+		m_nBattleZoneOpenWeek[i] = ini.GetInt("BATTLE",string_format("WEEK%d",i).c_str(), i+1);
+
+	for (int i = 0; i < WAR_TIME_COUNT; i++)
+		m_nBattleZoneOpenHourStart[i] = ini.GetInt("BATTLE",string_format("START_TIME%d",i).c_str(), (i+1) * 7);
+
+	for (int i = 0; i < WAR_ZONE_COUNT; i++)
+	{
+		m_nBattlezoneOpenWarZone[i] = ini.GetInt("BATTLE",string_format("WAR_ZONE%d",i).c_str(), ZONE_BATTLE + i);
+		if (m_nBattlezoneOpenWarZone[i] > ZONE_BATTLE_BASE)
+			m_nBattlezoneOpenWarZone[i] = m_nBattlezoneOpenWarZone[i] - ZONE_BATTLE_BASE;
+	}
 
 	m_nCastleCapture = ini.GetInt("CASTLE", "NATION", 1);
 	m_nServerNo = ini.GetInt("ZONE_INFO", "MY_INFO", 1);
@@ -1618,10 +1625,16 @@ void CGameServerDlg::BattleZoneOpenTimer()
 {
 	int nWeek = g_localTime.tm_wday;
 	int nTime = g_localTime.tm_hour;
-	int loser_nation = 0, snow_battle = 0;
-	CUser *pKarusUser = nullptr, *pElmoUser = nullptr;
 
-	if (m_byBattleOpen == NATION_BATTLE)	
+	if (m_byBattleOpen == NO_BATTLE)
+	{
+		for (int i = 0; i < WAR_DAY_COUNT; i++)
+			if (m_nBattleZoneOpenWeek[i] == nWeek)
+				for (int x = 0; x < WAR_TIME_COUNT; x++)
+					if (m_nBattleZoneOpenHourStart[x] == nTime)
+						BattleZoneOpen(BATTLEZONE_OPEN,m_nBattlezoneOpenWarZone[x]);
+	}
+	else if (m_byBattleOpen == NATION_BATTLE)	
 	{
 		BattleZoneCurrentUsers();
 

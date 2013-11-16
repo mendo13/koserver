@@ -115,6 +115,10 @@ enum InOutType
 #define UNDER_ATTACK_NOTIFY				0x10
 #define DECLARE_BATTLE_ZONE_STATUS		0x11
 
+#define WAR_TIME_COUNT					3
+#define WAR_ZONE_COUNT					WAR_TIME_COUNT
+#define WAR_DAY_COUNT					7
+
 // Battle define
 #define NO_BATTLE				0
 #define NATION_BATTLE			1
