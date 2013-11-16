@@ -352,6 +352,10 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 		{
 			if ((pTargetMap->GetID() - ZONE_BATTLE_BASE) != g_pMain->m_byBattleZone)
 				return false;
+			else if (GetNation() == KARUS && g_pMain->m_byKarusOpenFlag)
+				return false;
+			else if (GetNation() == ELMORAD && g_pMain->m_byElmoradOpenFlag)
+				return false;
 		}
 	}
 
