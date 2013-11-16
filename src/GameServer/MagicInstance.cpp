@@ -666,7 +666,7 @@ void MagicInstance::BuildAndSendSkillPacket(Unit * pUnit, bool bSendToRegion, in
 				{
 					if (pType->bBuffType == BUFF_TYPE_SPEED2 || pType->bBuffType == BUFF_TYPE_STUN)
 					{
-						if ((pSkillTarget->m_sColdR + pSkillTarget->m_sLightningR) <= myrand(0,myrand(200,300)) && bSendSpeedSkill)
+						if ((pSkillTarget->m_sColdR + pSkillTarget->m_sLightningR) <= myrand(0,myrand(300,400)) && bSendSpeedSkill)
 						{
 							sData[5] = pSkillTarget->m_bSpeedAmount;
 							bSendSpeedSkill = false;
@@ -1263,7 +1263,7 @@ bool MagicInstance::ExecuteType3()
 		{
 			if (pSkill->bSuccessRate != 100 && pSkill->bSuccessRate <= myrand(0,myrand(90,100)))
 			{
-				int nColdAndLightningPossibility = myrand(0,myrand(200,300));
+				int nColdAndLightningPossibility = myrand(0,myrand(300,400));
 
 				if (pType->bAttribute == 2 && pTarget->m_sColdR <= nColdAndLightningPossibility)
 				{
