@@ -1654,6 +1654,9 @@ bool MagicInstance::ExecuteType4()
 		{
 			TO_USER(pTarget)->SetUserAbility();
 			TO_USER(pTarget)->Send2AI_UserUpdateInfo();
+
+			if (pType->bBuffType == BUFF_TYPE_HP_MP)
+				pTarget->HpChange(pTarget->GetMaxHealth());
 		}
 
 fail_return:
@@ -2060,9 +2063,9 @@ bool MagicInstance::ExecuteType8()
 			else if (pTUser->GetMap()->canAttackOtherNation())
 				switch (pTUser->GetZoneID())
 			{
-		        case ZONE_RONARK_LAND:
+				case ZONE_RONARK_LAND:
 					pTUser->Warp(uint16((pHomeInfo->FreeZoneX + myrand(0, pHomeInfo->FreeZoneLX)) * 10), uint16((pHomeInfo->FreeZoneZ + myrand(0, pHomeInfo->FreeZoneLZ)) * 10));
-			        break;
+					break;
 				case ZONE_RONARK_LAND_BASE:
 					if (pTUser->GetNation() == ELMORAD)
 					{
