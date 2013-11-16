@@ -109,26 +109,28 @@ bool C3DMap::CheckEvent(float x, float z, CUser* pUser)
 	int event_index = m_smdFile->GetEventID((int)(x / m_smdFile->GetUnitDistance()), (int)(z / m_smdFile->GetUnitDistance()));
 	if (event_index < 2)
 	{
-		if (g_pMain->m_byBattleOpen == NATION_BATTLE)
+		if (g_pMain->m_byBattleOpen == NATION_BATTLE && pUser->GetMap()->isWarZone())
 		{
-			if (pUser->GetMap()->isWarZone())
+			pEvent = m_EventArray.GetData(1010 + (pUser->GetNation() == ELMORAD ? 1 : 2));
+
+			if (pEvent)
 			{
-				pEvent = m_EventArray.GetData(1010 + (pUser->GetNation() == ELMORAD ? 1 : 2));
-
-				if (pEvent == nullptr)
-					return false;
-
 				if (x >= pEvent->m_iCond[0] && x <= pEvent->m_iCond[1] && z >= pEvent->m_iCond[2] && z <= pEvent->m_iCond[3])
 					pUser->ZoneChange(pEvent->m_iExec[0],(float)pEvent->m_iExec[1],(float)pEvent->m_iExec[2]);
 				else
 				{
 					pEvent = m_EventArray.GetData(1010 + pUser->GetNation());
 
-					if (x >= pEvent->m_iCond[0] && x <= pEvent->m_iCond[1] && z >= pEvent->m_iCond[2] && z <= pEvent->m_iCond[3])
-						if (g_pMain->m_bVictory == pUser->GetNation())
-							pUser->ZoneChange(pEvent->m_iExec[0],(float)pEvent->m_iExec[1],(float)pEvent->m_iExec[2]);
+					if (pEvent)
+					{
+						if (x >= pEvent->m_iCond[0] && x <= pEvent->m_iCond[1] && z >= pEvent->m_iCond[2] && z <= pEvent->m_iCond[3])
+							if (g_pMain->m_bVictory == pUser->GetNation())
+								pUser->ZoneChange(pEvent->m_iExec[0],(float)pEvent->m_iExec[1],(float)pEvent->m_iExec[2]);
+					}
 				}
 			}
+
+			return false;
 		}
 		else
 			return false;
