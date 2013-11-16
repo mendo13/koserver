@@ -99,7 +99,8 @@ public:
 	void BanishLosers();
 	void BattleZoneVictoryCheck();
 	void BattleZoneOpenTimer();
-	void BattleZoneOpen(int nType, uint8 bZone = 0);	// 0:open 1:close
+	void BattleZoneOpen(int nType, uint8 bZone = 0);
+	void BattleZoneClose();
 	void BattleZoneResult(uint8 nation);
 	void AliveUserCheck();
 	void Send_PartyMember(int party, Packet *result);

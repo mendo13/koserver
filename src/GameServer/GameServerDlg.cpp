@@ -1627,15 +1627,28 @@ void CGameServerDlg::BattleZoneOpenTimer()
 
 		int32 WarElapsedTime = int32(UNIXTIME) - m_byBattleOpenedTime;
 
-		if (m_bVictory == 0 && WarElapsedTime >= (m_byBattleTime / 2)) // Savaşın Yarısı Geçmiş ve Kazanan Yok Kill Sayısına Bakalım...
+		if (m_bVictory == 0 && WarElapsedTime >= (m_byBattleTime / 2) && WarElapsedTime < m_byBattleTime) // War half time.
 		{
-			if (m_sKarusDead > m_sElmoradDead)	{
-				BattleZoneResult(ELMORAD);
-			} else if (m_sElmoradDead > m_sKarusDead)	{
-				BattleZoneResult(KARUS);
+			uint8 winner_nation = 0;
+
+			if (m_sKillElmoNpc == m_sKillKarusNpc)
+			{
+				if (m_sKarusDead > m_sElmoradDead)
+					winner_nation = ELMORAD;
+				else if (m_sElmoradDead > m_sKarusDead)	
+					winner_nation = KARUS;
 			}
+			else if (m_sKillKarusNpc > m_sKillElmoNpc)
+				winner_nation = KARUS;
+			else if (m_sKillElmoNpc > m_sKillKarusNpc)
+				winner_nation = ELMORAD;
+
+			if (winner_nation == 0) // Draw
+				BattleZoneClose();
+			else
+				BattleZoneResult(winner_nation);
 		}
-		else if (g_pMain->m_bVictory != 0 && WarElapsedTime <  m_byBattleTime) // Savaş Kazanılmış...
+		else if (g_pMain->m_bVictory != 0 && WarElapsedTime <  m_byBattleTime) // Won the war.
 		{
 			m_sBattleTimeDelay++;
 
@@ -1645,15 +1658,9 @@ void CGameServerDlg::BattleZoneOpenTimer()
 				Announcement(UNDER_ATTACK_NOTIFY);
 			}
 		}
-		else if (WarElapsedTime >=  m_byBattleTime) // Savaş Zamanı Geçmiş Kapatıyoruz...
-		{
-			Packet result(AG_BATTLE_EVENT, uint8(BATTLE_EVENT_OPEN));
-			result << uint8(BATTLEZONE_CLOSE);
-			Send_AIServer(&result);
-			ResetBattleZone();
-			m_byBanishFlag = true;
-		}
-		else if (g_pMain->m_bVictory == 0) // Savaş Devam Ediyor
+		else if (WarElapsedTime >=  m_byBattleTime) // War is over.
+			BattleZoneClose();
+		else if (g_pMain->m_bVictory == 0) // War continues.
 		{
 			m_sBattleTimeDelay++;
 
@@ -1669,10 +1676,9 @@ void CGameServerDlg::BattleZoneOpenTimer()
 	{
 		m_sBanishDelay++;
 
-		if (m_sBanishDelay == 8) {
+		if (m_sBanishDelay == 8)
 			Announcement(DECLARE_BAN);
-		}
-		else if (m_sBanishDelay == 10)	{
+		else if (m_sBanishDelay == 12)	{
 			m_byBanishFlag = false;
 			m_sBanishDelay = 0;
 			BanishLosers();
@@ -1698,34 +1704,42 @@ void CGameServerDlg::BattleZoneOpen(int nType, uint8 bZone /*= 0*/)
 		m_byOldBattleOpen = NATION_BATTLE;
 		m_byBattleZone = bZone;
 		m_byBattleOpenedTime = int32(UNIXTIME);
-		//TODO : Geçici Test Amaçlı
-		m_sBattleTimeDelay = 0;
-		m_sKillKarusNpc = 0;
-		m_sKillElmoNpc = 0;
+
+		KickOutZoneUsers(ZONE_ARDREAM);
+		KickOutZoneUsers(ZONE_RONARK_LAND_BASE);
+		KickOutZoneUsers(ZONE_RONARK_LAND);
+		KickOutZoneUsers(ZONE_BIFROST);
+		KickOutZoneUsers(ZONE_KROWAZ_DOMINION);
 	}
 	else if( nType == SNOW_BATTLEZONE_OPEN ) {		// Open snow battlezone.
 		m_byBattleOpen = SNOW_BATTLE;	
 		m_byOldBattleOpen = SNOW_BATTLE;
 		m_byBattleOpenedTime = int32(UNIXTIME);
+
+		KickOutZoneUsers(ZONE_ARDREAM);
+		KickOutZoneUsers(ZONE_RONARK_LAND_BASE);
+		KickOutZoneUsers(ZONE_RONARK_LAND);
+		KickOutZoneUsers(ZONE_BIFROST);
+		KickOutZoneUsers(ZONE_KROWAZ_DOMINION);
 	}
 	else if( nType == BATTLEZONE_CLOSE )	{		// battle close
-		m_byBattleOpen = NO_BATTLE;
 		Announcement(BATTLEZONE_CLOSE);
-		m_byBattleOpenedTime = 0;
 	}
 	else return;
 
 	Announcement(nType);	// Send an announcement out that the battlezone is open/closed.
-
-	KickOutZoneUsers(ZONE_ARDREAM);
-	KickOutZoneUsers(ZONE_RONARK_LAND_BASE);
-	KickOutZoneUsers(ZONE_RONARK_LAND);
-	KickOutZoneUsers(ZONE_BIFROST);
-	KickOutZoneUsers(ZONE_KROWAZ_DOMINION);
-
 	Packet result(AG_BATTLE_EVENT, uint8(BATTLE_EVENT_OPEN));
 	result << uint8(nType);
 	Send_AIServer(&result);
+}
+
+void CGameServerDlg::BattleZoneClose() {
+	BattleZoneOpen(BATTLEZONE_CLOSE);
+	Packet result(AG_BATTLE_EVENT, uint8(BATTLE_EVENT_OPEN));
+	result << uint8(BATTLEZONE_CLOSE);
+	Send_AIServer(&result);
+	ResetBattleZone();
+	m_byBanishFlag = true;
 }
 
 void CGameServerDlg::BattleZoneVictoryCheck()
@@ -1782,7 +1796,6 @@ void CGameServerDlg::BanishLosers()
 		if (m_byBattleOpen == NO_BATTLE)
 			if (pUser->GetFame() == COMMAND_CAPTAIN)
 				pUser->ChangeFame(CHIEF);
-
 
 		if (m_byBattleOpen == NATION_BATTLE)
 		{
@@ -2378,9 +2391,7 @@ void CGameServerDlg::Send_CommandChat(Packet *pkt, int nation, CUser* pExceptUse
 	foreach (itr, sessMap)
 	{
 		CUser * pUser = TO_USER(itr->second);
-		if (pUser->isInGame() 
-			&& pUser != pExceptUser 
-			&& (nation == 0 || nation == pUser->GetNation()))
+		if (pUser->isInGame() && (nation == 0 || nation == pUser->GetNation()))
 			pUser->Send(pkt);
 	}
 	g_pMain->m_socketMgr.ReleaseLock();
