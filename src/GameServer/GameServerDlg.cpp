@@ -2155,7 +2155,7 @@ void CGameServerDlg::TempleEventKickOutUser(CUser *pUser)
 	}
 }
 
-void CGameServerDlg::Announcement(uint8 type, int nation, int chat_type)
+void CGameServerDlg::Announcement(uint8 type, int nation, int chat_type, CUser* pExceptUser)
 {
 	string chatstr; 
 
@@ -2207,10 +2207,18 @@ void CGameServerDlg::Announcement(uint8 type, int nation, int chat_type)
 		GetServerResource(IDS_ELMO_CAPTAIN, &chatstr, m_strElmoradCaptain.c_str());
 		break;
 	case KARUS_CAPTAIN_DEPRIVE_NOTIFY:
-		GetServerResource(IDS_KARUS_CAPTAIN_DEPRIVE, &chatstr, m_strKarusCaptain.c_str());
+		if (pExceptUser)
+		{
+			CKnights *pKnights = g_pMain->GetClanPtr(pExceptUser->GetClanID());
+			GetServerResource(IDS_KARUS_CAPTAIN_DEPRIVE, &chatstr, pKnights == nullptr ? "***" : pKnights->GetName(), pExceptUser->GetName().c_str());
+		}
 		break;
 	case ELMORAD_CAPTAIN_DEPRIVE_NOTIFY:
-		GetServerResource(IDS_ELMO_CAPTAIN_DEPRIVE, &chatstr, m_strElmoradCaptain.c_str());
+		if (pExceptUser)
+		{
+			CKnights *pKnights = g_pMain->GetClanPtr(pExceptUser->GetClanID());
+			GetServerResource(IDS_ELMO_CAPTAIN_DEPRIVE, &chatstr, pKnights == nullptr ? "***" : pKnights->GetName(),  pExceptUser->GetName().c_str());
+		}
 		break;
 	}
 

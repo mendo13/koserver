@@ -4253,10 +4253,11 @@ void CUser::OnDeath(Unit *pKiller)
 	if (GetFame() == COMMAND_CAPTAIN)
 	{
 		ChangeFame(CHIEF);
+
 		if (GetNation() == KARUS)
-			g_pMain->Announcement(KARUS_CAPTAIN_DEPRIVE_NOTIFY, KARUS);
+			g_pMain->Announcement(KARUS_CAPTAIN_DEPRIVE_NOTIFY, KARUS, 8, this);
 		else
-			g_pMain->Announcement(ELMORAD_CAPTAIN_DEPRIVE_NOTIFY, ELMORAD);
+			g_pMain->Announcement(ELMORAD_CAPTAIN_DEPRIVE_NOTIFY, ELMORAD, 8, this);
 	}
 
 	InitType3();
