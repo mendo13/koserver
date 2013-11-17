@@ -1282,19 +1282,23 @@ bool MagicInstance::ExecuteType3()
 			{
 				// Affects target's HP
 			case 1:
-				if (pSkillTarget->isNPC())
+				if (pSkillTarget->isPlayer())
+				{
+
+					// "Critical Point" buff gives a chance to double HP from pots or the rogue skill "Minor heal".
+					if (damage > 0 && pSkillCaster->hasBuff(BUFF_TYPE_DAMAGE_DOUBLE)
+						&& CheckPercent(500))
+						damage *= 2;
+
+					pTarget->HpChangeMagic(damage, pSkillCaster, (AttributeType) pType->bAttribute);
+
+					if (pTarget->m_bReflectArmorType != 0 && pTarget != pSkillCaster)
+						ReflectDamage(damage, pTarget);
+
+					break;
+				}
+				else
 					return false;
-
-				// "Critical Point" buff gives a chance to double HP from pots or the rogue skill "Minor heal".
-				if (damage > 0 && pSkillCaster->hasBuff(BUFF_TYPE_DAMAGE_DOUBLE)
-					&& CheckPercent(500))
-					damage *= 2;
-
-				pTarget->HpChangeMagic(damage, pSkillCaster, (AttributeType) pType->bAttribute);
-				if (pTarget->m_bReflectArmorType != 0 && pTarget != pSkillCaster)
-					ReflectDamage(damage, pTarget);
-				// Affects target's MP
-				break;
 			case 2:
 			case 3:
 				pTarget->MSpChange(damage);			
@@ -2084,7 +2088,7 @@ bool MagicInstance::ExecuteType8()
 			}
 			else
 				pTUser->Warp(uint16(pTUser->GetMap()->m_fInitX * 10), uint16(pTUser->GetMap()->m_fInitZ * 10));
-				
+
 			break;
 		case 2:		// Send target to teleport point WITHIN the zone.
 			// LATER!!!
