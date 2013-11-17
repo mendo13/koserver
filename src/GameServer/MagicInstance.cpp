@@ -2029,7 +2029,7 @@ bool MagicInstance::ExecuteType8()
 
 			if (pEvent != nullptr)
 				pTUser->Warp(uint16(pEvent->fPosX * 10), uint16(pEvent->fPosZ * 10));	
-			else if (pTUser->GetZoneID() <= ELMORAD) 
+			else if (pTUser->GetZoneID() <= ELMORAD)
 			{
 				if (pTUser->GetNation() == KARUS)
 					pTUser->Warp(uint16((pHomeInfo->KarusZoneX + myrand(0, pHomeInfo->KarusZoneLX)) * 10), uint16((pHomeInfo->KarusZoneZ + myrand(0, pHomeInfo->KarusZoneLZ)) * 10));
@@ -2059,36 +2059,30 @@ bool MagicInstance::ExecuteType8()
 					pTUser->Warp(uint16((pHomeInfo->BattleZone6X + myrand(0, pHomeInfo->BattleZone6LX)) * 10), uint16((pHomeInfo->BattleZone6Z + myrand(0, pHomeInfo->BattleZone6LZ)) * 10));
 					break;
 				}
-			} 
+			}
 			else if (pTUser->GetMap()->canAttackOtherNation())
-				switch (pTUser->GetZoneID())
 			{
+				switch (pTUser->GetZoneID())
+				{
 				case ZONE_RONARK_LAND:
 					pTUser->Warp(uint16((pHomeInfo->FreeZoneX + myrand(0, pHomeInfo->FreeZoneLX)) * 10), uint16((pHomeInfo->FreeZoneZ + myrand(0, pHomeInfo->FreeZoneLZ)) * 10));
 					break;
 				case ZONE_RONARK_LAND_BASE:
 					if (pTUser->GetNation() == ELMORAD)
-					{
 						pTUser->Warp(uint16((pStartP->sElmoradX + myrand(0, pStartP->bRangeX)) * 10), uint16((pStartP->sElmoradZ + myrand(0, pStartP->bRangeZ)) * 10));
-					}
 					else
-					{
 						pTUser->Warp(uint16((pStartP->sKarusX + myrand(0, pStartP->bRangeX)) * 10), uint16((pStartP->sKarusZ + myrand(0, pStartP->bRangeZ)) * 10));
-					}
 				case ZONE_ARDREAM:
 					if (pTUser->GetNation() == ELMORAD)
-					{
 						pTUser->Warp(uint16((pStartP->sElmoradX + myrand(0, pStartP->bRangeX)) * 10), uint16((pStartP->sElmoradZ + myrand(0, pStartP->bRangeZ)) * 10));
-					}
 					else
-					{
 						pTUser->Warp(uint16((pStartP->sKarusX + myrand(0, pStartP->bRangeX)) * 10), uint16((pStartP->sKarusZ + myrand(0, pStartP->bRangeZ)) * 10));
-					}
+				}
 			}
 			else
 				pTUser->Warp(uint16(pTUser->GetMap()->m_fInitX * 10), uint16(pTUser->GetMap()->m_fInitZ * 10));
+				
 			break;
-
 		case 2:		// Send target to teleport point WITHIN the zone.
 			// LATER!!!
 			break;

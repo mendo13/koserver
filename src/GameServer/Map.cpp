@@ -137,7 +137,7 @@ bool C3DMap::CheckEvent(float x, float z, CUser* pUser)
 	}
 
 	if (g_pMain->m_byBattleOpen == NATION_BATTLE)
-		event_index +=  g_pMain->m_byBattleZone -1;
+		event_index += g_pMain->m_byBattleZone -1;
 
 	pEvent = m_EventArray.GetData( event_index );
 	if (pEvent == nullptr)
@@ -145,7 +145,7 @@ bool C3DMap::CheckEvent(float x, float z, CUser* pUser)
 
 	if (pEvent->m_bType == 1 && (pEvent->m_iExec[0] > ZONE_BATTLE_BASE && pEvent->m_iExec[0] <= ZONE_BATTLE6) && g_pMain->m_byBattleOpen != NATION_BATTLE ) 
 		return false;
-	else if (pEvent->m_bType == 1 && pEvent->m_iExec[0]== ZONE_SNOW_BATTLE && g_pMain->m_byBattleOpen != SNOW_BATTLE )
+	else if (pEvent->m_bType == 1 && pEvent->m_iExec[0] == ZONE_SNOW_BATTLE && g_pMain->m_byBattleOpen != SNOW_BATTLE )
 		return false;
 	else if (pEvent->m_iExec[0] > ZONE_BATTLE_BASE && pEvent->m_iExec[0] <= ZONE_BATTLE6)
 	{

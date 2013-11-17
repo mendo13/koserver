@@ -1,43 +1,40 @@
 #pragma once
 
-//////////////////// ��� Define ////////////////////
-#define KARUWARRIOR		101		// ī�����
-#define KARUROGUE			102		// ī��α�
-#define KARUWIZARD			103		// ī�縶��
-#define KARUPRIEST			104		// ī����
-#define BERSERKER			105		// ��Ŀ
-#define GUARDIAN			106		// �����
-#define HUNTER				107		// ����
-#define PENETRATOR			108		// ���Ʈ������
-#define SORSERER			109		// �Ҽ���
-#define NECROMANCER			110		// ��ũ�θǼ�
-#define SHAMAN				111		// ����
-#define DARKPRIEST			112		// ��ũ�����Ʈ
+// Classes
+#define KARUWARRIOR			101	// Beginner Karus Warrior
+#define KARUROGUE			102	// Beginner Karus Rogue
+#define KARUWIZARD			103	// Beginner Karus Magician
+#define KARUPRIEST			104	// Beginner Karus Priest
+#define BERSERKER			105	// Skilled (after first job change) Karus Warrior
+#define GUARDIAN			106	// Mastered Karus Warrior
+#define HUNTER				107	// Skilled (after first job change) Karus Rogue
+#define PENETRATOR			108	// Mastered Karus Rogue
+#define SORSERER			109	// Skilled (after first job change) Karus Magician
+#define NECROMANCER			110	// Mastered Karus Magician
+#define SHAMAN				111	// Skilled (after first job change) Karus Priest
+#define DARKPRIEST			112	// Mastered Karus Priest
 
-#define ELMORWARRRIOR		201		// �������
-#define ELMOROGUE			202		// ����α�
-#define ELMOWIZARD			203		// ���𸶹�
-#define ELMOPRIEST			204		// ������
-#define BLADE				205		// ���̵�
-#define PROTECTOR			206		// �������
-#define RANGER				207		// �����
-#define ASSASSIN			208		// ��ؽ�
-#define MAGE				209		// ������
-#define ENCHANTER			210		// ��þ��
-#define CLERIC				211		// Ŭ����
-#define DRUID				212		// ����̵�
-/////////////////////////////////////////////////////
+#define ELMORWARRRIOR		201	// Beginner El Morad Warrior
+#define ELMOROGUE			202	// Beginner El Morad Rogue
+#define ELMOWIZARD			203	// Beginner El Morad Magician
+#define ELMOPRIEST			204	// Beginner El Morad Priest
+#define BLADE				205	// Skilled (after first job change) El Morad Warrior
+#define PROTECTOR			206	// Mastered El Morad Warrior
+#define RANGER				207	// Skilled (after first job change) El Morad Rogue
+#define ASSASSIN			208	// Mastered El Morad Rogue
+#define MAGE				209	// Skilled (after first job change) El Morad Magician
+#define ENCHANTER			210	// Mastered El Morad Magician
+#define CLERIC				211	// Skilled (after first job change) El Morad Priest
+#define DRUID				212	// Mastered El Morad Priest
 
-/////////////////////////////////////////////////////
-// Race Define
-/////////////////////////////////////////////////////
-#define KARUS_BIG			1
-#define KARUS_MIDDLE		2
-#define KARUS_SMALL			3
-#define KARUS_WOMAN			4
-#define BABARIAN			11
-#define ELMORAD_MAN			12
-#define ELMORAD_WOMAN		13
+// Races
+#define KARUS_BIG			1	// Arch Tuarek (Karus Warriors - only!)
+#define KARUS_MIDDLE		2	// Tuarek (Karus Rogues & Priests)
+#define KARUS_SMALL			3	// Wrinkle Tuarek (Karus Magicians)
+#define KARUS_WOMAN			4	// Puri Tuarek (Karus Priests)
+#define BABARIAN			11	// Barbarian (El Morad Warriors - only!)
+#define ELMORAD_MAN			12	// El Morad Male (El Morad - ALL CLASSES)
+#define ELMORAD_WOMAN		13	// El Morad Female (El Morad - ALL CLASSES)
 
 // Ÿ�ݺ� ����� //
 #define GREAT_SUCCESS			0X01		// �뼺��

@@ -382,7 +382,10 @@ public:
 	bool    m_byKarusOpenFlag, m_byElmoradOpenFlag, m_byBanishFlag, m_byBattleSave;
 	short   m_sDiscount;	// 능력치와 포인트 초기화 할인 (0:할인없음, 1:할인(50%) )
 	short	m_sKarusDead, m_sElmoradDead, m_sBanishDelay, m_sKarusCount, m_sElmoradCount;
-	uint8 m_nBattleZoneOpenWeek[WAR_DAY_COUNT], m_nBattleZoneOpenHourStart[WAR_TIME_COUNT], m_nBattlezoneOpenWarZone[WAR_ZONE_COUNT];
+	uint8	m_nBattleZoneOpenWeek[WAR_DAY_COUNT], 
+		m_nBattleZoneOpenHourStart[WAR_TIME_COUNT], 
+		m_nBattlezoneOpenWarZone[WAR_ZONE_COUNT];
+
 	std::string m_strKarusCaptain, m_strElmoradCaptain;
 
 	uint8   m_nBorderDefenseWarTime[BORDER_DEFENSE_WAR_EVENT_COUNT], m_nChaosTime[CHAOS_EVENT_COUNT];

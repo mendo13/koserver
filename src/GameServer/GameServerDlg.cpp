@@ -1691,7 +1691,7 @@ void CGameServerDlg::BattleZoneOpenTimer()
 
 		if (m_sBanishDelay == 8)
 			Announcement(DECLARE_BAN);
-		else if (m_sBanishDelay == 12)	{
+		else if (m_sBanishDelay == 12) {
 			m_byBanishFlag = false;
 			m_sBanishDelay = 0;
 			BanishLosers();
@@ -1706,13 +1706,14 @@ void CGameServerDlg::BattleZoneResult(uint8 nation)
 	m_byElmoradOpenFlag = nation == KARUS ? true : false;
 	m_byBanishFlag = true;
 	m_sBanishDelay = 0;
-	Announcement( DECLARE_WINNER, g_pMain->m_bVictory );
-	Announcement( DECLARE_LOSER, nation == KARUS ? ELMORAD : KARUS);
+	Announcement(DECLARE_WINNER, g_pMain->m_bVictory);
+	Announcement(DECLARE_LOSER, nation == KARUS ? ELMORAD : KARUS);
 }
 
 void CGameServerDlg::BattleZoneOpen(int nType, uint8 bZone /*= 0*/)
 {
-	if( nType == BATTLEZONE_OPEN ) {				// Open battlezone.
+	if(nType == BATTLEZONE_OPEN)
+	{
 		m_byBattleOpen = NATION_BATTLE;	
 		m_byOldBattleOpen = NATION_BATTLE;
 		m_byBattleZone = bZone;
@@ -1724,7 +1725,8 @@ void CGameServerDlg::BattleZoneOpen(int nType, uint8 bZone /*= 0*/)
 		KickOutZoneUsers(ZONE_BIFROST);
 		KickOutZoneUsers(ZONE_KROWAZ_DOMINION);
 	}
-	else if( nType == SNOW_BATTLEZONE_OPEN ) {		// Open snow battlezone.
+	else if (nType == SNOW_BATTLEZONE_OPEN)
+	{
 		m_byBattleOpen = SNOW_BATTLE;	
 		m_byOldBattleOpen = SNOW_BATTLE;
 		m_byBattleOpenedTime = int32(UNIXTIME);
@@ -1735,10 +1737,12 @@ void CGameServerDlg::BattleZoneOpen(int nType, uint8 bZone /*= 0*/)
 		KickOutZoneUsers(ZONE_BIFROST);
 		KickOutZoneUsers(ZONE_KROWAZ_DOMINION);
 	}
-	else if( nType == BATTLEZONE_CLOSE )	{		// battle close
+	else if (nType == BATTLEZONE_CLOSE)
+	{
 		Announcement(BATTLEZONE_CLOSE);
 	}
-	else return;
+	else
+		return;
 
 	Announcement(nType);	// Send an announcement out that the battlezone is open/closed.
 	Packet result(AG_BATTLE_EVENT, uint8(BATTLE_EVENT_OPEN));
@@ -1746,7 +1750,8 @@ void CGameServerDlg::BattleZoneOpen(int nType, uint8 bZone /*= 0*/)
 	Send_AIServer(&result);
 }
 
-void CGameServerDlg::BattleZoneClose() {
+void CGameServerDlg::BattleZoneClose()
+{
 	BattleZoneOpen(BATTLEZONE_CLOSE);
 	Packet result(AG_BATTLE_EVENT, uint8(BATTLE_EVENT_OPEN));
 	result << uint8(BATTLEZONE_CLOSE);
@@ -1807,8 +1812,10 @@ void CGameServerDlg::BanishLosers()
 
 		// Reset captains
 		if (m_byBattleOpen == NO_BATTLE)
+		{
 			if (pUser->GetFame() == COMMAND_CAPTAIN)
 				pUser->ChangeFame(CHIEF);
+		}
 
 		if (m_byBattleOpen == NATION_BATTLE)
 		{
