@@ -2631,6 +2631,7 @@ void CUser::LoyaltyChange(int16 tid, uint16 bonusNP /*= 0*/)
 
 	// Include any bonus NP (e.g. rival NP bonus)
 	loyalty_source += bonusNP;
+	loyalty_target -= bonusNP;
 
 	SendLoyaltyChange(loyalty_source, true);
 	pTUser->SendLoyaltyChange(loyalty_target, true);
@@ -4317,12 +4318,12 @@ void CUser::OnDeath(Unit *pKiller)
 					else
 					{
 						// In PVP and War zones
-						if (isInPKZone() || GetMap()->isWarZone() || GetMap()->isNationPVPZone())
+						if (isInPKZone() || GetMap()->isWarZone() || g_pMain->m_byBattleOpen == NATION_BATTLE)
 						{
 							uint16 bonusNP = 0;
 							bool bKilledByRival = false;
 
-							if (!GetMap()->isWarZone() && !GetMap()->isNationPVPZone())
+							if (!GetMap()->isWarZone() && g_pMain->m_byBattleOpen != NATION_BATTLE)
 							{
 								// Show death notices in PVP zones
 								noticeType = DeathNoticeCoordinates;

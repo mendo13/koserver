@@ -1689,9 +1689,9 @@ void CGameServerDlg::BattleZoneOpenTimer()
 	{
 		m_sBanishDelay++;
 
-		if (m_sBanishDelay == 8)
+		if (m_sBanishDelay == 2)
 			Announcement(DECLARE_BAN);
-		else if (m_sBanishDelay == 12) {
+		else if (m_sBanishDelay == 6) {
 			m_byBanishFlag = false;
 			m_sBanishDelay = 0;
 			BanishLosers();
