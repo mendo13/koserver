@@ -1282,9 +1282,8 @@ bool MagicInstance::ExecuteType3()
 			{
 				// Affects target's HP
 			case 1:
-				if (pSkillTarget->isPlayer())
+				if (pTarget->isPlayer())
 				{
-
 					// "Critical Point" buff gives a chance to double HP from pots or the rogue skill "Minor heal".
 					if (damage > 0 && pSkillCaster->hasBuff(BUFF_TYPE_DAMAGE_DOUBLE)
 						&& CheckPercent(500))
