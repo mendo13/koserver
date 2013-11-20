@@ -37,16 +37,16 @@ struct  _NpcSkillList
 struct  _NpcGiveItem
 {
 	int 	sSid;			// item serial number
-	short	count;			// item °¹¼ö(µ·Àº ´ÜÀ§)
+	short	count;			// item ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 };
 
 struct _Target
 {
-	uint16	id;							// °ø°Ý´ë»ó User uid
+	uint16	id;							// ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ User uid
 	bool bSet;
-	float x;						// UserÀÇ x pos
-	float y;						// UserÀÇ y pos
-	float z;						// UserÀÇ z pos
+	float x;						// Userï¿½ï¿½ x pos
+	float y;						// Userï¿½ï¿½ y pos
+	float z;						// Userï¿½ï¿½ z pos
 };
 
 struct _PattenPos
@@ -63,7 +63,7 @@ struct _PathList
 struct _TargetHealer
 {
 	short	sNID;				// npc nid
-	short	sValue;				// Á¡¼ö
+	short	sValue;				// ï¿½ï¿½ï¿½ï¿½
 };
 
 class MAP;
@@ -144,7 +144,7 @@ public:
 			|| GetType() == NPC_ARTIFACT4; 
 	}
 
-	INLINE bool isNonAttackingObject() { return isGate() || GetType() == NPC_GATE_LEVER || isArtifact() || GetType() == NPC_SCARECROW; }
+	INLINE bool isNonAttackingObject() { return isGate() || GetType() == NPC_GATE_LEVER || isArtifact() || GetType() == NPC_SCARECROW || GetType() == NPC_GATE2; }
 	INLINE bool isNonAttackableObject() { return isGate() || GetType() == NPC_GATE_LEVER; }
 
 	INLINE bool isDead() { return m_NpcState == NPC_DEAD || m_iHP <= 0; }
@@ -155,34 +155,34 @@ public:
 
 	CNpcTable *m_proto;
 
-	_Target	m_Target;				// °ø°ÝÇÒ À¯Àú ÀúÀå,,
-	short		m_ItemUserLevel;		// Á×À»¶§ ¸ÅÁ÷ ÀÌ»ó ¾ÆÀÌÅÛ¸¦ ¶³±¸±âÀ§ÇØ ÂüÁ¶ÇØ¾ßÇÏ´Â À¯ÀúÀÇ·¹º§
+	_Target	m_Target;				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½,,
+	short		m_ItemUserLevel;		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½
 
 	std::map<uint16, uint32> m_DamagedUserList; // max NPC_HAVE_USER_LIST?
 	FastMutex m_damageListLock;
 
 	int		m_TotalDamage;
-	short   m_sMaxDamageUserid;		// ³ª¿¡°Ô ÃÖ°íÀÇ µ¥¹ÌÁö¸¦ ÁØ À¯ÀúÀÇ ¾ÆÀÌµð ÀúÀå..
+	short   m_sMaxDamageUserid;		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½..
 
-	_PathList m_PathList;			// NpcÀÇ ÆÐ½º ¸®½ºÆ® 
-	_PattenPos m_pPattenPos;		// NpcÀÇ ÆÐÅÏ,,
+	_PathList m_PathList;			// Npcï¿½ï¿½ ï¿½Ð½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® 
+	_PattenPos m_pPattenPos;		// Npcï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½,,
 
-	//int m_iPattenNumber;		// ÇöÀçÀÇ ÆÐÅÏ¹øÈ£
-	short m_iPattenFrame;			// ÆÐÅÏÀÇ ÇöÀç À§Ä¡..
+	//int m_iPattenNumber;		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¹ï¿½È£
+	short m_iPattenFrame;			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡..
 
-	uint8 m_byMoveType;			// NPCÀÇ Çàµ¿Å¸ÀÔ(ÀÌµ¿°ü·Ã)
-	uint8 m_byInitMoveType;		// NPCÀÇ ÃÊ±â Çàµ¿Å¸ÀÔ(ÀÌµ¿°ü·Ã)
-	short m_sPathCount;			// NPCÀÇ PathList Count
-	short m_sMaxPathCount;		// NPCÀÇ PathList Max Count
+	uint8 m_byMoveType;			// NPCï¿½ï¿½ ï¿½àµ¿Å¸ï¿½ï¿½(ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½)
+	uint8 m_byInitMoveType;		// NPCï¿½ï¿½ ï¿½Ê±ï¿½ ï¿½àµ¿Å¸ï¿½ï¿½(ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½)
+	short m_sPathCount;			// NPCï¿½ï¿½ PathList Count
+	short m_sMaxPathCount;		// NPCï¿½ï¿½ PathList Max Count
 
-	bool	m_bFirstLive;		// NPC °¡ Ã³À½ »ý¼ºµÇ´ÂÁö Á×¾ú´Ù »ì¾Æ³ª´ÂÁö ÆÇ´Ü.
+	bool	m_bFirstLive;		// NPC ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ï¿½ï¿½ ï¿½×¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ³ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½.
 	uint8	m_OldNpcState, m_NpcState;
 
 	short	m_sNid;
 
-	float		m_nInitX;			// Ã³À½ »ý¼ºµÈ À§Ä¡ X
-	float		m_nInitY;			// Ã³À½ »ý¼ºµÈ À§Ä¡ Y
-	float		m_nInitZ;			// Ã³À½ »ý¼ºµÈ À§Ä¡ Z
+	float		m_nInitX;			// Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ X
+	float		m_nInitY;			// Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ Y
+	float		m_nInitZ;			// Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ Z
 
 	float		m_fPrevX;			// Prev X Pos;
 	float		m_fPrevY;			// Prev Y Pos;
@@ -207,7 +207,7 @@ public:
 	CPathFind m_vPathFind;
 	_PathNode	*m_pPath;
 
-	int		m_nInitMinX;					// ÃÊ±âÀ§Ä¡
+	int		m_nInitMinX;					// ï¿½Ê±ï¿½ï¿½ï¿½Ä¡
 	int		m_nInitMinY;
 	int		m_nInitMaxX;
 	int		m_nInitMaxY;
@@ -216,72 +216,72 @@ public:
 	time_t	m_tFaintingTime;
 
 	//----------------------------------------------------------------
-	//	MONSTER DB ÂÊ¿¡ ÀÖ´Â º¯¼öµé
+	//	MONSTER DB ï¿½Ê¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------------------------------
-	short   m_sSize;						// Ä³¸¯ÅÍÀÇ ºñÀ²(100 ÆÛ¼¾Æ® ±âÁØ)
-	int     m_iWeapon_1;			// Âø¿ë ¹«±â
-	int     m_iWeapon_2;			// Âø¿ë ¹«±â
-	uint8	m_byActType;		// Çàµ¿ÆÐÅÏ
-	uint8	m_byRank;			// ÀÛÀ§
-	uint8	m_byTitle;			// ÁöÀ§
-	int 	m_iSellingGroup;	// ¾ÆÀÌÅÛ ±×·ì(¹°°Ç¸Å¸Å ´ã´ç NPCÀÇ °æ¿ì¸¸)
-	int		m_iMaxHP;			// ÃÖ´ë HP
-	short	m_sMaxMP;			// ÃÖ´ë MP
-	short	m_sAttack;			// °ø°Ý°ª(Áö±Ý »ç¿ëÇÏÁö ¾ÊÀ½..)
-	short	m_sAttackDelay;		// °ø°Ýµô·¹ÀÌ
-	short	m_sSpeed;			// ÀÌµ¿¼Óµµ	
-	float   m_fSpeed_1;			// ±âº» ÀÌµ¿ Å¸ÀÔ		(1ÃÊ¿¡ °¥ ¼ö ÀÖ´Â °Å¸®)
-	float   m_fSpeed_2;			// ¶Ù´Â ÀÌµ¿ Å¸ÀÔ..		(1ÃÊ¿¡ °¥ ¼ö ÀÖ´Â °Å¸®)
-	short	m_sStandTime;		// ¼­ÀÖ´Â ½Ã°£
+	short   m_sSize;						// Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(100 ï¿½Û¼ï¿½Æ® ï¿½ï¿½ï¿½ï¿½)
+	int     m_iWeapon_1;			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	int     m_iWeapon_2;			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	uint8	m_byActType;		// ï¿½àµ¿ï¿½ï¿½ï¿½ï¿½
+	uint8	m_byRank;			// ï¿½ï¿½ï¿½ï¿½
+	uint8	m_byTitle;			// ï¿½ï¿½ï¿½ï¿½
+	int 	m_iSellingGroup;	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½(ï¿½ï¿½ï¿½Ç¸Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½ NPCï¿½ï¿½ ï¿½ï¿½ï¿½ì¸¸)
+	int		m_iMaxHP;			// ï¿½Ö´ï¿½ HP
+	short	m_sMaxMP;			// ï¿½Ö´ï¿½ MP
+	short	m_sAttack;			// ï¿½ï¿½ï¿½Ý°ï¿½(ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..)
+	short	m_sAttackDelay;		// ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½ï¿½ï¿½
+	short	m_sSpeed;			// ï¿½Ìµï¿½ï¿½Óµï¿½	
+	float   m_fSpeed_1;			// ï¿½âº» ï¿½Ìµï¿½ Å¸ï¿½ï¿½		(1ï¿½Ê¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Å¸ï¿½)
+	float   m_fSpeed_2;			// ï¿½Ù´ï¿½ ï¿½Ìµï¿½ Å¸ï¿½ï¿½..		(1ï¿½Ê¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Å¸ï¿½)
+	short	m_sStandTime;		// ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Ã°ï¿½
 
-	uint8	m_bySearchRange;	// Àû Å½Áö ¹üÀ§
-	uint8	m_byAttackRange;	// »çÁ¤°Å¸®
-	uint8	m_byTracingRange;	// Ãß°Ý °Å¸®
+	uint8	m_bySearchRange;	// ï¿½ï¿½ Å½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	uint8	m_byAttackRange;	// ï¿½ï¿½ï¿½ï¿½ï¿½Å¸ï¿½
+	uint8	m_byTracingRange;	// ï¿½ß°ï¿½ ï¿½Å¸ï¿½
 
-	int		m_iMoney;			// ¶³¾îÁö´Â µ·
-	int		m_iItem;			// ¶³¾îÁö´Â ¾ÆÀÌÅÛ
+	int		m_iMoney;			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	int		m_iItem;			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	int			m_iHP;				// ÇöÀç HP
-	short		m_sMP;				// ÇöÀç MP
+	int			m_iHP;				// ï¿½ï¿½ï¿½ï¿½ HP
+	short		m_sMP;				// ï¿½ï¿½ï¿½ï¿½ MP
 
-	float   m_fSecForMetor;		// ÃÊ´ç °¥ ¼ö ÀÖ´Â °Å¸®..
+	float   m_fSecForMetor;		// ï¿½Ê´ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Å¸ï¿½..
 
 	//----------------------------------------------------------------
-	//	MONSTER AI¿¡ °ü·ÃµÈ º¯¼öµé
+	//	MONSTER AIï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------------------------------
-	uint8	m_tNpcAttType;		// °ø°Ý ¼ºÇâ : ¼±°ø(1), ÈÄ°ø(0)
+	uint8	m_tNpcAttType;		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½(1), ï¿½Ä°ï¿½(0)
 	bool	m_bHasFriends;		// When set, monsters behave in groups (defined by their family type) and will seek out help from nearby similar mobs.
-	uint8	m_byAttackPos;		// UserÀÇ ¾î´À ºÎºÐ¿¡¼­ °ø°ÝÇÏ´ÀÁö¸¦ ÆÇ´Ü(8¹æÇâ)
-	uint8	m_byBattlePos;		// ¾î¶² ÁøÇüÀ» ¼±ÅÃÇÒ °ÍÀÎÁö¸¦ ÆÇ´Ü..
-	bool	m_byGateOpen;		// ¼º¹®ÀÏ °æ¿ì¿¡.. »ç¿ë... Gate Npc Status -> 1 : open 0 : close
-	uint8	m_byMaxDamagedNation;	// ³ª¸¦ Á×ÀÎ À¯ÀúÀÇ ±¹°¡¸¦ ÀúÀå.. (1:Ä«·ç½º, 2:¿¤¸ð¶óµå)
-	uint8	m_byObjectType;         // º¸ÅëÀº 0, objectÅ¸ÀÔ(¼º¹®, ·¹¹ö)Àº 1
-	uint8	m_byDungeonFamily;		// ´øÁ¯¿¡¼­ °°Àº ÆÐ¹Ð¸® ¹­À½ (°°Àº ¹æ)
-	NpcSpecialType	m_bySpecialType;		// ¸ó½ºÅÍÀÇ ÇüÅÂ°¡ º¯ÇÏ´ÂÁö¸¦ ÆÇ´Ü(0:º¯ÇÏÁö ¾ÊÀ½, 1:º¯ÇÏ´Â ¸ó½ºÅÍ, 
-	// 2:Á×´Â°æ¿ì Á¶Á¤ÇÏ´Â ¸ó½ºÅÍ(´ëÀå¸ó½ºÅÍ Á×À»°æ¿ì ¼º¹®ÀÌ ¿­¸²), 
-	// 3:´ëÀå¸ó½ºÅÍÀÇ Á×À½°ú °ü·ÃÀÌ ÀÖ´Â ¸ó½ºÅÍ(´ëÀå¸ó½ºÅÍ°¡ Á×À¸¸é °ü°èµÇ´Â ¸ó½ºÅÍ´Â °°ÀÌ Á×µµ·Ï)
-	// 4:º¯ÇÏ¸é¼­ Á×´Â°æ¿ì Á¶Á¤ÇÏ´Â ¸ó½ºÅÍ (m_sControlSid)
-	// 5:Ã³À½¿¡ Á×¾úÀÖ´Ù°¡ ÃâÇöÇÏ´Â ¸ó½ºÅÍ,,
-	// 6:ÀÏÁ¤½Ã°£ÀÌ Áö³­ ÈÄ¿¡ Çàµ¿ÇÏ´Â ¸ó½ºÅÍ,,
-	// 100:Á×¾úÀ»¶§ µ¥¹ÌÁö¸¦ ¸¹ÀÌ ÀÔÈù À¯Àú¸¦ ±â·ÏÇØ ÁÖ¼¼¿©
-	uint8	m_byTrapNumber;			// ´øÁ¯¿¡¼­ Æ®·¦ÀÇ ¹øÈ£,,
-	uint8	m_byChangeType;			// 0:Á¤»ó»óÅÂ, 1:º¯ÇÏ±â À§ÇÑ ÁØºñ, 2:´Ù¸¥¸ó½ºÅÍ·Î º¯ÇÔ, 3:¸ó½ºÅÍÀÇ ÃâÇö, 100:¸ó½ºÅÍÀÇ Á×À½
-	uint8	m_byRegenType;			// 0:Á¤»óÀûÀ¸·Î ¸®Á¨ÀÌ µÊ.. , 1:ÇÑ¹ø Á×À¸¸é ¸®Á¨ÀÌ ¾ÈµÇ´Â Æ¯¼ö ¸ö, 2:¸®Á¨ÀÌ ¾ÈµÊ
-	uint8    m_byDeadType;			// 0:»ì¾Æ ÀÖ´Â °æ¿ì, 100:ÀüÀïÀÌº¥Æ®Áß Á×Àº °æ¿ì
+	uint8	m_byAttackPos;		// Userï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ÎºÐ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½(8ï¿½ï¿½ï¿½ï¿½)
+	uint8	m_byBattlePos;		// ï¿½î¶² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½..
+	bool	m_byGateOpen;		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ì¿¡.. ï¿½ï¿½ï¿½ï¿½... Gate Npc Status -> 1 : open 0 : close
+	uint8	m_byMaxDamagedNation;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.. (1:Ä«ï¿½ç½º, 2:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+	uint8	m_byObjectType;         // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0, objectÅ¸ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ 1
+	uint8	m_byDungeonFamily;		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¹Ð¸ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
+	NpcSpecialType	m_bySpecialType;		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â°ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½(0:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, 1:ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, 
+	// 2:ï¿½×´Â°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½), 
+	// 3:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×µï¿½ï¿½ï¿½)
+	// 4:ï¿½ï¿½ï¿½Ï¸é¼­ ï¿½×´Â°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (m_sControlSid)
+	// 5:Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½×¾ï¿½ï¿½Ö´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,,
+	// 6:ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¿ï¿½ ï¿½àµ¿ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,,
+	// 100:ï¿½×¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½
+	uint8	m_byTrapNumber;			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£,,
+	uint8	m_byChangeType;			// 0:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, 1:ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Øºï¿½, 2:ï¿½Ù¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ ï¿½ï¿½ï¿½ï¿½, 3:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, 100:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	uint8	m_byRegenType;			// 0:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½.. , 1:ï¿½Ñ¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ÈµÇ´ï¿½ Æ¯ï¿½ï¿½ ï¿½ï¿½, 2:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Èµï¿½
+	uint8    m_byDeadType;			// 0:ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½, 100:ï¿½ï¿½ï¿½ï¿½ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 
 	//----------------------------------------------------------------
-	//	MONSTER_POS DB ÂÊ¿¡ ÀÖ´Â º¯¼öµé
+	//	MONSTER_POS DB ï¿½Ê¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------------------------------
 	time_t	m_Delay;			// this doesn't really need to be time_t, but we'll use it (at least for now) for consistency
-	time_t	m_fDelayTime;		// Npc ThreadÃ¼Å© Å¸ÀÓ...
+	time_t	m_fDelayTime;		// Npc ThreadÃ¼Å© Å¸ï¿½ï¿½...
 
 	uint8	m_byType;
-	int		m_sRegenTime;		// NPC Àç»ý½Ã°£
+	int		m_sRegenTime;		// NPC ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½
 
 	uint8	m_byDirection;
 
-	int		m_nLimitMinX;		// È°µ¿ ¿µ¿ª
+	int		m_nLimitMinX;		// È°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	int		m_nLimitMinZ;
 	int		m_nLimitMaxX;
 	int		m_nLimitMaxZ;
@@ -294,29 +294,29 @@ public:
 	float m_fBattlePos_x;	
 	float m_fBattlePos_z;
 
-	float m_fSecForRealMoveMetor;		// ÃÊ´ç °¥ ¼ö ÀÖ´Â °Å¸®..(½ÇÁ¦ Å¬¶óÀÌ¾ðÆ®¿¡ º¸³»ÁÖ´Â °Å¸®)
+	float m_fSecForRealMoveMetor;		// ï¿½Ê´ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Å¸ï¿½..(ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Å¸ï¿½)
 
-	bool m_bPathFlag;					// ÆÐ½º ÆÄÀÎµå ½ÇÇà¿©ºÎ Ã¼Å© º¯¼ö..
+	bool m_bPathFlag;					// ï¿½Ð½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½à¿©ï¿½ï¿½ Ã¼Å© ï¿½ï¿½ï¿½ï¿½..
 
 	//----------------------------------------------------------------
-	//	NPC ÀÌµ¿ °ü·Ã
+	//	NPC ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------------------------------
-	_NpcPosition	m_pPoint[MAX_PATH_LINE];			// ÀÌµ¿½Ã Âü°í ÁÂÇ¥
+	_NpcPosition	m_pPoint[MAX_PATH_LINE];			// ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥
 
 	short m_iAniFrameIndex;
 	short m_iAniFrameCount;
-	uint8 m_byPathCount;					// ÆÐ½º¸¦ µû¶ó ÀÌµ¿ÇÏ´Â ¸ó½ºÅÍ ³¢¸® °ãÄ¡Áö ¾Êµµ·Ï,, 
+	uint8 m_byPathCount;					// ï¿½Ð½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½,, 
 	bool m_bStopFollowingTarget;		// when set, indicates that an NPC should stop following its target
-	uint8 m_byActionFlag;				// Çàµ¿º¯È­ ÇÃ·¡±× ( 0 : Çàµ¿º¯È­ ¾øÀ½, 1 : °ø°Ý¿¡¼­ Ãß°Ý)
+	uint8 m_byActionFlag;				// ï¿½àµ¿ï¿½ï¿½È­ ï¿½Ã·ï¿½ï¿½ï¿½ ( 0 : ï¿½àµ¿ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½, 1 : ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ ï¿½ß°ï¿½)
 
 	bool m_bTracing;
 	float m_fTracingStartX, m_fTracingStartZ;
 
-	short m_iFind_X[4];					// find enemy¿¡¼­ Ã£À» Region°Ë»ç¿µ¿ª
+	short m_iFind_X[4];					// find enemyï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ Regionï¿½Ë»ç¿µï¿½ï¿½
 	short m_iFind_Y[4];
 
-	float   m_fOldSpeed_1;			// ±âº» ÀÌµ¿ Å¸ÀÔ		(1ÃÊ¿¡ °¥ ¼ö ÀÖ´Â °Å¸®)
-	float   m_fOldSpeed_2;			// ¶Ù´Â ÀÌµ¿ Å¸ÀÔ..		(1ÃÊ¿¡ °¥ ¼ö ÀÖ´Â °Å¸®)
+	float   m_fOldSpeed_1;			// ï¿½âº» ï¿½Ìµï¿½ Å¸ï¿½ï¿½		(1ï¿½Ê¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Å¸ï¿½)
+	float   m_fOldSpeed_2;			// ï¿½Ù´ï¿½ ï¿½Ìµï¿½ Å¸ï¿½ï¿½..		(1ï¿½Ê¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Å¸ï¿½)
 
 	bool	m_bMonster;
 
@@ -330,7 +330,7 @@ public:
 	CNpc();
 	virtual ~CNpc();
 
-	void Init();	//	NPC ±âº»Á¤º¸ ÃÊ±âÈ­
+	void Init();	//	NPC ï¿½âº»ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
 	void InitTarget(void);
 	void InitUserList();
 	void InitPos();
