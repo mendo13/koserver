@@ -1525,7 +1525,7 @@ int8 CDBAgent::SendLetter(string & strSenderID, string & strRecipientID, string 
 	uint64 nSerialNum = 0;
 	uint32 nItemID = 0;
 	uint16 sCount = 0, sDurability = 0;
-	int16 sRet = 0;
+	int8 bRet = 0;
 
 	unique_ptr<OdbcCommand> dbCommand(m_GameDB->CreateCommand());
 	if (dbCommand.get() == nullptr)
@@ -1546,7 +1546,7 @@ int8 CDBAgent::SendLetter(string & strSenderID, string & strRecipientID, string 
 	dbCommand->AddParameter(SQL_PARAM_INPUT, strSubject.c_str(), strSubject.length());
 	dbCommand->AddParameter(SQL_PARAM_INPUT, strMessage.c_str(), strMessage.length());
 
-	dbCommand->AddParameter(SQL_PARAM_OUTPUT, &sRet);
+	dbCommand->AddParameter(SQL_PARAM_OUTPUT, &bRet);
 
 	// MSSQL uses signed types.
 	if (!dbCommand->Execute(string_format(_T("{CALL MAIL_BOX_SEND(?, ?, ?, ?, %d, %d, %d, %d, " I64FMTD ", ?)}"), 
@@ -1556,7 +1556,7 @@ int8 CDBAgent::SendLetter(string & strSenderID, string & strRecipientID, string 
 		return 0;
 	}
 
-	return (int8)(sRet);
+	return bRet;
 }
 
 bool CDBAgent::ReadLetter(string & strCharID, uint32 nLetterID, string & strMessage)
