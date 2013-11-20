@@ -42,7 +42,7 @@ void MagicInstance::Run()
 				if (bOpcode != MAGIC_TYPE4_EXTEND && pCaster->m_CoolDownList.find(nSkillID) != pCaster->m_CoolDownList.end())
 				{
 					SkillCooldownList::iterator itr = pCaster->m_CoolDownList.find(nSkillID);
-					if ((UNIXTIME - itr->second) < (float) (pSkill->sReCastTime / 10.0f))
+					if ((UNIXTIME - itr->second) < (float)(pSkill->sReCastTime > 5 ? pSkill->sReCastTime / 10.0f : pSkill->sReCastTime / 100))
 						bSendSkillFailed = true;
 					else
 						pCaster->m_CoolDownList.erase(nSkillID);
@@ -51,6 +51,11 @@ void MagicInstance::Run()
 				if (((pSkill->bType[0] == pCaster->m_bLastSkillType) || (pSkill->bType[1] == pCaster->m_bLastSkillType))
 					&& (UNIXTIME - pCaster->m_fLastSkillUseTime < PLAYER_SKILL_REQUEST_INTERVAL))
 					bSendSkillFailed = true;
+
+				if (pCaster->isRogue() /* Rogue İçin Sonrasında Kontrol Genişletilecek */
+					&& bSendSkillFailed 
+					&& (pSkill->bType[0] == 2 || pSkill->bType[1] == 2))
+					bSendSkillFailed = false;
 			}
 		}
 
