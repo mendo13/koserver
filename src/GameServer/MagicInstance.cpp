@@ -1473,7 +1473,7 @@ bool MagicInstance::ExecuteType3()
 	}
 
 	// Allow for AOE effects.
-	if (pSkill->bType[0] == 3 && sTargetID == -1)
+	if (sTargetID == -1 && pSkill->bType[0] == 3)
 		SendSkill();
 
 	return true;
@@ -1949,7 +1949,71 @@ bool MagicInstance::ExecuteType6()
 
 bool MagicInstance::ExecuteType7()
 {
-	return true;
+	vector<Unit *> casted_member;
+
+	if (pSkill == nullptr)
+		return false;
+
+	int damage = 0;
+
+	_MAGIC_TYPE7* pType = g_pMain->m_Magictype7Array.GetData(nSkillID);
+
+	if (pType == nullptr)
+		return false;
+
+	if (sTargetID == -1)
+	{
+		std::vector<uint16> unitList;
+		g_pMain->GetUnitListFromSurroundingRegions(pSkillCaster, &unitList);
+		if(pType->sDamage > 0)
+			casted_member.push_back(pSkillCaster);
+
+		foreach (itr, unitList)
+		{		
+			Unit * pTarget = g_pMain->GetUnitPtr(*itr);
+
+			if(pTarget == nullptr)
+				continue; 
+
+			if (pSkillCaster != pTarget && !pTarget->isDead() && !pTarget->isBlinking()
+				&& CMagicProcess::UserRegionCheck(pSkillCaster, pTarget, pSkill, pType->bRadius, sData[0], sData[2]))
+				casted_member.push_back(pTarget);
+		}
+
+		if (casted_member.empty() || (sTargetID == -1 && casted_member.empty()))
+			return false;
+	}
+	else
+	{
+		if (pSkillTarget != nullptr && !pSkillTarget->isDead())
+		{
+			damage = pType->sDamage;
+
+			if (pType->bTargetChange == 1)
+			{
+				pSkillTarget->HpChange(-damage, pSkillCaster);
+				return true;
+			}
+		}
+	}
+
+	foreach (itr, casted_member)
+	{
+		Unit * pTarget = *itr;
+
+		if(pTarget == nullptr)
+			continue;
+
+		damage = pType->sDamage;
+
+		if (damage < 0)
+			continue;
+
+		if (pType->bTargetChange == 1)
+			pTarget->HpChange(-damage, pSkillCaster);
+	}
+
+	return false;
 }
 
 // Warp, resurrection, and summon spells.
