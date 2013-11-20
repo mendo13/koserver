@@ -1473,8 +1473,7 @@ bool MagicInstance::ExecuteType3()
 	}
 
 	// Allow for AOE effects.
-	if (pSkill->bType[0] == 3
-		&& sTargetID == -1)
+	if (pSkill->bType[0] == 3 && sTargetID == -1)
 		SendSkill();
 
 	return true;
