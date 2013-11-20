@@ -61,7 +61,7 @@ void MagicInstance::Run()
 		}
 	}
 
-	if (bSendSkillFailed)
+	if (bSendSkillFailed = false)
 	{
 		SendSkillFailed();
 		return;
@@ -949,6 +949,10 @@ bool MagicInstance::IsAvailable()
 		}
 	}
 
+	// Allow for AOE effects.
+	if (sTargetID == -1 && (pSkill->bType[0] == 4 || pSkill->bType[0] == 3))
+		SendSkill();
+		
 	return true;
 
 fail_return: 
@@ -1165,7 +1169,11 @@ packet_send:
 	sData[3] = (damage == 0 ? SKILLMAGIC_FAIL_ATTACKZERO : 0);
 
 	// Send the skill data in the current context to the caster's region
+	if (pSkill->bType[0] == 2)
+	{
+	pSkillCaster->MSpChange(-(pSkill->sMsp));
 	SendSkill();
+	}
 
 	return bResult;
 }
@@ -1200,12 +1208,6 @@ bool MagicInstance::ExecuteType3()
 				casted_member.push_back(pTarget);
 		}
 
-		// If you managed to not hit anything with your AoE, you're still gonna have a cooldown (You should l2aim)
-		if (casted_member.empty() || (sTargetID == -1 && casted_member.empty()))
-		{
-			SendSkill();
-			return true;			
-		}
 	}
 	else
 	{	// If the target was a single unit.
@@ -1282,7 +1284,10 @@ bool MagicInstance::ExecuteType3()
 			{
 				// Affects target's HP
 			case 1:
-				if (pTarget->isPlayer())
+				if(pTarget == nullptr)
+					continue;
+
+				if (pSkillTarget==nullptr || pSkillTarget->isPlayer())
 				{
 					// "Critical Point" buff gives a chance to double HP from pots or the rogue skill "Minor heal".
 					if (damage > 0 && pSkillCaster->hasBuff(BUFF_TYPE_DAMAGE_DOUBLE)
@@ -1472,11 +1477,6 @@ bool MagicInstance::ExecuteType3()
 		}
 	}
 
-	// Allow for AOE effects.
-	if (pSkill->bType[0] == 3
-		&& sTargetID == -1)
-		SendSkill();
-
 	return true;
 }
 
@@ -1515,13 +1515,6 @@ bool MagicInstance::ExecuteType4()
 				casted_member.push_back(pTarget);
 		}
 
-		if (casted_member.empty())
-		{		
-			if (pSkillCaster->isPlayer())
-				SendSkill();
-
-			return false;
-		}
 	}
 	else 
 	{
@@ -1596,7 +1589,7 @@ bool MagicInstance::ExecuteType4()
 		// rather than just stacking the modifiers, as the client only supports one (de)buff of that type active.
 		if (bSkillTypeAlreadyOnTarget && pType->isDebuff())
 		{
-			CMagicProcess::RemoveType4Buff(pType->bBuffType, pTarget);
+			CMagicProcess::RemoveType4Buff(pType->bBuffType, pTarget,false);
 			bSkillTypeAlreadyOnTarget = false;
 		}
 
@@ -1810,13 +1803,26 @@ bool MagicInstance::ExecuteType5()
 				bool bRecastSavedMagic = false;
 				FastGuard lock(pTUser->m_buffLock);
 				Type4BuffMap buffMap = pTUser->m_buffMap; // copy the map so we can't break it while looping
-
+				
+				_MAGIC_TYPE4 * pType4;
+				if (pType4 = nullptr)
+					return false;
 				foreach (itr, buffMap)
 				{
 					if (itr->second.isDebuff())
+					{
+						pType4 = g_pMain->m_Magictype4Array.GetData(itr->second.m_nSkillID);
+						if (pType != nullptr && (pType4->bBuffType == BUFF_TYPE_HP_MP || pType4->bBuffType == BUFF_TYPE_AC))
+							bRecastSavedMagic = true;
 						CMagicProcess::RemoveType4Buff(itr->first, pTUser);
 				}
 
+				}
+				if (bRecastSavedMagic)
+				{
+					pTUser->InitType4();
+					pTUser->RecastSavedMagic(false);
+				}
 				// NOTE: This originally checked to see if there were any active debuffs.
 				// As this seems pointless (as we're removing all of them), it was removed
 				// however leaving this note in, in case this behaviour in certain conditions
@@ -2290,12 +2296,11 @@ bool MagicInstance::ExecuteType9()
 		if(pSkill == nullptr || pType == nullptr)
 			return false;
 		else if (pCaster->HasSavedMagic(pType->iNum) == false && pCaster->canInstantCast())
-		{
 			g_pMain->SpawnEventNpc(pType->sMonsterNum,true,pCaster->GetZoneID(),pCaster->GetX(),pCaster->GetY(),pCaster->GetZ(),1,2);
-			SendSkill();
-		}
 	}
-
+	
+	SendSkill();
+	
 	return true;
 }
 
