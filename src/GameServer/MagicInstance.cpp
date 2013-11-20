@@ -132,8 +132,6 @@ void MagicInstance::Run()
 					return;
 				}
 
-				// Take the required mana for this skill
-				pCaster->MSpChange(-(pSkill->sMsp));
 			}
 
 			SendSkill(true); // send this to the region
