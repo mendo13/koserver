@@ -383,7 +383,6 @@ public:
 	short   m_sDiscount;	// 능력치와 포인트 초기화 할인 (0:할인없음, 1:할인(50%) )
 	short	m_sKarusDead, m_sElmoradDead, m_sBanishDelay, m_sKarusCount, m_sElmoradCount;
 	std::string m_nBattleZoneOpenDays;
-	typedef std::list<std::string> WAR_DAYS_ARGS;
 	uint8	m_nBattleZoneOpenHourStart[WAR_TIME_COUNT], m_nBattlezoneOpenWarZone[WAR_ZONE_COUNT];
 
 	std::string m_strKarusCaptain, m_strElmoradCaptain;

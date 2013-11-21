@@ -1627,7 +1627,7 @@ void CGameServerDlg::BattleZoneOpenTimer()
 
 	if (m_byBattleOpen == NO_BATTLE)
 	{
-		WAR_DAYS_ARGS vargs = StrSplit(m_nBattleZoneOpenDays, ",");
+		std::list<std::string> vargs = StrSplit(m_nBattleZoneOpenDays, ",");
 		uint8 nDaySize = vargs.size();
 		if (nDaySize > 0)
 		{
