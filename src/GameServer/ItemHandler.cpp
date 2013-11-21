@@ -252,7 +252,6 @@ bool CUser::CheckExistItem(int itemid, short count /*= 1*/)
 	return false;
 }
 
-#if defined(USE_ORIGINAL_QUESTS)
 uint16 CUser::GetItemCount(uint32 nItemID)
 {
 	uint16 result = 0;
@@ -266,7 +265,6 @@ uint16 CUser::GetItemCount(uint32 nItemID)
 
 	return result;
 }
-#endif
 
 // Pretend you didn't see me. This really needs to go (just copying official)
 bool CUser::CheckExistItemAnd(int32 nItemID1, int16 sCount1, int32 nItemID2, int16 sCount2,

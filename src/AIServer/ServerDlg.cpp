@@ -765,9 +765,9 @@ MAP * CServerDlg::GetZoneByID(int zonenumber)
 void CServerDlg::GetServerInfoIni()
 {
 	CIni ini("./AIServer.ini");
-	ini.GetString("ODBC", "GAME_DSN", "KN_online", m_strGameDSN, false);
-	ini.GetString("ODBC", "GAME_UID", "knight", m_strGameUID, false);
-	ini.GetString("ODBC", "GAME_PWD", "knight", m_strGamePWD, false);
+	ini.GetString("ODBC", "GAME_DSN", "KO_GAME", m_strGameDSN, false);
+	ini.GetString("ODBC", "GAME_UID", "username", m_strGameUID, false);
+	ini.GetString("ODBC", "GAME_PWD", "password", m_strGamePWD, false);
 }
 
 void CServerDlg::SendSystemMsg(std::string & pMsg, int type)

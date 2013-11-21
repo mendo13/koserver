@@ -168,8 +168,6 @@ LUA_FUNCTION(CheckPercent)
 	LUA_RETURN(CheckPercent(LUA_ARG(int, 1)));
 }
 
-#if defined(USE_ORIGINAL_QUESTS)
-
 #define Lua_GetUser() g_pMain->GetUserPtr(LUA_ARG(uint16, 1))
 
 LUA_FUNCTION(HowmuchItem) 
@@ -366,5 +364,3 @@ LUA_FUNCTION(CastSkill)
 	}
 	return bResult;
 }
-
-#endif

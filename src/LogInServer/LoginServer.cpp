@@ -111,9 +111,9 @@ void LoginServer::GetInfoFromIni()
 	ini.GetString("DOWNLOAD", "URL", "ftp.yoursite.net", m_strFtpUrl, false);
 	ini.GetString("DOWNLOAD", "PATH", "/", m_strFilePath, false);
 
-	ini.GetString("ODBC", "DSN", "KN_online", m_ODBCName, false);
-	ini.GetString("ODBC", "UID", "knight", m_ODBCLogin, false);
-	ini.GetString("ODBC", "PWD", "knight", m_ODBCPwd, false);
+	ini.GetString("ODBC", "DSN", "KO_GAME", m_ODBCName, false);
+	ini.GetString("ODBC", "UID", "username", m_ODBCLogin, false);
+	ini.GetString("ODBC", "PWD", "password", m_ODBCPwd, false);
 
 	int nServerCount = ini.GetInt("SERVER_LIST", "COUNT", 1);
 	if (nServerCount <= 0) 

@@ -6,11 +6,6 @@
 #include "Npc.h"
 
 // define global functions to be called from Lua (e.g. myrand())
-#if !defined(USE_ORIGINAL_QUESTS)
-DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions, 
-						  MAKE_LUA_FUNCTION(CheckPercent)
-						  );
-#else
 DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions,
 						  MAKE_LUA_FUNCTION(CheckPercent)
 						  MAKE_LUA_FUNCTION(HowmuchItem)
@@ -101,7 +96,6 @@ DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions,
 						  MAKE_LUA_FUNCTION(GetPremium)
 						  MAKE_LUA_FUNCTION(CheckWarVictory)
 						  );
-#endif
 
 CLuaEngine::CLuaEngine() : m_lock(new RWLock())
 {
@@ -276,17 +270,6 @@ bool CLuaScript::CompileScript(const char * filename, BytecodeBuffer & buffer)
 		return false;
 	}
 
-#if !defined(USE_ORIGINAL_QUESTS)
-	// Load up the script & revert the stack.
-	// This step's only here for cleanup purposes.
-	err = lua_pcall(m_luaState, 0, LUA_MULTRET, 0);
-	if (err != LUA_OK)
-	{
-		RetrieveLoadError(err, filename);
-		return false;
-	}
-#endif
-
 	// Compiled!
 	return true;
 }
@@ -336,26 +319,6 @@ bool CLuaScript::ExecuteScript(CUser * pUser, CNpc * pNpc, int32 nEventID, int8 
 		return false;
 	}
 
-#if !defined(USE_ORIGINAL_QUESTS) // our quest implementation
-
-	// The user & NPC instances are globals. As is the selected quest reward.
-	lua_tsetglobal(m_luaState, LUA_SCRIPT_GLOBAL_USER, pUser);
-	lua_tsetglobal(m_luaState, LUA_SCRIPT_GLOBAL_NPC, pNpc);
-	lua_tsetglobal(m_luaState, LUA_SCRIPT_GLOBAL_SELECTED_REWARD, bSelectedReward);
-
-	// Find & assign script's entry point to the stack
-	lua_getglobal(m_luaState, LUA_SCRIPT_ENTRY_POINT);
-
-	// Entry point requires 1 arguments: the event ID.
-	lua_tpush(m_luaState, nEventID);
-
-	// Try calling the script's entry point (Main()).
-	err = lua_pcall(m_luaState, 
-		1,	// 1 arguments
-		0,	// 0 returned values
-		0);	// no error handler
-
-#else
 
 	lua_tsetglobal(m_luaState, "UID", pUser->GetID());
 	lua_tsetglobal(m_luaState, "STEP", bSelectedReward);
@@ -366,14 +329,11 @@ bool CLuaScript::ExecuteScript(CUser * pUser, CNpc * pNpc, int32 nEventID, int8 
 		0,	// no arguments
 		0,	// 0 returned values
 		0);	// no error handler
-#endif
 
 	// Nothing returned, so we can finish up here.
 	if (err == LUA_OK)
 	{
-#if defined(USE_ORIGINAL_QUESTS)
 		lua_settop(m_luaState, 0);
-#endif
 		return true;
 	}
 
@@ -381,32 +341,52 @@ bool CLuaScript::ExecuteScript(CUser * pUser, CNpc * pNpc, int32 nEventID, int8 
 	switch (err)
 	{
 	case LUA_ERRRUN:
-		printf("ERROR: A runtime error occurred within Lua script `%s`.\n", filename);
+		printf("ERROR: A runtime error occurred within Lua script.\n");
+		printf("FILE: %s\n", filename);
+		printf("USER: %s\n", pUser->GetName().c_str());
+		printf("ZONE: %d\n", pUser->GetZoneID());
+		printf("NPC ID: %d\n", pNpc->m_sSid);
+		printf("-\n", filename);
 		break;
 
 	case LUA_ERRMEM:
-		printf("ERROR: Unable to allocate memory during execution of Lua script `%s`.\n", filename);
+		printf("ERROR: Unable to allocate memory during execution of Lua script.\n");
+		printf("FILE: %s\n", filename);
+		printf("USER: %s\n", pUser->GetName().c_str());
+		printf("ZONE: %d\n", pUser->GetZoneID());
+		printf("NPC ID: %d\n", pNpc->m_sSid);
+		printf("-\n", filename);
 		break;
 
 	case LUA_ERRERR:
-		printf("ERROR: An error occurred during Lua script `%s`. Error handler failed.\n", filename);
+		printf("ERROR: An error occurred during Lua script, Error handler failed.\n");
+		printf("FILE: %s\n", filename);
+		printf("USER: %s\n", pUser->GetName().c_str());
+		printf("ZONE: %d\n", pUser->GetZoneID());
+		printf("NPC ID: %d\n", pNpc->m_sSid);
+		printf("-\n", filename);
 		break;
 
 	default:
-		printf("ERROR: An unknown error occurred in Lua script `%s`.\n", filename);
+		printf("ERROR: An unknown error occurred in Lua script.\n");
+		printf("FILE: %s\n", filename);
+		printf("USER: %s\n", pUser->GetName().c_str());
+		printf("ZONE: %d\n", pUser->GetZoneID());
+		printf("NPC ID: %d\n", pNpc->m_sSid);
+		printf("-\n", filename);
 		break;
 	}
 
 	// Is there an error set? That can be more useful than our generic error.
 	if (lua_isstring(m_luaState, -1))
 	{
-		printf("ERROR: [%s] The following error was provided:\n%s\n",
-			filename, lua_to<const char *>(m_luaState, -1));
+		printf("ERROR: [%s] The following error was provided.\n",filename);
+		printf("MESSAGE: %s\n", lua_to<const char *>(m_luaState, -1));
+		printf("-\n", filename);
+
 	}
 
-#if defined(USE_ORIGINAL_QUESTS)
 	lua_settop(m_luaState, 0);
-#endif
 
 	return false;
 }
