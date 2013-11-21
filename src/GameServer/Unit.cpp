@@ -1121,12 +1121,6 @@ bool CNpc::isHostileTo(Unit * pTarget)
 		// are friendly, we need to override to ensure we can attack them server-side.
 		if (GetType() == NPC_SCARECROW)
 			return true;
-		if (GetType() == NPC_GUARD_TOWER1)
-			return false;
-		if (GetType() == NPC_GUARD_TOWER2)
-			return false;
-		if (GetType() == NPC_GATE2)
-			return false;
 	}
 
 	// A nation of 0 indicates friendliness to all
