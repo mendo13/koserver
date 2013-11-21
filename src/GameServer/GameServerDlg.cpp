@@ -205,8 +205,7 @@ void CGameServerDlg::GetTimeFromIni()
 
 	m_byWeather = ini.GetInt("TIMER", "WEATHER", 1);
 
-	for (int i = 0; i < WAR_DAY_COUNT; i++)
-		m_nBattleZoneOpenWeek[i] = ini.GetInt("BATTLE",string_format("WEEK%d",i).c_str(), i+1);
+	ini.GetString("BATTLE", "DAYS","1,6", m_nBattleZoneOpenDays, false);
 
 	for (int i = 0; i < WAR_TIME_COUNT; i++)
 		m_nBattleZoneOpenHourStart[i] = ini.GetInt("BATTLE",string_format("START_TIME%d",i).c_str(), (i+1) * 7);
@@ -1623,16 +1622,26 @@ CNpc*  CGameServerDlg::FindNpcInZone(uint16 sPid, uint8 byZone)
 
 void CGameServerDlg::BattleZoneOpenTimer()
 {
-	int nWeek = g_localTime.tm_wday;
-	int nTime = g_localTime.tm_hour;
+	int nWeekDay = g_localTime.tm_wday;
+	int nHour = g_localTime.tm_hour;
 
 	if (m_byBattleOpen == NO_BATTLE)
 	{
-		for (int i = 0; i < WAR_DAY_COUNT; i++)
-			if (m_nBattleZoneOpenWeek[i] == nWeek)
-				for (int x = 0; x < WAR_TIME_COUNT; x++)
-					if (m_nBattleZoneOpenHourStart[x] == nTime)
-						BattleZoneOpen(BATTLEZONE_OPEN,m_nBattlezoneOpenWarZone[x]);
+		WAR_DAYS_ARGS vargs = StrSplit(m_nBattleZoneOpenDays, ",");
+		uint8 nDaySize = vargs.size();
+		if (nDaySize > 0)
+		{
+			uint8 nDay = 0;
+			for (int i = 0; i < nDaySize; i++)
+			{
+				nDay = atoi(vargs.front().c_str());
+				if (nDay == nWeekDay)
+					for (int x = 0; x < WAR_TIME_COUNT; x++)
+						if (m_nBattleZoneOpenHourStart[x] == nHour)
+							BattleZoneOpen(BATTLEZONE_OPEN,m_nBattlezoneOpenWarZone[x]);
+				vargs.pop_front();
+			}
+		}
 	}
 	else if (m_byBattleOpen == NATION_BATTLE)	
 	{
