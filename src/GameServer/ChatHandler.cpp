@@ -333,59 +333,6 @@ bool CUser::ProcessChatCommand(std::string & message)
 
 COMMAND_HANDLER(CUser::HandleTestCommand)
 {
-	if (isInTempleEventZone())
-		g_pMain->SendHelpDescription(this, string_format("Your Coordinate is : %d, %d",int32(GetX()),int32(GetZ())).c_str());
-
-	if (vargs.size() < 2)
-	{
-		// send description
-		g_pMain->SendHelpDescription(this, "Using Sample : +test Type CharacterName/sSid EventRoomNumber");
-		return true;
-	}
-
-	int sType = atoi(vargs.front().c_str());
-	vargs.pop_front();
-
-	if (sType == 0) // User
-	{
-		std::string strUserID = vargs.front();
-		vargs.pop_front();
-
-		CUser *pUser = g_pMain->GetUserPtr(strUserID, TYPE_CHARACTER);
-		if (pUser == nullptr)
-		{
-			g_pMain->SendHelpDescription(this, "Error : User is not online");
-			return true;
-		}
-
-		int nEventRoom = atoi(vargs.front().c_str());
-		g_pMain->SendHelpDescription(this, string_format("Result : EventRoom is Changed - CurrentEventRoom=%d, NewEventRoom=%d",pUser->GetEventRoom(),nEventRoom).c_str());
-		pUser->m_bEventRoom = nEventRoom; 
-		pUser->Home();
-	}
-	else if (sType == 1) // SpawnNpc with EventRoom
-	{
-		int sSid = atoi(vargs.front().c_str());
-		vargs.pop_front();
-		int nEventRoom = atoi(vargs.front().c_str());
-		g_pMain->SpawnEventNpc(sSid, true, GetZoneID(), GetX(), GetY(), GetZ(), 1, 0, nEventRoom);
-		g_pMain->SendHelpDescription(this, "Result : NPC is Spawned with EventRoom");
-	}
-	else
-	{
-		std::string strUserID = vargs.front();
-		vargs.pop_front();
-
-		CUser *pUser = g_pMain->GetUserPtr(strUserID, TYPE_CHARACTER);
-		if (pUser == nullptr)
-		{
-			g_pMain->SendHelpDescription(this, "Error : User is not online");
-			return true;
-		}
-
-		g_pMain->SendHelpDescription(this, string_format("Result : CurrentEventRoom=%d",pUser->GetEventRoom()).c_str());
-	}
-
 	return true;
 }
 

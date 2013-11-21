@@ -68,7 +68,7 @@ void LoginSession::HandleLogin(Packet & pkt)
 		AUTH_NOT_FOUND	= 0x02,
 		AUTH_INVALID	= 0x03,
 		AUTH_BANNED		= 0x04,
-		AUTH_IN_USE		= 0x05,
+		AUTH_IN_GAME	= 0x05,
 		AUTH_ERROR		= 0x06,
 		AUTH_FAILED		= 0xFF
 	};
@@ -100,8 +100,8 @@ void LoginSession::HandleLogin(Packet & pkt)
 	case AUTH_BANNED:
 		sAuthMessage = "BANNED";
 		break;
-	case AUTH_IN_USE:
-		sAuthMessage = "IN USE";
+	case AUTH_IN_GAME:
+		sAuthMessage = "IN GAME";
 		break;
 	case AUTH_ERROR:
 		sAuthMessage = "ERROR";
@@ -121,6 +121,16 @@ void LoginSession::HandleLogin(Packet & pkt)
 	{
 		result << g_pMain->m_DBProcess.AccountPremium(account);
 		result << account;
+	}
+	else if (resultCode == AUTH_IN_GAME)
+	{
+		/*
+		SessionMap & sessMap = g_pMain->m_socketMgr.GetActiveSessionMap();
+		foreach (itr, sessMap)
+		{
+
+		}
+		*/
 	}
 	Send(&result);	
 }

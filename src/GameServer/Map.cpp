@@ -115,7 +115,7 @@ bool C3DMap::CheckEvent(float x, float z, CUser* pUser)
 
 			if (pEvent)
 			{
-				if (x >= pEvent->m_iCond[0] && x <= pEvent->m_iCond[1] && z >= pEvent->m_iCond[2] && z <= pEvent->m_iCond[3])
+				if ((x > pEvent->m_iCond[0] && x < pEvent->m_iCond[1]) && (z > pEvent->m_iCond[2] && z < pEvent->m_iCond[3]))
 					pUser->ZoneChange(pEvent->m_iExec[0],(float)pEvent->m_iExec[1],(float)pEvent->m_iExec[2]);
 				else
 				{
@@ -123,7 +123,7 @@ bool C3DMap::CheckEvent(float x, float z, CUser* pUser)
 
 					if (pEvent)
 					{
-						if (x >= pEvent->m_iCond[0] && x <= pEvent->m_iCond[1] && z >= pEvent->m_iCond[2] && z <= pEvent->m_iCond[3])
+						if ((x > pEvent->m_iCond[0] && x < pEvent->m_iCond[1]) && (z > pEvent->m_iCond[2] && z < pEvent->m_iCond[3]))
 							if (g_pMain->m_bVictory == pUser->GetNation())
 								pUser->ZoneChange(pEvent->m_iExec[0],(float)pEvent->m_iExec[1],(float)pEvent->m_iExec[2]);
 					}

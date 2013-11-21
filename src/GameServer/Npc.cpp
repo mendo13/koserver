@@ -149,12 +149,13 @@ void CNpc::GetNpcInfo(Packet & pkt)
 /**
 * @brief	Sends a gate status.
 *
+* @param	ObjectType  object type
 * @param	bFlag  	The flag (open or shut).
 * @param	bSendAI	true to update the AI server.
 */
-void CNpc::SendGateFlag(uint8 bFlag /*= -1*/, bool bSendAI /*= true*/)
+void CNpc::SendGateFlag(uint8 objectType,uint8 bFlag /*= -1*/, bool bSendAI /*= true*/)
 {
-	Packet result(WIZ_OBJECT_EVENT, uint8(OBJECT_FLAG_LEVER));
+	Packet result(WIZ_OBJECT_EVENT, uint8(objectType));
 
 	// If there's a flag to set, set it now.
 	if (bFlag >= 0)

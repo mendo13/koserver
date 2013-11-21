@@ -48,7 +48,7 @@ public:
 	void SendInOut(uint8 bType, float fx, float fz, float fy);
 	void GetNpcInfo(Packet & pkt);
 
-	void SendGateFlag(uint8 bFlag = -1, bool bSendAI = true);
+	void SendGateFlag(uint8 objectType = 4, uint8 bFlag = -1, bool bSendAI = true);
 
 	void HpChange(int amount, Unit *pAttacker = nullptr, bool bSendToAI = true); 
 	void HpChangeMagic(int amount, Unit *pAttacker = nullptr, AttributeType attributeType = AttributeNone);
