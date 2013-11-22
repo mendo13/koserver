@@ -1,4 +1,3 @@
-
 local NPC = 13010;
 local NATION = 0;
 
@@ -9,9 +8,9 @@ end
 if EVENT == 501 then
    NATION = CheckNation(UID);
    if NATION == 2 then
-      ZoneChange(UID, 21, 741, 428)
+   ZoneChange(UID, 21, 741, 428)
    else
-      ZoneChange(UID, 21, 742, 424)
+   ZoneChange(UID, 21, 742, 424)
    end
 end
 

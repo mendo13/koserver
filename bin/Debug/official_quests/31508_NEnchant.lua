@@ -1,9 +1,7 @@
-
 local NPC = 31508;
 
-
 if EVENT == 100 then
-	SelectMsg(UID, 2, -1, 9205, NPC, 7098, 200, 7099, 201);
+   SelectMsg(UID, 2, -1, 9205, NPC, 7098, 200, 7099, 201);
 end
 
 if EVENT == 200 then

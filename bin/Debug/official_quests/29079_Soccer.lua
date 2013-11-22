@@ -55,11 +55,3 @@ end
 if EVENT == 200 then
    SelectMsg(UID, 2, -1, 9630, NPC, 27, 240);
 end
-
-
-
-
-
-
-
-

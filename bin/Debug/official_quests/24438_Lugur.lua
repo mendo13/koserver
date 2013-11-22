@@ -1,4 +1,3 @@
-
 local Ret = 0;
 local NPC = 24438;
 

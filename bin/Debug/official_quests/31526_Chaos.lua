@@ -1,8 +1,5 @@
-local UserClass;
-local QuestNum;
 local Ret = 0;
 local NPC = 31526;
-
 
 if EVENT == 100 then
    SelectMsg(UID, 3, -1, 9264, NPC, 7143, 3001, 7139, 3002, 7116, 3003, 7118, 3005, 7117, 3004);
@@ -149,4 +146,3 @@ end
 if EVENT == 241 then
    Ret = 1;
 end
-
