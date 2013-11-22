@@ -882,7 +882,8 @@ bool Unit::isAttackable(Unit * pTarget)
 				return (g_pMain->m_bAttackBifrostMonument);
 			else if (pNpc->GetType() == NPC_GUARD_TOWER1 
 				|| pNpc->GetType() == NPC_GUARD_TOWER2 
-				|| pNpc->GetType() == NPC_GATE2)
+				|| pNpc->GetType() == NPC_GATE2 
+				|| pNpc->GetType() == NPC_VICTORY_GATE)
 				return false;
 #endif
 		}
