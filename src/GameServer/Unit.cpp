@@ -872,23 +872,23 @@ bool Unit::isAttackable(Unit * pTarget)
 	if (pTarget == nullptr)
 		pTarget = this;
 
-	if (pTarget == nullptr)
-		return true;
-
-	if (pTarget->isNPC())
+	if (pTarget)
 	{
-		CNpc * pNpc = TO_NPC(pTarget);
-		if (pNpc != nullptr)
+		if (pTarget->isNPC())
 		{
+			CNpc * pNpc = TO_NPC(pTarget);
+			if (pNpc != nullptr)
+			{
 #if defined(GAMESERVER)
-			if (pNpc->GetType() == NPC_BIFROST_MONUMENT)
-				return (g_pMain->m_bAttackBifrostMonument);
-			else if (pNpc->GetType() == NPC_GUARD_TOWER1 
-				|| pNpc->GetType() == NPC_GUARD_TOWER2 
-				|| pNpc->GetType() == NPC_GATE2 
-				|| pNpc->GetType() == NPC_VICTORY_GATE)
-				return false;
+				if (pNpc->GetType() == NPC_BIFROST_MONUMENT)
+					return (g_pMain->m_bAttackBifrostMonument);
+				else if (pNpc->GetType() == NPC_GUARD_TOWER1 
+					|| pNpc->GetType() == NPC_GUARD_TOWER2 
+					|| pNpc->GetType() == NPC_GATE2 
+					|| pNpc->GetType() == NPC_VICTORY_GATE)
+					return false;
 #endif
+			}
 		}
 	}
 
