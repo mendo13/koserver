@@ -3260,21 +3260,21 @@ void CUser::OperatorCommand(Packet & pkt)
 		} else {
 			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_BANNED);
 		}
-		sNoticeMessage = string_format("%s has been banned.", strUserID.c_str());
+		sNoticeMessage = string_format("%s is currently blocked for illegal activity.", strUserID.c_str());
 		break;
 	case OPERATOR_MUTE:
 		if (bIsOnline)
 			pUser->m_bAuthority = AUTHORITY_MUTED;
 		else
 			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_MUTED);
-		sNoticeMessage = string_format("%s has been muted.", strUserID.c_str());
+		sNoticeMessage = string_format("%s is currently muted for illegal activity.", strUserID.c_str());
 		break;
 	case OPERATOR_DISABLE_ATTACK:
 		if (bIsOnline) 
 			pUser->m_bAuthority = AUTHORITY_ATTACK_DISABLED;
 		else
 			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_ATTACK_DISABLED);
-		sNoticeMessage = string_format("%s has been disabled attack.", strUserID.c_str());
+		sNoticeMessage = string_format("%s is currently disabled attack for illegal activity.", strUserID.c_str());
 		break;
 	case OPERATOR_ENABLE_ATTACK:
 		if (bIsOnline)
