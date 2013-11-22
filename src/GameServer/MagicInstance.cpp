@@ -1514,7 +1514,7 @@ bool MagicInstance::ExecuteType4()
 			if(pTarget == nullptr)
 				continue; 
 
-			if (!pTarget->isDead() && !pTarget->isBlinking()
+			if (!pTarget->isDead() && !pTarget->isBlinking() && pTarget->isAttackable()
 				&& CMagicProcess::UserRegionCheck(pSkillCaster, pTarget, pSkill, pType->bRadius, sData[0], sData[2]))
 				casted_member.push_back(pTarget);
 		}
@@ -1980,7 +1980,7 @@ bool MagicInstance::ExecuteType7()
 			if(pTarget == nullptr)
 				continue; 
 
-			if (pSkillCaster != pTarget && !pTarget->isDead() && !pTarget->isBlinking()
+			if (pSkillCaster != pTarget && !pTarget->isDead() && !pTarget->isBlinking() && pTarget->isAttackable()
 				&& CMagicProcess::UserRegionCheck(pSkillCaster, pTarget, pSkill, pType->bRadius, sData[0], sData[2]))
 				casted_member.push_back(pTarget);
 		}
