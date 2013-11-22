@@ -1959,9 +1959,9 @@ bool MagicInstance::ExecuteType7()
 	if (pSkill == nullptr)
 		return false;
 
-	int damage = 0;
-
 	_MAGIC_TYPE7* pType = g_pMain->m_Magictype7Array.GetData(nSkillID);
+
+	int damage = pType->sDamage;
 
 	if (pType == nullptr)
 		return false;
@@ -1992,11 +1992,13 @@ bool MagicInstance::ExecuteType7()
 	{
 		if (pSkillTarget != nullptr && !pSkillTarget->isDead())
 		{
-			damage = pType->sDamage;
-
 			if (pType->bTargetChange == 1)
 			{
+				if (damage < 0)
+					return false;
+
 				pSkillTarget->HpChange(-damage, pSkillCaster);
+
 				return true;
 			}
 		}
@@ -2009,13 +2011,13 @@ bool MagicInstance::ExecuteType7()
 		if(pTarget == nullptr)
 			continue;
 
-		damage = pType->sDamage;
-
-		if (damage < 0)
-			continue;
-
 		if (pType->bTargetChange == 1)
+		{
+			if (damage < 0)
+				continue;
+
 			pTarget->HpChange(-damage, pSkillCaster);
+		}
 	}
 
 	return false;
