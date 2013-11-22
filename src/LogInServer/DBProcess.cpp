@@ -13,9 +13,7 @@ bool CDBProcess::Connect(string & szDSN, string & szUser, string & szPass)
 
 bool CDBProcess::LoadVersionList()
 {
-	bool result = false;
 	unique_ptr<OdbcCommand> dbCommand(m_dbConnection.CreateCommand());
-
 	if (dbCommand.get() == nullptr)
 		return false;
 

@@ -195,7 +195,7 @@ bool CServerDlg::CreateNpcThread()
 		}
 	}
 
-	printf("[Monster Init - %d, threads=%lld]\n", (uint16) m_TotalNPC, (long long) m_arNpcThread.size());
+	printf("Monster Init - %d, threads = %lld\n", (uint16) m_TotalNPC, (long long) m_arNpcThread.size());
 	return true;
 }
 
@@ -360,7 +360,7 @@ bool CServerDlg::LoadSpawnCallback(OdbcCommand *dbCommand)
 		pNpc->m_pMap = GetZoneByID(pNpc->GetZoneID());
 		if (pNpc->GetMap() == nullptr)
 		{
-			printf(_T("Error: NPC %d in zone %d that does not exist."), sSid, bZoneID);
+			printf(_T("ERROR: NPC %d in zone %d that does not exist."), sSid, bZoneID);
 			delete pNpc;
 			return false;
 		}
@@ -378,7 +378,7 @@ bool CServerDlg::LoadSpawnCallback(OdbcCommand *dbCommand)
 			pRoom = pNpc->GetMap()->m_arRoomEventArray.GetData(pNpc->m_byDungeonFamily);
 			if (pRoom == nullptr)
 			{
-				printf("Error : CServerDlg,, Map Room Npc Fail!!\n");
+				printf("ERROR: Map Room Npc Fail!!\n");
 				delete pNpc;
 				return false;
 			}
@@ -588,7 +588,7 @@ void CServerDlg::DeleteAllUserList(CGameSocket *pSock)
 	// If a server disconnected, show it...
 	if (pSock != nullptr)
 	{
-		printf("[GameServer disconnected = %s]\n", pSock->GetRemoteIP().c_str());
+		printf("Game Server disconnected - %s]\n", pSock->GetRemoteIP().c_str());
 		return;
 	}
 
@@ -626,7 +626,7 @@ void CServerDlg::DeleteAllUserList(CGameSocket *pSock)
 	m_bFirstServerFlag = false;
 	TRACE("*** DeleteAllUserList - End *** \n");
 
-	printf("[ DELETE All User List ]\n");
+	printf("Delete All User List\n");
 }
 
 void CServerDlg::Send(Packet * pkt)

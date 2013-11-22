@@ -25,7 +25,7 @@ protected:
 
 #define _LOAD_TABLE(Set, DB, Array, AllowEmptyTable) \
 	Set _ ## Set(DB, Array); \
-	_tprintf(_T("Loading table `%s`...\n"), _ ## Set .GetTableName().c_str()); \
+	_tprintf(_T("Loaded table [%s]\n"), _ ## Set .GetTableName().c_str()); \
 	TCHAR * _szError ## Set = _ ## Set.Read(AllowEmptyTable);
 
 #define LOAD_TABLE(Set, DB, Array, AllowEmptyTable) \

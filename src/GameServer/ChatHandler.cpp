@@ -11,7 +11,7 @@ void CGameServerDlg::InitServerCommands()
 	static Command<CGameServerDlg> commandTable[] = 
 	{
 		// Command				Handler											Help message
-		{ "notice",				&CGameServerDlg::HandleNoticeCommand,				"Sends a server-wide chat notice." },
+		{ "notice",				&CGameServerDlg::HandleNoticeCommand,			"Sends a server-wide chat notice." },
 		{ "kill",				&CGameServerDlg::HandleKillUserCommand,			"Disconnects the specified player" },
 		{ "open1",				&CGameServerDlg::HandleWar1OpenCommand,			"Opens war zone 1" },
 		{ "open2",				&CGameServerDlg::HandleWar2OpenCommand,			"Opens war zone 2" },
@@ -22,22 +22,22 @@ void CGameServerDlg::InitServerCommands()
 		{ "snowopen",			&CGameServerDlg::HandleSnowWarOpenCommand,		"Opens the snow war zone" },
 		{ "close",				&CGameServerDlg::HandleWarCloseCommand,			"Closes the active war zone" },
 		{ "down",				&CGameServerDlg::HandleShutdownCommand,			"Shuts down the server" },
-		{ "pause",				&CGameServerDlg::HandlePauseCommand,				"Prevents users from connecting to the server" },
-		{ "resume",				&CGameServerDlg::HandleResumeCommand,				"Allows users to resume connecting to the server" },
+		{ "pause",				&CGameServerDlg::HandlePauseCommand,			"Prevents users from connecting to the server" },
+		{ "resume",				&CGameServerDlg::HandleResumeCommand,			"Allows users to resume connecting to the server" },
 		{ "discount",			&CGameServerDlg::HandleDiscountCommand,			"Enables server discounts for the winning nation of the last war" },
-		{ "alldiscount",		&CGameServerDlg::HandleGlobalDiscountCommand,		"Enables server discounts for everyone" },
+		{ "alldiscount",		&CGameServerDlg::HandleGlobalDiscountCommand,	"Enables server discounts for everyone" },
 		{ "offdiscount",		&CGameServerDlg::HandleDiscountOffCommand,		"Disables server discounts" },
 		{ "captain",			&CGameServerDlg::HandleCaptainCommand,			"Sets the captains/commanders for the war" },
-		{ "santa",				&CGameServerDlg::HandleSantaCommand,				"Enables a flying Santa Claus." },
+		{ "santa",				&CGameServerDlg::HandleSantaCommand,			"Enables a flying Santa Claus." },
 		{ "offsanta",			&CGameServerDlg::HandleSantaOffCommand,			"Disables a flying Santa Claus/angel." },
-		{ "angel",				&CGameServerDlg::HandleAngelCommand,				"Enables a flying angel." },
+		{ "angel",				&CGameServerDlg::HandleAngelCommand,			"Enables a flying angel." },
 		{ "offangel",			&CGameServerDlg::HandleSantaOffCommand,			"Disables a flying Santa Claus/angel." },
-		{ "permanent",			&CGameServerDlg::HandlePermanentChatCommand,		"Sets the permanent chat bar to the specified text." },
+		{ "permanent",			&CGameServerDlg::HandlePermanentChatCommand,	"Sets the permanent chat bar to the specified text." },
 		{ "offpermanent",		&CGameServerDlg::HandlePermanentChatOffCommand,	"Resets the permanent chat bar text." },
 		{ "reload_notice",		&CGameServerDlg::HandleReloadNoticeCommand,		"Reloads the in-game notice list." },
-		{ "reload_tables",		&CGameServerDlg::HandleReloadTablesCommand,	"Reloads the in-game tables." },
-		{ "count",				&CGameServerDlg::HandleCountCommand,		"Get online user count." },
-		{ "permitconnect",		&CGameServerDlg::HandlePermitConnectCommand,				"Player unban" },
+		{ "reload_tables",		&CGameServerDlg::HandleReloadTablesCommand,		"Reloads the in-game tables." },
+		{ "count",				&CGameServerDlg::HandleCountCommand,			"Get online user count." },
+		{ "permitconnect",		&CGameServerDlg::HandlePermitConnectCommand,	"Player unban" },
 	};
 
 	init_command_table(CGameServerDlg, commandTable, s_commandTable);
@@ -64,7 +64,7 @@ void CUser::InitChatCommands()
 		{ "captain",			&CUser::HandleCaptainCommand,					"Sets the captains/commanders for the war" },
 		{ "snowopen",			&CUser::HandleSnowWarOpenCommand,				"Opens the snow war zone" },
 		{ "close",				&CUser::HandleWarCloseCommand,					"Closes the active war zone" },
-		{ "down",				&CUser::HandleShutdownCommand,			"Shuts down the server" },
+		{ "down",				&CUser::HandleShutdownCommand,					"Shuts down the server" },
 		{ "np_change",			&CUser::HandleLoyaltyChangeCommand,				"Change a player an loyalty" },
 		{ "exp_change",			&CUser::HandleExpChangeCommand,					"Change a player an exp" },
 		{ "gold_change",		&CUser::HandleGoldChangeCommand,				"Change a player an gold" },
@@ -695,6 +695,7 @@ COMMAND_HANDLER(CGameServerDlg::HandlePermitConnectCommand)
 
 	return true;
 }
+
 COMMAND_HANDLER(CUser::HandleTeleportAllCommand)
 {
 	// Zone number
