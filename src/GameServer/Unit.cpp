@@ -873,7 +873,7 @@ bool Unit::isAttackable(Unit * pTarget)
 		pTarget = this;
 
 	if (pTarget == nullptr)
-		return false;
+		return true;
 
 	if (pTarget->isNPC())
 	{
