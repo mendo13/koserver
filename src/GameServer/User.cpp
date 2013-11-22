@@ -3965,6 +3965,13 @@ void CUser::ObjectEvent(Packet & pkt)
 	{
 		switch (pEvent->sType)
 		{
+		case OBJECT_GATE: // TODO : Geçici Lever Gelene Kadar :)
+			{
+				CNpc *pNpc = g_pMain->GetNpcPtr(nid);
+				if (pNpc && pNpc->GetNation() == GetNation())
+					pNpc->SendGateFlag(OBJECT_GATE,!pNpc->m_byGateOpen);
+			}
+			break;
 		case OBJECT_BIND:
 		case OBJECT_REMOVE_BIND:
 			bSuccess = BindObjectEvent(pEvent);
