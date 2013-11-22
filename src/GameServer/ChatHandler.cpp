@@ -72,6 +72,7 @@ void CUser::InitChatCommands()
 		{ "money_add",			&CUser::HandleMoneyAddCommand,					"Sets the server-wide coin event. If bonusPercent is set to 0, the event is ended. Arguments: bonusPercent" },
 		{ "permitconnect",		&CUser::HandlePermitConnectCommand,				"Player unban" },
 		{ "tp_all",				&CUser::HandleTeleportAllCommand,				"Players send to home zone." },
+		{ "summonknights",		&CUser::HandleKnightsSummonCommand,				"Teleport the clan users. Arguments: clan name" },
 	};
 
 	init_command_table(CUser, commandTable, s_commandTable);
@@ -721,6 +722,45 @@ COMMAND_HANDLER(CUser::HandleTeleportAllCommand)
 
 	if (nZoneID > 0)
 		g_pMain->KickOutZoneUsers(nZoneID);
+	return true;
+}
+
+COMMAND_HANDLER(CUser::HandleKnightsSummonCommand)
+{
+	// Clan name
+	if(vargs.empty())
+	{
+		// Send description
+		g_pMain->SendHelpDescription(this, "Using Sample : +summonknights ClanName");
+		return true;
+	}
+
+	CKnights * pKnights;
+	foreach_stlmap(itr,g_pMain->m_KnightsArray)
+	{
+		if(itr->second->GetName() == vargs.front().c_str())
+		{
+		   pKnights = g_pMain->GetClanPtr(itr->first);
+		   break;
+		}
+	}
+
+	if(pKnights == nullptr)
+		return true;
+
+	foreach_array(i,pKnights->m_arKnightsUser)
+	{
+		_KNIGHTS_USER *p = &pKnights->m_arKnightsUser[i];
+		if (!p->byUsed || p->pSession == nullptr)
+			continue;
+
+		CUser* pUser = p->pSession;
+		if(!pUser->isInGame() || pUser->GetName() == GetName())
+			continue;
+
+		pUser->ZoneChange(GetZoneID(), m_curx, m_curz);
+	}
+
 	return true;
 }
 

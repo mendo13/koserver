@@ -683,6 +683,7 @@ public:
 	COMMAND_HANDLER(HandleMoneyAddCommand); /* for the server coin event */
 	COMMAND_HANDLER(HandlePermitConnectCommand);
 	COMMAND_HANDLER(HandleTeleportAllCommand);
+	COMMAND_HANDLER(HandleKnightsSummonCommand);
 
 	void Regene(uint8 regene_type, uint32 magicid = 0);
 	void RequestUserIn(Packet & pkt);
