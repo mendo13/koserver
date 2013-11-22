@@ -1200,7 +1200,7 @@ bool MagicInstance::ExecuteType3()
 				continue; 
 
 			if (pSkillCaster != pTarget
-				&& !pTarget->isDead() && !pTarget->isBlinking()
+				&& !pTarget->isDead() && !pTarget->isBlinking() && pTarget->isAttackable()
 				&& CMagicProcess::UserRegionCheck(pSkillCaster, pTarget, pSkill, pType->bRadius, sData[0], sData[2]))
 				casted_member.push_back(pTarget);
 		}

@@ -186,7 +186,7 @@ public:
 	virtual void StateChangeServerDirect(uint8 bType, uint32 nBuff) {}
 	virtual bool isHostileTo(Unit * pTarget) = 0;
 	virtual bool CanAttack(Unit * pTarget);
-	virtual bool isAttackable(Unit * pTarget);
+	virtual bool isAttackable(Unit * pTarget = nullptr);
 	virtual bool CanCastRHit(uint16 m_SocketID);
 	virtual bool isSameEventRoom(Unit * pTarget);
 
