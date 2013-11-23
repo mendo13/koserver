@@ -679,7 +679,7 @@ COMMAND_HANDLER(CGameServerDlg::HandlePermitConnectCommand)
 	if (vargs.size() < 1)
 	{
 		// send description
-		printf( "Using Sample : +permitconnect CharacterName\n");
+		printf("Using Sample : +permitconnect CharacterName\n");
 		return true;
 	}
 
