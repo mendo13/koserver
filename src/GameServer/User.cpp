@@ -2886,24 +2886,8 @@ void CUser::LoyaltyDivide(int16 tid, uint16 bonusNP /*= 0*/)
 			}
 		}
 	}
-	else {		// Same Nation!!! 
-
+	else 
 		return;
-
-		// TODO: Kontrol Edilmeli ( Mage Girince Aynı IRK Sanıyor )
-
-		individualvalue = -1000 ;
-
-		for (int j = 0; j < MAX_PARTY_USERS; j++) {		// Distribute loyalty amongst party members.
-			CUser *pUser = g_pMain->GetUserPtr(pParty->uid[j]);
-			if (pUser == nullptr)
-				continue;
-
-			pUser->SendLoyaltyChange(loyalty_source, true);
-		}
-
-		return;
-	}
 
 	if (m_bZone != m_bNation && m_bZone < 3) { 
 		loyalty_source  = 2 * loyalty_source;
@@ -2927,40 +2911,42 @@ void CUser::LoyaltyDivide(int16 tid, uint16 bonusNP /*= 0*/)
 
 int16 CUser::GetLoyaltyDivideSource(uint8 totalmember)
 {
-	int16 nLoyaltySource = RONARK_LAND_KILL_LOYALTY_SOURCE * 2;
+	int16 nBaseLoyalty = 0;
+
+	if (GetZoneID() == ZONE_ARDREAM)
+		nBaseLoyalty = ARDREAM_KILL_LOYALTY_SOURCE;
+	else if (GetZoneID() == ZONE_RONARK_LAND_BASE)
+		nBaseLoyalty = RONARK_LAND_BASE_KILL_LOYALTY_SOURCE;
+	else if (GetZoneID() == ZONE_RONARK_LAND)
+		nBaseLoyalty = RONARK_LAND_KILL_LOYALTY_SOURCE;
+	else
+		nBaseLoyalty = OTHER_ZONE_KILL_LOYALTY_SOURCE;
+
+
+	int16 nMaxLoyalty = (nBaseLoyalty * 2) - ((nBaseLoyalty * 2) / MAX_PARTY_USERS);
+	int16 nMinLoyalty = nMaxLoyalty / MAX_PARTY_USERS;
+	int16 nLoyaltySource = nMinLoyalty;
 
 	if (nLoyaltySource > 0)
 	{
-		switch (totalmember)
+		if (totalmember == 1)
+			nLoyaltySource = nBaseLoyalty;
+		else if (totalmember == 2)
+			nLoyaltySource = (nBaseLoyalty + MAX_PARTY_USERS) / 2;
+		else if (totalmember == 3)
 		{
-		case 8:
-			return nLoyaltySource / 8;
-			break;
-		case 7:
-			return (nLoyaltySource - 2) / 7;
-			break;
-		case 6:
-			return (nLoyaltySource - 8) / 6;
-			break;
-		case 5:
-			return (nLoyaltySource - 18) / 5;
-			break;
-		case 4:
-			return (nLoyaltySource - 32) / 4;
-			break;
-		case 3:
-			return (nLoyaltySource - 44) / 3;
-			break;
-		case 2:
-			return (nLoyaltySource - 56) / 2;
-			break;
-		case 1:
-			return (nLoyaltySource / 2);
-			break;
+			nLoyaltySource = (nBaseLoyalty + MAX_PARTY_USERS) / 3;
+			for (int i = 0; i < totalmember - 1; i++)
+				nLoyaltySource += 2;
+		}
+		else if (totalmember >= 4 && totalmember <= 8)
+		{
+			for (int i = totalmember; i < MAX_PARTY_USERS + 1; i++)
+				nLoyaltySource += 2;
 		}
 	}
 
-	return 0;
+	return nLoyaltySource;
 }
 
 int16 CUser::GetLoyaltyDivideTarget()
