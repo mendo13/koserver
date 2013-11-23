@@ -66,7 +66,7 @@ void MagicInstance::Run()
 		}
 	}
 
-	if (bSendSkillFailed)
+	if (bSendSkillFailed = false)
 	{
 		SendSkillFailed();
 		return;
@@ -136,9 +136,7 @@ void MagicInstance::Run()
 					SendSkillFailed();
 					return;
 				}
-
-				// Take the required mana for this skill
-				pCaster->MSpChange(-(pSkill->sMsp));
+				
 			}
 
 			SendSkill(true); // send this to the region
@@ -1170,7 +1168,11 @@ packet_send:
 	sData[3] = (damage == 0 ? SKILLMAGIC_FAIL_ATTACKZERO : 0);
 
 	// Send the skill data in the current context to the caster's region
+	if (pSkill->bType[0] == 2)
+	{
+	pSkillCaster->MSpChange(-(pSkill->sMsp));
 	SendSkill();
+	}
 
 	return bResult;
 }
