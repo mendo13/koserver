@@ -1168,6 +1168,11 @@ bool CUser::isHostileTo(Unit * pTarget)
 		&& TO_USER(pTarget)->isInArena())
 		return true;
 
+	// Players can attack other players in the safety area.
+	if (isInSafetyArea() 
+		&& TO_USER(pTarget)->isInSafetyArea())
+		return false;
+
 	// Players can attack opposing nation players when they're in PVP zones.
 	if (GetNation() != pTarget->GetNation() 
 		&& isInPVPZone())
@@ -1240,7 +1245,16 @@ bool CUser::isInSafetyArea()
 			return ((GetX() < 124.0f && GetX() > 56.0f) && ((GetZ() < 840.0f && GetZ() > 700.0f)));
 		else
 			return ((GetX() < 270.0f && GetX() > 190.0f) && ((GetZ() < 970.0f && GetZ() > 870.0f)));
+	case ZONE_ARENA:
+		return ((GetX() < 148.0f && GetX() > 106.0f) && ((GetZ() < 149.0f && GetZ() > 50.0f)) || (GetX() < 169.0f && GetX() > 86.0f) && ((GetZ() < 127.0f && GetZ() > 100.0f)) || (GetX() < 150.0f && GetX() > 102.0f) && ((GetZ() < 144.0f && GetZ() > 82.0f)) || (GetX() < 157.0f && GetX() > 99.0f) && ((GetZ() < 139.0f && GetZ() > 88.0f)));    
+	case ZONE_ELMORAD:
+		if (GetNation() == ELMORAD)
+			return ((GetX() < 244.0f && GetX() > 176.0f) && ((GetZ() < 1880.0f && GetZ() > 1820.0f)));
+	case ZONE_KARUS:
+		if (GetNation() == KARUS)
+			return ((GetX() < 1876.0f && GetX() > 1820.0f) && ((GetZ() < 212.0f && GetZ() > 136.0f)));
 	}
+
 
 	return false;
 }

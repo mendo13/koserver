@@ -357,6 +357,10 @@ bool MagicInstance::CheckType3Prerequisites()
 		if (!pSkillCaster->isPlayer())
 			return true;
 
+		// Player can attack other players in the safety area.
+		if (TO_USER(pSkillCaster)->isInSafetyArea())
+			return false;
+
 		if (pSkill->bMoral == MORAL_PARTY_ALL
 			&& pType->sTimeDamage > 0)
 		{
@@ -1287,22 +1291,17 @@ bool MagicInstance::ExecuteType3()
 			{
 				// Affects target's HP
 			case 1:
-				if (pTarget->isPlayer())
-				{
-					// "Critical Point" buff gives a chance to double HP from pots or the rogue skill "Minor heal".
-					if (damage > 0 && pSkillCaster->hasBuff(BUFF_TYPE_DAMAGE_DOUBLE)
-						&& CheckPercent(500))
-						damage *= 2;
+				// "Critical Point" buff gives a chance to double HP from pots or the rogue skill "Minor heal".
+				if (damage > 0 && pSkillCaster->hasBuff(BUFF_TYPE_DAMAGE_DOUBLE)
+					&& CheckPercent(500))
+					damage *= 2;
 
-					pTarget->HpChangeMagic(damage, pSkillCaster, (AttributeType) pType->bAttribute);
+				pTarget->HpChangeMagic(damage, pSkillCaster, (AttributeType) pType->bAttribute);
 
-					if (pTarget->m_bReflectArmorType != 0 && pTarget != pSkillCaster)
-						ReflectDamage(damage, pTarget);
+				if (pTarget->m_bReflectArmorType != 0 && pTarget != pSkillCaster)
+					ReflectDamage(damage, pTarget);
 
-					break;
-				}
-				else
-					return false;
+				break;
 			case 2:
 			case 3:
 				pTarget->MSpChange(damage);			
