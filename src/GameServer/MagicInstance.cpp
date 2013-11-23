@@ -356,6 +356,9 @@ bool MagicInstance::CheckType3Prerequisites()
 		// No need to handle any prerequisite logic for NPCs/mobs casting AOEs.
 		if (!pSkillCaster->isPlayer())
 			return true;
+			
+		if (TO_USER(pSkillCaster)->isInSafetyArea())
+			return false;
 
 		if (pSkill->bMoral == MORAL_PARTY_ALL
 			&& pType->sTimeDamage > 0)
