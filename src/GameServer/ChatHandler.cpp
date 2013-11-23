@@ -36,6 +36,8 @@ void CGameServerDlg::InitServerCommands()
 		{ "offpermanent",		&CGameServerDlg::HandlePermanentChatOffCommand,	"Resets the permanent chat bar text." },
 		{ "reload_notice",		&CGameServerDlg::HandleReloadNoticeCommand,		"Reloads the in-game notice list." },
 		{ "reload_tables",		&CGameServerDlg::HandleReloadTablesCommand,	"Reloads the in-game tables." },
+		{ "count",				&CGameServerDlg::HandleCountCommand,		"Get online user count." },
+		{ "permitconnect",		&CGameServerDlg::HandlePermitConnectCommand,				"Player unban" },
 	};
 
 	init_command_table(CGameServerDlg, commandTable, s_commandTable);
@@ -462,7 +464,8 @@ COMMAND_HANDLER(CGameServerDlg::HandleKillUserCommand)
 {
 	if (vargs.empty())
 	{
-		// send error saying we need another argument
+		// send description
+		printf("Using Sample : +kill CharacterName\n");
 		return true;
 	}
 
@@ -470,7 +473,7 @@ COMMAND_HANDLER(CGameServerDlg::HandleKillUserCommand)
 	CUser *pUser = GetUserPtr(strUserID, TYPE_CHARACTER);
 	if (pUser == nullptr)
 	{
-		// send error saying that user was not found
+		printf("Error : User is not online\n");
 		return true;
 	}
 
@@ -669,13 +672,14 @@ COMMAND_HANDLER(CUser::HandleMoneyAddCommand)
 	return true;
 }
 
-COMMAND_HANDLER(CUser::HandlePermitConnectCommand)
+COMMAND_HANDLER(CUser::HandlePermitConnectCommand) { return g_pMain->HandlePermitConnectCommand(vargs, args, description); }
+COMMAND_HANDLER(CGameServerDlg::HandlePermitConnectCommand)
 {
 	// Char name
 	if (vargs.size() < 1)
 	{
-		g_pMain->SendHelpDescription(this, "Using Sample : +permitconnect CharacterName");
 		// send description
+		printf( "Using Sample : +permitconnect CharacterName\n");
 		return true;
 	}
 
@@ -890,6 +894,21 @@ COMMAND_HANDLER(CGameServerDlg::HandleReloadTablesCommand)
 	g_pMain->LoadQuestMonsterTable();
 	g_pMain->m_EventTriggerArray.DeleteAllData();
 	g_pMain->LoadEventTriggerTable();
+	return true;
+}
+
+COMMAND_HANDLER(CGameServerDlg::HandleCountCommand)
+{
+	uint16 count = 0;
+	SessionMap & sessMap = g_pMain->m_socketMgr.GetActiveSessionMap();
+	foreach (itr, sessMap)
+	{
+		if (TO_USER(itr->second)->isInGame())
+			count++;
+	}
+	g_pMain->m_socketMgr.ReleaseLock();
+
+	printf("Online User Count : %d\n",count);
 	return true;
 }
 

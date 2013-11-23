@@ -867,8 +867,8 @@ bool MagicInstance::IsAvailable()
 		modulator = pSkill->sSkill % 10;     // Hacking prevention!
 		if( modulator != 0 ) {	
 			Class = pSkill->sSkill / 10;
-			if( Class != TO_USER(pSkillCaster)->GetClass() ) goto fail_return;
-			if( pSkill->sSkillLevel > TO_USER(pSkillCaster)->m_bstrSkill[modulator] ) goto fail_return;
+			if(Class != TO_USER(pSkillCaster)->GetClass()) goto fail_return;
+			if((pSkill->sSkillLevel > TO_USER(pSkillCaster)->m_bstrSkill[modulator]) && TO_USER(pSkillCaster)->GetFame() != COMMAND_CAPTAIN) goto fail_return;
 		}
 		else if (pSkill->sSkillLevel > pSkillCaster->GetLevel()) 
 			goto fail_return;

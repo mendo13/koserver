@@ -487,6 +487,8 @@ public:
 	COMMAND_HANDLER(HandlePermanentChatOffCommand);
 	COMMAND_HANDLER(HandleReloadNoticeCommand);
 	COMMAND_HANDLER(HandleReloadTablesCommand);
+	COMMAND_HANDLER(HandleCountCommand);
+	COMMAND_HANDLER(HandlePermitConnectCommand);
 };
 
 extern CGameServerDlg * g_pMain;
