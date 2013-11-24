@@ -9,7 +9,7 @@
 
 #define MAX_NPC_SIZE		30
 
-#define MAX_TYPE3_REPEAT    40
+#define MAX_TYPE3_REPEAT	40
 #define MAX_TYPE4_BUFF		50
 
 #define MAX_ITEM			28
@@ -19,15 +19,15 @@
 #define COIN_MAX			2100000000
 #define LOYALTY_MAX			2100000000
 
-#define MAX_CLASS			26			// ��� MAX
-#define MAX_LEVEL			83			// �ְ�...
+#define MAX_CLASS			26
+#define MAX_LEVEL			83
 #define MAX_PLAYER_HP		14000
-#define MAX_DAMAGE			32000		// Game uses a signed 2 byte integer, so the limit is technically 32,767. The game, however, caps it at 32,000.
+#define MAX_DAMAGE			32000 // Game uses a signed 2 byte integer, so the limit is technically 32,767. The game, however, caps it at 32,000.
 
-#define MAX_MESSAGE_EVENT			12
+#define MAX_MESSAGE_EVENT		12
 #define MAX_TEMPLE_EVENT_ROOM	50
 
-///////////////// BBS RELATED //////////////////////////////
+// BBS Related
 #define MAX_BBS_PAGE			22
 #define MAX_BBS_MESSAGE			40
 #define MAX_BBS_TITLE			20
@@ -39,12 +39,10 @@
 #define REMOTE_PURCHASE_PRICE	5000
 #define BBS_CHECK_TIME			36000
 
-#define BATTLE				6
+#define BATTLE 6
 
 #define KARUS_ARRAY (KARUS - 1)
 #define ELMORAD_ARRAY (ELMORAD - 1)
-
-#define BATTLE_ZONE			61
 
 enum PVPKillLoyalty
 {
@@ -57,8 +55,6 @@ enum PVPKillLoyalty
 	OTHER_ZONE_KILL_LOYALTY_SOURCE			= 64,
 	OTHER_ZONE_KILL_LOYALTY_TARGET			= -50
 };
-
-////////////////////////////////////////////////////////////
 
 // Attack Type
 #define DIRECT_ATTACK		0
@@ -79,16 +75,14 @@ enum InOutType
 #define CLAN_SUMMON_TIME		(180)
 #define PLAYER_IDLE_TIME		(300)
 
-// ==================================================================
-//	About Map Object
-// ==================================================================
-#define USER_BAND				0			// Map ��� ��� �ִ�.
-#define NPC_BAND				10000		// Map ��� NPC(������)�� �ִ�.
-#define INVALID_BAND			30000		// �߸�� ID BAND
+// About Map Object
+#define USER_BAND				0
+#define NPC_BAND				10000
+#define INVALID_BAND			30000
 
-#define EVENT_MONSTER			20			// Event monster �� ��
+#define EVENT_MONSTER			20
 
-///////////////// snow event define //////////////////////////////
+// Snow Event
 #define SNOW_EVENT_MONEY		2000
 #define SNOW_EVENT_SKILL		490043
 
@@ -99,11 +93,11 @@ enum InOutType
 #define JURAD_MOUNTAIN_EVENT_COUNT		3
 
 // Users under level 35 require 3,000 coins to shout.
-#define SHOUT_COIN_REQUIREMENT	3000
+#define SHOUT_COIN_REQUIREMENT 3000
 
 // Battlezone Announcement
 #define BATTLEZONE_OPEN					0x00
-#define BATTLEZONE_CLOSE				0x01           
+#define BATTLEZONE_CLOSE				0x01
 #define DECLARE_WINNER					0x02
 #define DECLARE_LOSER					0x03
 #define DECLARE_BAN						0x04
@@ -115,9 +109,9 @@ enum InOutType
 #define UNDER_ATTACK_NOTIFY				0x10
 #define DECLARE_BATTLE_ZONE_STATUS		0x11
 
-#define WAR_TIME_COUNT					3
-#define WAR_ZONE_COUNT					WAR_TIME_COUNT
-#define WAR_DAY_COUNT					7
+#define WAR_TIME_COUNT			3
+#define WAR_ZONE_COUNT			WAR_TIME_COUNT
+#define WAR_DAY_COUNT			7
 
 // Battle define
 #define NO_BATTLE				0
@@ -138,52 +132,47 @@ enum InOutType
 #define ZONE_ARENA				48
 #define ZONE_ORC_ARENA			51
 #define ZONE_BLOOD_DON_ARENA	52
-#define ZONE_GOBLIN_ARENA		53 
+#define ZONE_GOBLIN_ARENA		53
 #define ZONE_CAITHAROS_ARENA	54
 #define ZONE_FORGOTTEN_TEMPLE	55
 
 #define ZONE_BATTLE_BASE		60
 
-#define ZONE_BATTLE				ZONE_BATTLE_BASE + 1 // Napies Gorge - Lunar War 
-#define ZONE_BATTLE2			ZONE_BATTLE_BASE + 2 // Alseids Prairie - Lunar War
-#define ZONE_BATTLE3			ZONE_BATTLE_BASE + 3 // Nieds Triangle - Dark Lunar War 
-#define ZONE_BATTLE4			ZONE_BATTLE_BASE + 4 // Nereid's Island - Lunar War 
-#define ZONE_BATTLE5			ZONE_BATTLE_BASE + 5 // Zipang - unknown
-#define ZONE_BATTLE6			ZONE_BATTLE_BASE + 6 // Oreads - Lunar War 
+#define ZONE_BATTLE				ZONE_BATTLE_BASE + 1 // Napies Gorge
+#define ZONE_BATTLE2			ZONE_BATTLE_BASE + 2 // Alseids Prairie
+#define ZONE_BATTLE3			ZONE_BATTLE_BASE + 3 // Nieds Triangle
+#define ZONE_BATTLE4			ZONE_BATTLE_BASE + 4 // Nereid's Island
+#define ZONE_BATTLE5			ZONE_BATTLE_BASE + 5 // Zipang
+#define ZONE_BATTLE6			ZONE_BATTLE_BASE + 6 // Oreads
 
 #define ZONE_SNOW_BATTLE		69
-#define	ZONE_RONARK_LAND		71
-#define	ZONE_ARDREAM			72
-#define	ZONE_RONARK_LAND_BASE	73
+#define ZONE_RONARK_LAND		71
+#define ZONE_ARDREAM			72
+#define ZONE_RONARK_LAND_BASE	73
 
 #define ZONE_KROWAZ_DOMINION	75
-#define ZONE_BORDER_DEFENSE_WAR	84 
+#define ZONE_BORDER_DEFENSE_WAR	84
 #define ZONE_CHAOS_DUNGEON		85
 #define ZONE_JURAD_MOUNTAIN		87
 #define ZONE_ISILOON_ARENA		93
-#define ZONE_FELANKOR_ARENA 	94
+#define ZONE_FELANKOR_ARENA		94
 
 #define MAX_BATTLE_ZONE_USERS	150
 
 // Zone level requirements (should really be in a database or something...)
 #define MIN_LEVEL_NATION_BASE		35
-#define MAX_LEVEL_NATION_BASE	    MAX_LEVEL 
 #define MIN_LEVEL_ESLANT			60
-#define MAX_LEVEL_ESLANT			MAX_LEVEL
-#define MIN_LEVEL_RONARK_LAND		35
-#define MAX_LEVEL_RONARK_LAND		MAX_LEVEL
+#define MIN_LEVEL_BIFROST			70
+#define MIN_LEVEL_WAR_ZONE			35
+#define MIN_LEVEL_NIEDS_TRIANGLE	35
+#define MAX_LEVEL_NIEDS_TRIANGLE	59
+#define MIN_LEVEL_RONARK_LAND		70
 #define MIN_LEVEL_ARDREAM			35
 #define MAX_LEVEL_ARDREAM			59
 #define MIN_LEVEL_RONARK_LAND_BASE	45
 #define MAX_LEVEL_RONARK_LAND_BASE	69
 #define MIN_LEVEL_KROWAZ_DOMINION	70
-#define MAX_LEVEL_KROWAZ_DOMINION	MAX_LEVEL
-#define MIN_LEVEL_NIEDS_TRIANGLE	35
-#define MAX_LEVEL_NIEDS_TRIANGLE	59 
-#define MIN_LEVEL_WAR_ZONE			35
-#define MAX_LEVEL_WAR_ZONE			MAX_LEVEL
 #define MIN_LEVEL_JURAD_MOUNTAIN	70
-#define MAX_LEVEL_JURAD_MOUNTAIN	MAX_LEVEL
 
 // Where to respawn after dying in the Moradon arenas
 #define MINI_ARENA_RESPAWN_X		734
@@ -194,38 +183,21 @@ enum InOutType
 #define RELOAD_KNIGHTS_AND_USER_RATING 30 // Minute
 
 // Where to respawn after dying in the Chaos Stone boss
-#define CHAOS_STONE_MONSTER_RESPAWN_RADIUS		20
+#define CHAOS_STONE_MONSTER_RESPAWN_RADIUS 20
 
 // Standard (pre-squared) range used for party rewards and such.
-#define RANGE_50M					(50.0f * 50.0f)
+#define RANGE_50M (50.0f * 50.0f)
 
-// ID of the Cont Recovery item... shouldn't hardcode this, but seems there's no other way.
+// Item IDs
 #define ITEM_CONT_RECOVERY		800370000
-
-// ID of the "Scroll of Identity" item. At some point we should just pass this code off to a Lua script.
 #define ITEM_SCROLL_OF_IDENTITY	800032000
-
-// ID of the "Meat Dumpling" item, given on kills in PVP zones.
 #define ITEM_MEAT_DUMPLING		508216000
-
-// ID of the "Golden Mattock" item
-#define  GOLDEN_MATTOCK         389135000
-
-// ID of the "Mattock" item
-#define  MATTOCK                389132000
-
-// ID of the "Mysterious Ore" item,given on Minning
-#define  MYSTERIOUS_ORE          399210000
-
-// ID of the "Mysterious Gold Ore" item,given on Minnig
-#define  MYSTERIOUS_GOLD_ORE     399200000
-
-//ID of the "Sling" item,given on Minning
-#define  SLING                   389043000 
-
-//ID of the "King Specter" item
+#define GOLDEN_MATTOCK			389135000
+#define MATTOCK					389132000
+#define MYSTERIOUS_ORE			399210000
+#define MYSTERIOUS_GOLD_ORE		399200000
+#define SLING					389043000
 #define KING_SCEPTER			910074311
-
 #define CHAOS_MAP				910246000
 #define VOUCHER_OF_CHAOS		900106000
 #define VOUCHER_OF_ORACLE		900184000
@@ -234,24 +206,22 @@ enum InOutType
 #define RED_TREASURE_CHEST		379154000
 #define GREEN_TREASURE_CHEST	379155000
 #define BLUE_TREASURE_CHEST		379156000
-
-//Monster Stone
-#define MONSTER_STONE           900144023
+#define MONSTER_STONE			900144023
 
 // ID of the Seed quest, to be automatically started on first load.
-#define STARTER_SEED_QUEST	500
+#define STARTER_SEED_QUEST 500
 
 #define PVP_MONUMENT_KARUS_SPID		14003
 #define PVP_MONUMENT_ELMORAD_SPID	14004
-#define PVP_MONUMENT_ALL_SPID		14004
+#define PVP_MONUMENT_ALL_SPID		14005
 
 enum UserStatus
 {
-	USER_STATUS_DOT	= 1,
-	USER_STATUS_POISON = 2,
-	USER_STATUS_SPEED = 3,
-	USER_STATUS_BLIND = 4,
-	USER_STATUS_BLACK = 5
+	USER_STATUS_DOT		= 1,
+	USER_STATUS_POISON	= 2,
+	USER_STATUS_SPEED	= 3,
+	USER_STATUS_BLIND	= 4,
+	USER_STATUS_BLACK	= 5
 };
 
 enum UserStatusBehaviour

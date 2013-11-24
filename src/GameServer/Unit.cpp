@@ -972,127 +972,90 @@ void KOMap::SetZoneAttributes(int zoneNumber)
 
 	switch (zoneNumber)
 	{
+	case ZONE_KARUS:
+	case ZONE_ELMORAD:
+		m_zoneType = ZoneAbilityPVP;
+		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_CLAN_UPDATE;
+		m_byMinLevel = MIN_LEVEL_NATION_BASE, m_byMaxLevel = MAX_LEVEL;
+		break;
+	case ZONE_KARUS_ESLANT:
+	case ZONE_ELMORAD_ESLANT:
+		m_zoneType = ZoneAbilityPVP;
+		m_zoneFlags = ZF_ATTACK_OTHER_NATION;
+		m_byMinLevel = MIN_LEVEL_ESLANT, m_byMaxLevel = MAX_LEVEL;
+		break;
 	case ZONE_MORADON:
-	case ZONE_ORC_ARENA:
-	case ZONE_BLOOD_DON_ARENA:
-	case ZONE_GOBLIN_ARENA:
-	case ZONE_FORGOTTEN_TEMPLE: 
 		m_zoneType = ZoneAbilityNeutral;
+		m_zoneFlags = ZF_TRADE_OTHER_NATION | ZF_TALK_OTHER_NATION | ZF_FRIENDLY_NPCS | ZF_CLAN_UPDATE;
+		break;
+	case ZONE_DELOS:
+		m_zoneType = ZoneAbilitySiegeDisabled;
 		m_zoneFlags = ZF_TRADE_OTHER_NATION | ZF_TALK_OTHER_NATION | ZF_FRIENDLY_NPCS;
-#if __VERSION >= 1453
-		if (zoneNumber == ZONE_MORADON)
-			m_zoneFlags |= ZF_CLAN_UPDATE;
-#endif
+		m_byMinLevel = MIN_LEVEL_NATION_BASE, m_byMaxLevel = MAX_LEVEL;
 		break;
-
-	case ZONE_CAITHAROS_ARENA: // Caitharos/Knight Quest arena
-		m_zoneType = ZoneAbilityCaitharosArena;
-		m_zoneFlags = ZF_TALK_OTHER_NATION | ZF_ATTACK_OTHER_NATION | ZF_FRIENDLY_NPCS;
+	case ZONE_BIFROST:
+		m_zoneType = ZoneAbilityPVPNeutralNPCs;
+		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_FRIENDLY_NPCS;
+		m_byMinLevel = MIN_LEVEL_BIFROST, m_byMaxLevel = MAX_LEVEL;
 		break;
-	case ZONE_ISILOON_ARENA: // Isiloon/Knight Accredited Quest arena
+	case ZONE_DESPERATION_ABYSS:
+	case ZONE_HELL_ABYSS:
+	case ZONE_DRAGON_CAVE:
 		m_zoneType = ZoneAbilityPVPNeutralNPCs;
 		m_zoneFlags = ZF_TALK_OTHER_NATION | ZF_ATTACK_OTHER_NATION | ZF_FRIENDLY_NPCS;
-		break;
-	case ZONE_FELANKOR_ARENA: // Felankor/Knight Royal Quest arena
-		m_zoneType = ZoneAbilityPVPNeutralNPCs;
-		m_zoneFlags = ZF_TALK_OTHER_NATION | ZF_ATTACK_OTHER_NATION | ZF_FRIENDLY_NPCS;
-		break;
-	case ZONE_DESPERATION_ABYSS: // Desperation abyss
-		m_zoneType = ZoneAbilityPVPNeutralNPCs;
-		m_zoneFlags = ZF_TALK_OTHER_NATION | ZF_ATTACK_OTHER_NATION | ZF_FRIENDLY_NPCS;
-		break;
-	case ZONE_HELL_ABYSS: // Hell abyss
-		m_zoneType = ZoneAbilityPVPNeutralNPCs;
-		m_zoneFlags = ZF_TALK_OTHER_NATION | ZF_ATTACK_OTHER_NATION | ZF_FRIENDLY_NPCS;
-		break;
-	case ZONE_DRAGON_CAVE: // Dragon cave on abyss
-		m_zoneType = ZoneAbilityPVPNeutralNPCs;
-		m_zoneFlags = ZF_TALK_OTHER_NATION | ZF_ATTACK_OTHER_NATION | ZF_FRIENDLY_NPCS;
+		m_byMinLevel = MIN_LEVEL_NATION_BASE, m_byMaxLevel = MAX_LEVEL;
 		break;
 	case ZONE_ARENA:
 		m_zoneType = ZoneAbilityNeutral;
 		m_zoneFlags = ZF_TALK_OTHER_NATION | ZF_ATTACK_OTHER_NATION | ZF_ATTACK_SAME_NATION | ZF_FRIENDLY_NPCS;
 		break;
-	case ZONE_KARUS:
-		m_zoneType = ZoneAbilityPVP;
-		m_zoneFlags = ZF_ATTACK_OTHER_NATION  | ZF_CLAN_UPDATE;
-		m_byMinLevel = MIN_LEVEL_NATION_BASE, m_byMaxLevel = MAX_LEVEL_NATION_BASE;
-		break;
-	case ZONE_KARUS_ESLANT:
+	case ZONE_ORC_ARENA:
+	case ZONE_BLOOD_DON_ARENA:
+	case ZONE_GOBLIN_ARENA:
+	case ZONE_FORGOTTEN_TEMPLE:
 		m_zoneType = ZoneAbilityNeutral;
-		m_byMinLevel = MIN_LEVEL_ESLANT, m_byMaxLevel = MAX_LEVEL_ESLANT;
+		m_zoneFlags = ZF_TRADE_OTHER_NATION | ZF_TALK_OTHER_NATION | ZF_FRIENDLY_NPCS;
 		break;
-	case ZONE_ELMORAD:
-		m_zoneType = ZoneAbilityPVP;
-		m_zoneFlags = ZF_ATTACK_OTHER_NATION  | ZF_CLAN_UPDATE;
-		m_byMinLevel = MIN_LEVEL_NATION_BASE, m_byMaxLevel = MAX_LEVEL_NATION_BASE;
-		break;
-	case ZONE_ELMORAD_ESLANT:
-		m_zoneType = ZoneAbilityNeutral;
-		m_byMinLevel = MIN_LEVEL_ESLANT, m_byMaxLevel = MAX_LEVEL_ESLANT;
-		break;
-	case ZONE_ARDREAM:
-		m_zoneType = ZoneAbilityPVP;
-		m_zoneFlags = ZF_ATTACK_OTHER_NATION;
-		m_byMinLevel = MIN_LEVEL_ARDREAM, m_byMaxLevel = MAX_LEVEL_ARDREAM;
-		break;
-	case ZONE_RONARK_LAND_BASE:
-		m_zoneType = ZoneAbilityPVP;
-		m_zoneFlags = ZF_ATTACK_OTHER_NATION;
-		m_byMinLevel = MIN_LEVEL_RONARK_LAND_BASE, m_byMaxLevel = MAX_LEVEL_RONARK_LAND_BASE;
-		break;
-	case ZONE_RONARK_LAND:
-		m_zoneType = ZoneAbilityPVP;
-		m_zoneFlags = ZF_ATTACK_OTHER_NATION;
-		m_byMinLevel = MIN_LEVEL_RONARK_LAND, m_byMaxLevel = MAX_LEVEL_RONARK_LAND;
+	case ZONE_CAITHAROS_ARENA:
+		m_zoneType = ZoneAbilityCaitharosArena;
+		m_zoneFlags = ZF_TALK_OTHER_NATION | ZF_ATTACK_OTHER_NATION | ZF_FRIENDLY_NPCS;
 		break;
 	case ZONE_BATTLE:
-		m_zoneType = ZoneAbilityPVP;
-		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_WAR_ZONE;
-		m_byMinLevel = MIN_LEVEL_WAR_ZONE, m_byMaxLevel = MAX_LEVEL_WAR_ZONE;
-		break;
 	case ZONE_BATTLE2:
-		m_zoneType = ZoneAbilityPVP;
-		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_WAR_ZONE;
-		m_byMinLevel = MIN_LEVEL_WAR_ZONE, m_byMaxLevel = MAX_LEVEL_WAR_ZONE;
-		break;
 	case ZONE_BATTLE3:
-		m_zoneType = ZoneAbilityPVP;
-		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_WAR_ZONE;
-		m_byMinLevel = MIN_LEVEL_NIEDS_TRIANGLE, m_byMaxLevel = MAX_LEVEL_NIEDS_TRIANGLE;
-		break;
 	case ZONE_BATTLE4:
-		m_zoneType = ZoneAbilityPVP;
-		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_WAR_ZONE;
-		m_byMinLevel = MIN_LEVEL_WAR_ZONE, m_byMaxLevel = MAX_LEVEL_WAR_ZONE;
-		break;
 	case ZONE_BATTLE5:
-		m_zoneType = ZoneAbilityPVP;
-		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_WAR_ZONE;
-		m_byMinLevel = MIN_LEVEL_WAR_ZONE, m_byMaxLevel = MAX_LEVEL_WAR_ZONE;
-		break;
 	case ZONE_BATTLE6:
-		m_zoneType = ZoneAbilityPVP;
-		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_WAR_ZONE;
-		m_byMinLevel = MIN_LEVEL_WAR_ZONE, m_byMaxLevel = MAX_LEVEL_WAR_ZONE;
-		break;
 	case ZONE_SNOW_BATTLE:
 		m_zoneType = ZoneAbilityPVP;
 		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_WAR_ZONE;
-		m_byMinLevel = MIN_LEVEL_WAR_ZONE, m_byMaxLevel = MAX_LEVEL_WAR_ZONE;
+
+		if (zoneNumber == ZONE_BATTLE3)
+			m_byMinLevel = MIN_LEVEL_NIEDS_TRIANGLE, m_byMaxLevel = MAX_LEVEL_NIEDS_TRIANGLE;
+		else
+			m_byMinLevel = MIN_LEVEL_WAR_ZONE, m_byMaxLevel = MAX_LEVEL;
 		break;
-	case ZONE_DELOS:
-		m_zoneType = ZoneAbilitySiegeDisabled; // depends on current siege state
-		m_zoneFlags = ZF_TRADE_OTHER_NATION | ZF_TALK_OTHER_NATION | ZF_FRIENDLY_NPCS; // also depends on current siege state, should be updated by CSW.
-		break;
-	case ZONE_BIFROST:
-		m_zoneType = ZoneAbilityPVPNeutralNPCs; 
-		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_FRIENDLY_NPCS;
+	case ZONE_RONARK_LAND:
+	case ZONE_ARDREAM:
+	case ZONE_RONARK_LAND_BASE:
+		m_zoneType = ZoneAbilityPVP;
+		m_zoneFlags = ZF_ATTACK_OTHER_NATION;
+
+		if (zoneNumber == ZONE_RONARK_LAND)
+			m_byMinLevel = MIN_LEVEL_RONARK_LAND, m_byMaxLevel = MAX_LEVEL;
+		else if (zoneNumber == ZONE_ARDREAM)
+			m_byMinLevel = MIN_LEVEL_ARDREAM, m_byMaxLevel = MAX_LEVEL_ARDREAM;
+		else if (zoneNumber == ZONE_RONARK_LAND_BASE)
+			m_byMinLevel = MIN_LEVEL_RONARK_LAND_BASE, m_byMaxLevel = MAX_LEVEL_RONARK_LAND_BASE;
 		break;
 	case ZONE_KROWAZ_DOMINION:
 		m_zoneType = ZoneAbilityPVPNeutralNPCs;
-		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_TALK_OTHER_NATION | ZF_FRIENDLY_NPCS;
-		m_byMinLevel = MIN_LEVEL_KROWAZ_DOMINION, m_byMaxLevel = MAX_LEVEL_KROWAZ_DOMINION;
+		m_zoneFlags = ZF_TALK_OTHER_NATION | ZF_ATTACK_OTHER_NATION | ZF_FRIENDLY_NPCS;
+		m_byMinLevel = MIN_LEVEL_KROWAZ_DOMINION, m_byMaxLevel = MAX_LEVEL;
+		break;
+	case ZONE_BORDER_DEFENSE_WAR:
+		m_zoneType = ZoneAbilityPVP;
+		m_zoneFlags = ZF_ATTACK_OTHER_NATION;
 		break;
 	case ZONE_CHAOS_DUNGEON:
 		m_zoneType = ZoneAbilityPVP;
@@ -1103,6 +1066,12 @@ void KOMap::SetZoneAttributes(int zoneNumber)
 		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_FRIENDLY_NPCS;
 		m_byMinLevel = MIN_LEVEL_JURAD_MOUNTAIN, m_byMaxLevel = MAX_LEVEL;
 		break;
+	case ZONE_ISILOON_ARENA:
+	case ZONE_FELANKOR_ARENA:
+		m_zoneType = ZoneAbilityPVPNeutralNPCs;
+		m_zoneFlags = ZF_TALK_OTHER_NATION | ZF_ATTACK_OTHER_NATION | ZF_FRIENDLY_NPCS;
+		break;
+
 	default:
 		m_zoneType = ZoneAbilityPVP;
 		break;

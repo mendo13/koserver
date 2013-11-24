@@ -192,24 +192,8 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 
 	switch (pTargetMap->GetID())
 	{
-	case ZONE_ELMORAD:
-		if (GetLevel() < MIN_LEVEL_NATION_BASE)
-		{
-			errorReason = WarpListMinLevel;
-			return false;
-		} 
-
-		// Users may enter Luferson (1)/El Morad (2) if they are that nation, 
-		if (GetNation() == pTargetMap->GetID())
-			return true;
-
-		// Users may also enter if there's a war invasion happening in that zone.
-		if (GetNation() == ELMORAD)
-			return g_pMain->m_byKarusOpenFlag;
-		else
-			return g_pMain->m_byElmoradOpenFlag;
-		break;
 	case ZONE_KARUS:
+	case ZONE_ELMORAD:
 		if (GetLevel() < MIN_LEVEL_NATION_BASE)
 		{
 			errorReason = WarpListMinLevel;
@@ -225,55 +209,88 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 			return g_pMain->m_byElmoradOpenFlag;
 		else
 			return g_pMain->m_byKarusOpenFlag;
-		break;
+
 	case ZONE_KARUS_ESLANT:
 		if (GetLevel() < MIN_LEVEL_ESLANT)
 		{
 			errorReason = WarpListMinLevel;
 			return false;
 		}
-		else
-			return GetNation() == KARUS; 
 
-		break;
+		return GetNation() == KARUS; 
+
 	case ZONE_ELMORAD_ESLANT:
 		if (GetLevel() < MIN_LEVEL_ESLANT)
 		{
 			errorReason = WarpListMinLevel;
 			return false;
 		}
-		else
-			return GetNation() == ELMORAD;
 
-		break;
+		return GetNation() == ELMORAD;
+
 	case ZONE_DELOS:
+	case ZONE_DESPERATION_ABYSS:
+	case ZONE_HELL_ABYSS:
+	case ZONE_DRAGON_CAVE:
 		if (GetLevel() < MIN_LEVEL_NATION_BASE)
 		{
 			errorReason = WarpListMinLevel;
-			return false;
-		} 
-
-		return true;
-		break;
-	case ZONE_BIFROST:
-		if (GetLevel() < MIN_LEVEL_NATION_BASE)
-		{
-			errorReason = WarpListMinLevel;
-			return false;
-		} 
-
-		return true;
-		break;
-	case ZONE_ARDREAM:
-		if (g_pMain->m_byBattleOpen != NO_BATTLE)
-		{
-			errorReason = WarpListNotDuringWar;
 			return false;
 		}
 
 		if (GetLoyalty() <= 0)
 		{
 			errorReason = WarpListNeedNP;
+			return false;
+		}
+
+		return true;
+
+	case ZONE_BIFROST:
+		if (g_pMain->m_byBattleOpen != NO_BATTLE)
+		{
+			errorReason = WarpListNotDuringWar;
+			return false;
+		}
+
+		if (GetLevel() < MIN_LEVEL_BIFROST)
+		{
+			errorReason = WarpListMinLevel;
+			return false;
+		}
+
+		if (GetLoyalty() <= 0)
+		{
+			errorReason = WarpListNeedNP;
+			return false;
+		}
+
+		return true;
+
+	case ZONE_RONARK_LAND:
+		if (g_pMain->m_byBattleOpen != NO_BATTLE)
+		{
+			errorReason = WarpListNotDuringWar;
+			return false;
+		}
+
+		if (GetLevel() < MIN_LEVEL_RONARK_LAND)
+		{
+			errorReason = WarpListMinLevel;
+			return false;
+		}
+
+		if (GetLoyalty() <= 0)
+		{
+			errorReason = WarpListNeedNP;
+			return false;
+		}
+		break;
+
+	case ZONE_ARDREAM:
+		if (g_pMain->m_byBattleOpen != NO_BATTLE)
+		{
+			errorReason = WarpListNotDuringWar;
 			return false;
 		}
 
@@ -283,22 +300,24 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 			return false;
 		}
 
-		if (!CanLevelQualify(MAX_LEVEL_ARDREAM) || GetLevel() > MAX_LEVEL_ARDREAM) 
+		if (GetLevel() > MAX_LEVEL_ARDREAM 
+			|| (!CanLevelQualify(MAX_LEVEL_ARDREAM)))
 		{
 			errorReason = WarpListDoNotQualify;
-			return false;
-		}
-		break;
-	case ZONE_RONARK_LAND_BASE:
-		if (g_pMain->m_byBattleOpen != NO_BATTLE)
-		{
-			errorReason = WarpListNotDuringWar;
 			return false;
 		}
 
 		if (GetLoyalty() <= 0)
 		{
 			errorReason = WarpListNeedNP;
+			return false;
+		}
+		break;
+
+	case ZONE_RONARK_LAND_BASE:
+		if (g_pMain->m_byBattleOpen != NO_BATTLE)
+		{
+			errorReason = WarpListNotDuringWar;
 			return false;
 		}
 
@@ -308,35 +327,24 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 			return false;
 		}
 
-		if (!CanLevelQualify(MAX_LEVEL_RONARK_LAND_BASE) || GetLevel() >  MAX_LEVEL_RONARK_LAND_BASE)
+		if (GetLevel() > MAX_LEVEL_RONARK_LAND_BASE 
+			|| (!CanLevelQualify(MAX_LEVEL_RONARK_LAND_BASE)))
 		{
 			errorReason = WarpListDoNotQualify;
 			return false;
 		}
+
+		if (GetLoyalty() <= 0)
+		{
+			errorReason = WarpListNeedNP;
+			return false;
+		}
 		break;
-	case ZONE_RONARK_LAND:
+
+	case ZONE_KROWAZ_DOMINION:
 		if (g_pMain->m_byBattleOpen != NO_BATTLE)
 		{
 			errorReason = WarpListNotDuringWar;
-			return false;
-		}
-
-		if (GetLoyalty() <= 0)
-		{
-			errorReason = WarpListNeedNP;
-			return false;
-		}
-
-		if (GetLevel() < MIN_LEVEL_RONARK_LAND)
-		{
-			errorReason = WarpListMinLevel;
-			return false;
-		}
-		break;
-	case ZONE_KROWAZ_DOMINION:
-		if (GetLoyalty() <= 0)
-		{
-			errorReason = WarpListNeedNP;
 			return false;
 		}
 
@@ -345,14 +353,27 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 			errorReason = WarpListMinLevel;
 			return false;
 		}
+
+		if (GetLoyalty() <= 0)
+		{
+			errorReason = WarpListNeedNP;
+			return false;
+		}
 		break;
+
+	case ZONE_JURAD_MOUNTAIN:
+		if (GetLevel() < MIN_LEVEL_JURAD_MOUNTAIN)
+		{
+			errorReason = WarpListMinLevel;
+			return false;
+		}
+		break;
+
 	default:
 		// War zones may only be entered if that war zone is active.
 		if (pTargetMap->isWarZone())
 		{
 			if ((pTargetMap->GetID() - ZONE_BATTLE_BASE) != g_pMain->m_byBattleZone)
-				return false;
-			else if (GetNation() == KARUS && g_pMain->m_byKarusOpenFlag)
 				return false;
 			else if (GetNation() == ELMORAD && g_pMain->m_byElmoradOpenFlag)
 				return false;
