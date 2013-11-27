@@ -2832,8 +2832,7 @@ void CUser::CountConcurrentUser()
 */
 void CUser::LoyaltyDivide(int16 tid, uint16 bonusNP /*= 0*/)
 {
-	int levelsum = 0, individualvalue = 0;
-	short temp_loyalty = 0, loyalty_source = 0, loyalty_target = 0;
+	int16 loyalty_source = 0, loyalty_target = 0;
 	uint8 total_member = 0;
 
 	if (!isInParty())
@@ -2852,12 +2851,12 @@ void CUser::LoyaltyDivide(int16 tid, uint16 bonusNP /*= 0*/)
 		CUser *pUser = g_pMain->GetUserPtr(pParty->uid[i]);
 		if (pUser == nullptr)
 			continue;
-		levelsum += pUser->GetLevel();
+
 		total_member++;
 	}
 
-	if (levelsum <= 0) return;		// Protection codes.
-	if (total_member <= 0) return;
+	if (total_member <= 0)
+		return;
 
 	//	This is for the Event Battle on Wednesday :(
 	if (g_pMain->m_byBattleOpen
@@ -2869,8 +2868,10 @@ void CUser::LoyaltyDivide(int16 tid, uint16 bonusNP /*= 0*/)
 			g_pMain->m_sElmoradDead++;
 	}
 
-	if (pTUser->GetNation() != GetNation()) {		// Different nations!!!
-		if (pTUser->GetLoyalty() == 0) {	   // No cheats allowed...
+	if (pTUser->GetNation() != GetNation()) // Different nations!!!
+	{
+		if (pTUser->GetLoyalty() == 0) // No cheats allowed...
+		{
 			loyalty_source = 0;
 			loyalty_target = 0;
 		}
@@ -2889,20 +2890,19 @@ void CUser::LoyaltyDivide(int16 tid, uint16 bonusNP /*= 0*/)
 	else 
 		return;
 
-	if (m_bZone != m_bNation && m_bZone < 3) { 
-		loyalty_source  = 2 * loyalty_source;
-	}
+	if (m_bZone != m_bNation && m_bZone < 3)
+		loyalty_source = 2 * loyalty_source;
 
 	// Adds bonus NP to be divided up & rewarded to the entire party.
 	// e.g. in the case of rival kills (should it share this particular bonus though?)
 	loyalty_source += bonusNP;
 
-	for (int j = 0; j < MAX_PARTY_USERS; j++) {		// Distribute loyalty amongst party members.
+	for (int j = 0; j < MAX_PARTY_USERS; j++) // Distribute loyalty amongst party members.
+	{
 		CUser *pUser = g_pMain->GetUserPtr(pParty->uid[j]);
 		if (pUser == nullptr)
 			continue;
 
-		loyalty_source = pUser->GetLevel() * loyalty_source / levelsum;
 		pUser->SendLoyaltyChange(loyalty_source, true);
 	}
 
