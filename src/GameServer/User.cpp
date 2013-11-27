@@ -2939,10 +2939,20 @@ int16 CUser::GetLoyaltyDivideSource(uint8 totalmember)
 			for (int i = 0; i < totalmember - 1; i++)
 				nLoyaltySource += 2;
 		}
-		else if (totalmember >= 4 && totalmember <= 8)
+		else if (totalmember >= 4 && totalmember <= MAX_PARTY_USERS)
 		{
-			for (int i = totalmember; i < MAX_PARTY_USERS + 1; i++)
+			nLoyaltySource = (nBaseLoyalty + MAX_PARTY_USERS) / 4;
+
+			if (totalmember == 4)
+				nLoyaltySource += 6;
+			else if (totalmember == 5)
+				nLoyaltySource += 4;
+			else if (totalmember == 6)
 				nLoyaltySource += 2;
+			else if (totalmember == 7)
+				nLoyaltySource = nLoyaltySource;
+			else if (totalmember == 8)
+				nLoyaltySource -= 2;
 		}
 	}
 
