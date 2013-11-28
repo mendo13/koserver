@@ -47,7 +47,7 @@ void CUser::ItemRepair(Packet & pkt)
 
 		money = (unsigned int)((((pTable->m_iBuyPrice-10) / 10000.0f) + pow((float)pTable->m_iBuyPrice, 0.75f)) * quantity / (double)durability);
 
-		if (m_bPremiumType > 0)
+		if (m_bPremiumType != 0)
 			money = money * GetPremiumProperty(PremiumRepairDiscountPercent) / 100;
 
 		if (!GoldLose(money, false))

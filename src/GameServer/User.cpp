@@ -601,8 +601,8 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 
 		if (bIsKillReward)
 		{
-			if (m_bPremiumType > 0) {
-
+			if (m_bPremiumType != 0)
+			{
 				m_iLoyalty += GetPremiumProperty(PremiumBonusLoyalty);
 				m_iLoyaltyMonthly += GetPremiumProperty(PremiumBonusLoyalty);
 
@@ -1505,7 +1505,7 @@ void CUser::ExpChange(int64 iExp)
 		// NOTE: They officially check to see if the XP is <= 100,000.
 		iExp = iExp * (100 + g_pMain->m_byExpEventAmount) / 100;
 
-		if (m_bPremiumType > 0)
+		if (m_bPremiumType != 0)
 			iExp = iExp * (100 + GetPremiumProperty(PremiumExpPercent)) / 100;
 	}
 
@@ -1576,8 +1576,8 @@ uint16 CUser::GetPremiumProperty(PremiumPropertyOpCodes type) {
 
 	switch (type)
 	{
-		if (type == PremiumExpRestorePercent)
-			return pPremiumItem->ExpRestorePercent;
+	case PremiumExpRestorePercent:
+		return pPremiumItem->ExpRestorePercent;
 	case PremiumNoahPercent:
 		return pPremiumItem->NoahPercent;
 	case PremiumDropPercent:
@@ -1594,9 +1594,13 @@ uint16 CUser::GetPremiumProperty(PremiumPropertyOpCodes type) {
 				_PREMIUM_ITEM_EXP *pPremiumItemExp = g_pMain->m_PremiumItemExpArray.GetData(itr->first);
 
 				if (pPremiumItemExp != nullptr)
+				{
 					if (m_bPremiumType == pPremiumItemExp->Type)
+					{
 						if (GetLevel() >= pPremiumItemExp->MinLevel && GetLevel() <= pPremiumItemExp->MaxLevel)
 							return pPremiumItemExp->sPercent;
+					}
+				}
 			}
 		}
 	}
@@ -2269,7 +2273,7 @@ void CUser::ItemGet(Packet & pkt)
 			|| (pParty = g_pMain->GetPartyPtr(GetPartyID())) == nullptr)
 		{
 			// NOTE: Coins have been checked already.
-			if (m_bPremiumType > 0)
+			if (m_bPremiumType != 0)
 				pGold = pItem->sCount * (100 + GetPremiumProperty(PremiumNoahPercent)) / 100;
 			else
 				pGold = pItem->sCount;
@@ -2306,7 +2310,7 @@ void CUser::ItemGet(Packet & pkt)
 				// Give each party member coins relative to their level.
 				int coins = (int)(pItem->sCount * (float)((*itr)->GetLevel() / (float)sumOfLevels));
 
-				if ((*itr)->m_bPremiumType > 0)
+				if ((*itr)->m_bPremiumType != 0)
 					pGold = coins * (100 + GetPremiumProperty(PremiumNoahPercent)) / 100;
 				else
 					pGold = coins;
@@ -4287,7 +4291,7 @@ void CUser::OnDeath(Unit *pKiller)
 			if ((pNpc->GetType() == NPC_GUARD_TOWER1 || pNpc->GetType() == NPC_GUARD_TOWER2) && isInPKZone())
 				noticeType = DeathNotice;
 
-			if (m_bPremiumType > 0)
+			if (m_bPremiumType != 0)
 				nExpLost = nExpLost * (GetPremiumProperty(PremiumExpRestorePercent)) / 100;
 
 			ExpChange(-nExpLost);
@@ -4391,7 +4395,7 @@ void CUser::OnDeath(Unit *pKiller)
 						{
 							int64 nExpLost = m_iMaxExp / 100;
 
-							if (m_bPremiumType > 0)
+							if (m_bPremiumType != 0)
 								nExpLost = nExpLost * (GetPremiumProperty(PremiumExpRestorePercent)) / 100;
 
 							ExpChange(-nExpLost);
@@ -4961,7 +4965,7 @@ void CUser::HandleMiningAttempt(Packet & pkt)
 	{
 		int rate = myrand(1, 100), random = myrand(1, 10000);
 
-		if (m_bPremiumType > 0)
+		if (m_bPremiumType != 0)
 		{
 			rate += (rate / 100) * GetPremiumProperty(PremiumDropPercent);
 			random += (rate / 100) * GetPremiumProperty(PremiumDropPercent);

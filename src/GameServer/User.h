@@ -368,7 +368,7 @@ public:
 	INLINE uint8 GetFame() { return m_bFame; }
 
 	INLINE uint16 GetClass() { return m_sClass; }
-	INLINE bool GetPremium() { return m_bPremiumType > 0 ? true : false; }
+	INLINE bool GetPremium() { return m_bPremiumType != 0 ? true : false; }
 
 	/**
 	* @brief	Gets the player's base class type, independent of nation.
