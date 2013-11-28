@@ -55,8 +55,8 @@ void CUser::Attack(Packet & pkt)
 			damage = GetDamage(pTarget);
 
 			// Can't use R attacks in the Snow War.
-			if (GetZoneID() == ZONE_SNOW_BATTLE 
-				&& g_pMain->m_byBattleOpen == SNOW_BATTLE)
+			if ((GetZoneID() == ZONE_SNOW_BATTLE 
+				&& g_pMain->m_byBattleOpen == SNOW_BATTLE) || pTarget->hasBuff(BUFF_TYPE_FREEZE))
 				damage = 0;
 
 			if (damage > 0)

@@ -567,6 +567,8 @@ bool MagicInstance::ExecuteSkill(uint8 bType)
 			CMagicProcess::RemoveStealth(pSkillCaster, INVIS_DISPEL_ON_MOVE);
 			CMagicProcess::RemoveStealth(pSkillCaster, INVIS_DISPEL_ON_ATTACK);
 		}
+		if (TO_USER(pSkillTarget)->hasBuff(BUFF_TYPE_FREEZE))
+			return false;
 	}
 
 	switch (bType)
