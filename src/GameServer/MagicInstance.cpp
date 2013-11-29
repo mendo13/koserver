@@ -66,8 +66,8 @@ void MagicInstance::Run()
 		}
 		else
 		{
-			if (TO_USER(pSkillTarget)->hasBuff(BUFF_TYPE_FREEZE))
-				bSendSkillFailed = false;
+			if (TO_USER(pSkillTarget)->hasBuff(BUFF_TYPE_FREEZE)) // Effect Sorunu ve Blink Sorunu Var...
+				bSendSkillFailed = true;
 		}
 	}
 

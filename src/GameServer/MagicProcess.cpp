@@ -13,15 +13,6 @@
 #if defined(GAMESERVER)
 void CMagicProcess::MagicPacket(Packet & pkt, Unit * pCaster /*= nullptr*/)
 {
-	bool bSkillTestMode = false;
-
-	if (bSkillTestMode)
-	{
-		if (pCaster->isPlayer())
-			if (!TO_USER(pCaster)->isGM())
-				return;
-	}
-
 	MagicInstance instance;
 	pkt >> instance.bOpcode >> instance.nSkillID;
 

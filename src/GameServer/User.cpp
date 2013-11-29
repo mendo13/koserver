@@ -3399,7 +3399,8 @@ void CUser::Home()
 			/* No cheats allowed */
 			|| GetHealth() < (GetMaxHealth() / 2)
 			|| GetZoneID() == ZONE_CHAOS_DUNGEON
-			|| GetZoneID() == ZONE_BORDER_DEFENSE_WAR) 
+			|| GetZoneID() == ZONE_BORDER_DEFENSE_WAR
+			|| hasBuff(BUFF_TYPE_FREEZE))
 			return;
 
 	// The point where you will be warped to.
