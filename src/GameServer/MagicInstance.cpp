@@ -962,7 +962,10 @@ bool MagicInstance::IsAvailable()
 			}
 		}
 	}
-
+	
+	if (sTargetID == -1 && (pSkill->bType[0] == 4 || pSkill->bType[0] == 3))
+		SendSkill();
+		
 	return true;
 
 fail_return: 
@@ -1212,13 +1215,6 @@ bool MagicInstance::ExecuteType3()
 				&& !pTarget->isDead() && !pTarget->isBlinking() && pTarget->isAttackable()
 				&& CMagicProcess::UserRegionCheck(pSkillCaster, pTarget, pSkill, pType->bRadius, sData[0], sData[2]))
 				casted_member.push_back(pTarget);
-		}
-
-		// If you managed to not hit anything with your AoE, you're still gonna have a cooldown (You should l2aim)
-		if (casted_member.empty() || (sTargetID == -1 && casted_member.empty()))
-		{
-			SendSkill();
-			return true;			
 		}
 	}
 	else
@@ -1480,11 +1476,7 @@ bool MagicInstance::ExecuteType3()
 			g_pMain->Send_AIServer(&result);
 		}
 	}
-
-	// Allow for AOE effects.
-	if (sTargetID == -1 && pSkill->bType[0] == 3)
-		SendSkill();
-
+	
 	return true;
 }
 
@@ -1521,14 +1513,6 @@ bool MagicInstance::ExecuteType4()
 			if (!pTarget->isDead() && !pTarget->isBlinking() && pTarget->isAttackable()
 				&& CMagicProcess::UserRegionCheck(pSkillCaster, pTarget, pSkill, pType->bRadius, sData[0], sData[2]))
 				casted_member.push_back(pTarget);
-		}
-
-		if (casted_member.empty())
-		{		
-			if (pSkillCaster->isPlayer())
-				SendSkill();
-
-			return false;
 		}
 	}
 	else 
