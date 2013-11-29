@@ -2605,6 +2605,8 @@ void CUser::LoyaltyChange(int16 tid, uint16 bonusNP /*= 0*/)
 		{
 			loyalty_source = 0;
 			loyalty_target = 0;
+			if (pTUser->GetZoneID() != ZONE_KARUS || pTUser->GetZoneID() != ZONE_ELMORAD)
+				pTUser->ZoneChangeNation();
 		}
 		// Caitharos Arena
 		else if (pTUser->GetZoneID() == ZONE_CAITHAROS_ARENA)
