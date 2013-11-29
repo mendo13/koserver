@@ -550,12 +550,7 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 		uint32 amt = -nChangeAmount; /* avoids unsigned/signed comparison warning */
 
 		if (amt > m_iLoyalty)
-		{
 			m_iLoyalty = 0;
-
-			if (isInPKZone())
-				Home();
-		}
 		else 
 			m_iLoyalty += nChangeAmount;
 
@@ -2605,8 +2600,6 @@ void CUser::LoyaltyChange(int16 tid, uint16 bonusNP /*= 0*/)
 		{
 			loyalty_source = 0;
 			loyalty_target = 0;
-			if (pTUser->GetZoneID() != ZONE_KARUS || pTUser->GetZoneID() != ZONE_ELMORAD)
-				pTUser->ZoneChangeNation();
 		}
 		// Caitharos Arena
 		else if (pTUser->GetZoneID() == ZONE_CAITHAROS_ARENA)

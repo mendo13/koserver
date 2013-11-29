@@ -48,6 +48,9 @@ void CUser::Attack(Packet & pkt)
 			if (isInTempleEventZone() && !isSameEventRoom(pTarget))
 				return;
 
+			if (pTarget->hasBuff(BUFF_TYPE_FREEZE))
+				return;
+
 			CUser *pUser = g_pMain->GetUserPtr(GetSocketID());
 			if (pUser != nullptr)
 				pUser->m_RHitRepeatList.insert(std::make_pair(GetSocketID(), UNIXTIME));
@@ -55,8 +58,7 @@ void CUser::Attack(Packet & pkt)
 			damage = GetDamage(pTarget);
 
 			// Can't use R attacks in the Snow War.
-			if ((GetZoneID() == ZONE_SNOW_BATTLE 
-				&& g_pMain->m_byBattleOpen == SNOW_BATTLE) || pTarget->hasBuff(BUFF_TYPE_FREEZE))
+			if (GetZoneID() == ZONE_SNOW_BATTLE && g_pMain->m_byBattleOpen == SNOW_BATTLE)
 				damage = 0;
 
 			if (damage > 0)
@@ -227,9 +229,10 @@ void CUser::Regene(uint8 regene_type, uint32 magicid /*= 0*/)
 	{
 		// In PVP zones (not war zones), we must kick out players if they no longer
 		// have any national points.
-		if (GetMap()->isNationPVPZone() 
-			&& GetMap()->isWarZone()
-			&& GetLoyalty() == 0)
+		if (GetLoyalty() == 0 
+			&& (GetMap()->isNationPVPZone() 
+			|| GetMap()->isWarZone()
+			|| isInPKZone()))
 			KickOutZoneUser();
 	}
 }

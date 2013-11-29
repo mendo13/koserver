@@ -703,13 +703,3 @@ void CUser::RecvZoneChange(Packet & pkt)
 		m_bWarp = false;
 	}
 }
-
-void CUser::ZoneChangeNation()
-{
-	_HOME_INFO *pHome = g_pMain->m_HomeArray.GetData(GetNation() ? KARUS : ELMORAD);
-	if (GetNation() == KARUS)
-		ZoneChange(GetNation(),pHome->KarusZoneX+pHome->KarusZoneLX,pHome->KarusZoneZ+pHome->KarusZoneLZ);
-	if (GetNation() == ELMORAD)
-		ZoneChange(GetNation(),pHome->ElmoZoneX+pHome->ElmoZoneLX,pHome->ElmoZoneZ+pHome->ElmoZoneLZ);
-	return;
-}

@@ -64,6 +64,11 @@ void MagicInstance::Run()
 			if (!pSkillTarget->isAttackable(pSkillTarget))
 				bSendSkillFailed = true;
 		}
+		else
+		{
+			if (TO_USER(pSkillTarget)->hasBuff(BUFF_TYPE_FREEZE))
+				bSendSkillFailed = false;
+		}
 	}
 
 	if (bSendSkillFailed)
@@ -567,8 +572,6 @@ bool MagicInstance::ExecuteSkill(uint8 bType)
 			CMagicProcess::RemoveStealth(pSkillCaster, INVIS_DISPEL_ON_MOVE);
 			CMagicProcess::RemoveStealth(pSkillCaster, INVIS_DISPEL_ON_ATTACK);
 		}
-		if (TO_USER(pSkillTarget)->hasBuff(BUFF_TYPE_FREEZE))
-			return false;
 	}
 
 	switch (bType)
