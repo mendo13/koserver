@@ -2244,9 +2244,9 @@ bool MagicInstance::ExecuteType8()
 
 				for (std::vector<_MONSTER_SUMMON_LIST>::iterator itr = pMonsterSummonList->begin(); itr != pMonsterSummonList->end(); ++itr)
 				{
-					if (nCurrentMonster != nRandom)
+					if (nCurrentMonster == nRandom)
 					{
-						g_pMain->SpawnEventNpc(itr->sSid,true,pSkillCaster->GetZoneID(),pSkillCaster->GetX(),pSkillCaster->GetY(),pSkillCaster->GetZ(),1,(pType->sRadius/100));
+						g_pMain->SpawnEventNpc(itr->sSid,true,pSkillCaster->GetZoneID(),pSkillCaster->GetX(),pSkillCaster->GetY(),pSkillCaster->GetZ(),1,(pType->sRadius/1000));
 						break;
 					}
 					else
