@@ -206,7 +206,12 @@ bool CLuaEngine::ExecuteScript(CUser * pUser, CNpc * pNpc, int32 nEventID, int8 
 		bytecode.reserve(LUA_SCRIPT_BUFFER_SIZE);
 		if (!SelectAvailableScript()->CompileScript(szPath.c_str(), bytecode))
 		{
-			printf("ERROR: Could not compile Lua script `%s`.\n", szPath.c_str());
+			printf("ERROR: Could not compile Lua script.\n");
+			printf("FILE: %s\n", szPath.c_str());
+			printf("USER: %s\n", pUser->GetName().c_str());
+			printf("ZONE: %d\n", pUser->GetZoneID());
+			printf("NPC ID: %d\n", pNpc->m_sSid);
+			printf("-\n");
 			return false;
 		}
 
@@ -346,7 +351,7 @@ bool CLuaScript::ExecuteScript(CUser * pUser, CNpc * pNpc, int32 nEventID, int8 
 		printf("USER: %s\n", pUser->GetName().c_str());
 		printf("ZONE: %d\n", pUser->GetZoneID());
 		printf("NPC ID: %d\n", pNpc->m_sSid);
-		printf("-\n", filename);
+		printf("-\n");
 		break;
 
 	case LUA_ERRMEM:
@@ -355,7 +360,7 @@ bool CLuaScript::ExecuteScript(CUser * pUser, CNpc * pNpc, int32 nEventID, int8 
 		printf("USER: %s\n", pUser->GetName().c_str());
 		printf("ZONE: %d\n", pUser->GetZoneID());
 		printf("NPC ID: %d\n", pNpc->m_sSid);
-		printf("-\n", filename);
+		printf("-\n");
 		break;
 
 	case LUA_ERRERR:
@@ -364,7 +369,7 @@ bool CLuaScript::ExecuteScript(CUser * pUser, CNpc * pNpc, int32 nEventID, int8 
 		printf("USER: %s\n", pUser->GetName().c_str());
 		printf("ZONE: %d\n", pUser->GetZoneID());
 		printf("NPC ID: %d\n", pNpc->m_sSid);
-		printf("-\n", filename);
+		printf("-\n");
 		break;
 
 	default:
@@ -373,7 +378,7 @@ bool CLuaScript::ExecuteScript(CUser * pUser, CNpc * pNpc, int32 nEventID, int8 
 		printf("USER: %s\n", pUser->GetName().c_str());
 		printf("ZONE: %d\n", pUser->GetZoneID());
 		printf("NPC ID: %d\n", pNpc->m_sSid);
-		printf("-\n", filename);
+		printf("-\n");
 		break;
 	}
 
@@ -382,7 +387,7 @@ bool CLuaScript::ExecuteScript(CUser * pUser, CNpc * pNpc, int32 nEventID, int8 
 	{
 		printf("ERROR: [%s] The following error was provided.\n",filename);
 		printf("MESSAGE: %s\n", lua_to<const char *>(m_luaState, -1));
-		printf("-\n", filename);
+		printf("-\n");
 
 	}
 
@@ -421,8 +426,7 @@ void CLuaScript::RetrieveLoadError(int err, const char * filename)
 	// Is there an error set? That can be more useful than our generic error.
 	if (lua_isstring(m_luaState, -1))
 	{
-		printf("ERROR: [%s] The following error was provided:\n%s\n",
-			filename, lua_to<const char *>(m_luaState, -1));
+		printf("ERROR: %s", lua_to<const char *>(m_luaState, -1));
 	}
 }
 
