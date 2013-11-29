@@ -3106,11 +3106,19 @@ void CUser::HPTimeChange()
 	}
 	else if (m_bResHpType == USER_SITDOWN)
 	{
-		if (m_iMaxHp != m_sHp)
-			HpChange((int)(GetLevel() * (1 + GetLevel() / 30.0)) + 3);
+		if (isGM())
+		{
+			HpChange(m_iMaxHp);
+			MSpChange(m_iMaxMp);
+		}
+		else
+		{
+			if (m_iMaxHp != m_sHp)
+				HpChange((int)(GetLevel() * (1 + GetLevel() / 30.0)) + 3);
 
-		if (m_iMaxMp != m_sMp)
-			MSpChange((int)(((m_iMaxMp * 5) / ((GetLevel() - 1) + 30 )) + 3) * mpPercent / 100);
+			if (m_iMaxMp != m_sMp)
+				MSpChange((int)(((m_iMaxMp * 5) / ((GetLevel() - 1) + 30 )) + 3) * mpPercent / 100);
+		}
 	}
 }
 

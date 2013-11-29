@@ -2236,9 +2236,24 @@ bool MagicInstance::ExecuteType8()
 			} break;
 
 		case 21:	// Summon a monster within a zone.
-			// LATER!!! 
-			break;
+			{
+				MonsterSummonList * pMonsterSummonList = g_pMain->m_MonsterSummonList.GetData(1); // bType
 
+				int nCurrentMonster = 0;
+				int nRandom = myrand(0, (int32)pMonsterSummonList->size());
+
+				for (std::vector<_MONSTER_SUMMON_LIST>::iterator itr = pMonsterSummonList->begin(); itr != pMonsterSummonList->end(); ++itr)
+				{
+					if (nCurrentMonster != nRandom)
+					{
+						g_pMain->SpawnEventNpc(itr->sSid,true,pSkillCaster->GetZoneID(),pSkillCaster->GetX(),pSkillCaster->GetY(),pSkillCaster->GetZ(),1,(pType->sRadius/100));
+						break;
+					}
+					else
+						nCurrentMonster++;
+				}
+			}
+			break;
 			// This is used by Wild Advent (70 rogue skill) and Descent, teleport the user to the target user (Moral check to distinguish between the 2 skills)
 		case 25:
 			float dest_x, dest_z = 0.0f;
