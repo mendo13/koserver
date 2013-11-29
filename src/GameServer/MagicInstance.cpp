@@ -56,6 +56,11 @@ void MagicInstance::Run()
 					&& bSendSkillFailed 
 					&& (pSkill->bType[0] == 2 || pSkill->bType[1] == 2))
 					bSendSkillFailed = false;
+				
+				if (pCaster->isMage() /* Mage İçin Sonrasında Kontrol Genişletilecek */
+					&& bSendSkillFailed 
+					&& (pSkill->bType[0] == 3 || pSkill->bType[1] == 3 || pSkill->bType[0] == 4 || pSkill->bType[1] == 4))
+					bSendSkillFailed = false;
 			}
 		}
 
