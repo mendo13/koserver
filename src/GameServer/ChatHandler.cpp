@@ -740,8 +740,8 @@ COMMAND_HANDLER(CUser::HandleKnightsSummonCommand)
 	{
 		if(itr->second->GetName() == vargs.front().c_str())
 		{
-		   pKnights = g_pMain->GetClanPtr(itr->first);
-		   break;
+			pKnights = g_pMain->GetClanPtr(itr->first);
+			break;
 		}
 	}
 

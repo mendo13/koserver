@@ -1155,16 +1155,17 @@ void CKnightsManager::ListTop10Clans(CUser *pUser)
 	result << uint16(0);
 
 	// List top 5 clans of each nation
-	for (int nation = KARUS - 1; nation < ELMORAD; nation++)
+	for (int nation = KARUS_ARRAY; nation <= ELMORAD_ARRAY; nation++)
 	{
-		for (int i = 1; i <= 5; i++)
+		uint16 i = 1;
+		foreach_stlmap(itr, g_pMain->m_KnightsRatingArray[nation])
 		{
-			_KNIGHTS_RATING * pRating = 
-				g_pMain->m_KnightsRatingArray[nation].GetData(i);
-			CKnights *pKnights = nullptr;
+			if (i > 5)
+				break;
 
-			if (pRating == nullptr
-				|| (pKnights = g_pMain->GetClanPtr(pRating->sClanID)) == nullptr)
+			CKnights *pKnights = g_pMain->GetClanPtr(itr->second->sClanID);
+
+			if (pKnights == nullptr)
 			{
 				result	<< int16(-1)	// Clan ID
 					<< ""			// Clan name (2 byte length)
@@ -1173,8 +1174,13 @@ void CKnightsManager::ListTop10Clans(CUser *pUser)
 			}
 			else
 			{
-				result << pKnights->m_sIndex << pKnights->m_strName << pKnights->m_sMarkVersion << int16(i-1);
+				if (pKnights->m_byNation == nation + 1)
+					result << pKnights->m_sIndex << pKnights->m_strName << pKnights->m_sMarkVersion << int16(i-1);
+				else
+					continue;
 			}
+
+			i++;
 		}
 	}
 
