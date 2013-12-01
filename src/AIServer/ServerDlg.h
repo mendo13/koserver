@@ -31,6 +31,7 @@ typedef CSTLMap <MAP>						ZoneArray;
 typedef CSTLMap <_K_MONSTER_ITEM>			NpcItemArray;
 typedef CSTLMap <_MAKE_ITEM_GROUP>			MakeItemGroupArray;
 typedef CSTLMap <_SERVER_RESOURCE>			ServerResourceArray;
+typedef CSTLMap <_MONSTER_RESPAWN_INFORMATION>	MonsterRespawnInformationArray;
 
 typedef std::map<uint16, CUser *>			UserSessionMap;
 
@@ -106,6 +107,7 @@ public:
 	NpcItemArray			m_NpcItemArray;
 	MakeItemGroupArray		m_MakeItemGroupArray;
 	ServerResourceArray		m_ServerResourceArray;
+	MonsterRespawnInformationArray		m_MonsterRespawnInformationArray;
 
 	Thread m_zoneEventThread;
 

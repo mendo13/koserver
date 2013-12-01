@@ -273,6 +273,17 @@ struct _MONSTER_RESPAWN_LIST
 	uint8	sCount;
 };
 
+struct _MONSTER_RESPAWN_INFORMATION
+{
+	uint16 sIndex;
+	uint16 sSid;
+	uint8 ZoneID;
+	bool IsMonster;
+	float fX;
+	float fZ;
+	float fY;
+};
+
 #define MAX_PARTY_USERS		8
 struct	_PARTY_GROUP
 {
