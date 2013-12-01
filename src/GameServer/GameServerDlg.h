@@ -378,7 +378,7 @@ public:
 	int32	m_byBattleOpenedTime;
 	int32	m_byBattleTime;
 	int32	m_sBattleTimeDelay;
-	uint8	m_sKillKarusNpc, m_sKillElmoNpc;
+	uint8	m_sKilledKarusNpc, m_sKilledElmoNpc;
 	bool    m_byKarusOpenFlag, m_byElmoradOpenFlag, m_byBanishFlag, m_byBattleSave;
 	short   m_sDiscount;	// 능력치와 포인트 초기화 할인 (0:할인없음, 1:할인(50%) )
 	short	m_sKarusDead, m_sElmoradDead, m_sBanishDelay, m_sKarusCount, m_sElmoradCount;

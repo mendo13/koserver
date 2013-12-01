@@ -562,13 +562,13 @@ void CAISocket::RecvBattleEvent(Packet & pkt)
 		if (pUser != nullptr)
 		{
 			if (pUser->GetNation() == KARUS)
-				g_pMain->m_sKillElmoNpc++;
+				g_pMain->m_sKilledElmoNpc++;
 			else
-				g_pMain->m_sKillKarusNpc++;
+				g_pMain->m_sKilledKarusNpc++;
 
-			if (g_pMain->m_sKillKarusNpc == 3)
+			if (g_pMain->m_sKilledKarusNpc == 3)
 				g_pMain->BattleZoneResult(pUser->GetNation());
-			else if (g_pMain->m_sKillElmoNpc == 3)
+			else if (g_pMain->m_sKilledElmoNpc == 3)
 				g_pMain->BattleZoneResult(pUser->GetNation());
 		}
 	}

@@ -55,6 +55,9 @@ CGameServerDlg::CGameServerDlg()
 	m_byBanishFlag = false;
 	m_sBanishDelay = 0;
 
+	m_sKilledKarusNpc = 0;
+	m_sKilledElmoNpc = 0;
+
 	m_sKarusDead = 0;
 	m_sElmoradDead = 0;
 
@@ -1653,16 +1656,16 @@ void CGameServerDlg::BattleZoneOpenTimer()
 		{
 			uint8 winner_nation = 0;
 
-			if (m_sKillElmoNpc == m_sKillKarusNpc)
+			if (m_sKilledElmoNpc== m_sKilledKarusNpc)
 			{
 				if (m_sKarusDead > m_sElmoradDead)
 					winner_nation = ELMORAD;
 				else if (m_sElmoradDead > m_sKarusDead)	
 					winner_nation = KARUS;
 			}
-			else if (m_sKillKarusNpc > m_sKillElmoNpc)
+			else if (m_sKilledKarusNpc > m_sKilledElmoNpc)
 				winner_nation = KARUS;
-			else if (m_sKillElmoNpc > m_sKillKarusNpc)
+			else if (m_sKilledElmoNpc > m_sKilledKarusNpc)
 				winner_nation = ELMORAD;
 
 			if (winner_nation == 0) // Draw
@@ -1860,8 +1863,8 @@ void CGameServerDlg::ResetBattleZone()
 	m_byBattleSave = false;
 	m_sKarusCount = 0;
 	m_sElmoradCount = 0;
-	m_sKillKarusNpc = 0;
-	m_sKillElmoNpc = 0;
+	m_sKilledKarusNpc = 0;
+	m_sKilledElmoNpc = 0;
 	m_sBattleTimeDelay = 0;
 }
 
