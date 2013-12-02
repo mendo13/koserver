@@ -33,7 +33,7 @@ void MagicInstance::Run()
 
 			if (pCaster != nullptr)
 			{
-				if (pCaster->isInSafetyArea())
+				if (pCaster->isInSafetyArea() && nSkillID < 400000)
 					return;
 
 				if (pCaster->isInTempleEventZone() &&  !pCaster->isSameEventRoom(pSkillTarget))
