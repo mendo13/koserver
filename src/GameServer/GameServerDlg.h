@@ -102,6 +102,7 @@ public:
 	void BattleZoneOpen(int nType, uint8 bZone = 0);
 	void BattleZoneClose();
 	void BattleZoneResult(uint8 nation);
+	void BattleWinnerResult(BattleWinnerTypes winnertype);
 	void AliveUserCheck();
 	void Send_PartyMember(int party, Packet *result);
 	void Send_KnightsMember(int index, Packet *pkt);
@@ -379,6 +380,8 @@ public:
 	int32	m_byBattleTime;
 	int32	m_sBattleTimeDelay;
 	uint8	m_sKilledKarusNpc, m_sKilledElmoNpc;
+	uint8	m_sKarusMonuments, m_sElmoMonuments;
+	uint16	m_sKarusMonumentPoint, m_sElmoMonumentPoint;
 	bool    m_byKarusOpenFlag, m_byElmoradOpenFlag, m_byBanishFlag, m_byBattleSave;
 	short   m_sDiscount;	// 능력치와 포인트 초기화 할인 (0:할인없음, 1:할인(50%) )
 	short	m_sKarusDead, m_sElmoradDead, m_sBanishDelay, m_sKarusCount, m_sElmoradCount;

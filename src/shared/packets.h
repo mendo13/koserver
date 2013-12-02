@@ -666,6 +666,13 @@ enum ObjectType
 	OBJECT_NPC			= 11
 };
 
+enum BattleWinnerTypes
+{
+	BATTLE_WINNER_NPC		= 0,
+	BATTLE_WINNER_KILL		= 1,
+	BATTLE_WINNER_MONUMENT	= 2
+};
+
 
 // ---------------------------------------------------------------------
 // AI Server와 게임서버간의 Npc에 관련된 패킷은 1번~49번 

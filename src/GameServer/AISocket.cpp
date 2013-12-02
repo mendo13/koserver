@@ -561,15 +561,20 @@ void CAISocket::RecvBattleEvent(Packet & pkt)
 		pUser = g_pMain->GetUserPtr(strMaxUserName, TYPE_CHARACTER);
 		if (pUser != nullptr)
 		{
-			if (pUser->GetNation() == KARUS)
-				g_pMain->m_sKilledElmoNpc++;
-			else
-				g_pMain->m_sKilledKarusNpc++;
+			if (g_pMain->m_byBattleZone == ZONE_BATTLE
+				|| g_pMain->m_byBattleZone == ZONE_BATTLE2 
+				|| g_pMain->m_byBattleZone == ZONE_BATTLE3)
+			{
+				if (pUser->GetNation() == KARUS)
+					g_pMain->m_sKilledElmoNpc++;
+				else
+					g_pMain->m_sKilledKarusNpc++;
 
-			if (g_pMain->m_sKilledKarusNpc == 3)
-				g_pMain->BattleZoneResult(pUser->GetNation());
-			else if (g_pMain->m_sKilledElmoNpc == 3)
-				g_pMain->BattleZoneResult(pUser->GetNation());
+				if (g_pMain->m_sKilledKarusNpc == 3)
+					g_pMain->BattleZoneResult(pUser->GetNation());
+				else if (g_pMain->m_sKilledElmoNpc == 3)
+					g_pMain->BattleZoneResult(pUser->GetNation());
+			}
 		}
 	}
 	else if (bType == BATTLE_EVENT_MAX_USER)
