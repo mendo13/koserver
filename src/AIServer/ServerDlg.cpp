@@ -237,8 +237,8 @@ bool CServerDlg::LoadSpawnCallback(OdbcCommand *dbCommand)
 	dbCommand->FetchInt32(9, iTopZ);
 	dbCommand->FetchInt32(10, iRightX);
 	dbCommand->FetchInt32(11, iBottomZ);
-	dbCommand->FetchInt32(12, iLimitMinZ);
-	dbCommand->FetchInt32(13, iLimitMinX);
+	dbCommand->FetchInt32(12, iLimitMinX);
+	dbCommand->FetchInt32(13, iLimitMinZ);
 	dbCommand->FetchInt32(14, iLimitMaxX);
 	dbCommand->FetchInt32(15, iLimitMaxZ);
 	dbCommand->FetchByte(16, bNumNpc);
