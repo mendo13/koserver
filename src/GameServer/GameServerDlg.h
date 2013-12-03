@@ -94,7 +94,7 @@ public:
 	void WritePacketLog();
 	uint16 GetKnightsAllMembers(uint16 sClanID, Packet & result, uint16 & pktSize, bool bClanLeader);
 	void GetUserRank(CUser *pUser);
-	void Announcement(uint8 type, int nation=0, int chat_type=8, CUser* pExceptUser = nullptr);
+	void Announcement(uint16 type, int nation=0, int chat_type=8, CUser* pExceptUser = nullptr);
 	void ResetBattleZone();
 	void BanishLosers();
 	void BattleZoneVictoryCheck();

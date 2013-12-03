@@ -348,6 +348,9 @@ void CNpc::OnDeathProcess(Unit *pKiller)
 				case NPC_PVP_MONUMENT:
 					PVPMonumentProcess(pUser);
 					break;
+				case NPC_BATTLE_MONUMENT:
+					BattleMonumentProcess(pUser);
+					break;
 				default:
 					break;
 				}
@@ -431,4 +434,23 @@ void CNpc::PVPMonumentProcess(CUser *pUser)
 
 	g_pMain->m_nPVPMonumentNation[GetZoneID()] = pUser->GetNation();
 	g_pMain->NpcUpdate(m_sSid, m_bMonster, pUser->GetNation() == KARUS ? KARUS : ELMORAD, pUser->GetNation() == KARUS ? MONUMENT_KARUS_SPID : MONUMENT_ELMORAD_SPID);
+}
+
+void CNpc::BattleMonumentProcess(CUser *pUser)
+{
+	if (pUser == nullptr)
+		return;
+
+	if (pUser->GetNation() == KARUS)
+	{
+		g_pMain->m_sKarusMonuments++;
+		g_pMain->m_sElmoMonuments--;
+		g_pMain->m_sKarusMonumentPoint +=2;
+	}
+	else
+	{
+		g_pMain->m_sKarusMonuments--;
+		g_pMain->m_sElmoMonuments++;
+		g_pMain->m_sElmoMonumentPoint += 2;
+	}
 }

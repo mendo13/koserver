@@ -1680,7 +1680,7 @@ void CGameServerDlg::BattleZoneOpenTimer()
 			else if (nBattleZone == ZONE_BATTLE6) // Oreads
 				BattleWinnerResult(BATTLE_WINNER_KILL);
 		}
-		else if (g_pMain->m_bVictory != 0 && WarElapsedTime <  m_byBattleTime) // Won the war.
+		else if (m_bVictory != 0 && WarElapsedTime <  m_byBattleTime) // Won the war.
 		{
 			m_sBattleTimeDelay++;
 
@@ -1692,11 +1692,11 @@ void CGameServerDlg::BattleZoneOpenTimer()
 		}
 		else if (WarElapsedTime >=  m_byBattleTime) // War is over.
 			BattleZoneClose();
-		else if (g_pMain->m_bVictory == 0) // War continues.
+		else if (m_bVictory == 0) // War continues.
 		{
 			m_sBattleTimeDelay++;
 
-			if ((m_sBattleTimeDelay * 6) >= 300)
+			if ((m_sBattleTimeDelay * 6) >= (nBattleZone == ZONE_BATTLE4 ? 150 : 300))
 			{
 				m_sBattleTimeDelay = 0;
 				Announcement(DECLARE_BATTLE_ZONE_STATUS);
@@ -1725,7 +1725,7 @@ void CGameServerDlg::BattleZoneResult(uint8 nation)
 	m_byElmoradOpenFlag = nation == KARUS ? true : false;
 	m_byBanishFlag = true;
 	m_sBanishDelay = 0;
-	Announcement(DECLARE_WINNER, g_pMain->m_bVictory);
+	Announcement(DECLARE_WINNER, m_bVictory);
 	Announcement(DECLARE_LOSER, nation == KARUS ? ELMORAD : KARUS);
 }
 
@@ -2225,7 +2225,7 @@ void CGameServerDlg::TempleEventKickOutUser(CUser *pUser)
 	}
 }
 
-void CGameServerDlg::Announcement(uint8 type, int nation, int chat_type, CUser* pExceptUser)
+void CGameServerDlg::Announcement(uint16 type, int nation, int chat_type, CUser* pExceptUser)
 {
 	string chatstr; 
 
@@ -2257,7 +2257,10 @@ void CGameServerDlg::Announcement(uint8 type, int nation, int chat_type, CUser* 
 		GetServerResource(IDS_BANISH_USER, &chatstr);
 		break;
 	case DECLARE_BATTLE_ZONE_STATUS:
-		GetServerResource(IDS_BATTLEZONE_STATUS, &chatstr,  m_sKarusDead, m_sElmoradDead);
+		if (m_byBattleZone + ZONE_BATTLE_BASE == ZONE_BATTLE4)
+			GetServerResource(IDS_BATTLE_MONUMENT_STATUS, &chatstr,  m_sKarusMonumentPoint, m_sElmoMonumentPoint, m_sKarusDead, m_sElmoradDead);
+		else
+			GetServerResource(IDS_BATTLEZONE_STATUS, &chatstr,  m_sKarusDead, m_sElmoradDead);
 		break;
 	case UNDER_ATTACK_NOTIFY:
 		if (m_bVictory == KARUS)

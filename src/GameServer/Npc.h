@@ -61,6 +61,7 @@ public:
 	void OnDeathProcess(Unit *pKiller);
 	void ChaosStoneProcess(CUser *pUser, uint16 MonsterCount);
 	void PVPMonumentProcess(CUser *pUser);
+	void BattleMonumentProcess(CUser *pUser);
 
 	bool isDead() { return m_NpcState == NPC_DEAD || m_iHP <= 0; };
 
