@@ -884,7 +884,7 @@ bool Unit::isAttackable(Unit * pTarget)
 					return (g_pMain->m_bAttackBifrostMonument);
 				else if (pNpc->GetType() == NPC_PVP_MONUMENT)
 				{
-					if ((GetNation() == KARUS && pNpc->m_sPid == PVP_MONUMENT_KARUS_SPID) || (GetNation() == ELMORAD && pNpc->m_sPid == PVP_MONUMENT_ELMORAD_SPID))
+					if ((GetNation() == KARUS && pNpc->m_sPid == MONUMENT_KARUS_SPID) || (GetNation() == ELMORAD && pNpc->m_sPid == MONUMENT_ELMORAD_SPID))
 						return false;
 				}
 				else if (pNpc->GetType() == NPC_GUARD_TOWER1 

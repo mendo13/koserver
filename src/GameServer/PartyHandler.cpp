@@ -535,10 +535,10 @@ void CUser::SendPartyBBSNeeded(uint16 page_index, uint8 bType)
 		uint16 sClass = pUser->m_sClass;
 		i++;
 
-		if ((GetNation() != pUser->GetNation() 
+		if (GetZoneID() != pUser->GetZoneID()
+			|| (GetNation() != pUser->GetNation() 
 			&& GetZoneID() != ZONE_MORADON
-			&& GetZoneID() != ZONE_FORGOTTEN_TEMPLE
-			&& GetZoneID() != pUser->GetZoneID())
+			&& GetZoneID() != ZONE_FORGOTTEN_TEMPLE)
 			|| (pUser->m_bNeedParty == 1 && !pUser->m_bPartyLeader)
 			|| !(  ( pUser->GetLevel() <= (int)(GetLevel() * 1.5) && pUser->GetLevel() >= (int)(GetLevel() * 2 / 3)) 
 			|| ( pUser->GetLevel() <= (GetLevel() + 8) && pUser->GetLevel() >= ((int)(GetLevel()) - 8))))

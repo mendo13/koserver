@@ -561,9 +561,9 @@ void CAISocket::RecvBattleEvent(Packet & pkt)
 		pUser = g_pMain->GetUserPtr(strMaxUserName, TYPE_CHARACTER);
 		if (pUser != nullptr)
 		{
-			if (g_pMain->m_byBattleZone == ZONE_BATTLE
-				|| g_pMain->m_byBattleZone == ZONE_BATTLE2 
-				|| g_pMain->m_byBattleZone == ZONE_BATTLE3)
+			if (g_pMain->m_byBattleZone + ZONE_BATTLE_BASE == ZONE_BATTLE
+				|| g_pMain->m_byBattleZone + ZONE_BATTLE_BASE == ZONE_BATTLE2 
+				|| g_pMain->m_byBattleZone + ZONE_BATTLE_BASE == ZONE_BATTLE3)
 			{
 				if (pUser->GetNation() == KARUS)
 					g_pMain->m_sKilledElmoNpc++;

@@ -63,6 +63,8 @@ CGameServerDlg::CGameServerDlg()
 
 	m_sKarusMonumentPoint = 0;
 	m_sElmoMonumentPoint = 0;
+	m_sKarusMonuments = 0;
+	m_sElmoMonuments = 0;
 
 	m_bVictory = 0;	
 	m_byOldVictory = 0;
@@ -576,7 +578,7 @@ uint32 CGameServerDlg::Timer_BifrostTime(void * lpParam)
 				if (g_pMain->m_bAttackBifrostMonument)
 					g_pMain->m_bAttackBifrostMonument = false;
 
-				g_pMain->SendBifrostTime(nullptr, true);
+				g_pMain->SendEventRemainingTime(true, nullptr, ZONE_BIFROST);
 			}
 			else if (g_pMain->m_sBifrostRemainingTime == g_pMain->m_xBifrostMonumentAttackTime)
 			{
@@ -601,7 +603,7 @@ uint32 CGameServerDlg::Timer_BifrostTime(void * lpParam)
 				if (g_pMain->m_bAttackBifrostMonument)
 					g_pMain->m_bAttackBifrostMonument = false;
 
-				g_pMain->SendBifrostTime(nullptr, true);
+				g_pMain->SendEventRemainingTime(true, nullptr, ZONE_BIFROST);
 			}
 			else if (g_pMain->m_sBifrostTime == g_pMain->m_xJoinOtherNationBifrostTime)
 			{
@@ -1654,10 +1656,12 @@ void CGameServerDlg::BattleZoneOpenTimer()
 		BattleZoneCurrentUsers();
 
 		int32 WarElapsedTime = int32(UNIXTIME) - m_byBattleOpenedTime;
+		m_byBattleRemainingTime = m_byBattleTime - WarElapsedTime;
+		uint8 nBattleZone = g_pMain->m_byBattleZone + ZONE_BATTLE_BASE;
 
 		if (m_bVictory == 0 && WarElapsedTime >= ((m_byBattleTime / 2) + ((m_byBattleTime / 2) / 4)) && WarElapsedTime < m_byBattleTime) // War half time + 15 minutes for Nereid's Island.
 		{
-			if (g_pMain->m_byBattleZone == ZONE_BATTLE4) // Nereid's Island
+			if (nBattleZone == ZONE_BATTLE4) // Nereid's Island
 			{
 				if (m_sKarusMonuments == 7)
 					BattleZoneResult(KARUS);
@@ -1667,13 +1671,13 @@ void CGameServerDlg::BattleZoneOpenTimer()
 		}
 		else if (m_bVictory == 0 && WarElapsedTime >= (m_byBattleTime / 2) && WarElapsedTime < m_byBattleTime) // War half time.
 		{
-			if (g_pMain->m_byBattleZone == ZONE_BATTLE
-				|| g_pMain->m_byBattleZone == ZONE_BATTLE2 
-				|| g_pMain->m_byBattleZone == ZONE_BATTLE3)
+			if (nBattleZone == ZONE_BATTLE
+				|| nBattleZone == ZONE_BATTLE2 
+				||nBattleZone == ZONE_BATTLE3)
 				BattleWinnerResult(BATTLE_WINNER_NPC);
-			else if (g_pMain->m_byBattleZone == ZONE_BATTLE4) // Nereid's Island
+			else if (nBattleZone == ZONE_BATTLE4) // Nereid's Island
 				BattleWinnerResult(BATTLE_WINNER_MONUMENT);
-			else if (g_pMain->m_byBattleZone == ZONE_BATTLE6) // Oreads
+			else if (nBattleZone == ZONE_BATTLE6) // Oreads
 				BattleWinnerResult(BATTLE_WINNER_KILL);
 		}
 		else if (g_pMain->m_bVictory != 0 && WarElapsedTime <  m_byBattleTime) // Won the war.
@@ -1728,35 +1732,51 @@ void CGameServerDlg::BattleZoneResult(uint8 nation)
 void CGameServerDlg::BattleWinnerResult(BattleWinnerTypes winnertype)
 {
 	uint8 winner_nation = 0;
+	uint8 nBattleZone = m_byBattleZone + ZONE_BATTLE_BASE;
 
-	if (winnertype == BATTLE_WINNER_MONUMENT)
-	{
-		if (m_sKarusMonumentPoint > m_sElmoMonumentPoint)
-			winner_nation = KARUS;
-		else if (m_sElmoMonumentPoint > m_sKarusMonumentPoint )
-			winner_nation = ELMORAD;
-	}
-
-	if (winner_nation == 0 && (winnertype == BATTLE_WINNER_MONUMENT || winnertype == BATTLE_WINNER_NPC))
+	if (winnertype == BATTLE_WINNER_NPC)
 	{
 		if (m_sKilledKarusNpc > m_sKilledElmoNpc)
 			winner_nation = KARUS;
 		else if (m_sKilledElmoNpc > m_sKilledKarusNpc)
 			winner_nation = ELMORAD;
-	}
 
-	if (winner_nation == 0 && (winnertype == BATTLE_WINNER_MONUMENT || winnertype == BATTLE_WINNER_NPC  || winnertype == BATTLE_WINNER_KILL))
+		if (winner_nation == 0 
+			&& (nBattleZone == ZONE_BATTLE 
+			|| nBattleZone == ZONE_BATTLE2
+			|| nBattleZone == ZONE_BATTLE3))
+		{
+			BattleWinnerResult(BATTLE_WINNER_KILL);
+			return;
+		}
+	}
+	else if (winnertype == BATTLE_WINNER_MONUMENT)
+	{
+		if (m_sKarusMonumentPoint > m_sElmoMonumentPoint)
+			winner_nation = KARUS;
+		else if (m_sElmoMonumentPoint > m_sKarusMonumentPoint )
+			winner_nation = ELMORAD;
+
+		if (winner_nation == 0)
+		{
+			BattleWinnerResult(BATTLE_WINNER_KILL);
+			return;
+		}
+	}
+	else if (winnertype == BATTLE_WINNER_KILL)	
 	{
 		if (m_sKarusDead > m_sElmoradDead)
 			winner_nation = ELMORAD;
 		else if (m_sElmoradDead > m_sKarusDead)	
 			winner_nation = KARUS;
-	}
 
-	if (winner_nation == 0 && winnertype == BATTLE_WINNER_KILL)
-	{
-		BattleWinnerResult(BATTLE_WINNER_NPC);
-		return;
+		if (winner_nation == 0
+			&& (nBattleZone == ZONE_BATTLE4 
+			|| nBattleZone == ZONE_BATTLE6))
+		{
+			BattleWinnerResult(BATTLE_WINNER_NPC);
+			return;
+		}
 	}
 
 	if (winner_nation == 0) // Draw
@@ -1770,24 +1790,13 @@ void CGameServerDlg::BattleWinnerResult(BattleWinnerTypes winnertype)
 
 void CGameServerDlg::BattleZoneOpen(int nType, uint8 bZone /*= 0*/)
 {
-	if(nType == BATTLEZONE_OPEN)
+	if(nType == BATTLEZONE_OPEN || nType == SNOW_BATTLEZONE_OPEN)
 	{
-		m_byBattleOpen = NATION_BATTLE;	
-		m_byOldBattleOpen = NATION_BATTLE;
+		m_byBattleOpen = nType == BATTLEZONE_OPEN ? NATION_BATTLE : SNOW_BATTLE;	
+		m_byOldBattleOpen = nType == BATTLEZONE_OPEN ? NATION_BATTLE : SNOW_BATTLE;
 		m_byBattleZone = bZone;
-		m_byBattleOpenedTime = int32(UNIXTIME);
-
-		KickOutZoneUsers(ZONE_ARDREAM);
-		KickOutZoneUsers(ZONE_RONARK_LAND_BASE);
-		KickOutZoneUsers(ZONE_RONARK_LAND);
-		KickOutZoneUsers(ZONE_BIFROST);
-		KickOutZoneUsers(ZONE_KROWAZ_DOMINION);
-	}
-	else if (nType == SNOW_BATTLEZONE_OPEN)
-	{
-		m_byBattleOpen = SNOW_BATTLE;	
-		m_byOldBattleOpen = SNOW_BATTLE;
-		m_byBattleOpenedTime = int32(UNIXTIME);
+		m_byBattleOpenedTime = int32(UNIXTIME);		
+		m_byBattleRemainingTime = m_byBattleTime;
 
 		KickOutZoneUsers(ZONE_ARDREAM);
 		KickOutZoneUsers(ZONE_RONARK_LAND_BASE);
@@ -1796,9 +1805,7 @@ void CGameServerDlg::BattleZoneOpen(int nType, uint8 bZone /*= 0*/)
 		KickOutZoneUsers(ZONE_KROWAZ_DOMINION);
 	}
 	else if (nType == BATTLEZONE_CLOSE)
-	{
 		Announcement(BATTLEZONE_CLOSE);
-	}
 	else
 		return;
 
@@ -1904,6 +1911,7 @@ void CGameServerDlg::ResetBattleZone()
 	m_byBattleOpen = NO_BATTLE;
 	m_byOldBattleOpen = NO_BATTLE;
 	m_byBattleOpenedTime = 0;
+	m_byBattleRemainingTime = 0;
 	m_sKarusDead = 0;
 	m_sElmoradDead = 0;
 	m_byBattleSave = false;
@@ -1913,6 +1921,8 @@ void CGameServerDlg::ResetBattleZone()
 	m_sKilledElmoNpc = 0;
 	m_sKarusMonumentPoint = 0;
 	m_sElmoMonumentPoint = 0;
+	m_sKarusMonuments = 0;
+	m_sElmoMonuments = 0;
 	m_sBattleTimeDelay = 0;
 }
 

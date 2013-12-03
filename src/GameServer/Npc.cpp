@@ -430,5 +430,5 @@ void CNpc::PVPMonumentProcess(CUser *pUser)
 	g_pMain->Send_Zone(&result, GetZoneID(), nullptr, Nation::ALL);
 
 	g_pMain->m_nPVPMonumentNation[GetZoneID()] = pUser->GetNation();
-	g_pMain->NpcUpdate(m_sSid, m_bMonster, pUser->GetNation() == KARUS ? KARUS : ELMORAD, pUser->GetNation() == KARUS ? PVP_MONUMENT_KARUS_SPID : PVP_MONUMENT_ELMORAD_SPID);
+	g_pMain->NpcUpdate(m_sSid, m_bMonster, pUser->GetNation() == KARUS ? KARUS : ELMORAD, pUser->GetNation() == KARUS ? MONUMENT_KARUS_SPID : MONUMENT_ELMORAD_SPID);
 }

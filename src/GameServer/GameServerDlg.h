@@ -378,6 +378,7 @@ public:
 	uint8	m_bKarusFlag, m_bElmoradFlag;
 	int32	m_byBattleOpenedTime;
 	int32	m_byBattleTime;
+	int32	m_byBattleRemainingTime;
 	int32	m_sBattleTimeDelay;
 	uint8	m_sKilledKarusNpc, m_sKilledElmoNpc;
 	uint8	m_sKarusMonuments, m_sElmoMonuments;
@@ -418,7 +419,7 @@ public:
 	uint16 m_xBifrostMonumentAttackTime;
 	bool m_bAttackBifrostMonument;
 
-	void SendBifrostTime(CUser *pUser = nullptr, bool bSendAll = false);
+	void SendEventRemainingTime(bool bSendAll = false, CUser *pUser = nullptr, uint8 ZoneID = 0);
 
 	// Forgetten Temple
 	std::vector<int16>		m_nForgettenTempleUsers;

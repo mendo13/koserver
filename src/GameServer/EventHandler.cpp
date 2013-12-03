@@ -4,22 +4,29 @@
 using std::string;
 using std::vector;
 
-void CGameServerDlg::SendBifrostTime(CUser *pUser, bool bSendAll) {
-
+void CGameServerDlg::SendEventRemainingTime(bool bSendAll, CUser *pUser, uint8 ZoneID)
+{
 	Packet result(WIZ_BIFROST,uint8(BIFROST_EVENT));
-	result << g_pMain->m_sBifrostRemainingTime;
+	uint16 nRemainingTime = 0;
 
-	if (bSendAll)
-	{
-		g_pMain->Send_All(&result,nullptr, 0, ZONE_RONARK_LAND);
-		g_pMain->Send_All(&result,nullptr, 0, ZONE_BIFROST);
-	}
-	else
-	{
-		if (pUser == nullptr)
-			return;
+	if (ZoneID == ZONE_BATTLE4)
+		nRemainingTime = m_byBattleRemainingTime / 2;
+	if (ZoneID == ZONE_BIFROST || ZoneID ==  ZONE_RONARK_LAND)
+		nRemainingTime = m_sBifrostRemainingTime;
 
+	result << nRemainingTime;
+
+	if (pUser)
 		pUser->Send(&result);
+	else if (bSendAll)
+	{
+		if (ZoneID == ZONE_BATTLE4)
+			Send_All(&result,nullptr, 0, ZONE_BATTLE4);
+		else
+		{
+			Send_All(&result,nullptr, 0, ZONE_RONARK_LAND);
+			Send_All(&result,nullptr, 0, ZONE_BIFROST);
+		}
 	}
 }
 
@@ -34,7 +41,7 @@ void CUser::BifrostProcess(CUser * pUser)
 		g_pMain->m_sBifrostRemainingTime = g_pMain->m_sBifrostTime;
 		g_pMain->m_BifrostVictory = pUser->GetNation();
 		g_pMain->SendFormattedResource(pUser->GetNation() == ELMORAD ? IDS_BEEF_ROAST_VICTORY_ELMORAD : IDS_BEEF_ROAST_VICTORY_KARUS, Nation::ALL,false);
-		g_pMain->SendBifrostTime(nullptr, true);
+		g_pMain->SendEventRemainingTime(true, nullptr, ZONE_BIFROST);
 
 		if (g_pMain->m_bAttackBifrostMonument)
 			g_pMain->m_bAttackBifrostMonument = false;
