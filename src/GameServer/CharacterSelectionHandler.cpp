@@ -170,7 +170,13 @@ void CUser::SelectCharacter(Packet & pkt)
 		// also disallow players from logging back into war zones that aren't currently active...
 			|| (GetMap()->isWarZone() && (GetZoneID() - ZONE_BATTLE_BASE) != g_pMain->m_byBattleZone)
 			// Chaos, bdw and juraid montuain
-			|| isInTempleEventZone())
+			|| isInTempleEventZone()
+			// Ronark Land, Ardream, RLB, Bifrost, Krowaz Dominion.
+			|| (g_pMain->m_byBattleOpen && (GetZoneID() == ZONE_RONARK_LAND 
+			|| GetZoneID() == ZONE_ARDREAM 
+			|| GetZoneID() == ZONE_RONARK_LAND_BASE
+			|| GetZoneID() == ZONE_BIFROST
+			|| GetZoneID() == ZONE_KROWAZ_DOMINION)))
 	{
 		NativeZoneReturn();
 		Disconnect();
