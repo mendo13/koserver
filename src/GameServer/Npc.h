@@ -17,20 +17,20 @@ public:
 	int		m_iWeapon_1;
 	int		m_iWeapon_2;
 	std::string m_strName;		// MONSTER(NPC) Name
-	int		m_iMaxHP;			// ÃÖ´ë HP
-	int		m_iHP;				// ÇöÀç HP
-	uint8	m_byState;			// ¸ó½ºÅÍ (NPC) »óÅÂ
+	int		m_iMaxHP;			// ï¿½Ö´ï¿½ HP
+	int		m_iHP;				// ï¿½ï¿½ï¿½ï¿½ HP
+	uint8	m_byState;			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (NPC) ï¿½ï¿½ï¿½ï¿½
 	uint8	m_tNpcType;			// NPC Type
 	// 0 : Normal Monster
 	// 1 : NPC
-	// 2 : °¢ ÀÔ±¸,Ãâ±¸ NPC
-	// 3 : °æºñº´
+	// 2 : ï¿½ï¿½ ï¿½Ô±ï¿½,ï¿½â±¸ NPC
+	// 3 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	int   m_iSellingGroup;		// ItemGroup
 
-	uint8	m_NpcState;			// NPCÀÇ »óÅÂ - »ì¾Ò´Ù, Á×¾ú´Ù, ¼­ÀÖ´Ù µîµî...
+	uint8	m_NpcState;			// NPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½Ò´ï¿½, ï¿½×¾ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½...
 	bool	m_byGateOpen;		// Gate status: true is open, false is closed.
 
-	uint8    m_byObjectType;     // º¸ÅëÀº 0, objectÅ¸ÀÔ(¼º¹®, ·¹¹ö)Àº 1
+	uint8    m_byObjectType;     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0, objectÅ¸ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ 1
 	int16	m_byDirection;
 
 	uint8   m_byTrapNumber;
@@ -62,6 +62,7 @@ public:
 	void ChaosStoneProcess(CUser *pUser, uint16 MonsterCount);
 	void PVPMonumentProcess(CUser *pUser);
 	void BattleMonumentProcess(CUser *pUser);
+	void NationMonumentProcess(CUser *pUser);
 
 	bool isDead() { return m_NpcState == NPC_DEAD || m_iHP <= 0; };
 
