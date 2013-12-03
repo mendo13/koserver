@@ -23,18 +23,18 @@ void CNpc::Initialize()
 	m_sPid = 0;				// MONSTER(NPC) Picture ID
 	m_sSize = 100;				// MONSTER(NPC) Size
 	m_strName.clear();			// MONSTER(NPC) Name
-	m_iMaxHP = 0;				// ÃÖ´ë HP
-	m_iHP = 0;					// ÇöÀç HP
-	//m_byState = 0;			// ¸ó½ºÅÍ (NPC) »óÅÂÀÌ»ó
+	m_iMaxHP = 0;				// ï¿½Ö´ï¿½ HP
+	m_iHP = 0;					// ï¿½ï¿½ï¿½ï¿½ HP
+	//m_byState = 0;			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (NPC) ï¿½ï¿½ï¿½ï¿½ï¿½Ì»ï¿½
 	m_tNpcType = 0;				// NPC Type
 	// 0 : Normal Monster
 	// 1 : NPC
-	// 2 : °¢ ÀÔ±¸,Ãâ±¸ NPC
-	// 3 : °æºñº´
+	// 2 : ï¿½ï¿½ ï¿½Ô±ï¿½,ï¿½â±¸ NPC
+	// 3 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	m_iSellingGroup = 0;
 	//	m_dwStepDelay = 0;		
 
-	m_byDirection = 0;			// npcÀÇ ¹æÇâ,,
+	m_byDirection = 0;			// npcï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½,,
 	m_iWeapon_1 = 0;
 	m_iWeapon_2 = 0;
 	m_NpcState = NPC_LIVE;
@@ -351,6 +351,12 @@ void CNpc::OnDeathProcess(Unit *pKiller)
 				case NPC_BATTLE_MONUMENT:
 					BattleMonumentProcess(pUser);
 					break;
+				case NPC_HUMAN_MONUMENT:
+					NationMonumentProcess(pUser);
+					break;
+				case NPC_KARUS_MONUMENT:
+					NationMonumentProcess(pUser);
+					break;
 				default:
 					break;
 				}
@@ -459,5 +465,21 @@ void CNpc::BattleMonumentProcess(CUser *pUser)
 		g_pMain->m_sKarusMonuments--;
 		g_pMain->m_sElmoMonuments++;
 		g_pMain->NpcUpdate(m_sSid, m_bMonster, pUser->GetNation(), MONUMENT_ELMORAD_SPID);
+	}
+}
+
+/*
+* @brief  Executes the battle monument process.
+*
+* @param  pUser  The User.
+*/
+void CNpc::NationMonumentProcess(CUser *pUser)
+{
+	if (pUser == nullptr)
+		return;
+	
+	if (g_pMain->m_byBattleOpen)
+	{
+		g_pMain->NpcUpdate(m_sSid, m_bMonster, pUser->GetNation());
 	}
 }
