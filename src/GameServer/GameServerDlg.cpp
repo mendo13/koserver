@@ -2252,7 +2252,6 @@ void CGameServerDlg::Announcement(uint16 type, int nation, int chat_type, CUser*
 		else 
 			return;
 		break;
-
 	case DECLARE_BAN:
 		GetServerResource(IDS_BANISH_USER, &chatstr);
 		break;
@@ -2261,6 +2260,26 @@ void CGameServerDlg::Announcement(uint16 type, int nation, int chat_type, CUser*
 			GetServerResource(IDS_BATTLE_MONUMENT_STATUS, &chatstr,  m_sKarusMonumentPoint, m_sElmoMonumentPoint, m_sKarusDead, m_sElmoradDead);
 		else
 			GetServerResource(IDS_BATTLEZONE_STATUS, &chatstr,  m_sKarusDead, m_sElmoradDead);
+		break;
+	case DECLARE_BATTLE_MONUMENT_STATUS:
+		{
+			std::string sMonumentName = "";
+
+			if (chat_type == 1)
+				sMonumentName = "El Morad main territory";
+			else if (chat_type == 2)
+				sMonumentName = "El Morad provision line";
+			else if (chat_type == 3)
+				sMonumentName = "Lake of Life";
+			else if (chat_type == 4)
+				sMonumentName = "Foss Castle";
+			else if (chat_type == 5)
+				sMonumentName = "Karus main territory";
+			else if (chat_type == 6)
+				sMonumentName = "Karus provision line";
+			else if (chat_type == 7)
+				sMonumentName = "Swamp of Shadows";
+		}
 		break;
 	case UNDER_ATTACK_NOTIFY:
 		if (m_bVictory == KARUS)
