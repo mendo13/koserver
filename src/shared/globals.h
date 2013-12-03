@@ -127,7 +127,8 @@ enum NpcType
 	NPC_KEY_QUEST_6			= 116, // Recon of the Key
 	NPC_KEY_QUEST_7			= 117, // Keeper of the Key
 	NPC_ROBOS				= 118, // need to see what he actually does to name this properly
-	NPC_MONUMENT			= 122, // El Morad/Asga village/Raiba village/Doda camp monuments 
+	NPC_KARUS_MONUMENT		= 121, // Luferson Monument/Linate Monument/Bellua monument/Laon Camp Monument
+	NPC_HUMAN_MONUMENT		= 122, // El Morad/Asga village/Raiba village/Doda camp monuments
 	NPC_SERVER_TRANSFER		= 123,
 	NPC_RANKING				= 124,
 	NPC_LYONI				= 125, // need to see what this NPC actually does to name this properly
