@@ -2256,6 +2256,9 @@ void CGameServerDlg::Announcement(uint16 type, int nation, int chat_type, CUser*
 			return;
 		break;
 	case DECLARE_BAN:
+		if (m_bVictory == KARUS || m_bVictory == ELMORAD)
+			GetServerResource(IDS_BANISH_LOSER, &chatstr);
+		else
 		GetServerResource(IDS_BANISH_USER, &chatstr);
 		break;
 	case DECLARE_BATTLE_ZONE_STATUS:
