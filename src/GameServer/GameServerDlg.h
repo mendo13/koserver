@@ -225,9 +225,9 @@ public:
 	}
 
 	template <ChatType chatType>
-	INLINE void SendNotice(const char *msg, uint8 ZoneID, uint8 byNation = Nation::ALL) 
+	INLINE void SendNotice(const char *msg, uint8 ZoneID, uint8 byNation = Nation::ALL, bool bFormatNotice = false) 
 	{
-		SendChatToZone<chatType>(msg, ZoneID, byNation, false);
+		SendChatToZone<chatType>(msg, ZoneID, byNation, bFormatNotice);
 	}
 
 	void SendFormattedNotice(const char *msg, uint8 byNation = Nation::ALL, ...)

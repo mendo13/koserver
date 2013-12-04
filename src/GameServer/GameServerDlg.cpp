@@ -1646,7 +1646,7 @@ void CGameServerDlg::BattleZoneOpenTimer()
 				if (nDay == nWeekDay)
 					for (int x = 0; x < WAR_TIME_COUNT; x++)
 						if (m_nBattleZoneOpenHourStart[x] == nHour)
-							BattleZoneOpen(BATTLEZONE_OPEN,m_nBattlezoneOpenWarZone[x]);
+							BattleZoneOpen(BATTLEZONE_OPEN, m_nBattlezoneOpenWarZone[x]);
 				vargs.pop_front();
 			}
 		}
@@ -1663,9 +1663,9 @@ void CGameServerDlg::BattleZoneOpenTimer()
 		{
 			if (nBattleZone == ZONE_BATTLE4) // Nereid's Island
 			{
-				if (m_sKarusMonuments == 7)
+				if (m_sKarusMonuments >= 7 && m_sElmoMonuments == 0)
 					BattleZoneResult(KARUS);
-				else if (m_sElmoMonuments == 7)
+				else if (m_sKarusMonuments == 0 && m_sElmoMonuments >= 7)
 					BattleZoneResult(ELMORAD);
 			}
 		}
@@ -1797,6 +1797,9 @@ void CGameServerDlg::BattleZoneOpen(int nType, uint8 bZone /*= 0*/)
 		m_byBattleZone = bZone;
 		m_byBattleOpenedTime = int32(UNIXTIME);		
 		m_byBattleRemainingTime = m_byBattleTime;
+
+		if (bZone + ZONE_BATTLE_BASE == ZONE_BATTLE4)
+			SendEventRemainingTime(true, nullptr, ZONE_BATTLE4);
 
 		KickOutZoneUsers(ZONE_ARDREAM);
 		KickOutZoneUsers(ZONE_RONARK_LAND_BASE);
@@ -2257,11 +2260,15 @@ void CGameServerDlg::Announcement(uint16 type, int nation, int chat_type, CUser*
 		break;
 	case DECLARE_BATTLE_ZONE_STATUS:
 		if (m_byBattleZone + ZONE_BATTLE_BASE == ZONE_BATTLE4)
+		{
 			GetServerResource(IDS_BATTLE_MONUMENT_STATUS, &chatstr,  m_sKarusMonumentPoint, m_sElmoMonumentPoint, m_sKarusDead, m_sElmoradDead);
+			SendNotice<PUBLIC_CHAT>(chatstr.c_str(), ZONE_BATTLE4, Nation::ALL, true);
+		}
 		else
 			GetServerResource(IDS_BATTLEZONE_STATUS, &chatstr,  m_sKarusDead, m_sElmoradDead);
 		break;
 	case DECLARE_BATTLE_MONUMENT_STATUS:
+		if (pExceptUser)
 		{
 			std::string sMonumentName = "";
 
@@ -2279,6 +2286,12 @@ void CGameServerDlg::Announcement(uint16 type, int nation, int chat_type, CUser*
 				sMonumentName = "Karus provision line";
 			else if (chat_type == 7)
 				sMonumentName = "Swamp of Shadows";
+
+			GetServerResource(IDS_BATTLE_MONUMENT_WON_MESSAGE, &chatstr, sMonumentName.c_str());
+			g_pMain->SendNotice<PUBLIC_CHAT>(chatstr.c_str(),pExceptUser->GetZoneID(),pExceptUser->GetNation());
+			GetServerResource(IDS_BATTLE_MONUMENT_LOST_MESSAGE, &chatstr, sMonumentName.c_str());
+			g_pMain->SendNotice<PUBLIC_CHAT>(chatstr.c_str(),pExceptUser->GetZoneID(),pExceptUser->GetNation() == KARUS ? ELMORAD : KARUS);
+			return;
 		}
 		break;
 	case UNDER_ATTACK_NOTIFY:

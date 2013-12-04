@@ -357,8 +357,6 @@ void CNpc::OnDeathProcess(Unit *pKiller)
 				case NPC_KARUS_MONUMENT:
 					NationMonumentProcess(pUser);
 					break;
-				default:
-					break;
 				}
 			}
 			else if (m_bMonster)
@@ -431,15 +429,15 @@ void CNpc::ChaosStoneProcess(CUser *pUser, uint16 MonsterCount)
 */
 void CNpc::PVPMonumentProcess(CUser *pUser)
 {
-	if (pUser == nullptr)
-		return;
+	if (pUser)
+	{
+		Packet result(WIZ_CHAT, uint8(MONUMENT_NOTICE));
+		result << uint8(FORCE_CHAT) << pUser->GetNation() << pUser->GetName().c_str();
+		g_pMain->Send_Zone(&result, GetZoneID(), nullptr, Nation::ALL);
 
-	Packet result(WIZ_CHAT, uint8(MONUMENT_NOTICE));
-	result << uint8(FORCE_CHAT) << pUser->GetNation() << pUser->GetName().c_str();
-	g_pMain->Send_Zone(&result, GetZoneID(), nullptr, Nation::ALL);
-
-	g_pMain->m_nPVPMonumentNation[GetZoneID()] = pUser->GetNation();
-	g_pMain->NpcUpdate(m_sSid, m_bMonster, pUser->GetNation(), pUser->GetNation() == KARUS ? MONUMENT_KARUS_SPID : MONUMENT_ELMORAD_SPID);
+		g_pMain->m_nPVPMonumentNation[GetZoneID()] = pUser->GetNation();
+		g_pMain->NpcUpdate(m_sSid, m_bMonster, pUser->GetNation(), pUser->GetNation() == KARUS ? MONUMENT_KARUS_SPID : MONUMENT_ELMORAD_SPID);
+	}
 }
 
 /*
@@ -449,41 +447,43 @@ void CNpc::PVPMonumentProcess(CUser *pUser)
 */
 void CNpc::BattleMonumentProcess(CUser *pUser)
 {
-	if (pUser == nullptr)
-		return;
+	if (pUser && g_pMain->m_byBattleOpen == NATION_BATTLE)
+	{
+		g_pMain->NpcUpdate(m_sSid, m_bMonster, pUser->GetNation(), pUser->GetNation() == KARUS ? MONUMENT_KARUS_SPID : MONUMENT_ELMORAD_SPID);
+		g_pMain->Announcement(DECLARE_BATTLE_MONUMENT_STATUS, Nation::ALL, m_byTrapNumber, pUser);
 
-	if (pUser->GetNation() == KARUS)
-	{
-		g_pMain->m_sKarusMonumentPoint +=2;
-		g_pMain->m_sKarusMonuments++;
-		g_pMain->m_sElmoMonuments--;
-		g_pMain->NpcUpdate(m_sSid, m_bMonster, pUser->GetNation(), MONUMENT_KARUS_SPID);
-	}
-	else
-	{
-		g_pMain->m_sElmoMonumentPoint += 2;
-		g_pMain->m_sKarusMonuments--;
-		g_pMain->m_sElmoMonuments++;
-		g_pMain->NpcUpdate(m_sSid, m_bMonster, pUser->GetNation(), MONUMENT_ELMORAD_SPID);
+		if (pUser->GetNation() == KARUS)
+		{	
+			g_pMain->m_sKarusMonumentPoint +=2;
+			g_pMain->m_sKarusMonuments++;
+
+			if (g_pMain->m_sKarusMonuments >= 7)
+				g_pMain->m_sKarusMonumentPoint +=10;
+
+			if (g_pMain->m_sElmoMonuments != 0)
+				g_pMain->m_sElmoMonuments--;
+		}
+		else
+		{
+			g_pMain->m_sElmoMonumentPoint += 2;
+			g_pMain->m_sElmoMonuments++;
+
+			if (g_pMain->m_sElmoMonuments >= 7)
+				g_pMain->m_sElmoMonumentPoint +=10;
+
+			if (g_pMain->m_sKarusMonuments != 0)
+				g_pMain->m_sKarusMonuments--;
+		}
 	}
 }
 
 /*
-* @brief  Executes the battle monument process.
+* @brief  Executes the nation monument process.
 *
 * @param  pUser  The User.
 */
 void CNpc::NationMonumentProcess(CUser *pUser)
 {
-	if (pUser == nullptr)
-		return;
-	
-	if (pUser->GetNation() == KARUS)
-	{
+	if (pUser && g_pMain->m_byBattleOpen == NATION_BATTLE)
 		g_pMain->NpcUpdate(m_sSid, m_bMonster, pUser->GetNation());
-	}
-	else
-	{
-		g_pMain->NpcUpdate(m_sSid, m_bMonster, pUser->GetNation());
-	}
 }
