@@ -122,6 +122,7 @@ void CUser::MerchantClose()
 
 void CUser::MerchantItemAdd(Packet & pkt)
 {
+	Packet result(WIZ_MERCHANT, uint8(MERCHANT_ITEM_ADD));
 	uint32 nGold, nItemID;
 	uint16 sCount;
 	uint8 bSrcPos, // It sends the "actual" inventory slot (SLOT_MAX -> INVENTORY_MAX-SLOT_MAX), so need to allow for it. 
@@ -140,7 +141,7 @@ void CUser::MerchantItemAdd(Packet & pkt)
 	if (pTable == nullptr
 		|| nItemID >= ITEM_NO_TRADE // Cannot be traded, sold or stored.
 		|| pTable->m_bRace == RACE_UNTRADEABLE) // Cannot be traded or sold.
-		return;
+		goto fail_return;
 
 	bSrcPos += SLOT_MAX;
 	_ITEM_DATA *pSrcItem = GetItem(bSrcPos);
@@ -148,7 +149,7 @@ void CUser::MerchantItemAdd(Packet & pkt)
 		|| pSrcItem->sCount < sCount
 		|| pSrcItem->isRented()
 		|| pSrcItem->isSealed())
-		return;
+		goto fail_return;
 
 	_MERCH_DATA *pMerch = &m_arMerchantItems[bDstPos];
 
@@ -164,9 +165,14 @@ void CUser::MerchantItemAdd(Packet & pkt)
 
 	// Take the user's item.
 	memset(pSrcItem, 0, sizeof(_ITEM_DATA));
-
-	Packet result(WIZ_MERCHANT, uint8(MERCHANT_ITEM_ADD));
+	
 	result	<< uint16(1)
+		<< nItemID << sCount << pMerch->sDuration << nGold 
+		<< bSrcPos << bDstPos;
+	Send(&result);
+	
+fail_return:
+	result	<< uint16(0)
 		<< nItemID << sCount << pMerch->sDuration << nGold 
 		<< bSrcPos << bDstPos;
 	Send(&result);
