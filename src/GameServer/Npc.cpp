@@ -485,5 +485,20 @@ void CNpc::BattleMonumentProcess(CUser *pUser)
 void CNpc::NationMonumentProcess(CUser *pUser)
 {
 	if (pUser && g_pMain->m_byBattleOpen == NATION_BATTLE)
+	{
 		g_pMain->NpcUpdate(m_sSid, m_bMonster, pUser->GetNation());
+
+		if (pUser->GetNation() == KARUS && pUser->GetZoneID() == KARUS)
+		g_pMain->Announcement(DECLARE_LOST_MONUMENT_STATUS, Nation::ALL, m_byTrapNumber, pUser);
+
+		if (pUser->GetNation() == KARUS && pUser->GetZoneID() == ELMORAD)
+		g_pMain->Announcement(DECLARE_WIN_MONUMENT_STATUS, Nation::ALL, m_byTrapNumber, pUser);
+
+		if (pUser->GetNation() == ELMORAD && pUser->GetZoneID() == ELMORAD)
+		g_pMain->Announcement(DECLARE_LOST_MONUMENT_STATUS, Nation::ALL, m_byTrapNumber, pUser);
+
+		if (pUser->GetNation() == ELMORAD && pUser->GetZoneID() == KARUS)
+		g_pMain->Announcement(DECLARE_WIN_MONUMENT_STATUS, Nation::ALL, m_byTrapNumber, pUser);
+
+	}
 }
