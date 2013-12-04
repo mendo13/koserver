@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "../shared/Condition.h"
 #include "KnightsManager.h"
 #include "KingSystem.h"
@@ -533,7 +533,7 @@ void CKnightsManager::ReqCreateKnights(CUser *pUser, Packet & pkt)
 	pkt >> bFlag >> sClanID >> bNation >> strKnightsName >> strChief;
 	bResult = g_DBAgent.CreateKnights(sClanID, bNation, strKnightsName, strChief, bFlag);
 
-	if (bResult < 0)
+	if (bResult > 0)
 	{
 		result << bResult;
 		pUser->Send(&result);

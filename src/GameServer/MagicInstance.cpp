@@ -2239,20 +2239,23 @@ bool MagicInstance::ExecuteType8()
 
 		case 21:	// Summon a monster within a zone.
 			{
-				MonsterSummonList * pMonsterSummonList = g_pMain->m_MonsterSummonList.GetData(1); // bType
+				MonsterSummonList * pMonsterSummonList = g_pMain->m_MonsterSummonList.GetData(1);
 
-				int nCurrentMonster = 0;
-				int nRandom = myrand(0, (int32)pMonsterSummonList->size());
-
-				for (std::vector<_MONSTER_SUMMON_LIST>::iterator itr = pMonsterSummonList->begin(); itr != pMonsterSummonList->end(); ++itr)
+				if (pMonsterSummonList)
 				{
-					if (nCurrentMonster == nRandom)
+					int nCurrentMonster = 0;
+					int nRandom = myrand(0, (int32)pMonsterSummonList->size());
+
+					for (std::vector<_MONSTER_SUMMON_LIST>::iterator itr = pMonsterSummonList->begin(); itr != pMonsterSummonList->end(); ++itr)
 					{
-						g_pMain->SpawnEventNpc(itr->sSid,true,pSkillCaster->GetZoneID(),pSkillCaster->GetX(),pSkillCaster->GetY(),pSkillCaster->GetZ(),1,(pType->sRadius/1000));
-						break;
+						if (nCurrentMonster == nRandom)
+						{
+							g_pMain->SpawnEventNpc(itr->sSid,true,pSkillCaster->GetZoneID(),pSkillCaster->GetX(),pSkillCaster->GetY(),pSkillCaster->GetZ(),1,(pType->sRadius/1000));
+							break;
+						}
+						else
+							nCurrentMonster++;
 					}
-					else
-						nCurrentMonster++;
 				}
 			}
 			break;
