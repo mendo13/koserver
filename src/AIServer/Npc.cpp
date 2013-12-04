@@ -1324,8 +1324,7 @@ bool CNpc::isShowBox()
 		|| bType == NPC_ELMORAD_GATEKEEPER
 		|| bType == NPC_BATTLE_MONUMENT
 		|| bType == NPC_KARUS_MONUMENT
-		|| bType == NPC_HUMAN_MONUMENT
-		|| bType == NPC_BATTLE_MONUMENT)
+		|| bType == NPC_HUMAN_MONUMENT)
 		return false;
 
 	return true;
