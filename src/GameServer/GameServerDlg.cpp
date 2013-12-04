@@ -2297,6 +2297,60 @@ void CGameServerDlg::Announcement(uint16 type, int nation, int chat_type, CUser*
 			return;
 		}
 		break;
+	case DECLARE_WIN_MONUMENT_STATUS:
+		if (pExceptUser)
+		{
+			std::string sMonumentName = "";
+
+			if (chat_type == 1)
+				sMonumentName = "El Morad Monument";
+			else if (chat_type == 2)
+				sMonumentName = "Asga Village Monument";
+			else if (chat_type == 3)
+				sMonumentName = "Raiba Village Monument";
+			else if (chat_type == 4)
+				sMonumentName = "Doda Camp Monument";
+			else if (chat_type == 5)
+				sMonumentName = "Luferson Monument";
+			else if (chat_type == 6)
+				sMonumentName = "Linate Monument";
+			else if (chat_type == 7)
+				sMonumentName = "Bellua monument";
+			else if (chat_type == 8)
+				sMonumentName = "Laon Camp Monument";
+
+			GetServerResource(IDS_INFILTRATION_CONQUER, &chatstr, sMonumentName.c_str());
+			g_pMain->SendAnnouncement(chatstr.c_str());
+			return;
+		}
+		break;
+	case DECLARE_LOST_MONUMENT_STATUS:
+		if (pExceptUser)
+		{
+			std::string sMonumentName = "";
+
+			if (chat_type == 1)
+				sMonumentName = "El Morad Monument";
+			else if (chat_type == 2)
+				sMonumentName = "Asga Village Monument";
+			else if (chat_type == 3)
+				sMonumentName = "Raiba Village Monument";
+			else if (chat_type == 4)
+				sMonumentName = "Doda Camp Monument";
+			else if (chat_type == 5)
+				sMonumentName = "Luferson Monument";
+			else if (chat_type == 6)
+				sMonumentName = "Linate Monument";
+			else if (chat_type == 7)
+				sMonumentName = "Bellua monument";
+			else if (chat_type == 8)
+				sMonumentName = "Laon Camp Monument";
+
+			GetServerResource(IDS_INFILTRATION_RECAPTURE, &chatstr, sMonumentName.c_str());
+			g_pMain->SendAnnouncement(chatstr.c_str());
+			return;
+		}
+		break;
 	case UNDER_ATTACK_NOTIFY:
 		if (m_bVictory == KARUS)
 			GetServerResource(IDS_UNDER_ATTACK_ELMORAD, &chatstr, m_sKarusDead, m_sElmoradDead);
