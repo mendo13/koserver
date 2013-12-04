@@ -106,11 +106,6 @@ bool CServerDlg::Startup()
 	//	Start NPC THREAD
 	//----------------------------------------------------------------------
 	ResumeAI();
-
-	if (m_MonsterRespawnInformationArray.GetSize() > 0)
-		foreach_stlmap_nolock (itr, m_MonsterRespawnInformationArray)
-		SpawnEventNpc(itr->second->sSid,itr->second->IsMonster,itr->second->ZoneID,itr->second->fX,itr->second->fY,itr->second->fZ);
-
 	return true; 
 }
 
@@ -526,6 +521,10 @@ void CServerDlg::AllNpcInfo()
 		serverInfo << uint16(m_TotalNPC);
 		m_socketMgr.SendAll(&serverInfo);
 	}
+
+	if (m_MonsterRespawnInformationArray.GetSize() > 0)
+		foreach_stlmap_nolock (itr, m_MonsterRespawnInformationArray)
+		SpawnEventNpc(itr->second->sSid,itr->second->IsMonster,itr->second->ZoneID,itr->second->fX,itr->second->fY,itr->second->fZ);
 }
 
 Unit * CServerDlg::GetUnitPtr(uint16 id)
