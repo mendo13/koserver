@@ -293,6 +293,7 @@ struct	_ITEM_DATA
 	uint64		nSerialNum;
 
 	INLINE bool isSealed() { return bFlag == ITEM_FLAG_SEALED; }
+	INLINE bool isBound() { return bFlag == ITEM_FLAG_BOUND; }
 	INLINE bool isRented() { return bFlag == ITEM_FLAG_RENTED; }
 };
 
