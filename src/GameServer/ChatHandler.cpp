@@ -336,11 +336,17 @@ bool CUser::ProcessChatCommand(std::string & message)
 
 COMMAND_HANDLER(CUser::HandleTestCommand)
 {
+	if (!isGM())
+		return false;
+
 	return true;
 }
 
 COMMAND_HANDLER(CUser::HandleGiveItemCommand)
 {
+	if (!isGM())
+		return false;
+
 	// Char name | item ID | [stack size]
 	if (vargs.size() < 2)
 	{
@@ -383,6 +389,9 @@ COMMAND_HANDLER(CUser::HandleGiveItemCommand)
 
 COMMAND_HANDLER(CUser::HandleZoneChangeCommand)
 {
+	if (!isGM())
+		return false;
+
 	if (vargs.empty())
 	{
 		// send description
@@ -398,6 +407,9 @@ COMMAND_HANDLER(CUser::HandleZoneChangeCommand)
 
 COMMAND_HANDLER(CUser::HandleMonsterSummonCommand)
 {
+	if (!isGM())
+		return false;
+
 	if (vargs.empty())
 	{
 		// send description
@@ -413,6 +425,9 @@ COMMAND_HANDLER(CUser::HandleMonsterSummonCommand)
 
 COMMAND_HANDLER(CUser::HandleNPCSummonCommand)
 {
+	if (!isGM())
+		return false;
+
 	if (vargs.empty())
 	{
 		// send description
@@ -485,14 +500,14 @@ COMMAND_HANDLER(CGameServerDlg::HandleKillUserCommand)
 	return true;
 }
 
-COMMAND_HANDLER(CUser::HandleWar1OpenCommand) { return g_pMain->HandleWar1OpenCommand(vargs, args, description); }
+COMMAND_HANDLER(CUser::HandleWar1OpenCommand) { return !isGM() ? false : g_pMain->HandleWar1OpenCommand(vargs, args, description); }
 COMMAND_HANDLER(CGameServerDlg::HandleWar1OpenCommand)
 {
 	BattleZoneOpen(BATTLEZONE_OPEN, 1);
 	return true;
 }
 
-COMMAND_HANDLER(CUser::HandleWar2OpenCommand) { return g_pMain->HandleWar2OpenCommand(vargs, args, description); }
+COMMAND_HANDLER(CUser::HandleWar2OpenCommand) { return !isGM() ? false : g_pMain->HandleWar2OpenCommand(vargs, args, description); }
 COMMAND_HANDLER(CGameServerDlg::HandleWar2OpenCommand)
 {
 	BattleZoneOpen(BATTLEZONE_OPEN, 2);
@@ -506,7 +521,7 @@ COMMAND_HANDLER(CGameServerDlg::HandleWar3OpenCommand)
 	return true;
 }
 
-COMMAND_HANDLER(CUser::HandleWar4OpenCommand) { return g_pMain->HandleWar4OpenCommand(vargs, args, description); }
+COMMAND_HANDLER(CUser::HandleWar4OpenCommand) { return !isGM() ? false : g_pMain->HandleWar4OpenCommand(vargs, args, description); }
 COMMAND_HANDLER(CGameServerDlg::HandleWar4OpenCommand)
 {
 	BattleZoneOpen(BATTLEZONE_OPEN, 4);
@@ -520,7 +535,7 @@ COMMAND_HANDLER(CGameServerDlg::HandleWar5OpenCommand)
 	return true;
 }
 
-COMMAND_HANDLER(CUser::HandleWar6OpenCommand) { return g_pMain->HandleWar6OpenCommand(vargs, args, description); }
+COMMAND_HANDLER(CUser::HandleWar6OpenCommand) { return !isGM() ? false : g_pMain->HandleWar6OpenCommand(vargs, args, description); }
 COMMAND_HANDLER(CGameServerDlg::HandleWar6OpenCommand)
 {
 	BattleZoneOpen(BATTLEZONE_OPEN, 6);
@@ -534,7 +549,7 @@ COMMAND_HANDLER(CGameServerDlg::HandleSnowWarOpenCommand)
 	return true;
 }
 
-COMMAND_HANDLER(CUser::HandleWarCloseCommand) { return g_pMain->HandleWarCloseCommand(vargs, args, description); }
+COMMAND_HANDLER(CUser::HandleWarCloseCommand) { return !isGM() ? false : g_pMain->HandleWarCloseCommand(vargs, args, description); }
 COMMAND_HANDLER(CGameServerDlg::HandleWarCloseCommand)
 {
 	ResetBattleZone();
@@ -544,6 +559,9 @@ COMMAND_HANDLER(CGameServerDlg::HandleWarCloseCommand)
 
 COMMAND_HANDLER(CUser::HandleLoyaltyChangeCommand)
 {
+	if (!isGM())
+		return false;
+
 	// Char name | loyalty
 	if (vargs.size() < 2)
 	{
@@ -572,6 +590,9 @@ COMMAND_HANDLER(CUser::HandleLoyaltyChangeCommand)
 
 COMMAND_HANDLER(CUser::HandleExpChangeCommand)
 {
+	if (!isGM())
+		return false;
+
 	// Char name | exp
 	if (vargs.size() < 2)
 	{
@@ -600,6 +621,9 @@ COMMAND_HANDLER(CUser::HandleExpChangeCommand)
 
 COMMAND_HANDLER(CUser::HandleGoldChangeCommand)
 {
+	if (!isGM())
+		return false;
+
 	// Char name | coins
 	if (vargs.size() < 2)
 	{
@@ -634,6 +658,9 @@ COMMAND_HANDLER(CUser::HandleGoldChangeCommand)
 // Starts/stops the server XP event & sets its server-wide bonus.
 COMMAND_HANDLER(CUser::HandleExpAddCommand)
 {
+	if (!isGM())
+		return false;
+
 	// Expects the bonus XP percent, e.g. '+exp_add' for a +15 XP boost.
 	if (vargs.empty())
 	{
@@ -655,6 +682,9 @@ COMMAND_HANDLER(CUser::HandleExpAddCommand)
 // Starts/stops the server coin event & sets its server-wide bonus.
 COMMAND_HANDLER(CUser::HandleMoneyAddCommand)
 {
+	if (!isGM())
+		return false;
+
 	// Expects the bonus coin percent, e.g. '+money_add' for a +15 dropped coin boost.
 	if (vargs.empty())
 	{
@@ -673,7 +703,7 @@ COMMAND_HANDLER(CUser::HandleMoneyAddCommand)
 	return true;
 }
 
-COMMAND_HANDLER(CUser::HandlePermitConnectCommand) { return g_pMain->HandlePermitConnectCommand(vargs, args, description); }
+COMMAND_HANDLER(CUser::HandlePermitConnectCommand) { return !isGM() ? false : g_pMain->HandlePermitConnectCommand(vargs, args, description); }
 COMMAND_HANDLER(CGameServerDlg::HandlePermitConnectCommand)
 {
 	// Char name
@@ -699,6 +729,9 @@ COMMAND_HANDLER(CGameServerDlg::HandlePermitConnectCommand)
 
 COMMAND_HANDLER(CUser::HandleTeleportAllCommand)
 {
+	if (!isGM())
+		return false;
+
 	// Zone number
 	if (vargs.size() < 1)
 	{
@@ -727,6 +760,9 @@ COMMAND_HANDLER(CUser::HandleTeleportAllCommand)
 
 COMMAND_HANDLER(CUser::HandleKnightsSummonCommand)
 {
+	if (!isGM())
+		return false;
+
 	// Clan name
 	if(vargs.empty())
 	{
@@ -764,7 +800,7 @@ COMMAND_HANDLER(CUser::HandleKnightsSummonCommand)
 	return true;
 }
 
-COMMAND_HANDLER(CUser::HandleShutdownCommand) { return g_pMain->HandleShutdownCommand(vargs, args, description); }
+COMMAND_HANDLER(CUser::HandleShutdownCommand) { return !isGM() ? false : g_pMain->HandleShutdownCommand(vargs, args, description); }
 COMMAND_HANDLER(CGameServerDlg::HandleShutdownCommand)
 {
 	g_pMain->m_socketMgr.SuspendServer();
@@ -804,7 +840,7 @@ COMMAND_HANDLER(CGameServerDlg::HandleDiscountOffCommand)
 	return true;
 }
 
-COMMAND_HANDLER(CUser::HandleCaptainCommand) { return g_pMain->HandleCaptainCommand(vargs, args, description); }
+COMMAND_HANDLER(CUser::HandleCaptainCommand) { return !isGM() ? false : g_pMain->HandleCaptainCommand(vargs, args, description); }
 COMMAND_HANDLER(CGameServerDlg::HandleCaptainCommand)
 {
 	m_KnightsRatingArray[KARUS_ARRAY].DeleteAllData();
